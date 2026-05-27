@@ -1,217 +1,43 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#465fff" />
-  <meta name="description" content="Production-ready Main Dashboard HTML dashboard template with responsive TailAdmin-style layout, dark mode, command palette, actions, loaders, and polished UI states." />
-  <title>Main Dashboard — mtverse</title>
-  <style>
-    .no-scrollbar::-webkit-scrollbar {
-      display: none;
-    }
-    .no-scrollbar {
-      -ms-overflow-style: none;
-      scrollbar-width: none;
-    }
-    @keyframes slideDown {
-      from {
-        opacity: 0;
-        transform: translateY(-10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-    .animate-slideDown {
-      animation: slideDown 0.2s ease-out;
-    }
-    .sidebar-text {
-      transition: opacity 0.2s ease-in-out;
-    }
-  </style>
-  <link rel="stylesheet" href="tailwind-production.css">
-  <link rel="stylesheet" href="pro-styles.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Production-ready SaaS Analytics Dashboard with KPIs, charts, tables, and dark mode">
+<title>SaaS Dashboard — mtverse</title>
+<style>
+.no-scrollbar::-webkit-scrollbar{display:none}.no-scrollbar{-ms-overflow-style:none;scrollbar-width:none}
+@keyframes slideDown{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}.animate-slideDown{animation:slideDown .2s ease-out}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}.animate-fadeUp{animation:fadeUp .4s ease-out both}
+@keyframes countUp{from{opacity:0}to{opacity:1}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+
+</style>
+<link rel="stylesheet" href="tailwind-production.css">
+<link rel="stylesheet" href="pro-styles.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
 </head>
 <body class="bg-gray-50 text-gray-800 font-sans dark:bg-gray-900 dark:text-gray-100">
-
-<!-- Mobile overlay -->
-<div id="sidebar-overlay" class="fixed inset-0 bg-black/40 z-40 hidden lg:hidden" onclick="toggleSidebar()"></div>
-
+<div id="sidebar-overlay" class="fixed inset-0 bg-black/40 z-40 hidden lg:hidden" onclick="window.toggleSidebar&&toggleSidebar()"></div>
 <div class="flex h-screen overflow-hidden">
-  <!-- Sidebar Container -->
-  <div id="sidebar-container"></div>
-
-  <!-- Main content -->
-  <div class="flex-1 flex flex-col overflow-hidden">
-    <!-- Header Container -->
-    <div id="header-container"></div>
-
-    <!-- Page content -->
-    <main class="flex-1 overflow-y-auto overflow-x-hidden px-4 md:px-6 2xl:px-10 py-6" tabindex="-1">
-      <div class="mx-auto w-full max-w-screen-2xl">
-<!-- Breadcrumb -->
-      <div class="flex items-center gap-2 text-sm text-gray-500 mb-4">
-        <span>mtverse</span>
-        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-        <span class="text-gray-800 font-medium">Dashboard</span>
-      </div>
-
-      <h1 class="text-xl font-bold text-gray-900 mb-6">Dashboard Overview</h1>
-
-      <!-- KPI cards -->
-      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-        <div class="bg-white rounded-xl border border-gray-200 p-4">
-          <div class="flex items-center justify-between mb-3">
-            <span class="text-xs font-medium text-gray-500 uppercase tracking-wide">Total Revenue</span>
-            <div class="w-8 h-8 bg-blue-50 rounded-lg flex items-center justify-center">
-              <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-            </div>
-          </div>
-          <p class="text-2xl font-bold text-gray-900">$48,295</p>
-          <p class="text-xs text-green-600 mt-1 font-medium">↑ 12.4% vs last month</p>
-        </div>
-        <div class="bg-white rounded-xl border border-gray-200 p-4">
-          <div class="flex items-center justify-between mb-3">
-            <span class="text-xs font-medium text-gray-500 uppercase tracking-wide">Active Users</span>
-            <div class="w-8 h-8 bg-green-50 rounded-lg flex items-center justify-center">
-              <svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-            </div>
-          </div>
-          <p class="text-2xl font-bold text-gray-900">3,842</p>
-          <p class="text-xs text-green-600 mt-1 font-medium">↑ 8.1% vs last month</p>
-        </div>
-        <div class="bg-white rounded-xl border border-gray-200 p-4">
-          <div class="flex items-center justify-between mb-3">
-            <span class="text-xs font-medium text-gray-500 uppercase tracking-wide">API Requests</span>
-            <div class="w-8 h-8 bg-purple-50 rounded-lg flex items-center justify-center">
-              <svg class="w-4 h-4 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-            </div>
-          </div>
-          <p class="text-2xl font-bold text-gray-900">1.2M</p>
-          <p class="text-xs text-red-500 mt-1 font-medium">↓ 2.3% vs last month</p>
-        </div>
-        <div class="bg-white rounded-xl border border-gray-200 p-4">
-          <div class="flex items-center justify-between mb-3">
-            <span class="text-xs font-medium text-gray-500 uppercase tracking-wide">Conversion</span>
-            <div class="w-8 h-8 bg-orange-50 rounded-lg flex items-center justify-center">
-              <svg class="w-4 h-4 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
-            </div>
-          </div>
-          <p class="text-2xl font-bold text-gray-900">4.67%</p>
-          <p class="text-xs text-green-600 mt-1 font-medium">↑ 0.5% vs last month</p>
-        </div>
-      </div>
-
-      <!-- Chart + Recent Activity -->
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6">
-        <div class="lg:col-span-2 bg-white rounded-xl border border-gray-200 p-5">
-          <div class="flex items-center justify-between mb-4">
-            <h2 class="text-sm font-semibold text-gray-800">Revenue Overview</h2>
-            <select class="text-xs border border-gray-200 rounded-lg px-2 py-1 text-gray-600 focus:outline-none">
-              <option>Last 7 days</option>
-              <option>Last 30 days</option>
-              <option>Last 90 days</option>
-            </select>
-          </div>
-          <!-- Simple SVG bar chart -->
-          <svg viewBox="0 0 400 120" class="w-full h-28 text-blue-600">
-            <defs><linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#3b82f6" stop-opacity="0.15"/><stop offset="100%" stop-color="#3b82f6" stop-opacity="0"/></linearGradient></defs>
-            <polyline fill="url(#bg)" stroke="none" points="0,120 30,80 80,65 130,75 180,45 230,55 280,35 330,50 380,30 400,32 400,120"/>
-            <polyline fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" points="30,80 80,65 130,75 180,45 230,55 280,35 330,50 380,30"/>
-            <circle cx="380" cy="30" r="3" fill="#3b82f6"/>
-          </svg>
-          <div class="flex justify-between text-xs text-gray-400 mt-2">
-            <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
-          </div>
-        </div>
-        <div class="bg-white rounded-xl border border-gray-200 p-5">
-          <h2 class="text-sm font-semibold text-gray-800 mb-4">Top Channels</h2>
-          <div class="space-y-3">
-            <div>
-              <div class="flex justify-between text-xs mb-1"><span class="text-gray-600">Direct</span><span class="font-medium text-gray-800">42%</span></div>
-              <div class="w-full bg-gray-100 rounded-full h-1.5"><div class="bg-blue-500 h-1.5 rounded-full" style="width:42%"></div></div>
-            </div>
-            <div>
-              <div class="flex justify-between text-xs mb-1"><span class="text-gray-600">Organic Search</span><span class="font-medium text-gray-800">28%</span></div>
-              <div class="w-full bg-gray-100 rounded-full h-1.5"><div class="bg-green-500 h-1.5 rounded-full" style="width:28%"></div></div>
-            </div>
-            <div>
-              <div class="flex justify-between text-xs mb-1"><span class="text-gray-600">Referral</span><span class="font-medium text-gray-800">18%</span></div>
-              <div class="w-full bg-gray-100 rounded-full h-1.5"><div class="bg-purple-500 h-1.5 rounded-full" style="width:18%"></div></div>
-            </div>
-            <div>
-              <div class="flex justify-between text-xs mb-1"><span class="text-gray-600">Social</span><span class="font-medium text-gray-800">12%</span></div>
-              <div class="w-full bg-gray-100 rounded-full h-1.5"><div class="bg-orange-400 h-1.5 rounded-full" style="width:12%"></div></div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Recent Transactions -->
-      <div class="bg-white rounded-xl border border-gray-200 p-5">
-        <div class="flex items-center justify-between mb-4">
-          <h2 class="text-sm font-semibold text-gray-800">Recent Transactions</h2>
-          <a href="#" class="text-xs text-blue-600 hover:underline font-medium">View all</a>
-        </div>
-        <div class="overflow-x-auto">
-          <table class="w-full text-sm">
-            <thead>
-              <tr class="text-xs text-gray-400 uppercase border-b border-gray-100">
-                <th class="pb-2 text-left font-medium">Customer</th>
-                <th class="pb-2 text-left font-medium">Plan</th>
-                <th class="pb-2 text-left font-medium">Amount</th>
-                <th class="pb-2 text-left font-medium">Status</th>
-                <th class="pb-2 text-left font-medium">Date</th>
-              </tr>
-            </thead>
-            <tbody class="divide-y divide-gray-50">
-              <tr class="hover:bg-gray-50">
-                <td class="py-3 font-medium text-gray-800">Sarah Mitchell</td>
-                <td class="py-3 text-gray-600">Pro</td>
-                <td class="py-3 font-medium text-gray-800">$49.00</td>
-                <td class="py-3"><span class="px-2 py-0.5 bg-green-50 text-green-700 rounded-full text-xs font-medium">Paid</span></td>
-                <td class="py-3 text-gray-500">May 24, 2026</td>
-              </tr>
-              <tr class="hover:bg-gray-50">
-                <td class="py-3 font-medium text-gray-800">James Patel</td>
-                <td class="py-3 text-gray-600">Enterprise</td>
-                <td class="py-3 font-medium text-gray-800">$299.00</td>
-                <td class="py-3"><span class="px-2 py-0.5 bg-green-50 text-green-700 rounded-full text-xs font-medium">Paid</span></td>
-                <td class="py-3 text-gray-500">May 23, 2026</td>
-              </tr>
-              <tr class="hover:bg-gray-50">
-                <td class="py-3 font-medium text-gray-800">Laura Chen</td>
-                <td class="py-3 text-gray-600">Starter</td>
-                <td class="py-3 font-medium text-gray-800">$12.00</td>
-                <td class="py-3"><span class="px-2 py-0.5 bg-yellow-50 text-yellow-700 rounded-full text-xs font-medium">Pending</span></td>
-                <td class="py-3 text-gray-500">May 23, 2026</td>
-              </tr>
-              <tr class="hover:bg-gray-50">
-                <td class="py-3 font-medium text-gray-800">Marco Rivera</td>
-                <td class="py-3 text-gray-600">Pro</td>
-                <td class="py-3 font-medium text-gray-800">$49.00</td>
-                <td class="py-3"><span class="px-2 py-0.5 bg-red-50 text-red-600 rounded-full text-xs font-medium">Failed</span></td>
-                <td class="py-3 text-gray-500">May 22, 2026</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-      </div>
-    </main>
-  </div>
+<div id="sidebar-container"></div>
+<div class="flex-1 flex flex-col overflow-hidden">
+<div id="header-container"></div>
+<main class="flex-1 overflow-y-auto overflow-x-hidden px-4 md:px-6 2xl:px-10 py-6" tabindex="-1">
+<div class="mx-auto w-full max-w-screen-2xl">
+<nav class="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 mb-4"><a href="01-main-dashboard.html" class="hover:text-blue-600">Home</a><svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg><a href="#" class="hover:text-blue-600">Dashboards</a><svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg><span class="text-gray-800 dark:text-gray-200 font-medium">SaaS Analytics</span></nav><div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6"><div><h1 class="text-2xl font-bold text-gray-900 dark:text-white">SaaS Analytics</h1><p class="text-gray-500 dark:text-gray-400 mt-1">Real-time metrics and performance insights</p></div><div class="flex gap-2"><select class="text-sm border border-gray-200 dark:border-gray-700 rounded-lg px-3 py-2 bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300"><option>Last 30 days</option><option>Last 7 days</option><option>Last 90 days</option><option>This year</option></select><button class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 inline-flex items-center gap-2"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>Export</button></div></div><div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6"><div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 p-5 animate-fadeUp"><div class="flex items-center justify-between mb-3"><span class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">Monthly Revenue</span><div class="flex items-center gap-2"><div class="w-20 h-8 text-blue-500" data-sparkline="30,42,38,55,48,62,58,72,65,78,82,95"></div><div class="w-8 h-8 bg-blue-50 dark:bg-blue-900/30 rounded-lg flex items-center justify-center"><svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div></div></div><p class="text-2xl font-bold text-gray-900 dark:text-white" data-counter="$48,295">$48,295</p><p class="text-xs text-green-600 mt-1 font-medium">↑ 12.4% vs last month</p></div><div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 p-5 animate-fadeUp"><div class="flex items-center justify-between mb-3"><span class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">Active Users</span><div class="flex items-center gap-2"><div class="w-20 h-8 text-emerald-500" data-sparkline="2800,3100,3200,3400,3500,3600,3700,3842"></div><div class="w-8 h-8 bg-emerald-50 dark:bg-emerald-900/30 rounded-lg flex items-center justify-center"><svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg></div></div></div><p class="text-2xl font-bold text-gray-900 dark:text-white" data-counter="3,842">3,842</p><p class="text-xs text-green-600 mt-1 font-medium">↑ 8.1% vs last month</p></div><div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 p-5 animate-fadeUp"><div class="flex items-center justify-between mb-3"><span class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">API Requests</span><div class="flex items-center gap-2"><div class="w-20 h-8 text-violet-500" data-sparkline="1.4,1.3,1.35,1.25,1.3,1.2,1.18,1.2"></div><div class="w-8 h-8 bg-violet-50 dark:bg-violet-900/30 rounded-lg flex items-center justify-center"><svg class="w-4 h-4 text-violet-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg></div></div></div><p class="text-2xl font-bold text-gray-900 dark:text-white" data-counter="1.2M">1.2M</p><p class="text-xs text-red-500 mt-1 font-medium">↓ 2.3% vs last month</p></div><div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 p-5 animate-fadeUp"><div class="flex items-center justify-between mb-3"><span class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">Conversion Rate</span><div class="flex items-center gap-2"><div class="w-20 h-8 text-amber-500" data-sparkline="3.2,3.5,3.8,4.0,4.2,4.3,4.5,4.67"></div><div class="w-8 h-8 bg-amber-50 dark:bg-amber-900/30 rounded-lg flex items-center justify-center"><svg class="w-4 h-4 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg></div></div></div><p class="text-2xl font-bold text-gray-900 dark:text-white" data-counter="4.67%">4.67%</p><p class="text-xs text-green-600 mt-1 font-medium">↑ 0.5% vs last month</p></div></div><div class="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6"><div class="lg:col-span-2 bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 p-5"><div class="flex items-center justify-between mb-4"><h2 class="text-sm font-semibold text-gray-800 dark:text-white">Revenue Overview</h2><div class="flex gap-1"><button class="px-2.5 py-1 text-xs bg-blue-600 text-white rounded-md">Monthly</button><button class="px-2.5 py-1 text-xs text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md">Weekly</button></div></div><svg viewBox="0 0 500 180" class="w-full" style="height:180px" id="line-chart-revenue"><defs><linearGradient id="areaGrad-revenue" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#3b82f6" stop-opacity="0.15"/><stop offset="100%" stop-color="#3b82f6" stop-opacity="0"/></linearGradient></defs><polygon fill="url(#areaGrad-revenue)" points="20,160 20.0,160.0 61.8,142.8 103.6,150.2 145.5,118.2 187.3,125.6 229.1,93.7 270.9,101.1 312.7,61.8 354.5,76.5 396.4,44.6 438.2,51.9 480.0,20.0 480,160"/><polyline fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" points="20.0,160.0 61.8,142.8 103.6,150.2 145.5,118.2 187.3,125.6 229.1,93.7 270.9,101.1 312.7,61.8 354.5,76.5 396.4,44.6 438.2,51.9 480.0,20.0"/><text x="20" y="178" text-anchor="middle" class="text-[10px] fill-gray-400">Jan</text><text x="104" y="178" text-anchor="middle" class="text-[10px] fill-gray-400">Mar</text><text x="187" y="178" text-anchor="middle" class="text-[10px] fill-gray-400">May</text><text x="271" y="178" text-anchor="middle" class="text-[10px] fill-gray-400">Jul</text><text x="355" y="178" text-anchor="middle" class="text-[10px] fill-gray-400">Sep</text><text x="438" y="178" text-anchor="middle" class="text-[10px] fill-gray-400">Nov</text></svg></div><div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 p-5"><h2 class="text-sm font-semibold text-gray-800 dark:text-white mb-4">Traffic Sources</h2><div class="flex justify-center gap-6 mb-4"><div class="flex flex-col items-center"><svg viewBox="0 0 100 100" width="90" height="90"><circle cx="50" cy="50" r="40" fill="none" stroke="#e5e7eb" stroke-width="8" class="dark:stroke-gray-700"/><circle cx="50" cy="50" r="40" fill="none" stroke="#3b82f6" stroke-width="8" stroke-dasharray="251.3" stroke-dashoffset="145.8" stroke-linecap="round" transform="rotate(-90 50 50)" style="transition:stroke-dashoffset .6s ease"/><text x="50" y="46" text-anchor="middle" class="text-lg font-bold fill-gray-900 dark:fill-white" style="font-size:16px">42%</text><text x="50" y="60" text-anchor="middle" class="text-[8px] fill-gray-400">1,610</text></svg><p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Direct</p></div><div class="flex flex-col items-center"><svg viewBox="0 0 100 100" width="90" height="90"><circle cx="50" cy="50" r="40" fill="none" stroke="#e5e7eb" stroke-width="8" class="dark:stroke-gray-700"/><circle cx="50" cy="50" r="40" fill="none" stroke="#10b981" stroke-width="8" stroke-dasharray="251.3" stroke-dashoffset="181.0" stroke-linecap="round" transform="rotate(-90 50 50)" style="transition:stroke-dashoffset .6s ease"/><text x="50" y="46" text-anchor="middle" class="text-lg font-bold fill-gray-900 dark:fill-white" style="font-size:16px">28%</text><text x="50" y="60" text-anchor="middle" class="text-[8px] fill-gray-400">1,075</text></svg><p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Organic</p></div><div class="flex flex-col items-center"><svg viewBox="0 0 100 100" width="90" height="90"><circle cx="50" cy="50" r="40" fill="none" stroke="#e5e7eb" stroke-width="8" class="dark:stroke-gray-700"/><circle cx="50" cy="50" r="40" fill="none" stroke="#8b5cf6" stroke-width="8" stroke-dasharray="251.3" stroke-dashoffset="206.1" stroke-linecap="round" transform="rotate(-90 50 50)" style="transition:stroke-dashoffset .6s ease"/><text x="50" y="46" text-anchor="middle" class="text-lg font-bold fill-gray-900 dark:fill-white" style="font-size:16px">18%</text><text x="50" y="60" text-anchor="middle" class="text-[8px] fill-gray-400">691</text></svg><p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Referral</p></div></div><div class="space-y-2.5 mt-4"><div><div class="flex justify-between text-xs mb-1"><span class="text-gray-600 dark:text-gray-400">Direct</span><span class="font-medium text-gray-800 dark:text-gray-200">42%</span></div><div class="w-full bg-gray-100 dark:bg-gray-700 rounded-full h-1.5"><div class="bg-blue-500 h-1.5 rounded-full" style="width:42%"></div></div></div><div><div class="flex justify-between text-xs mb-1"><span class="text-gray-600 dark:text-gray-400">Organic Search</span><span class="font-medium text-gray-800 dark:text-gray-200">28%</span></div><div class="w-full bg-gray-100 dark:bg-gray-700 rounded-full h-1.5"><div class="bg-emerald-500 h-1.5 rounded-full" style="width:28%"></div></div></div><div><div class="flex justify-between text-xs mb-1"><span class="text-gray-600 dark:text-gray-400">Referral</span><span class="font-medium text-gray-800 dark:text-gray-200">18%</span></div><div class="w-full bg-gray-100 dark:bg-gray-700 rounded-full h-1.5"><div class="bg-violet-500 h-1.5 rounded-full" style="width:18%"></div></div></div><div><div class="flex justify-between text-xs mb-1"><span class="text-gray-600 dark:text-gray-400">Social</span><span class="font-medium text-gray-800 dark:text-gray-200">12%</span></div><div class="w-full bg-gray-100 dark:bg-gray-700 rounded-full h-1.5"><div class="bg-amber-500 h-1.5 rounded-full" style="width:12%"></div></div></div></div></div></div><div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6"><div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 p-5"><div class="flex items-center justify-between mb-4"><h2 class="text-sm font-semibold text-gray-800 dark:text-white">User Signups</h2><span class="text-xs text-gray-400">Last 7 days</span></div><svg viewBox="0 0 500 160" class="w-full" style="height:160px"><rect x="33.1" y="65.0" width="39.4" height="60.0" rx="3" fill="#10b981" opacity="0.85"/><text x="53" y="158" text-anchor="middle" class="text-[10px] fill-gray-400">Mon</text><rect x="98.9" y="32.5" width="39.4" height="92.5" rx="3" fill="#10b981" opacity="0.85"/><text x="119" y="158" text-anchor="middle" class="text-[10px] fill-gray-400">Tue</text><rect x="164.6" y="52.5" width="39.4" height="72.5" rx="3" fill="#10b981" opacity="0.85"/><text x="184" y="158" text-anchor="middle" class="text-[10px] fill-gray-400">Wed</text><rect x="230.3" y="20.0" width="39.4" height="105.0" rx="3" fill="#10b981" opacity="0.85"/><text x="250" y="158" text-anchor="middle" class="text-[10px] fill-gray-400">Thu</text><rect x="296.0" y="37.5" width="39.4" height="87.5" rx="3" fill="#10b981" opacity="0.85"/><text x="316" y="158" text-anchor="middle" class="text-[10px] fill-gray-400">Fri</text><rect x="361.7" y="77.5" width="39.4" height="47.5" rx="3" fill="#10b981" opacity="0.85"/><text x="381" y="158" text-anchor="middle" class="text-[10px] fill-gray-400">Sat</text><rect x="427.4" y="45.0" width="39.4" height="80.0" rx="3" fill="#10b981" opacity="0.85"/><text x="447" y="158" text-anchor="middle" class="text-[10px] fill-gray-400">Sun</text></svg></div><div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 p-5"><h2 class="text-sm font-semibold text-gray-800 dark:text-white mb-4">Recent Activity</h2><div class="space-y-4"><div class="flex items-start gap-3"><img src="https://i.pravatar.cc/32?img=1" class="w-8 h-8 rounded-full"><div class="flex-1 min-w-0"><p class="text-sm text-gray-700 dark:text-gray-300"><span class="font-medium text-gray-900 dark:text-white">Sarah Mitchell</span> upgraded to Pro plan</p><p class="text-xs text-gray-400 mt-0.5">2 min ago</p></div></div><div class="flex items-start gap-3"><img src="https://i.pravatar.cc/32?img=3" class="w-8 h-8 rounded-full"><div class="flex-1 min-w-0"><p class="text-sm text-gray-700 dark:text-gray-300"><span class="font-medium text-gray-900 dark:text-white">James Patel</span> created a new project</p><p class="text-xs text-gray-400 mt-0.5">15 min ago</p></div></div><div class="flex items-start gap-3"><img src="https://i.pravatar.cc/32?img=5" class="w-8 h-8 rounded-full"><div class="flex-1 min-w-0"><p class="text-sm text-gray-700 dark:text-gray-300"><span class="font-medium text-gray-900 dark:text-white">Emily Chen</span> deployed to production</p><p class="text-xs text-gray-400 mt-0.5">1 hour ago</p></div></div><div class="flex items-start gap-3"><img src="https://i.pravatar.cc/32?img=8" class="w-8 h-8 rounded-full"><div class="flex-1 min-w-0"><p class="text-sm text-gray-700 dark:text-gray-300"><span class="font-medium text-gray-900 dark:text-white">Marco Rivera</span> added 3 team members</p><p class="text-xs text-gray-400 mt-0.5">2 hours ago</p></div></div><div class="flex items-start gap-3"><img src="https://i.pravatar.cc/32?img=11" class="w-8 h-8 rounded-full"><div class="flex-1 min-w-0"><p class="text-sm text-gray-700 dark:text-gray-300"><span class="font-medium text-gray-900 dark:text-white">Lisa Wang</span> generated API key</p><p class="text-xs text-gray-400 mt-0.5">3 hours ago</p></div></div></div></div></div><div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 p-5"><div class="flex items-center justify-between mb-4"><h2 class="text-sm font-semibold text-gray-800 dark:text-white">Recent Transactions</h2><a href="#" class="text-xs text-blue-600 hover:underline font-medium">View all</a></div><div class="overflow-x-auto"><table class="w-full text-sm"><thead><tr class="text-xs text-gray-400 uppercase border-b border-gray-100 dark:border-gray-700"><th class="pb-2 text-left font-medium">Customer</th><th class="pb-2 text-left font-medium">Plan</th><th class="pb-2 text-left font-medium">Amount</th><th class="pb-2 text-left font-medium">Status</th><th class="pb-2 text-left font-medium">Date</th></tr></thead><tbody class="divide-y divide-gray-50 dark:divide-gray-700"><tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50"><td class="py-3 font-medium text-gray-800 dark:text-gray-200">Sarah Mitchell</td><td class="py-3 text-gray-600 dark:text-gray-400">Pro</td><td class="py-3 font-medium text-gray-800 dark:text-gray-200">$49.00</td><td class="py-3"><span class="px-2 py-0.5 rounded-full text-xs font-medium bg-green-50 text-green-700 dark:bg-green-900/30 dark:text-green-300">Paid</span></td><td class="py-3 text-gray-500 dark:text-gray-400">May 24, 2026</td></tr><tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50"><td class="py-3 font-medium text-gray-800 dark:text-gray-200">James Patel</td><td class="py-3 text-gray-600 dark:text-gray-400">Enterprise</td><td class="py-3 font-medium text-gray-800 dark:text-gray-200">$299.00</td><td class="py-3"><span class="px-2 py-0.5 rounded-full text-xs font-medium bg-green-50 text-green-700 dark:bg-green-900/30 dark:text-green-300">Paid</span></td><td class="py-3 text-gray-500 dark:text-gray-400">May 23, 2026</td></tr><tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50"><td class="py-3 font-medium text-gray-800 dark:text-gray-200">Laura Chen</td><td class="py-3 text-gray-600 dark:text-gray-400">Starter</td><td class="py-3 font-medium text-gray-800 dark:text-gray-200">$12.00</td><td class="py-3"><span class="px-2 py-0.5 rounded-full text-xs font-medium bg-amber-50 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300">Pending</span></td><td class="py-3 text-gray-500 dark:text-gray-400">May 23, 2026</td></tr><tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50"><td class="py-3 font-medium text-gray-800 dark:text-gray-200">Marco Rivera</td><td class="py-3 text-gray-600 dark:text-gray-400">Pro</td><td class="py-3 font-medium text-gray-800 dark:text-gray-200">$49.00</td><td class="py-3"><span class="px-2 py-0.5 rounded-full text-xs font-medium bg-red-50 text-red-600 dark:bg-red-900/30 dark:text-red-300">Failed</span></td><td class="py-3 text-gray-500 dark:text-gray-400">May 22, 2026</td></tr><tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50"><td class="py-3 font-medium text-gray-800 dark:text-gray-200">Aisha Khan</td><td class="py-3 text-gray-600 dark:text-gray-400">Business</td><td class="py-3 font-medium text-gray-800 dark:text-gray-200">$99.00</td><td class="py-3"><span class="px-2 py-0.5 rounded-full text-xs font-medium bg-green-50 text-green-700 dark:bg-green-900/30 dark:text-green-300">Paid</span></td><td class="py-3 text-gray-500 dark:text-gray-400">May 22, 2026</td></tr><tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50"><td class="py-3 font-medium text-gray-800 dark:text-gray-200">Tom Bradley</td><td class="py-3 text-gray-600 dark:text-gray-400">Pro</td><td class="py-3 font-medium text-gray-800 dark:text-gray-200">$49.00</td><td class="py-3"><span class="px-2 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-300">Refunded</span></td><td class="py-3 text-gray-500 dark:text-gray-400">May 21, 2026</td></tr></tbody></table></div></div></div>
+</main>
 </div>
-
-<!-- Common Components -->
+</div>
 <script src="common-loader.js"></script>
 <script src="common-sidebar.js"></script>
 <script src="common-header.js"></script>
 <script src="app-shell.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded",function(){document.querySelectorAll("[data-counter]").forEach(function(el){var t=el.dataset.counter;if(!t)return;var n=parseFloat(t.replace(/[^0-9.-]/g,""));var pre=t.replace(/[0-9.,-]/g,"");var dur=1200;var s=null;var st=null;function step(ts){if(!st)st=ts;var p=Math.min((ts-st)/dur,1);var v=Math.floor(p*n);if(n>=1000)el.textContent=pre+v.toLocaleString();else if(String(n).includes("."))el.textContent=pre+(p*n).toFixed(2);else el.textContent=pre+v;if(p<1)requestAnimationFrame(step);else el.textContent=t;}requestAnimationFrame(step);});document.querySelectorAll("[data-sparkline]").forEach(function(el){var d=el.dataset.sparkline;if(!d)return;var vals=d.split(",").map(Number);var w=el.offsetWidth||80;var h=el.offsetHeight||32;var max=Math.max.apply(null,vals);var min=Math.min.apply(null,vals);var range=max-min||1;var step=w/(vals.length-1);var pts=vals.map(function(v,i){return i*step+","+((1-(v-min)/range)*h);}).join(" ");el.innerHTML='<svg viewBox="0 0 '+w+' '+h+'" class="w-full h-full"><polyline fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" points="'+pts+'"/></svg>';});});
 
+</script>
 </body>
 </html>

@@ -1,354 +1,225 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" class="scroll-smooth">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#465fff" />
-  <meta name="description" content="Production-ready Advanced Data Table HTML dashboard template with responsive TailAdmin-style layout, dark mode, command palette, actions, loaders, and polished UI states." />
-  <title>Advanced Data Table — mtverse</title>
-  <style>
-    .no-scrollbar::-webkit-scrollbar {
-      display: none;
-    }
-    .no-scrollbar {
-      -ms-overflow-style: none;
-      scrollbar-width: none;
-    }
-    @keyframes slideDown {
-      from {
-        opacity: 0;
-        transform: translateY(-10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-    .animate-slideDown {
-      animation: slideDown 0.2s ease-out;
-    }
-    .sidebar-text {
-      transition: opacity 0.2s ease-in-out;
-    }
-  </style>
-  <link rel="stylesheet" href="tailwind-production.css">
-  <link rel="stylesheet" href="pro-styles.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<meta name="theme-color" content="#465fff"/>
+<title>Advanced Tables | TailAdmin</title>
+<link rel="stylesheet" href="tailwind-production.css"/>
+<link rel="stylesheet" href="pro-styles.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+body{font-family:Outfit,system-ui,sans-serif}
+.no-scrollbar::-webkit-scrollbar{display:none}
+.no-scrollbar{-ms-overflow-style:none;scrollbar-width:none}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.fade-up{animation:fadeUp .4s ease-out}
+@media(prefers-reduced-motion:reduce){.fade-up{animation:none}}
+.data-table{width:100%;border-collapse:separate;border-spacing:0}
+.data-table thead th{padding:.75rem 1rem;font-size:.75rem;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:#64748b;border-bottom:2px solid #e2e8f0;text-align:left;white-space:nowrap;position:sticky;top:0;background:#f8fafc;z-index:1}
+.dark .data-table thead th{background:#1e293b;border-color:#334155;color:#94a3b8}
+.data-table tbody td{padding:.75rem 1rem;font-size:.875rem;border-bottom:1px solid #f1f5f9;color:#334155}
+.dark .data-table tbody td{border-color:#1e293b;color:#cbd5e1}
+.data-table tbody tr:hover{background:#f8fafc}
+.dark .data-table tbody tr:hover{background:#1e293b}
+.data-table tbody tr.selected{background:#eef2ff}
+.dark .data-table tbody tr.selected{background:#1e1b4b}
+.sortable{cursor:pointer;user-select:none}
+.sortable:hover{color:#6366f1}
+.sort-icon{display:inline-block;margin-left:.25rem;opacity:.3}
+.sort-icon.active{opacity:1}
+.status-badge{display:inline-flex;align-items:center;gap:.375rem;padding:.25rem .75rem;border-radius:9999px;font-size:.75rem;font-weight:500}
+.status-badge::before{content:"";width:6px;height:6px;border-radius:50%}
+.status-success{background:#dcfce7;color:#166534}.status-success::before{background:#22c55e}
+.status-warning{background:#fef3c7;color:#92400e}.status-warning::before{background:#f59e0b}
+.status-danger{background:#fef2f2;color:#991b1b}.status-danger::before{background:#ef4444}
+.status-info{background:#dbeafe;color:#1e40af}.status-info::before{background:#3b82f6}
+.status-neutral{background:#f1f5f9;color:#475569}.status-neutral::before{background:#94a3b8}
+.dark .status-success{background:#052e16;color:#86efac}
+.dark .status-warning{background:#422006;color:#fde68a}
+.dark .status-danger{background:#450a0a;color:#fca5a5}
+.dark .status-info{background:#172554;color:#93c5fd}
+.dark .status-neutral{background:#1e293b;color:#94a3b8}
+.pagination{display:flex;align-items:center;gap:.25rem}
+.page-btn{display:flex;align-items:center;justify-content:center;width:2rem;height:2rem;border-radius:.375rem;font-size:.8125rem;border:1px solid #e2e8f0;background:#fff;color:#334155;cursor:pointer;transition:all .15s}
+.page-btn:hover{background:#f1f5f9;border-color:#cbd5e1}
+.page-btn.active{background:#6366f1;border-color:#6366f1;color:#fff}
+.page-btn:disabled{opacity:.4;cursor:not-allowed}
+.dark .page-btn{background:#1e293b;border-color:#334155;color:#e2e8f0}
+.dark .page-btn:hover{background:#334155}
+.dark .page-btn.active{background:#6366f1;border-color:#6366f1}
+.bulk-bar{display:none;padding:.75rem 1rem;background:#eef2ff;border-radius:.5rem;margin-bottom:1rem;font-size:.875rem;color:#4338ca;align-items:center;gap:.75rem}
+.bulk-bar.visible{display:flex}
+.dark .bulk-bar{background:#1e1b4b;color:#a5b4fc}
+.empty-state{text-align:center;padding:3rem 1rem}
+.empty-state svg{margin:0 auto 1rem}
+.skeleton{background:linear-gradient(90deg,#f1f5f9 25%,#e2e8f0 50%,#f1f5f9 75%);background-size:200% 100%;animation:shimmer 1.5s infinite;border-radius:.25rem}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.dark .skeleton{background:linear-gradient(90deg,#1e293b 25%,#334155 50%,#1e293b 75%);background-size:200% 100%}
+.filter-chip{display:inline-flex;align-items:center;gap:.375rem;padding:.375rem .75rem;border-radius:9999px;font-size:.75rem;font-weight:500;border:1px solid #e2e8f0;background:#fff;color:#334155;cursor:pointer;transition:all .15s}
+.filter-chip:hover{border-color:#cbd5e1;background:#f8fafc}
+.filter-chip.active{background:#6366f1;border-color:#6366f1;color:#fff}
+.dark .filter-chip{background:#1e293b;border-color:#334155;color:#e2e8f0}
+.dark .filter-chip.active{background:#6366f1;border-color:#6366f1}
+</style>
+
 </head>
-<body class="bg-gray-50 text-gray-800 font-sans dark:bg-gray-900 dark:text-gray-100">
-
-<!-- Mobile overlay -->
-<div id="sidebar-overlay" class="fixed inset-0 bg-black/40 z-40 hidden lg:hidden" onclick="toggleSidebar()"></div>
-
+<body class="bg-slate-50 dark:bg-slate-950 dark:text-white">
+<div class="sidebar-overlay fixed inset-0 bg-black/40 z-40 hidden lg:hidden"></div>
 <div class="flex h-screen overflow-hidden">
-  <!-- Sidebar Container -->
-  <div id="sidebar-container"></div>
-
-  <!-- Main content -->
-  <div class="flex-1 flex flex-col overflow-hidden">
-    <!-- Header Container -->
-    <div id="header-container"></div>
-
-    <!-- Page content -->
-    <main class="flex-1 overflow-y-auto overflow-x-hidden px-4 md:px-6 2xl:px-10 py-6" tabindex="-1">
-      <div class="mx-auto w-full max-w-screen-2xl">
-<!-- Page Header -->
-      <div class="flex items-center justify-between mb-5">
-        <h1 class="text-2xl font-bold text-gray-900 flex items-center gap-2">
-          Orders
-          <span class="text-sm font-medium bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full">1,284</span>
-        </h1>
-        <button class="flex items-center gap-2 px-3 py-2 text-sm border border-gray-200 rounded-lg text-gray-700 hover:bg-gray-50 font-medium">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-          Export
-        </button>
-      </div>
-      <!-- Bulk Actions Bar -->
-      <div id="bulk-bar" class="hidden mb-4 bg-blue-50 border border-blue-200 rounded-xl px-4 py-3 flex items-center gap-3">
-        <span class="text-sm font-semibold text-blue-700" id="bulk-count">3 selected</span>
-        <div class="flex items-center gap-2 ml-2">
-          <button type="button" class="px-3 py-1.5 text-xs font-semibold bg-blue-600 text-white rounded-lg hover:bg-blue-700">Mark Shipped</button>
-          <button class="px-3 py-1.5 text-xs font-semibold border border-blue-300 text-blue-700 rounded-lg hover:bg-blue-100">Export</button>
-          <button class="px-3 py-1.5 text-xs font-semibold border border-red-300 text-red-600 rounded-lg hover:bg-red-50">Delete</button>
-        </div>
-        <button type="button" onclick="clearSelection()" class="ml-auto text-xs text-gray-500 hover:text-gray-700">✕ Clear</button>
-      </div>
-      <!-- Toolbar -->
-      <div class="bg-white rounded-xl border border-gray-200 p-4 mb-1">
-        <div class="flex flex-wrap items-center gap-3 mb-0">
-          <div class="relative flex-1 min-w-40">
-            <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-            <input type="text" placeholder="Search orders..." class="w-full pl-9 pr-4 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
-          </div>
-          <input type="date" value="2026-05-01" class="px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700" />
-          <span class="text-gray-400 text-sm">to</span>
-          <input type="date" value="2026-05-31" class="px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700" />
-          <button type="button" onclick="toggleFilter()" class="flex items-center gap-1.5 px-3 py-2 text-sm border border-gray-200 rounded-lg text-gray-700 hover:bg-gray-50 font-medium">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2a1 1 0 01-.293.707L13 13.414V19a1 1 0 01-.553.894l-4 2A1 1 0 017 21v-7.586L3.293 6.707A1 1 0 013 6V4z"/></svg>
-            Filters
-          </button>
-          <button class="flex items-center gap-1.5 px-3 py-2 text-sm border border-gray-200 rounded-lg text-gray-700 hover:bg-gray-50 font-medium">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2"/></svg>
-            Columns
-          </button>
-          <div class="flex border border-gray-200 rounded-lg overflow-hidden text-sm">
-            <button type="button" class="px-3 py-1.5 bg-blue-600 text-white font-medium">Default</button>
-            <button class="px-3 py-1.5 text-gray-600 hover:bg-gray-50">Compact</button>
-          </div>
-        </div>
-      </div>
-      <!-- Filter Panel -->
-      <div id="filter-panel" class="hidden bg-white border border-gray-200 border-t-0 rounded-b-xl px-4 py-4 mb-4">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div>
-            <p class="text-xs font-semibold text-gray-700 uppercase tracking-wide mb-2">Status</p>
-            <div class="space-y-1.5">
-              <label class="flex items-center gap-2 text-sm text-gray-600 cursor-pointer"><input type="checkbox" checked class="rounded border-gray-300 text-blue-600" /> Pending</label>
-              <label class="flex items-center gap-2 text-sm text-gray-600 cursor-pointer"><input type="checkbox" checked class="rounded border-gray-300 text-blue-600" /> Processing</label>
-              <label class="flex items-center gap-2 text-sm text-gray-600 cursor-pointer"><input type="checkbox" checked class="rounded border-gray-300 text-blue-600" /> Shipped</label>
-              <label class="flex items-center gap-2 text-sm text-gray-600 cursor-pointer"><input type="checkbox" checked class="rounded border-gray-300 text-blue-600" /> Delivered</label>
-              <label class="flex items-center gap-2 text-sm text-gray-600 cursor-pointer"><input type="checkbox" class="rounded border-gray-300 text-blue-600" /> Cancelled</label>
-            </div>
-          </div>
-          <div>
-            <p class="text-xs font-semibold text-gray-700 uppercase tracking-wide mb-2">Amount Range</p>
-            <div class="flex items-center gap-2">
-              <input type="number" placeholder="Min" value="0" class="w-full px-3 py-1.5 text-sm border border-gray-200 rounded-lg focus:outline-none" />
-              <span class="text-gray-400">–</span>
-              <input type="number" placeholder="Max" value="5000" class="w-full px-3 py-1.5 text-sm border border-gray-200 rounded-lg focus:outline-none" />
-            </div>
-            <div class="mt-3 h-2 bg-gray-200 rounded-full"><div class="h-2 bg-blue-500 rounded-full" style="width:85%"></div></div>
-          </div>
-          <div>
-            <p class="text-xs font-semibold text-gray-700 uppercase tracking-wide mb-2">Customer Type</p>
-            <div class="space-y-1.5">
-              <label class="flex items-center gap-2 text-sm text-gray-600 cursor-pointer"><input type="radio" name="custtype" checked class="text-blue-600" /> All</label>
-              <label class="flex items-center gap-2 text-sm text-gray-600 cursor-pointer"><input type="radio" name="custtype" class="text-blue-600" /> New</label>
-              <label class="flex items-center gap-2 text-sm text-gray-600 cursor-pointer"><input type="radio" name="custtype" class="text-blue-600" /> Returning</label>
-            </div>
-          </div>
-        </div>
-        <div class="flex gap-2 mt-4 pt-4 border-t border-gray-100">
-          <button type="button" class="px-4 py-2 bg-blue-600 text-white text-sm font-semibold rounded-lg hover:bg-blue-700">Apply Filters</button>
-          <button class="px-4 py-2 border border-gray-200 text-gray-600 text-sm font-medium rounded-lg hover:bg-gray-50">Reset</button>
-        </div>
-      </div>
-
-      <!-- Table -->
-      <div class="bg-white rounded-xl border border-gray-200 overflow-hidden">
-        <div class="overflow-x-auto">
-          <table class="w-full text-sm">
-            <thead class="bg-gray-50 border-b border-gray-200">
-              <tr>
-                <th class="pl-4 pr-2 py-3"><input type="checkbox" class="rounded border-gray-300 text-blue-600" id="selectAll" onclick="handleSelectAll(this)" /></th>
-                <th class="px-3 py-3 text-left text-xs font-semibold text-gray-500 uppercase cursor-pointer hover:text-gray-700" onclick="sortBy('order')">Order # <span class="text-gray-400">↕</span></th>
-                <th class="px-3 py-3 text-left text-xs font-semibold text-gray-500 uppercase cursor-pointer hover:text-gray-700" onclick="sortBy('customer')">Customer <span class="text-gray-400">↕</span></th>
-                <th class="px-3 py-3 text-left text-xs font-semibold text-gray-500 uppercase cursor-pointer hover:text-gray-700" onclick="sortBy('amount')">Amount <span class="text-gray-400">↕</span></th>
-                <th class="px-3 py-3 text-left text-xs font-semibold text-gray-500 uppercase cursor-pointer hover:text-gray-700" onclick="sortBy('status')">Status <span class="text-gray-400">↕</span></th>
-                <th class="px-3 py-3 text-left text-xs font-semibold text-gray-500 uppercase cursor-pointer hover:text-gray-700" onclick="sortBy('items')">Items <span class="text-gray-400">↕</span></th>
-                <th class="px-3 py-3 text-left text-xs font-semibold text-gray-500 uppercase cursor-pointer hover:text-gray-700" onclick="sortBy('date')">Date <span class="text-gray-400">↕</span></th>
-                <th class="px-3 py-3 text-left text-xs font-semibold text-gray-500 uppercase cursor-pointer hover:text-gray-700" onclick="sortBy('channel')">Channel <span class="text-gray-400">↕</span></th>
-              </tr>
-            </thead>
-            <tbody id="order-table-body">
-              <!-- Row 1 -->
-              <tr class="hover:bg-gray-50 cursor-pointer border-b border-gray-100" onclick="toggleRow('row1-detail', this)">
-                <td class="pl-4 pr-2 py-3" onclick="event.stopPropagation()"><input type="checkbox" class="row-cb rounded border-gray-300 text-blue-600" onchange="updateBulk()" /></td>
-                <td class="px-3 py-3 font-mono text-blue-600 font-semibold text-xs">#ORD-8821</td>
-                <td class="px-3 py-3"><div class="flex items-center gap-2"><div class="w-7 h-7 rounded-full bg-blue-500 flex items-center justify-center text-white text-xs font-bold flex-shrink-0">SM</div><span class="font-medium text-gray-900">Sarah Mitchell</span></div></td>
-                <td class="px-3 py-3 font-semibold text-gray-900">$284.50</td>
-                <td class="px-3 py-3"><span class="px-2 py-0.5 bg-green-100 text-green-700 text-xs font-semibold rounded-full">Delivered</span></td>
-                <td class="px-3 py-3 text-gray-600">3 items</td>
-                <td class="px-3 py-3 text-gray-600">May 24, 2026</td>
-                <td class="px-3 py-3"><span class="px-2 py-0.5 bg-gray-100 text-gray-600 text-xs rounded-full">Web</span></td>
-              </tr>
-              <tr id="row1-detail" class="hidden bg-blue-50 border-b border-blue-100">
-                <td colspan="8" class="px-8 py-4">
-                  <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
-                    <div><p class="text-xs font-semibold text-gray-500 mb-1">Billing Address</p><p class="text-gray-700">42 Maple Street, Austin, TX 78701</p></div>
-                    <div><p class="text-xs font-semibold text-gray-500 mb-1">Payment Method</p><p class="text-gray-700">Visa •••• 4821</p></div>
-                    <div><p class="text-xs font-semibold text-gray-500 mb-1">Tracking Number</p><p class="text-blue-600 font-mono">1Z999AA10123456784</p></div>
-                    <div class="md:col-span-3"><p class="text-xs font-semibold text-gray-500 mb-1">Items</p><p class="text-gray-700">1× Wireless Headset ($120), 1× USB Hub ($64.50), 1× Laptop Stand ($100)</p></div>
-                  </div>
-                </td>
-              </tr>
-              <!-- Row 2 -->
-              <tr class="hover:bg-gray-50 cursor-pointer border-b border-gray-100" onclick="toggleRow('row2-detail', this)">
-                <td class="pl-4 pr-2 py-3" onclick="event.stopPropagation()"><input type="checkbox" class="row-cb rounded border-gray-300 text-blue-600" onchange="updateBulk()" /></td>
-                <td class="px-3 py-3 font-mono text-blue-600 font-semibold text-xs">#ORD-8820</td>
-                <td class="px-3 py-3"><div class="flex items-center gap-2"><div class="w-7 h-7 rounded-full bg-green-500 flex items-center justify-center text-white text-xs font-bold flex-shrink-0">JP</div><span class="font-medium text-gray-900">James Patel</span></div></td>
-                <td class="px-3 py-3 font-semibold text-gray-900">$1,249.00</td>
-                <td class="px-3 py-3"><span class="px-2 py-0.5 bg-blue-100 text-blue-700 text-xs font-semibold rounded-full">Processing</span></td>
-                <td class="px-3 py-3 text-gray-600">1 item</td>
-                <td class="px-3 py-3 text-gray-600">May 24, 2026</td>
-                <td class="px-3 py-3"><span class="px-2 py-0.5 bg-purple-100 text-purple-700 text-xs rounded-full">API</span></td>
-              </tr>
-              <tr id="row2-detail" class="hidden bg-blue-50 border-b border-blue-100">
-                <td colspan="8" class="px-8 py-4">
-                  <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
-                    <div><p class="text-xs font-semibold text-gray-500 mb-1">Billing Address</p><p class="text-gray-700">88 Innovation Blvd, San Francisco, CA 94107</p></div>
-                    <div><p class="text-xs font-semibold text-gray-500 mb-1">Payment Method</p><p class="text-gray-700">Mastercard •••• 3390</p></div>
-                    <div><p class="text-xs font-semibold text-gray-500 mb-1">Tracking Number</p><p class="text-gray-400">Pending assignment</p></div>
-                    <div class="md:col-span-3"><p class="text-xs font-semibold text-gray-500 mb-1">Items</p><p class="text-gray-700">1× Enterprise API License ($1,249)</p></div>
-                  </div>
-                </td>
-              </tr>
-              <!-- Row 3 -->
-              <tr class="hover:bg-gray-50 cursor-pointer border-b border-gray-100" onclick="toggleRow('row3-detail', this)">
-                <td class="pl-4 pr-2 py-3" onclick="event.stopPropagation()"><input type="checkbox" class="row-cb rounded border-gray-300 text-blue-600" onchange="updateBulk()" /></td>
-                <td class="px-3 py-3 font-mono text-blue-600 font-semibold text-xs">#ORD-8819</td>
-                <td class="px-3 py-3"><div class="flex items-center gap-2"><div class="w-7 h-7 rounded-full bg-purple-500 flex items-center justify-center text-white text-xs font-bold flex-shrink-0">LC</div><span class="font-medium text-gray-900">Laura Chen</span></div></td>
-                <td class="px-3 py-3 font-semibold text-gray-900">$67.99</td>
-                <td class="px-3 py-3"><span class="px-2 py-0.5 bg-indigo-100 text-indigo-700 text-xs font-semibold rounded-full">Shipped</span></td>
-                <td class="px-3 py-3 text-gray-600">2 items</td>
-                <td class="px-3 py-3 text-gray-600">May 23, 2026</td>
-                <td class="px-3 py-3"><span class="px-2 py-0.5 bg-orange-100 text-orange-700 text-xs rounded-full">Mobile</span></td>
-              </tr>
-              <tr id="row3-detail" class="hidden bg-blue-50 border-b border-blue-100">
-                <td colspan="8" class="px-8 py-4">
-                  <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
-                    <div><p class="text-xs font-semibold text-gray-500 mb-1">Billing Address</p><p class="text-gray-700">15 Harbor View, Seattle, WA 98101</p></div>
-                    <div><p class="text-xs font-semibold text-gray-500 mb-1">Payment Method</p><p class="text-gray-700">Apple Pay •••• 7712</p></div>
-                    <div><p class="text-xs font-semibold text-gray-500 mb-1">Tracking Number</p><p class="text-blue-600 font-mono">9400111899223344556</p></div>
-                    <div class="md:col-span-3"><p class="text-xs font-semibold text-gray-500 mb-1">Items</p><p class="text-gray-700">1× Design Asset Pack ($49.99), 1× Font License ($18)</p></div>
-                  </div>
-                </td>
-              </tr>
-              <!-- Row 4 -->
-              <tr class="hover:bg-gray-50 cursor-pointer border-b border-gray-100" onclick="toggleRow('row4-detail', this)">
-                <td class="pl-4 pr-2 py-3" onclick="event.stopPropagation()"><input type="checkbox" class="row-cb rounded border-gray-300 text-blue-600" onchange="updateBulk()" /></td>
-                <td class="px-3 py-3 font-mono text-blue-600 font-semibold text-xs">#ORD-8818</td>
-                <td class="px-3 py-3"><div class="flex items-center gap-2"><div class="w-7 h-7 rounded-full bg-orange-500 flex items-center justify-center text-white text-xs font-bold flex-shrink-0">MR</div><span class="font-medium text-gray-900">Marco Rivera</span></div></td>
-                <td class="px-3 py-3 font-semibold text-gray-900">$512.40</td>
-                <td class="px-3 py-3"><span class="px-2 py-0.5 bg-yellow-100 text-yellow-700 text-xs font-semibold rounded-full">Pending</span></td>
-                <td class="px-3 py-3 text-gray-600">5 items</td>
-                <td class="px-3 py-3 text-gray-600">May 23, 2026</td>
-                <td class="px-3 py-3"><span class="px-2 py-0.5 bg-gray-100 text-gray-600 text-xs rounded-full">Web</span></td>
-              </tr>
-              <tr id="row4-detail" class="hidden bg-blue-50 border-b border-blue-100">
-                <td colspan="8" class="px-8 py-4">
-                  <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
-                    <div><p class="text-xs font-semibold text-gray-500 mb-1">Billing Address</p><p class="text-gray-700">300 Tech Park Dr, Denver, CO 80201</p></div>
-                    <div><p class="text-xs font-semibold text-gray-500 mb-1">Payment Method</p><p class="text-gray-700">Visa •••• 2245</p></div>
-                    <div><p class="text-xs font-semibold text-gray-500 mb-1">Tracking Number</p><p class="text-gray-400">Not yet assigned</p></div>
-                    <div class="md:col-span-3"><p class="text-xs font-semibold text-gray-500 mb-1">Items</p><p class="text-gray-700">2× Server RAM 16GB ($80ea), 1× SSD 1TB ($180), 2× Network Cable 10m ($46.20ea)</p></div>
-                  </div>
-                </td>
-              </tr>
-              <!-- Row 5 -->
-              <tr class="hover:bg-gray-50 cursor-pointer border-b border-gray-100" onclick="toggleRow('row5-detail', this)">
-                <td class="pl-4 pr-2 py-3" onclick="event.stopPropagation()"><input type="checkbox" class="row-cb rounded border-gray-300 text-blue-600" onchange="updateBulk()" /></td>
-                <td class="px-3 py-3 font-mono text-blue-600 font-semibold text-xs">#ORD-8817</td>
-                <td class="px-3 py-3"><div class="flex items-center gap-2"><div class="w-7 h-7 rounded-full bg-red-500 flex items-center justify-center text-white text-xs font-bold flex-shrink-0">ET</div><span class="font-medium text-gray-900">Emma Thompson</span></div></td>
-                <td class="px-3 py-3 font-semibold text-gray-900">$39.00</td>
-                <td class="px-3 py-3"><span class="px-2 py-0.5 bg-red-100 text-red-700 text-xs font-semibold rounded-full">Cancelled</span></td>
-                <td class="px-3 py-3 text-gray-600">1 item</td>
-                <td class="px-3 py-3 text-gray-600">May 22, 2026</td>
-                <td class="px-3 py-3"><span class="px-2 py-0.5 bg-gray-100 text-gray-600 text-xs rounded-full">Web</span></td>
-              </tr>
-              <tr id="row5-detail" class="hidden bg-blue-50 border-b border-blue-100">
-                <td colspan="8" class="px-8 py-4">
-                  <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
-                    <div><p class="text-xs font-semibold text-gray-500 mb-1">Billing Address</p><p class="text-gray-700">7 Birchwood Lane, Portland, OR 97201</p></div>
-                    <div><p class="text-xs font-semibold text-gray-500 mb-1">Payment Method</p><p class="text-gray-700">PayPal •••• emma@work.com</p></div>
-                    <div><p class="text-xs font-semibold text-gray-500 mb-1">Tracking Number</p><p class="text-gray-400">Order cancelled — no shipment</p></div>
-                    <div class="md:col-span-3"><p class="text-xs font-semibold text-gray-500 mb-1">Items</p><p class="text-gray-700">1× Monthly Analytics Subscription ($39) — refund issued</p></div>
-                  </div>
-                </td>
-              </tr>
-              <!-- Row 6 -->
-              <tr class="hover:bg-gray-50 cursor-pointer border-b border-gray-100" onclick="toggleRow('row6-detail', this)">
-                <td class="pl-4 pr-2 py-3" onclick="event.stopPropagation()"><input type="checkbox" class="row-cb rounded border-gray-300 text-blue-600" onchange="updateBulk()" /></td>
-                <td class="px-3 py-3 font-mono text-blue-600 font-semibold text-xs">#ORD-8816</td>
-                <td class="px-3 py-3"><div class="flex items-center gap-2"><div class="w-7 h-7 rounded-full bg-pink-500 flex items-center justify-center text-white text-xs font-bold flex-shrink-0">DK</div><span class="font-medium text-gray-900">Daniel Kim</span></div></td>
-                <td class="px-3 py-3 font-semibold text-gray-900">$890.25</td>
-                <td class="px-3 py-3"><span class="px-2 py-0.5 bg-green-100 text-green-700 text-xs font-semibold rounded-full">Delivered</span></td>
-                <td class="px-3 py-3 text-gray-600">4 items</td>
-                <td class="px-3 py-3 text-gray-600">May 22, 2026</td>
-                <td class="px-3 py-3"><span class="px-2 py-0.5 bg-purple-100 text-purple-700 text-xs rounded-full">API</span></td>
-              </tr>
-              <tr id="row6-detail" class="hidden bg-blue-50 border-b border-blue-100">
-                <td colspan="8" class="px-8 py-4">
-                  <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
-                    <div><p class="text-xs font-semibold text-gray-500 mb-1">Billing Address</p><p class="text-gray-700">91 Pine Street, Chicago, IL 60601</p></div>
-                    <div><p class="text-xs font-semibold text-gray-500 mb-1">Payment Method</p><p class="text-gray-700">Corporate Card •••• 0034</p></div>
-                    <div><p class="text-xs font-semibold text-gray-500 mb-1">Tracking Number</p><p class="text-blue-600 font-mono">7748291004837651</p></div>
-                    <div class="md:col-span-3"><p class="text-xs font-semibold text-gray-500 mb-1">Items</p><p class="text-gray-700">2× API Tokens Pack ($200ea), 1× Cloud Hosting 6mo ($350), 1× Domain Renewal ($140.25)</p></div>
-                  </div>
-                </td>
-              </tr>
-              <!-- Row 7 -->
-              <tr class="hover:bg-gray-50 cursor-pointer border-b border-gray-100" onclick="toggleRow('row7-detail', this)">
-                <td class="pl-4 pr-2 py-3" onclick="event.stopPropagation()"><input type="checkbox" class="row-cb rounded border-gray-300 text-blue-600" onchange="updateBulk()" /></td>
-                <td class="px-3 py-3 font-mono text-blue-600 font-semibold text-xs">#ORD-8815</td>
-                <td class="px-3 py-3"><div class="flex items-center gap-2"><div class="w-7 h-7 rounded-full bg-teal-500 flex items-center justify-center text-white text-xs font-bold flex-shrink-0">PS</div><span class="font-medium text-gray-900">Priya Sharma</span></div></td>
-                <td class="px-3 py-3 font-semibold text-gray-900">$145.00</td>
-                <td class="px-3 py-3"><span class="px-2 py-0.5 bg-indigo-100 text-indigo-700 text-xs font-semibold rounded-full">Shipped</span></td>
-                <td class="px-3 py-3 text-gray-600">2 items</td>
-                <td class="px-3 py-3 text-gray-600">May 21, 2026</td>
-                <td class="px-3 py-3"><span class="px-2 py-0.5 bg-orange-100 text-orange-700 text-xs rounded-full">Mobile</span></td>
-              </tr>
-              <tr id="row7-detail" class="hidden bg-blue-50 border-b border-blue-100">
-                <td colspan="8" class="px-8 py-4">
-                  <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
-                    <div><p class="text-xs font-semibold text-gray-500 mb-1">Billing Address</p><p class="text-gray-700">23 Sunrise Ave, Boston, MA 02101</p></div>
-                    <div><p class="text-xs font-semibold text-gray-500 mb-1">Payment Method</p><p class="text-gray-700">Google Pay •••• 5534</p></div>
-                    <div><p class="text-xs font-semibold text-gray-500 mb-1">Tracking Number</p><p class="text-blue-600 font-mono">8810029938471122</p></div>
-                    <div class="md:col-span-3"><p class="text-xs font-semibold text-gray-500 mb-1">Items</p><p class="text-gray-700">1× Marketing Pro Plan ($99), 1× Email Credits 10k ($46)</p></div>
-                  </div>
-                </td>
-              </tr>
-              <!-- Row 8 -->
-              <tr class="hover:bg-gray-50 cursor-pointer" onclick="toggleRow('row8-detail', this)">
-                <td class="pl-4 pr-2 py-3" onclick="event.stopPropagation()"><input type="checkbox" class="row-cb rounded border-gray-300 text-blue-600" onchange="updateBulk()" /></td>
-                <td class="px-3 py-3 font-mono text-blue-600 font-semibold text-xs">#ORD-8814</td>
-                <td class="px-3 py-3"><div class="flex items-center gap-2"><div class="w-7 h-7 rounded-full bg-indigo-500 flex items-center justify-center text-white text-xs font-bold flex-shrink-0">AJ</div><span class="font-medium text-gray-900">Alex Johnson</span></div></td>
-                <td class="px-3 py-3 font-semibold text-gray-900">$2,100.00</td>
-                <td class="px-3 py-3"><span class="px-2 py-0.5 bg-blue-100 text-blue-700 text-xs font-semibold rounded-full">Processing</span></td>
-                <td class="px-3 py-3 text-gray-600">1 item</td>
-                <td class="px-3 py-3 text-gray-600">May 21, 2026</td>
-                <td class="px-3 py-3"><span class="px-2 py-0.5 bg-gray-100 text-gray-600 text-xs rounded-full">Web</span></td>
-              </tr>
-              <tr id="row8-detail" class="hidden bg-blue-50">
-                <td colspan="8" class="px-8 py-4">
-                  <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
-                    <div><p class="text-xs font-semibold text-gray-500 mb-1">Billing Address</p><p class="text-gray-700">55 Oak Court, New York, NY 10001</p></div>
-                    <div><p class="text-xs font-semibold text-gray-500 mb-1">Payment Method</p><p class="text-gray-700">Amex •••• 9901</p></div>
-                    <div><p class="text-xs font-semibold text-gray-500 mb-1">Tracking Number</p><p class="text-gray-400">Processing — tracking pending</p></div>
-                    <div class="md:col-span-3"><p class="text-xs font-semibold text-gray-500 mb-1">Items</p><p class="text-gray-700">1× Annual Enterprise License ($2,100)</p></div>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <!-- Pagination -->
-        <div class="flex items-center justify-between px-4 py-3 border-t border-gray-200">
-          <div class="flex items-center gap-2">
-            <span class="text-sm text-gray-500">Rows per page:</span>
-            <select class="px-2 py-1 text-sm border border-gray-200 rounded-lg focus:outline-none">
-              <option>10</option><option>25</option><option>50</option><option>100</option>
-            </select>
-          </div>
-          <p class="text-sm text-gray-500">Showing <span class="font-medium text-gray-700">1–8</span> of <span class="font-medium text-gray-700">1,284</span> orders</p>
-          <div class="flex items-center gap-2">
-            <button class="px-3 py-1.5 text-sm border border-gray-200 rounded-lg text-gray-600 hover:bg-gray-50 disabled:opacity-40" disabled>← Prev</button>
-            <button class="px-3 py-1.5 text-sm border border-gray-200 rounded-lg text-gray-600 hover:bg-gray-50">Next →</button>
-          </div>
-        </div>
-      </div>
-      </div>
-    </main>
-  </div>
+<div class="sidebar-container w-72 flex-shrink-0"></div>
+<div class="header-container flex-1 flex flex-col overflow-hidden"></div>
+<main class="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8">
+<nav class="flex items-center gap-2 text-sm text-slate-400 mb-4">
+<a href="#" class="hover:text-slate-600 dark:hover:text-slate-300">Home</a><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+<a href="#" class="hover:text-slate-600 dark:hover:text-slate-300">Tables</a><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+<span class="text-slate-700 dark:text-slate-200 font-medium">Advanced Tables</span>
+</nav>
+<div class="mb-6 fade-up">
+<h1 class="text-2xl font-bold text-slate-900 dark:text-white mb-1">Advanced Tables</h1>
+<p class="text-sm text-slate-500 dark:text-slate-400">Advanced table features with expandable rows and inline editing</p>
 </div>
-
-<!-- Common Components -->
+<div class="bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 mb-6 fade-up">
+<div class="p-4 border-b border-slate-100 dark:border-slate-800"><h3 class="font-semibold text-slate-900 dark:text-white">Expandable Rows</h3><p class="text-sm text-slate-400 mt-1">Click a row to see details</p></div>
+<div class="overflow-x-auto">
+<table class="data-table" id="expand-table">
+<thead><tr><th class="w-8"></th><th>Order ID</th><th>Customer</th><th>Amount</th><th>Status</th><th>Date</th></tr></thead>
+<tbody>
+<tr class="cursor-pointer" onclick="toggleExpand(this)">
+<td><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="expand-icon transition-transform"><path d="M9 18l6-6-6-6"/></svg></td>
+<td class="font-mono text-sm font-medium text-slate-700 dark:text-slate-300">ORD-001</td>
+<td>Acme Corp</td>
+<td class="font-medium">$4,250.00</td>
+<td><span class="status-badge status-success">Success</span></td>
+<td class="text-slate-400">Jan 15, 2024</td>
+</tr>
+<tr class="expand-row" style="display:none"><td colspan="6" class="bg-slate-50 dark:bg-slate-800/50 px-8 py-4"><p class="text-sm text-slate-600 dark:text-slate-400">3 items: Widget A x2, Widget B x1</p></td></tr>
+<tr class="cursor-pointer" onclick="toggleExpand(this)">
+<td><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="expand-icon transition-transform"><path d="M9 18l6-6-6-6"/></svg></td>
+<td class="font-mono text-sm font-medium text-slate-700 dark:text-slate-300">ORD-002</td>
+<td>Globex Inc</td>
+<td class="font-medium">$1,890.00</td>
+<td><span class="status-badge status-info">Info</span></td>
+<td class="text-slate-400">Feb 3, 2024</td>
+</tr>
+<tr class="expand-row" style="display:none"><td colspan="6" class="bg-slate-50 dark:bg-slate-800/50 px-8 py-4"><p class="text-sm text-slate-600 dark:text-slate-400">1 item: Premium License x1</p></td></tr>
+<tr class="cursor-pointer" onclick="toggleExpand(this)">
+<td><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="expand-icon transition-transform"><path d="M9 18l6-6-6-6"/></svg></td>
+<td class="font-mono text-sm font-medium text-slate-700 dark:text-slate-300">ORD-003</td>
+<td>Wayne Ent.</td>
+<td class="font-medium">$12,400.00</td>
+<td><span class="status-badge status-success">Success</span></td>
+<td class="text-slate-400">Mar 12, 2024</td>
+</tr>
+<tr class="expand-row" style="display:none"><td colspan="6" class="bg-slate-50 dark:bg-slate-800/50 px-8 py-4"><p class="text-sm text-slate-600 dark:text-slate-400">5 items: Server Unit x3, Cable x2</p></td></tr>
+<tr class="cursor-pointer" onclick="toggleExpand(this)">
+<td><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="expand-icon transition-transform"><path d="M9 18l6-6-6-6"/></svg></td>
+<td class="font-mono text-sm font-medium text-slate-700 dark:text-slate-300">ORD-004</td>
+<td>Stark Ind.</td>
+<td class="font-medium">$8,750.00</td>
+<td><span class="status-badge status-warning">Warning</span></td>
+<td class="text-slate-400">Apr 7, 2024</td>
+</tr>
+<tr class="expand-row" style="display:none"><td colspan="6" class="bg-slate-50 dark:bg-slate-800/50 px-8 py-4"><p class="text-sm text-slate-600 dark:text-slate-400">2 items: Reactor Core x1, Shield x1</p></td></tr>
+<tr class="cursor-pointer" onclick="toggleExpand(this)">
+<td><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="expand-icon transition-transform"><path d="M9 18l6-6-6-6"/></svg></td>
+<td class="font-mono text-sm font-medium text-slate-700 dark:text-slate-300">ORD-005</td>
+<td>Umbrella Co</td>
+<td class="font-medium">$3,200.00</td>
+<td><span class="status-badge status-danger">Danger</span></td>
+<td class="text-slate-400">May 20, 2024</td>
+</tr>
+<tr class="expand-row" style="display:none"><td colspan="6" class="bg-slate-50 dark:bg-slate-800/50 px-8 py-4"><p class="text-sm text-slate-600 dark:text-slate-400">4 items: Sample Kit x4</p></td></tr>
+</tbody></table></div></div>
+<div class="bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 mb-6 fade-up">
+<div class="p-4 border-b border-slate-100 dark:border-slate-800"><h3 class="font-semibold text-slate-900 dark:text-white">Inline Editable</h3><p class="text-sm text-slate-400 mt-1">Double-click a cell to edit</p></div>
+<div class="overflow-x-auto">
+<table class="data-table" id="edit-table">
+<thead><tr><th>Product</th><th>SKU</th><th>Price</th><th>Quantity</th><th>Actions</th></tr></thead>
+<tbody>
+<tr>
+<td class="editable font-medium text-slate-700 dark:text-slate-300" ondblclick="makeEditable(this)">Wireless Headphones</td>
+<td class="editable font-mono text-sm" ondblclick="makeEditable(this)">WH-001</td>
+<td class="editable" ondblclick="makeEditable(this)">$89.99</td>
+<td class="editable" ondblclick="makeEditable(this)">234</td>
+<td><button type="button" class="text-xs text-indigo-500 hover:text-indigo-700 font-medium" onclick="showToast('Row saved!','success')">Save</button></td>
+</tr>
+<tr>
+<td class="editable font-medium text-slate-700 dark:text-slate-300" ondblclick="makeEditable(this)">USB-C Hub</td>
+<td class="editable font-mono text-sm" ondblclick="makeEditable(this)">UCH-015</td>
+<td class="editable" ondblclick="makeEditable(this)">$49.99</td>
+<td class="editable" ondblclick="makeEditable(this)">567</td>
+<td><button type="button" class="text-xs text-indigo-500 hover:text-indigo-700 font-medium" onclick="showToast('Row saved!','success')">Save</button></td>
+</tr>
+<tr>
+<td class="editable font-medium text-slate-700 dark:text-slate-300" ondblclick="makeEditable(this)">Mechanical Keyboard</td>
+<td class="editable font-mono text-sm" ondblclick="makeEditable(this)">MK-008</td>
+<td class="editable" ondblclick="makeEditable(this)">$129.99</td>
+<td class="editable" ondblclick="makeEditable(this)">123</td>
+<td><button type="button" class="text-xs text-indigo-500 hover:text-indigo-700 font-medium" onclick="showToast('Row saved!','success')">Save</button></td>
+</tr>
+<tr>
+<td class="editable font-medium text-slate-700 dark:text-slate-300" ondblclick="makeEditable(this)">4K Monitor</td>
+<td class="editable font-mono text-sm" ondblclick="makeEditable(this)">MON-022</td>
+<td class="editable" ondblclick="makeEditable(this)">$449.99</td>
+<td class="editable" ondblclick="makeEditable(this)">45</td>
+<td><button type="button" class="text-xs text-indigo-500 hover:text-indigo-700 font-medium" onclick="showToast('Row saved!','success')">Save</button></td>
+</tr>
+<tr>
+<td class="editable font-medium text-slate-700 dark:text-slate-300" ondblclick="makeEditable(this)">Webcam HD</td>
+<td class="editable font-mono text-sm" ondblclick="makeEditable(this)">WC-003</td>
+<td class="editable" ondblclick="makeEditable(this)">$69.99</td>
+<td class="editable" ondblclick="makeEditable(this)">312</td>
+<td><button type="button" class="text-xs text-indigo-500 hover:text-indigo-700 font-medium" onclick="showToast('Row saved!','success')">Save</button></td>
+</tr>
+</tbody></table></div></div>
+<div class="bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 mb-6 fade-up">
+<div class="p-4 border-b border-slate-100 dark:border-slate-800"><h3 class="font-semibold text-slate-900 dark:text-white">Loading State</h3></div>
+<div class="overflow-x-auto p-4">
+<div class="flex gap-4 mb-4"><div class="skeleton h-4 w-8"></div><div class="skeleton h-4 flex-1"></div><div class="skeleton h-4 w-24"></div><div class="skeleton h-4 w-20"></div><div class="skeleton h-4 w-16"></div></div>
+<div class="flex gap-4 mb-4"><div class="skeleton h-4 w-8"></div><div class="skeleton h-4 flex-1"></div><div class="skeleton h-4 w-24"></div><div class="skeleton h-4 w-20"></div><div class="skeleton h-4 w-16"></div></div>
+<div class="flex gap-4 mb-4"><div class="skeleton h-4 w-8"></div><div class="skeleton h-4 flex-1"></div><div class="skeleton h-4 w-24"></div><div class="skeleton h-4 w-20"></div><div class="skeleton h-4 w-16"></div></div>
+<div class="flex gap-4 mb-4"><div class="skeleton h-4 w-8"></div><div class="skeleton h-4 flex-1"></div><div class="skeleton h-4 w-24"></div><div class="skeleton h-4 w-20"></div><div class="skeleton h-4 w-16"></div></div>
+<div class="flex gap-4 mb-4"><div class="skeleton h-4 w-8"></div><div class="skeleton h-4 flex-1"></div><div class="skeleton h-4 w-24"></div><div class="skeleton h-4 w-20"></div><div class="skeleton h-4 w-16"></div></div>
+</div></div>
+<div class="bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 mb-6 fade-up">
+<div class="p-4 border-b border-slate-100 dark:border-slate-800"><h3 class="font-semibold text-slate-900 dark:text-white">Empty State</h3></div>
+<div class="empty-state py-12">
+<svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+<h3 class="text-lg font-semibold text-slate-700 dark:text-slate-300 mb-1">No data found</h3>
+<p class="text-sm text-slate-400 mb-4">There are no records to display yet</p>
+<button type="button" class="px-4 py-2 bg-indigo-500 text-white text-sm font-medium rounded-lg hover:bg-indigo-600 transition-colors" onclick="showToast('Add record action','info')">Add Record</button>
+</div></div>
+</main>
+</div>
+</div>
 <script src="common-loader.js"></script>
 <script src="common-sidebar.js"></script>
 <script src="common-header.js"></script>
 <script src="app-shell.js"></script>
+<script>
 
+function toggleExpand(row){
+  var next=row.nextElementSibling;
+  var icon=row.querySelector('.expand-icon');
+  if(next&&next.classList.contains('expand-row')){
+    next.style.display=next.style.display==='none'?'table-row':'none';
+    icon.style.transform=next.style.display==='table-row'?'rotate(90deg)':'';
+  }
+}
+function makeEditable(cell){
+  if(cell.querySelector('input'))return;
+  var val=cell.textContent;
+  var input=document.createElement('input');
+  input.type='text';input.value=val;
+  input.className='form-input py-1 px-2 text-sm';
+  input.style.minWidth='60px';
+  cell.textContent='';cell.appendChild(input);
+  input.focus();
+  input.addEventListener('blur',function(){cell.textContent=this.value||val});
+  input.addEventListener('keydown',function(e){if(e.key==='Enter'){cell.textContent=this.value||val}if(e.key==='Escape'){cell.textContent=val}});
+}
+
+</script>
 </body>
 </html>

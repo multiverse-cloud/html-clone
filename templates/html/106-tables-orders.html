@@ -1,102 +1,130 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" class="scroll-smooth">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#465fff" />
-  <meta name="description" content="Production-ready Orders Table HTML dashboard template with responsive TailAdmin-style layout, dark mode, command palette, actions, loaders, and polished UI states." />
-  <title>Orders Table — mtverse</title>
-  <style>
-    .no-scrollbar::-webkit-scrollbar {
-      display: none;
-    }
-    .no-scrollbar {
-      -ms-overflow-style: none;
-      scrollbar-width: none;
-    }
-    @keyframes slideDown {
-      from {
-        opacity: 0;
-        transform: translateY(-10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-    .animate-slideDown {
-      animation: slideDown 0.2s ease-out;
-    }
-    .sidebar-text {
-      transition: opacity 0.2s ease-in-out;
-    }
-  </style>
-  <link rel="stylesheet" href="tailwind-production.css">
-  <link rel="stylesheet" href="pro-styles.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<meta name="theme-color" content="#465fff"/>
+<title>Orders Table | TailAdmin</title>
+<link rel="stylesheet" href="tailwind-production.css"/>
+<link rel="stylesheet" href="pro-styles.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+body{font-family:Outfit,system-ui,sans-serif}
+.no-scrollbar::-webkit-scrollbar{display:none}
+.no-scrollbar{-ms-overflow-style:none;scrollbar-width:none}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.fade-up{animation:fadeUp .4s ease-out}
+@media(prefers-reduced-motion:reduce){.fade-up{animation:none}}
+.data-table{width:100%;border-collapse:separate;border-spacing:0}
+.data-table thead th{padding:.75rem 1rem;font-size:.75rem;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:#64748b;border-bottom:2px solid #e2e8f0;text-align:left;white-space:nowrap;position:sticky;top:0;background:#f8fafc;z-index:1}
+.dark .data-table thead th{background:#1e293b;border-color:#334155;color:#94a3b8}
+.data-table tbody td{padding:.75rem 1rem;font-size:.875rem;border-bottom:1px solid #f1f5f9;color:#334155}
+.dark .data-table tbody td{border-color:#1e293b;color:#cbd5e1}
+.data-table tbody tr:hover{background:#f8fafc}
+.dark .data-table tbody tr:hover{background:#1e293b}
+.data-table tbody tr.selected{background:#eef2ff}
+.dark .data-table tbody tr.selected{background:#1e1b4b}
+.sortable{cursor:pointer;user-select:none}
+.sortable:hover{color:#6366f1}
+.sort-icon{display:inline-block;margin-left:.25rem;opacity:.3}
+.sort-icon.active{opacity:1}
+.status-badge{display:inline-flex;align-items:center;gap:.375rem;padding:.25rem .75rem;border-radius:9999px;font-size:.75rem;font-weight:500}
+.status-badge::before{content:"";width:6px;height:6px;border-radius:50%}
+.status-success{background:#dcfce7;color:#166534}.status-success::before{background:#22c55e}
+.status-warning{background:#fef3c7;color:#92400e}.status-warning::before{background:#f59e0b}
+.status-danger{background:#fef2f2;color:#991b1b}.status-danger::before{background:#ef4444}
+.status-info{background:#dbeafe;color:#1e40af}.status-info::before{background:#3b82f6}
+.status-neutral{background:#f1f5f9;color:#475569}.status-neutral::before{background:#94a3b8}
+.dark .status-success{background:#052e16;color:#86efac}
+.dark .status-warning{background:#422006;color:#fde68a}
+.dark .status-danger{background:#450a0a;color:#fca5a5}
+.dark .status-info{background:#172554;color:#93c5fd}
+.dark .status-neutral{background:#1e293b;color:#94a3b8}
+.pagination{display:flex;align-items:center;gap:.25rem}
+.page-btn{display:flex;align-items:center;justify-content:center;width:2rem;height:2rem;border-radius:.375rem;font-size:.8125rem;border:1px solid #e2e8f0;background:#fff;color:#334155;cursor:pointer;transition:all .15s}
+.page-btn:hover{background:#f1f5f9;border-color:#cbd5e1}
+.page-btn.active{background:#6366f1;border-color:#6366f1;color:#fff}
+.page-btn:disabled{opacity:.4;cursor:not-allowed}
+.dark .page-btn{background:#1e293b;border-color:#334155;color:#e2e8f0}
+.dark .page-btn:hover{background:#334155}
+.dark .page-btn.active{background:#6366f1;border-color:#6366f1}
+.bulk-bar{display:none;padding:.75rem 1rem;background:#eef2ff;border-radius:.5rem;margin-bottom:1rem;font-size:.875rem;color:#4338ca;align-items:center;gap:.75rem}
+.bulk-bar.visible{display:flex}
+.dark .bulk-bar{background:#1e1b4b;color:#a5b4fc}
+.empty-state{text-align:center;padding:3rem 1rem}
+.empty-state svg{margin:0 auto 1rem}
+.skeleton{background:linear-gradient(90deg,#f1f5f9 25%,#e2e8f0 50%,#f1f5f9 75%);background-size:200% 100%;animation:shimmer 1.5s infinite;border-radius:.25rem}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.dark .skeleton{background:linear-gradient(90deg,#1e293b 25%,#334155 50%,#1e293b 75%);background-size:200% 100%}
+.filter-chip{display:inline-flex;align-items:center;gap:.375rem;padding:.375rem .75rem;border-radius:9999px;font-size:.75rem;font-weight:500;border:1px solid #e2e8f0;background:#fff;color:#334155;cursor:pointer;transition:all .15s}
+.filter-chip:hover{border-color:#cbd5e1;background:#f8fafc}
+.filter-chip.active{background:#6366f1;border-color:#6366f1;color:#fff}
+.dark .filter-chip{background:#1e293b;border-color:#334155;color:#e2e8f0}
+.dark .filter-chip.active{background:#6366f1;border-color:#6366f1}
+</style>
+
 </head>
-<body class="bg-gray-50 text-gray-800 font-sans dark:bg-gray-900 dark:text-gray-100">
-
-<!-- Mobile overlay -->
-<div id="sidebar-overlay" class="fixed inset-0 bg-black/40 z-40 hidden lg:hidden" onclick="toggleSidebar()"></div>
-
+<body class="bg-slate-50 dark:bg-slate-950 dark:text-white">
+<div class="sidebar-overlay fixed inset-0 bg-black/40 z-40 hidden lg:hidden"></div>
 <div class="flex h-screen overflow-hidden">
-  <!-- Sidebar Container -->
-  <div id="sidebar-container"></div>
-
-  <!-- Main content -->
-  <div class="flex-1 flex flex-col overflow-hidden">
-    <!-- Header Container -->
-    <div id="header-container"></div>
-
-    <!-- Page content -->
-    <main class="flex-1 overflow-y-auto overflow-x-hidden px-4 md:px-6 2xl:px-10 py-6" tabindex="-1">
-      <div class="mx-auto w-full max-w-screen-2xl">
-<div class="mb-6 flex items-center justify-between"><div><h1 class="text-2xl font-bold text-gray-900">Orders</h1><p class="text-sm text-gray-500 mt-1">Track and manage all customer orders</p></div><button type="button" class="bg-blue-600 text-white text-sm px-4 py-2 rounded-lg hover:bg-blue-700 transition">+ New Order</button></div>
-      <div class="bg-white rounded-xl border border-gray-200 overflow-hidden">
-        <div class="px-5 py-4 border-b border-gray-200 flex flex-col sm:flex-row gap-3">
-          <input type="text" placeholder="Search orders..." class="flex-1 text-sm border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
-          <select class="text-sm border border-gray-200 rounded-lg px-3 py-2 text-gray-700 focus:outline-none"><option>All Status</option><option>Completed</option><option>Pending</option><option>Refunded</option><option>Cancelled</option></select>
-        </div>
-        <div class="overflow-x-auto">
-          <table class="w-full text-sm">
-            <thead class="bg-gray-50 border-b border-gray-200">
-              <tr>
-                <th class="text-left px-5 py-3 font-semibold text-gray-600">Order ID</th>
-                <th class="text-left px-5 py-3 font-semibold text-gray-600">Customer</th>
-                <th class="text-left px-5 py-3 font-semibold text-gray-600">Product</th>
-                <th class="text-left px-5 py-3 font-semibold text-gray-600">Amount</th>
-                <th class="text-left px-5 py-3 font-semibold text-gray-600">Status</th>
-                <th class="text-left px-5 py-3 font-semibold text-gray-600">Date</th>
-                <th class="text-left px-5 py-3 font-semibold text-gray-600">Actions</th>
-              </tr>
-            </thead>
-            <tbody class="divide-y divide-gray-100">
-              <tr class="hover:bg-gray-50"><td class="px-5 py-3 text-gray-500 font-mono">#ORD-8821</td><td class="px-5 py-3 font-medium text-gray-900">Sarah Mitchell</td><td class="px-5 py-3 text-gray-600">Pro Plan</td><td class="px-5 py-3 text-gray-900 font-semibold">$99.00</td><td class="px-5 py-3"><span class="px-2 py-0.5 rounded-full text-xs bg-green-100 text-green-700">Completed</span></td><td class="px-5 py-3 text-gray-400">Jan 12, 2026</td><td class="px-5 py-3"><button class="text-blue-600 hover:underline text-xs mr-2">View</button><button class="text-gray-500 hover:underline text-xs">Refund</button></td></tr>
-              <tr class="hover:bg-gray-50"><td class="px-5 py-3 text-gray-500 font-mono">#ORD-8822</td><td class="px-5 py-3 font-medium text-gray-900">James Patel</td><td class="px-5 py-3 text-gray-600">Starter Plan</td><td class="px-5 py-3 text-gray-900 font-semibold">$29.00</td><td class="px-5 py-3"><span class="px-2 py-0.5 rounded-full text-xs bg-yellow-100 text-yellow-700">Pending</span></td><td class="px-5 py-3 text-gray-400">Feb 3, 2026</td><td class="px-5 py-3"><button class="text-blue-600 hover:underline text-xs mr-2">View</button><button class="text-gray-500 hover:underline text-xs">Refund</button></td></tr>
-              <tr class="hover:bg-gray-50"><td class="px-5 py-3 text-gray-500 font-mono">#ORD-8823</td><td class="px-5 py-3 font-medium text-gray-900">Laura Chen</td><td class="px-5 py-3 text-gray-600">Enterprise</td><td class="px-5 py-3 text-gray-900 font-semibold">$299.00</td><td class="px-5 py-3"><span class="px-2 py-0.5 rounded-full text-xs bg-green-100 text-green-700">Completed</span></td><td class="px-5 py-3 text-gray-400">Mar 18, 2026</td><td class="px-5 py-3"><button class="text-blue-600 hover:underline text-xs mr-2">View</button><button class="text-gray-500 hover:underline text-xs">Refund</button></td></tr>
-              <tr class="hover:bg-gray-50"><td class="px-5 py-3 text-gray-500 font-mono">#ORD-8824</td><td class="px-5 py-3 font-medium text-gray-900">Marco Rivera</td><td class="px-5 py-3 text-gray-600">Pro Plan</td><td class="px-5 py-3 text-gray-900 font-semibold">$99.00</td><td class="px-5 py-3"><span class="px-2 py-0.5 rounded-full text-xs bg-red-100 text-red-700">Refunded</span></td><td class="px-5 py-3 text-gray-400">Apr 1, 2026</td><td class="px-5 py-3"><button class="text-blue-600 hover:underline text-xs mr-2">View</button><button class="text-gray-500 hover:underline text-xs">Refund</button></td></tr>
-              <tr class="hover:bg-gray-50"><td class="px-5 py-3 text-gray-500 font-mono">#ORD-8825</td><td class="px-5 py-3 font-medium text-gray-900">Emma Thompson</td><td class="px-5 py-3 text-gray-600">Starter Plan</td><td class="px-5 py-3 text-gray-900 font-semibold">$29.00</td><td class="px-5 py-3"><span class="px-2 py-0.5 rounded-full text-xs bg-gray-100 text-gray-500">Cancelled</span></td><td class="px-5 py-3 text-gray-400">May 7, 2026</td><td class="px-5 py-3"><button class="text-blue-600 hover:underline text-xs mr-2">View</button><button class="text-gray-500 hover:underline text-xs">Refund</button></td></tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="px-5 py-3 border-t border-gray-200 flex items-center justify-between text-xs text-gray-500">
-          <span>Showing 1–5 of 84 orders</span>
-          <div class="flex gap-1"><button class="px-2 py-1 rounded border border-gray-200 hover:bg-gray-50">Prev</button><button type="button" class="px-2 py-1 rounded bg-blue-600 text-white">1</button><button class="px-2 py-1 rounded border border-gray-200 hover:bg-gray-50">2</button><button class="px-2 py-1 rounded border border-gray-200 hover:bg-gray-50">Next</button></div>
-        </div>
-      </div>
-      </div>
-    </main>
-  </div>
+<div class="sidebar-container w-72 flex-shrink-0"></div>
+<div class="header-container flex-1 flex flex-col overflow-hidden"></div>
+<main class="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8">
+<nav class="flex items-center gap-2 text-sm text-slate-400 mb-4">
+<a href="#" class="hover:text-slate-600 dark:hover:text-slate-300">Home</a><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+<a href="#" class="hover:text-slate-600 dark:hover:text-slate-300">Tables</a><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+<span class="text-slate-700 dark:text-slate-200 font-medium">Orders Table</span>
+</nav>
+<div class="mb-6 fade-up">
+<h1 class="text-2xl font-bold text-slate-900 dark:text-white mb-1">Orders Table</h1>
+<p class="text-sm text-slate-500 dark:text-slate-400">E-commerce orders management with status tracking</p>
 </div>
-
-<!-- Common Components -->
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6 fade-up">
+<div class="bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 p-4"><p class="text-xs text-slate-400 mb-1">Total Orders</p><p class="text-xl font-bold text-slate-900 dark:text-white">1,284</p><p class="text-xs text-green-600">&#9650; +8.4%</p></div>
+<div class="bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 p-4"><p class="text-xs text-slate-400 mb-1">Revenue</p><p class="text-xl font-bold text-slate-900 dark:text-white">$48,290</p><p class="text-xs text-green-600">&#9650; +12.1%</p></div>
+<div class="bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 p-4"><p class="text-xs text-slate-400 mb-1">Pending</p><p class="text-xl font-bold text-slate-900 dark:text-white">23</p><p class="text-xs text-red-500">&#9660; -5.2%</p></div>
+<div class="bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 p-4"><p class="text-xs text-slate-400 mb-1">Avg Order</p><p class="text-xl font-bold text-slate-900 dark:text-white">$37.61</p><p class="text-xs text-green-600">&#9650; +3.8%</p></div>
+</div>
+<div class="bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 fade-up">
+<div class="p-4 border-b border-slate-100 dark:border-slate-800 flex flex-col sm:flex-row gap-3 items-start sm:items-center justify-between">
+<div class="relative flex-1 max-w-xs"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" class="absolute left-3 top-1/2 -translate-y-1/2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg><input type="text" class="form-input pl-9" placeholder="Search orders..." oninput="filterTable(this.value)"/></div>
+<div class="flex gap-2 flex-wrap"><button type="button" class="filter-chip active" onclick="filterByStatus(this,'all')">All</button><button type="button" class="filter-chip" onclick="filterByStatus(this,'success')">Completed</button><button type="button" class="filter-chip" onclick="filterByStatus(this,'info')">Processing</button><button type="button" class="filter-chip" onclick="filterByStatus(this,'warning')">Pending</button><button type="button" class="filter-chip" onclick="filterByStatus(this,'danger')">Cancelled</button></div>
+</div>
+<div class="overflow-x-auto">
+<table class="data-table" id="orders-table">
+<thead><tr><th class="w-10"><input type="checkbox" id="select-all" onchange="toggleSelectAll(this)"/></th><th class="sortable" onclick="sortTable(1)">Order ID <span class="sort-icon">&#8597;</span></th><th>Customer</th><th class="sortable" onclick="sortTable(3)">Amount <span class="sort-icon">&#8597;</span></th><th>Items</th><th>Status</th><th class="sortable" onclick="sortTable(6)">Date <span class="sort-icon">&#8597;</span></th><th class="w-10"></th></tr></thead>
+<tbody>
+<tr data-status="success"><td><input type="checkbox" class="row-check" onchange="updateBulkBar()"/></td><td class="font-mono text-sm font-medium text-slate-700 dark:text-slate-300">#ORD-7821</td><td>Sarah Johnson</td><td class="font-medium">$245.00</td><td class="text-slate-400">3 items</td><td><span class="status-badge status-success">Success</span></td><td class="text-slate-400">Jan 15, 2024</td><td><div class="relative"><button type="button" class="p-1 rounded hover:bg-slate-100 dark:hover:bg-slate-800" onclick="toggleActionMenu(this)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg></button><div class="action-menu absolute right-0 top-full mt-1 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg shadow-lg py-1 z-10 min-w-[120px]" style="display:none"><a href="#" class="block px-3 py-1.5 text-sm hover:bg-slate-50 dark:hover:bg-slate-700" onclick="showToast('View action','info');return false">View</a><a href="#" class="block px-3 py-1.5 text-sm hover:bg-slate-50 dark:hover:bg-slate-700" onclick="showToast('Edit action','info');return false">Edit</a><a href="#" class="block px-3 py-1.5 text-sm text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20" onclick="showToast('Delete action','error');return false">Delete</a></div></div></td></tr>
+<tr data-status="info"><td><input type="checkbox" class="row-check" onchange="updateBulkBar()"/></td><td class="font-mono text-sm font-medium text-slate-700 dark:text-slate-300">#ORD-7822</td><td>Mike Peters</td><td class="font-medium">$89.50</td><td class="text-slate-400">1 item</td><td><span class="status-badge status-info">Info</span></td><td class="text-slate-400">Jan 16, 2024</td><td><div class="relative"><button type="button" class="p-1 rounded hover:bg-slate-100 dark:hover:bg-slate-800" onclick="toggleActionMenu(this)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg></button><div class="action-menu absolute right-0 top-full mt-1 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg shadow-lg py-1 z-10 min-w-[120px]" style="display:none"><a href="#" class="block px-3 py-1.5 text-sm hover:bg-slate-50 dark:hover:bg-slate-700" onclick="showToast('View action','info');return false">View</a><a href="#" class="block px-3 py-1.5 text-sm hover:bg-slate-50 dark:hover:bg-slate-700" onclick="showToast('Edit action','info');return false">Edit</a><a href="#" class="block px-3 py-1.5 text-sm text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20" onclick="showToast('Delete action','error');return false">Delete</a></div></div></td></tr>
+<tr data-status="success"><td><input type="checkbox" class="row-check" onchange="updateBulkBar()"/></td><td class="font-mono text-sm font-medium text-slate-700 dark:text-slate-300">#ORD-7823</td><td>Emily Davis</td><td class="font-medium">$412.00</td><td class="text-slate-400">5 items</td><td><span class="status-badge status-success">Success</span></td><td class="text-slate-400">Jan 17, 2024</td><td><div class="relative"><button type="button" class="p-1 rounded hover:bg-slate-100 dark:hover:bg-slate-800" onclick="toggleActionMenu(this)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg></button><div class="action-menu absolute right-0 top-full mt-1 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg shadow-lg py-1 z-10 min-w-[120px]" style="display:none"><a href="#" class="block px-3 py-1.5 text-sm hover:bg-slate-50 dark:hover:bg-slate-700" onclick="showToast('View action','info');return false">View</a><a href="#" class="block px-3 py-1.5 text-sm hover:bg-slate-50 dark:hover:bg-slate-700" onclick="showToast('Edit action','info');return false">Edit</a><a href="#" class="block px-3 py-1.5 text-sm text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20" onclick="showToast('Delete action','error');return false">Delete</a></div></div></td></tr>
+<tr data-status="warning"><td><input type="checkbox" class="row-check" onchange="updateBulkBar()"/></td><td class="font-mono text-sm font-medium text-slate-700 dark:text-slate-300">#ORD-7824</td><td>Tom Wilson</td><td class="font-medium">$67.90</td><td class="text-slate-400">2 items</td><td><span class="status-badge status-warning">Warning</span></td><td class="text-slate-400">Jan 18, 2024</td><td><div class="relative"><button type="button" class="p-1 rounded hover:bg-slate-100 dark:hover:bg-slate-800" onclick="toggleActionMenu(this)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg></button><div class="action-menu absolute right-0 top-full mt-1 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg shadow-lg py-1 z-10 min-w-[120px]" style="display:none"><a href="#" class="block px-3 py-1.5 text-sm hover:bg-slate-50 dark:hover:bg-slate-700" onclick="showToast('View action','info');return false">View</a><a href="#" class="block px-3 py-1.5 text-sm hover:bg-slate-50 dark:hover:bg-slate-700" onclick="showToast('Edit action','info');return false">Edit</a><a href="#" class="block px-3 py-1.5 text-sm text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20" onclick="showToast('Delete action','error');return false">Delete</a></div></div></td></tr>
+<tr data-status="info"><td><input type="checkbox" class="row-check" onchange="updateBulkBar()"/></td><td class="font-mono text-sm font-medium text-slate-700 dark:text-slate-300">#ORD-7825</td><td>Lisa Anderson</td><td class="font-medium">$156.00</td><td class="text-slate-400">3 items</td><td><span class="status-badge status-info">Info</span></td><td class="text-slate-400">Jan 19, 2024</td><td><div class="relative"><button type="button" class="p-1 rounded hover:bg-slate-100 dark:hover:bg-slate-800" onclick="toggleActionMenu(this)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg></button><div class="action-menu absolute right-0 top-full mt-1 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg shadow-lg py-1 z-10 min-w-[120px]" style="display:none"><a href="#" class="block px-3 py-1.5 text-sm hover:bg-slate-50 dark:hover:bg-slate-700" onclick="showToast('View action','info');return false">View</a><a href="#" class="block px-3 py-1.5 text-sm hover:bg-slate-50 dark:hover:bg-slate-700" onclick="showToast('Edit action','info');return false">Edit</a><a href="#" class="block px-3 py-1.5 text-sm text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20" onclick="showToast('Delete action','error');return false">Delete</a></div></div></td></tr>
+<tr data-status="success"><td><input type="checkbox" class="row-check" onchange="updateBulkBar()"/></td><td class="font-mono text-sm font-medium text-slate-700 dark:text-slate-300">#ORD-7826</td><td>James Brown</td><td class="font-medium">$890.00</td><td class="text-slate-400">8 items</td><td><span class="status-badge status-success">Success</span></td><td class="text-slate-400">Jan 20, 2024</td><td><div class="relative"><button type="button" class="p-1 rounded hover:bg-slate-100 dark:hover:bg-slate-800" onclick="toggleActionMenu(this)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg></button><div class="action-menu absolute right-0 top-full mt-1 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg shadow-lg py-1 z-10 min-w-[120px]" style="display:none"><a href="#" class="block px-3 py-1.5 text-sm hover:bg-slate-50 dark:hover:bg-slate-700" onclick="showToast('View action','info');return false">View</a><a href="#" class="block px-3 py-1.5 text-sm hover:bg-slate-50 dark:hover:bg-slate-700" onclick="showToast('Edit action','info');return false">Edit</a><a href="#" class="block px-3 py-1.5 text-sm text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20" onclick="showToast('Delete action','error');return false">Delete</a></div></div></td></tr>
+<tr data-status="danger"><td><input type="checkbox" class="row-check" onchange="updateBulkBar()"/></td><td class="font-mono text-sm font-medium text-slate-700 dark:text-slate-300">#ORD-7827</td><td>Anna Lee</td><td class="font-medium">$34.99</td><td class="text-slate-400">1 item</td><td><span class="status-badge status-danger">Danger</span></td><td class="text-slate-400">Jan 21, 2024</td><td><div class="relative"><button type="button" class="p-1 rounded hover:bg-slate-100 dark:hover:bg-slate-800" onclick="toggleActionMenu(this)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg></button><div class="action-menu absolute right-0 top-full mt-1 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg shadow-lg py-1 z-10 min-w-[120px]" style="display:none"><a href="#" class="block px-3 py-1.5 text-sm hover:bg-slate-50 dark:hover:bg-slate-700" onclick="showToast('View action','info');return false">View</a><a href="#" class="block px-3 py-1.5 text-sm hover:bg-slate-50 dark:hover:bg-slate-700" onclick="showToast('Edit action','info');return false">Edit</a><a href="#" class="block px-3 py-1.5 text-sm text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20" onclick="showToast('Delete action','error');return false">Delete</a></div></div></td></tr>
+<tr data-status="success"><td><input type="checkbox" class="row-check" onchange="updateBulkBar()"/></td><td class="font-mono text-sm font-medium text-slate-700 dark:text-slate-300">#ORD-7828</td><td>Robert Chen</td><td class="font-medium">$267.50</td><td class="text-slate-400">4 items</td><td><span class="status-badge status-success">Success</span></td><td class="text-slate-400">Jan 22, 2024</td><td><div class="relative"><button type="button" class="p-1 rounded hover:bg-slate-100 dark:hover:bg-slate-800" onclick="toggleActionMenu(this)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg></button><div class="action-menu absolute right-0 top-full mt-1 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg shadow-lg py-1 z-10 min-w-[120px]" style="display:none"><a href="#" class="block px-3 py-1.5 text-sm hover:bg-slate-50 dark:hover:bg-slate-700" onclick="showToast('View action','info');return false">View</a><a href="#" class="block px-3 py-1.5 text-sm hover:bg-slate-50 dark:hover:bg-slate-700" onclick="showToast('Edit action','info');return false">Edit</a><a href="#" class="block px-3 py-1.5 text-sm text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20" onclick="showToast('Delete action','error');return false">Delete</a></div></div></td></tr>
+<tr data-status="warning"><td><input type="checkbox" class="row-check" onchange="updateBulkBar()"/></td><td class="font-mono text-sm font-medium text-slate-700 dark:text-slate-300">#ORD-7829</td><td>Maria Garcia</td><td class="font-medium">$178.00</td><td class="text-slate-400">2 items</td><td><span class="status-badge status-warning">Warning</span></td><td class="text-slate-400">Jan 23, 2024</td><td><div class="relative"><button type="button" class="p-1 rounded hover:bg-slate-100 dark:hover:bg-slate-800" onclick="toggleActionMenu(this)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg></button><div class="action-menu absolute right-0 top-full mt-1 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg shadow-lg py-1 z-10 min-w-[120px]" style="display:none"><a href="#" class="block px-3 py-1.5 text-sm hover:bg-slate-50 dark:hover:bg-slate-700" onclick="showToast('View action','info');return false">View</a><a href="#" class="block px-3 py-1.5 text-sm hover:bg-slate-50 dark:hover:bg-slate-700" onclick="showToast('Edit action','info');return false">Edit</a><a href="#" class="block px-3 py-1.5 text-sm text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20" onclick="showToast('Delete action','error');return false">Delete</a></div></div></td></tr>
+<tr data-status="info"><td><input type="checkbox" class="row-check" onchange="updateBulkBar()"/></td><td class="font-mono text-sm font-medium text-slate-700 dark:text-slate-300">#ORD-7830</td><td>David Kim</td><td class="font-medium">$523.00</td><td class="text-slate-400">6 items</td><td><span class="status-badge status-info">Info</span></td><td class="text-slate-400">Jan 24, 2024</td><td><div class="relative"><button type="button" class="p-1 rounded hover:bg-slate-100 dark:hover:bg-slate-800" onclick="toggleActionMenu(this)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg></button><div class="action-menu absolute right-0 top-full mt-1 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg shadow-lg py-1 z-10 min-w-[120px]" style="display:none"><a href="#" class="block px-3 py-1.5 text-sm hover:bg-slate-50 dark:hover:bg-slate-700" onclick="showToast('View action','info');return false">View</a><a href="#" class="block px-3 py-1.5 text-sm hover:bg-slate-50 dark:hover:bg-slate-700" onclick="showToast('Edit action','info');return false">Edit</a><a href="#" class="block px-3 py-1.5 text-sm text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20" onclick="showToast('Delete action','error');return false">Delete</a></div></div></td></tr>
+</tbody></table></div>
+<div class="p-4 border-t border-slate-100 dark:border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-3"><p class="text-sm text-slate-400">Showing 1-10 of 1,284</p><div class="pagination"><button class="page-btn" disabled>&laquo;</button><button class="page-btn active">1</button><button class="page-btn">2</button><button class="page-btn">3</button><button class="page-btn">4</button><button class="page-btn">&raquo;</button></div></div>
+</div>
+</main>
+</div>
+</div>
 <script src="common-loader.js"></script>
 <script src="common-sidebar.js"></script>
 <script src="common-header.js"></script>
 <script src="app-shell.js"></script>
+<script>
 
+function filterTable(q){var rows=document.querySelectorAll('#orders-table tbody tr');q=q.toLowerCase();rows.forEach(function(r){r.style.display=r.textContent.toLowerCase().indexOf(q)>=0?'':'none'})}
+function filterByStatus(btn,s){document.querySelectorAll('.filter-chip').forEach(function(c){c.classList.remove('active')});btn.classList.add('active');var rows=document.querySelectorAll('#orders-table tbody tr');rows.forEach(function(r){if(s==='all')r.style.display='';else r.style.display=r.dataset.status===s?'':'none'})}
+function toggleSelectAll(cb){document.querySelectorAll('.row-check').forEach(function(c){c.checked=cb.checked});updateBulkBar()}
+function updateBulkBar(){var n=document.querySelectorAll('.row-check:checked').length;var bar=document.getElementById('bulk-bar');if(bar){document.getElementById('bulk-count').textContent=n;bar.classList.toggle('visible',n>0)}}
+function toggleActionMenu(btn){var m=btn.nextElementSibling;document.querySelectorAll('.action-menu').forEach(function(x){if(x!==m)x.style.display='none'});m.style.display=m.style.display==='none'?'block':'none'}
+document.addEventListener('click',function(e){if(!e.target.closest('.action-menu')&&!e.target.closest('[onclick*="toggleActionMenu"]'))document.querySelectorAll('.action-menu').forEach(function(m){m.style.display='none'})});
+var sortDir={};
+function sortTable(c){var tb=document.querySelector('#orders-table tbody'),rows=Array.from(tb.querySelectorAll('tr'));sortDir[c]=!sortDir[c];rows.sort(function(a,b){var ta=a.cells[c].textContent.trim(),tb2=b.cells[c].textContent.trim();return sortDir[c]?ta.localeCompare(tb2):tb2.localeCompare(ta)});rows.forEach(function(r){tb.appendChild(r)})}
+
+</script>
 </body>
 </html>

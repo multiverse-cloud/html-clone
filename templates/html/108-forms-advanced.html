@@ -1,256 +1,265 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" class="scroll-smooth">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#465fff" />
-  <meta name="description" content="Production-ready Advanced Forms HTML dashboard template with responsive TailAdmin-style layout, dark mode, command palette, actions, loaders, and polished UI states." />
-  <title>Advanced Forms — mtverse</title>
-  <style>
-    .no-scrollbar::-webkit-scrollbar {
-      display: none;
-    }
-    .no-scrollbar {
-      -ms-overflow-style: none;
-      scrollbar-width: none;
-    }
-    @keyframes slideDown {
-      from {
-        opacity: 0;
-        transform: translateY(-10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-    .animate-slideDown {
-      animation: slideDown 0.2s ease-out;
-    }
-    .sidebar-text {
-      transition: opacity 0.2s ease-in-out;
-    }
-  </style>
-  <link rel="stylesheet" href="tailwind-production.css">
-  <link rel="stylesheet" href="pro-styles.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<meta name="theme-color" content="#465fff"/>
+<title>Advanced Forms | TailAdmin</title>
+<link rel="stylesheet" href="tailwind-production.css"/>
+<link rel="stylesheet" href="pro-styles.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+body{font-family:Outfit,system-ui,sans-serif}
+.no-scrollbar::-webkit-scrollbar{display:none}
+.no-scrollbar{-ms-overflow-style:none;scrollbar-width:none}
+@keyframes slideDown{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
+.animate-slideDown{animation:slideDown .2s ease-out}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.fade-up{animation:fadeUp .4s ease-out}
+@media(prefers-reduced-motion:reduce){.fade-up,.animate-slideDown{animation:none}}
+.component-item{border:1px solid #e2e8f0;border-radius:.75rem;padding:1.5rem;margin-bottom:1.5rem;background:#fff;transition:box-shadow .2s}
+.component-item:hover{box-shadow:0 4px 12px rgba(0,0,0,.06)}
+.dark .component-item{background:#1e293b;border-color:#334155}
+.component-item h3{font-size:1rem;font-weight:600;margin-bottom:.75rem;color:#0f172a}
+.dark .component-item h3{color:#e2e8f0}
+.form-group{margin-bottom:1.25rem}
+.form-label{display:block;margin-bottom:.375rem;font-size:.875rem;font-weight:500;color:#334155}
+.dark .form-label{color:#cbd5e1}
+.form-input{width:100%;padding:.625rem .875rem;border:1.5px solid #e2e8f0;border-radius:.5rem;font-size:.875rem;transition:border-color .15s,box-shadow .15s;background:#fff;color:#0f172a}
+.form-input:focus{outline:none;border-color:#6366f1;box-shadow:0 0 0 3px rgba(99,102,241,.12)}
+.dark .form-input{background:#0f172a;border-color:#334155;color:#e2e8f0}
+.dark .form-input:focus{border-color:#818cf8;box-shadow:0 0 0 3px rgba(129,140,248,.15)}
+.form-input.error{border-color:#ef4444}
+.form-input.success{border-color:#22c55e}
+.form-input:disabled{opacity:.5;cursor:not-allowed;background:#f1f5f9}
+.dark .form-input:disabled{background:#1e293b}
+.form-error{font-size:.75rem;color:#ef4444;margin-top:.25rem}
+.form-hint{font-size:.75rem;color:#94a3b8;margin-top:.25rem}
+.form-success{font-size:.75rem;color:#22c55e;margin-top:.25rem}
+.password-wrapper{position:relative}
+.password-toggle{position:absolute;right:.75rem;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:#94a3b8;padding:.25rem}
+.password-toggle:hover{color:#64748b}
+textarea.form-input{min-height:100px;resize:vertical}
+select.form-input{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right .75rem center;padding-right:2.5rem}
+.checkbox-wrapper{display:flex;align-items:center;gap:.5rem}
+.checkbox-wrapper input[type=checkbox]{width:1rem;height:1rem;accent-color:#6366f1;cursor:pointer}
+.radio-wrapper{display:flex;align-items:center;gap:.5rem}
+.radio-wrapper input[type=radio]{width:1rem;height:1rem;accent-color:#6366f1;cursor:pointer}
+.switch{position:relative;width:2.75rem;height:1.5rem}
+.switch input{opacity:0;width:0;height:0}
+.switch .slider{position:absolute;cursor:pointer;top:0;left:0;right:0;bottom:0;background:#cbd5e1;border-radius:1rem;transition:background .2s}
+.switch .slider::before{content:"";position:absolute;height:1.125rem;width:1.125rem;left:.1875rem;bottom:.1875rem;background:#fff;border-radius:50%;transition:transform .2s}
+.switch input:checked+.slider{background:#6366f1}
+.switch input:checked+.slider::before{transform:translateX(1.25rem)}
+.dark .switch .slider{background:#475569}
+.strength-bar{height:4px;border-radius:2px;background:#e2e8f0;margin-top:.5rem;overflow:hidden}
+.strength-bar .fill{height:100%;border-radius:2px;transition:width .3s,background .3s}
+.dark .strength-bar{background:#334155}
+.input-group{display:flex}
+.input-group .form-input{border-radius:0}
+.input-group .form-input:first-child{border-radius:.5rem 0 0 .5rem}
+.input-group .form-input:last-child{border-radius:0 .5rem .5rem 0}
+.input-group-addon{display:flex;align-items:center;padding:0 .875rem;border:1.5px solid #e2e8f0;background:#f8fafc;font-size:.875rem;color:#64748b;white-space:nowrap}
+.dark .input-group-addon{background:#1e293b;border-color:#334155;color:#94a3b8}
+.input-group-addon:first-child{border-radius:.5rem 0 0 .5rem;border-right:none}
+.input-group-addon:last-child{border-radius:0 .5rem .5rem 0;border-left:none}
+.file-drop{border:2px dashed #e2e8f0;border-radius:.5rem;padding:2rem;text-align:center;cursor:pointer;transition:border-color .2s,background .2s}
+.file-drop:hover{border-color:#6366f1;background:#f8fafc}
+.dark .file-drop{border-color:#334155}
+.dark .file-drop:hover{border-color:#818cf8;background:#1e293b}
+.range-input{-webkit-appearance:none;width:100%;height:6px;border-radius:3px;background:#e2e8f0;outline:none}
+.range-input::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:#6366f1;cursor:pointer}
+.dark .range-input{background:#334155}
+.color-swatch{width:2.5rem;height:2.5rem;border-radius:.5rem;border:2px solid #e2e8f0;cursor:pointer}
+.dark .color-swatch{border-color:#334155}
+.wizard-step{display:none}
+.wizard-step.active{display:block}
+.wizard-progress{display:flex;gap:.5rem;margin-bottom:2rem}
+.wizard-progress .step{flex:1;height:4px;border-radius:2px;background:#e2e8f0;transition:background .3s}
+.wizard-progress .step.done{background:#6366f1}
+.wizard-progress .step.current{background:#818cf8}
+.dark .wizard-progress .step{background:#334155}
+
+</style>
 </head>
-<body class="bg-gray-50 text-gray-800 font-sans dark:bg-gray-900 dark:text-gray-100">
-
-<!-- Mobile overlay -->
-<div id="sidebar-overlay" class="fixed inset-0 bg-black/40 z-40 hidden lg:hidden" onclick="toggleSidebar()"></div>
-
+<body class="bg-slate-50 dark:bg-slate-950 dark:text-white">
+<div class="sidebar-overlay fixed inset-0 bg-black/40 z-40 hidden lg:hidden"></div>
 <div class="flex h-screen overflow-hidden">
-  <!-- Sidebar Container -->
-  <div id="sidebar-container"></div>
-
-  <!-- Main content -->
-  <div class="flex-1 flex flex-col overflow-hidden">
-    <!-- Header Container -->
-    <div id="header-container"></div>
-
-    <!-- Page content -->
-    <main class="flex-1 overflow-y-auto overflow-x-hidden px-4 md:px-6 2xl:px-10 py-6" tabindex="-1">
-      <div class="mx-auto w-full max-w-screen-2xl">
-<div class="mb-6">
-        <h1 class="text-xl font-bold text-gray-900">Advanced Forms</h1>
-        <p class="text-sm text-gray-500 mt-1">Configure advanced settings across multiple sections.</p>
-      </div>
-      <div class="space-y-4 max-w-3xl">
-        <!-- SECTION 1: General -->
-        <div class="bg-white rounded-xl border border-gray-200 overflow-hidden">
-          <button type="button" onclick="toggleSection('s1')" class="w-full flex items-center justify-between px-6 py-4 text-left hover:bg-gray-50 transition-colors">
-            <div>
-              <h2 class="text-sm font-semibold text-gray-900">General</h2>
-              <p class="text-xs text-gray-500 mt-0.5">Basic display and localization settings</p>
-            </div>
-            <svg id="s1-icon" class="w-4 h-4 text-gray-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-          </button>
-          <div id="s1" class="px-6 pb-6 space-y-4 border-t border-gray-100">
-            <div class="pt-4">
-              <label class="block text-sm font-medium text-gray-700 mb-1">Display Name</label>
-              <input type="text" value="Jane Doe" class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
-            </div>
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1">Slug</label>
-              <div class="flex">
-                <span class="inline-flex items-center px-3 rounded-l-lg border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm">mtverse.dev/</span>
-                <input type="text" value="jane-doe" class="flex-1 px-3 py-2 text-sm border border-gray-300 rounded-r-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
-              </div>
-            </div>
-            <div class="grid grid-cols-2 gap-4">
-              <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Language</label>
-                <select class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white">
-                  <option selected>English</option><option>French</option><option>Spanish</option><option>German</option>
-                </select>
-              </div>
-              <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Date Format</label>
-                <select class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white">
-                  <option selected>MM/DD/YYYY</option><option>DD/MM/YYYY</option><option>YYYY-MM-DD</option>
-                </select>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- SECTION 2: Media -->
-        <div class="bg-white rounded-xl border border-gray-200 overflow-hidden">
-          <button type="button" onclick="toggleSection('s2')" class="w-full flex items-center justify-between px-6 py-4 text-left hover:bg-gray-50 transition-colors">
-            <div>
-              <h2 class="text-sm font-semibold text-gray-900">Media</h2>
-              <p class="text-xs text-gray-500 mt-0.5">Profile picture and cover image</p>
-            </div>
-            <svg id="s2-icon" class="w-4 h-4 text-gray-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-          </button>
-          <div id="s2" class="px-6 pb-6 space-y-5 border-t border-gray-100">
-            <!-- Profile Picture -->
-            <div class="pt-4">
-              <label class="block text-sm font-medium text-gray-700 mb-3">Profile Picture</label>
-              <div class="flex items-center gap-4">
-                <div class="w-16 h-16 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold text-xl">JD</div>
-                <div>
-                  <button type="button" class="px-3 py-1.5 text-sm bg-blue-600 text-white rounded-lg hover:bg-blue-700 mb-1.5">Upload Photo</button>
-                  <p class="text-xs text-gray-400">PNG, JPG, GIF up to 2MB</p>
-                </div>
-              </div>
-            </div>
-            <!-- Cover Image -->
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">Cover Image</label>
-              <div class="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center hover:border-blue-400 hover:bg-blue-50/30 transition-colors cursor-pointer">
-                <svg class="w-8 h-8 text-gray-400 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-                <p class="text-sm text-gray-600 font-medium">Click to upload or drag and drop</p>
-                <p class="text-xs text-gray-400 mt-1">PNG, JPG, GIF up to 5MB</p>
-              </div>
-            </div>
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1">Alt Text</label>
-              <input type="text" placeholder="Describe the image for accessibility" class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
-            </div>
-          </div>
-        </div>
-        <!-- SECTION 3: Integrations -->
-        <div class="bg-white rounded-xl border border-gray-200 overflow-hidden">
-          <button type="button" onclick="toggleSection('s3')" class="w-full flex items-center justify-between px-6 py-4 text-left hover:bg-gray-50 transition-colors">
-            <div>
-              <h2 class="text-sm font-semibold text-gray-900">Integrations</h2>
-              <p class="text-xs text-gray-500 mt-0.5">Connect third-party services</p>
-            </div>
-            <svg id="s3-icon" class="w-4 h-4 text-gray-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-          </button>
-          <div id="s3" class="px-6 pb-4 border-t border-gray-100 divide-y divide-gray-100">
-            <div class="flex items-center justify-between py-4">
-              <div class="flex items-center gap-3">
-                <div class="w-8 h-8 rounded-lg bg-purple-500 flex items-center justify-center text-white text-xs font-bold">#</div>
-                <div><p class="text-sm font-medium text-gray-900">Slack</p><p class="text-xs text-gray-500">Send notifications to Slack channels</p></div>
-              </div>
-              <button type="button" onclick="this.classList.toggle('bg-blue-600');this.classList.toggle('bg-gray-200');this.querySelector('span').classList.toggle('translate-x-5');this.querySelector('span').classList.toggle('translate-x-0.5')" class="relative inline-flex h-5 w-9 items-center rounded-full bg-blue-600 transition-colors focus:outline-none">
-                <span class="inline-block h-4 w-4 transform rounded-full bg-white shadow transition-transform translate-x-5"></span>
-              </button>
-            </div>
-            <div class="flex items-center justify-between py-4">
-              <div class="flex items-center gap-3">
-                <div class="w-8 h-8 rounded-lg bg-gray-900 flex items-center justify-center text-white text-xs font-bold">G</div>
-                <div><p class="text-sm font-medium text-gray-900">GitHub</p><p class="text-xs text-gray-500">Sync repositories and trigger workflows</p></div>
-              </div>
-              <button type="button" onclick="this.classList.toggle('bg-blue-600');this.classList.toggle('bg-gray-200');this.querySelector('span').classList.toggle('translate-x-5');this.querySelector('span').classList.toggle('translate-x-0.5')" class="relative inline-flex h-5 w-9 items-center rounded-full bg-blue-600 transition-colors focus:outline-none">
-                <span class="inline-block h-4 w-4 transform rounded-full bg-white shadow transition-transform translate-x-5"></span>
-              </button>
-            </div>
-            <div class="flex items-center justify-between py-4">
-              <div class="flex items-center gap-3">
-                <div class="w-8 h-8 rounded-lg bg-orange-500 flex items-center justify-center text-white text-xs font-bold">Z</div>
-                <div><p class="text-sm font-medium text-gray-900">Zapier</p><p class="text-xs text-gray-500">Automate tasks with 5000+ apps</p></div>
-              </div>
-              <button type="button" onclick="this.classList.toggle('bg-blue-600');this.classList.toggle('bg-gray-200');this.querySelector('span').classList.toggle('translate-x-5');this.querySelector('span').classList.toggle('translate-x-0.5')" class="relative inline-flex h-5 w-9 items-center rounded-full bg-gray-200 transition-colors focus:outline-none">
-                <span class="inline-block h-4 w-4 transform rounded-full bg-white shadow transition-transform translate-x-0.5"></span>
-              </button>
-            </div>
-            <div class="flex items-center justify-between py-4">
-              <div class="flex items-center gap-3">
-                <div class="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center text-white text-xs font-bold">S</div>
-                <div><p class="text-sm font-medium text-gray-900">Stripe</p><p class="text-xs text-gray-500">Process payments and manage subscriptions</p></div>
-              </div>
-              <button type="button" onclick="this.classList.toggle('bg-blue-600');this.classList.toggle('bg-gray-200');this.querySelector('span').classList.toggle('translate-x-5');this.querySelector('span').classList.toggle('translate-x-0.5')" class="relative inline-flex h-5 w-9 items-center rounded-full bg-gray-200 transition-colors focus:outline-none">
-                <span class="inline-block h-4 w-4 transform rounded-full bg-white shadow transition-transform translate-x-0.5"></span>
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <!-- SECTION 4: Permissions -->
-        <div class="bg-white rounded-xl border border-gray-200 overflow-hidden">
-          <button type="button" onclick="toggleSection('s4')" class="w-full flex items-center justify-between px-6 py-4 text-left hover:bg-gray-50 transition-colors">
-            <div>
-              <h2 class="text-sm font-semibold text-gray-900">Permissions</h2>
-              <p class="text-xs text-gray-500 mt-0.5">Access control and role settings</p>
-            </div>
-            <svg id="s4-icon" class="w-4 h-4 text-gray-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-          </button>
-          <div id="s4" class="px-6 pb-6 space-y-5 border-t border-gray-100">
-            <!-- Tag Input -->
-            <div class="pt-4">
-              <label class="block text-sm font-medium text-gray-700 mb-2">Permission Tags</label>
-              <div class="flex flex-wrap gap-2 p-2.5 border border-gray-300 rounded-lg min-h-[42px] bg-white">
-                <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md bg-blue-100 text-blue-700 text-xs font-medium">billing <button class="hover:text-blue-900 ml-0.5">×</button></span>
-                <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md bg-blue-100 text-blue-700 text-xs font-medium">reports <button class="hover:text-blue-900 ml-0.5">×</button></span>
-                <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md bg-blue-100 text-blue-700 text-xs font-medium">api-access <button class="hover:text-blue-900 ml-0.5">×</button></span>
-                <input type="text" placeholder="Add tag..." class="outline-none text-sm text-gray-600 min-w-[80px]" />
-              </div>
-            </div>
-            <!-- Color Picker -->
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">Team Color</label>
-              <div class="flex gap-2">
-                <button type="button" class="w-7 h-7 rounded-full bg-blue-600 ring-2 ring-offset-2 ring-blue-600"></button>
-                <button class="w-7 h-7 rounded-full bg-indigo-500 hover:ring-2 hover:ring-offset-2 hover:ring-indigo-400"></button>
-                <button class="w-7 h-7 rounded-full bg-green-500 hover:ring-2 hover:ring-offset-2 hover:ring-green-400"></button>
-                <button class="w-7 h-7 rounded-full bg-yellow-400 hover:ring-2 hover:ring-offset-2 hover:ring-yellow-400"></button>
-                <button class="w-7 h-7 rounded-full bg-orange-500 hover:ring-2 hover:ring-offset-2 hover:ring-orange-400"></button>
-                <button class="w-7 h-7 rounded-full bg-red-500 hover:ring-2 hover:ring-offset-2 hover:ring-red-400"></button>
-                <button class="w-7 h-7 rounded-full bg-pink-500 hover:ring-2 hover:ring-offset-2 hover:ring-pink-400"></button>
-                <button class="w-7 h-7 rounded-full bg-gray-700 hover:ring-2 hover:ring-offset-2 hover:ring-gray-500"></button>
-              </div>
-            </div>
-            <!-- Phone with country code -->
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
-              <div class="flex">
-                <select class="px-2 py-2 text-sm border border-r-0 border-gray-300 rounded-l-lg bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                  <option>+1 US</option><option>+44 UK</option><option>+49 DE</option><option>+33 FR</option>
-                </select>
-                <input type="tel" placeholder="(555) 000-0000" class="flex-1 px-3 py-2 text-sm border border-gray-300 rounded-r-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
-              </div>
-            </div>
-            <!-- Role Select -->
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1">Role</label>
-              <select class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white">
-                <option selected>Admin</option><option>Editor</option><option>Viewer</option><option>Developer</option>
-              </select>
-            </div>
-          </div>
-        </div>
-        <!-- Bottom Actions -->
-        <div class="flex gap-3 pt-2">
-          <button type="button" class="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition-colors">Save Changes</button>
-          <button class="px-5 py-2 bg-white border border-gray-300 text-gray-700 text-sm font-medium rounded-lg hover:bg-gray-50 transition-colors">Cancel</button>
-        </div>
-      </div>
-      </div>
-    </main>
-  </div>
+<div class="sidebar-container w-72 flex-shrink-0"></div>
+<div class="header-container flex-1 flex flex-col overflow-hidden"></div>
+<main class="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8">
+<nav class="flex items-center gap-2 text-sm text-slate-400 mb-4">
+<a href="#" class="hover:text-slate-600 dark:hover:text-slate-300">Home</a>
+<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+<a href="#" class="hover:text-slate-600 dark:hover:text-slate-300">Forms</a>
+<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+<span class="text-slate-700 dark:text-slate-200 font-medium">Advanced Forms</span>
+</nav>
+<div class="mb-6 fade-up">
+<h1 class="text-2xl font-bold text-slate-900 dark:text-white mb-1">Advanced Forms</h1>
+<p class="text-sm text-slate-500 dark:text-slate-400">Advanced form controls, layouts, and interactive elements</p>
 </div>
-
-<!-- Common Components -->
+<div class="component-item fade-up">
+<h3>Tag Input</h3>
+<p class="text-sm text-slate-500 dark:text-slate-400 mb-4">Add and remove tags dynamically</p>
+<div class="form-group"><label class="form-label">Skills</label><div class="form-input flex flex-wrap gap-2 min-h-[2.75rem] items-center" id="tag-container" onclick="document.getElementById('tag-input').focus()"><span class="inline-flex items-center gap-1 px-2.5 py-1 bg-indigo-50 text-indigo-700 text-xs font-medium rounded-full dark:bg-indigo-900/30 dark:text-indigo-300">JavaScript <button type="button" class="hover:text-indigo-900" onclick="removeTag(this)">&times;</button></span><span class="inline-flex items-center gap-1 px-2.5 py-1 bg-indigo-50 text-indigo-700 text-xs font-medium rounded-full dark:bg-indigo-900/30 dark:text-indigo-300">React <button type="button" class="hover:text-indigo-900" onclick="removeTag(this)">&times;</button></span><input type="text" id="tag-input" class="border-none outline-none flex-1 min-w-[80px] text-sm bg-transparent" placeholder="Add tag..." onkeydown="handleTagInput(event)"/></div></div>
+</div>
+<div class="component-item fade-up">
+<h3>Rich Text Editor</h3>
+<p class="text-sm text-slate-500 dark:text-slate-400 mb-4">Basic toolbar with contenteditable</p>
+<div class="form-group"><label class="form-label">Content</label><div class="border border-slate-200 dark:border-slate-700 rounded-lg overflow-hidden"><div class="flex gap-1 p-2 border-b border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 flex-wrap"><button type="button" class="p-1.5 rounded hover:bg-slate-200 dark:hover:bg-slate-700 text-sm font-bold" onclick="document.execCommand('bold')" title="Bold">B</button><button type="button" class="p-1.5 rounded hover:bg-slate-200 dark:hover:bg-slate-700 text-sm italic" onclick="document.execCommand('italic')" title="Italic">I</button><button type="button" class="p-1.5 rounded hover:bg-slate-200 dark:hover:bg-slate-700 text-sm underline" onclick="document.execCommand('underline')" title="Underline">U</button><span class="w-px h-6 bg-slate-300 dark:bg-slate-600 self-center mx-1"></span><button type="button" class="p-1.5 rounded hover:bg-slate-200 dark:hover:bg-slate-700 text-sm" onclick="document.execCommand('insertUnorderedList')" title="Bullet List">&#8226; List</button><button type="button" class="p-1.5 rounded hover:bg-slate-200 dark:hover:bg-slate-700 text-sm" onclick="document.execCommand('insertOrderedList')" title="Numbered List">1. List</button><span class="w-px h-6 bg-slate-300 dark:bg-slate-600 self-center mx-1"></span><button type="button" class="p-1.5 rounded hover:bg-slate-200 dark:hover:bg-slate-700 text-sm" onclick="document.execCommand('justifyLeft')" title="Align Left">Left</button><button type="button" class="p-1.5 rounded hover:bg-slate-200 dark:hover:bg-slate-700 text-sm" onclick="document.execCommand('justifyCenter')" title="Center">Center</button><button type="button" class="p-1.5 rounded hover:bg-slate-200 dark:hover:bg-slate-700 text-sm" onclick="document.execCommand('justifyRight')" title="Right">Right</button></div><div contenteditable="true" class="p-3 min-h-[150px] text-sm outline-none bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-200" placeholder="Start writing...">Start typing your content here...</div></div></div>
+</div>
+<div class="component-item fade-up">
+<h3>Date Range &amp; Time Picker</h3>
+<div class="grid grid-cols-2 gap-4">
+<div class="form-group">
+<label class="form-label">Start Date</label>
+<input type="date" class="form-input"/>
+</div>
+<div class="form-group">
+<label class="form-label">End Date</label>
+<input type="date" class="form-input"/>
+</div>
+</div>
+<div class="form-group">
+<label class="form-label">Time Range</label>
+<div class="grid grid-cols-2 gap-4"><div><input type="time" class="form-input" value="09:00"/></div><div><input type="time" class="form-input" value="17:00"/></div></div>
+</div>
+</div>
+<div class="component-item fade-up">
+<h3>Repeatable Sections</h3>
+<p class="text-sm text-slate-500 dark:text-slate-400 mb-4">Add/remove groups of fields</p>
+<div id="repeat-container">
+<div class="repeat-item border border-slate-200 dark:border-slate-700 rounded-lg p-4 mb-3">
+<div class="flex items-center justify-between mb-3"><span class="text-sm font-medium text-slate-700 dark:text-slate-300">Experience #1</span><button type="button" class="text-xs text-red-500 hover:text-red-700" onclick="removeRepeatItem(this)">Remove</button></div>
+<div class="grid grid-cols-2 gap-4">
+<div class="form-group">
+<label class="form-label">Company</label>
+<input type="text" class="form-input" placeholder="Company name"/>
+</div>
+<div class="form-group">
+<label class="form-label">Role</label>
+<input type="text" class="form-input" placeholder="Job title"/>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="form-group">
+<label class="form-label">Start Date</label>
+<input type="date" class="form-input"/>
+</div>
+<div class="form-group">
+<label class="form-label">End Date</label>
+<input type="date" class="form-input"/>
+</div>
+</div>
+</div>
+</div>
+<button type="button" class="text-sm text-indigo-500 hover:text-indigo-700 font-medium" onclick="addRepeatItem()">+ Add Experience</button>
+</div>
+<div class="component-item fade-up">
+<h3>Form Progress Indicator</h3>
+<div class="flex items-center gap-2 mb-6">
+<div class="flex items-center gap-2"><div class="w-8 h-8 rounded-full bg-indigo-500 text-white flex items-center justify-center text-sm font-medium">1</div><span class="text-sm font-medium text-slate-700 dark:text-slate-300">Personal</span></div>
+<div class="flex-1 h-0.5 bg-indigo-500"></div>
+<div class="flex items-center gap-2"><div class="w-8 h-8 rounded-full bg-indigo-500 text-white flex items-center justify-center text-sm font-medium">2</div><span class="text-sm font-medium text-slate-700 dark:text-slate-300">Address</span></div>
+<div class="flex-1 h-0.5 bg-slate-200 dark:bg-slate-700"></div>
+<div class="flex items-center gap-2"><div class="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-700 text-slate-400 flex items-center justify-center text-sm font-medium">3</div><span class="text-sm text-slate-400">Payment</span></div>
+<div class="flex-1 h-0.5 bg-slate-200 dark:bg-slate-700"></div>
+<div class="flex items-center gap-2"><div class="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-700 text-slate-400 flex items-center justify-center text-sm font-medium">4</div><span class="text-sm text-slate-400">Review</span></div>
+</div>
+</div>
+<div class="component-item fade-up">
+<h3>Conditional Fields</h3>
+<p class="text-sm text-slate-500 dark:text-slate-400 mb-4">Show/hide fields based on selections</p>
+<div class="form-group"><label class="form-label">Contact Method</label><select class="form-input" onchange="toggleContactFields(this.value)"><option value="">Select method</option><option value="email">Email</option><option value="phone">Phone</option><option value="mail">Mail</option></select></div>
+<div id="contact-email" style="display:none"><div class="form-group">
+<label class="form-label">Email Address</label>
+<input type="email" class="form-input" placeholder="you@example.com"/>
+</div>
+</div>
+<div id="contact-phone" style="display:none"><div class="form-group">
+<label class="form-label">Phone Number</label>
+<input type="tel" class="form-input" placeholder="+1 (555) 000-0000"/>
+</div>
+</div>
+<div id="contact-mail" style="display:none"><div class="form-group">
+<label class="form-label">Mailing Address</label>
+<textarea class="form-input" rows="2" placeholder="Full mailing address"></textarea>
+</div>
+</div>
+</div>
+<div class="component-item fade-up">
+<h3>Autocomplete Input</h3>
+<p class="text-sm text-slate-500 dark:text-slate-400 mb-4">Type to see suggestions</p>
+<div class="form-group"><label class="form-label">Country</label><div class="relative"><input type="text" class="form-input" id="ac-input" placeholder="Start typing..." autocomplete="off" oninput="handleAutocomplete(this.value)"/><div id="ac-dropdown" class="absolute top-full left-0 right-0 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-b-lg shadow-lg max-h-48 overflow-y-auto z-10" style="display:none"></div></div></div>
+</div>
+<div class="component-item fade-up">
+<h3>Rating Input</h3>
+<div class="form-group"><label class="form-label">Rate your experience</label><div class="flex gap-1" id="rating-container"><button type="button" class="text-2xl text-slate-300 hover:text-amber-400 transition-colors" onclick="setRating(1)" data-rating="1">&#9733;</button><button type="button" class="text-2xl text-slate-300 hover:text-amber-400 transition-colors" onclick="setRating(2)" data-rating="2">&#9733;</button><button type="button" class="text-2xl text-slate-300 hover:text-amber-400 transition-colors" onclick="setRating(3)" data-rating="3">&#9733;</button><button type="button" class="text-2xl text-slate-300 hover:text-amber-400 transition-colors" onclick="setRating(4)" data-rating="4">&#9733;</button><button type="button" class="text-2xl text-slate-300 hover:text-amber-400 transition-colors" onclick="setRating(5)" data-rating="5">&#9733;</button></div><p class="form-hint" id="rating-text">Click a star to rate</p></div>
+</div>
+<div class="component-item fade-up">
+<h3>Signature Pad</h3>
+<p class="text-sm text-slate-500 dark:text-slate-400 mb-4">Draw your signature below</p>
+<div class="form-group"><label class="form-label">Signature</label><div class="border border-slate-200 dark:border-slate-700 rounded-lg overflow-hidden"><canvas id="sig-canvas" width="400" height="150" class="w-full bg-white dark:bg-slate-900 cursor-crosshair"></canvas><div class="flex justify-end p-2 border-t border-slate-200 dark:border-slate-700"><button type="button" class="text-xs text-slate-500 hover:text-slate-700" onclick="clearSignature()">Clear</button></div></div></div>
+</div>
+</main>
+</div>
+</div>
 <script src="common-loader.js"></script>
 <script src="common-sidebar.js"></script>
 <script src="common-header.js"></script>
 <script src="app-shell.js"></script>
+<script>
 
+function handleTagInput(e){
+  if(e.key==='Enter'){e.preventDefault();var input=document.getElementById('tag-input'),val=input.value.trim();
+  if(!val)return;var container=document.getElementById('tag-container');
+  var tag=document.createElement('span');tag.className='inline-flex items-center gap-1 px-2.5 py-1 bg-indigo-50 text-indigo-700 text-xs font-medium rounded-full dark:bg-indigo-900/30 dark:text-indigo-300';
+  tag.innerHTML=val+' <button type="button" class="hover:text-indigo-900" onclick="removeTag(this)">&times;</button>';
+  container.insertBefore(tag,input);input.value='';}
+}
+function removeTag(btn){btn.parentElement.remove()}
+function toggleContactFields(val){
+  document.getElementById('contact-email').style.display=val==='email'?'block':'none';
+  document.getElementById('contact-phone').style.display=val==='phone'?'block':'none';
+  document.getElementById('contact-mail').style.display=val==='mail'?'block':'none';
+}
+var countries=['United States','United Kingdom','Canada','Australia','Germany','France','Japan','China','India','Brazil','Mexico','South Korea','Italy','Spain','Netherlands','Sweden','Norway','Denmark','Finland','Switzerland'];
+function handleAutocomplete(val){
+  var dd=document.getElementById('ac-dropdown');
+  if(!val){dd.style.display='none';return}
+  var matches=countries.filter(function(c){return c.toLowerCase().indexOf(val.toLowerCase())>=0});
+  if(!matches.length){dd.style.display='none';return}
+  dd.innerHTML=matches.map(function(m){return '<div class="px-3 py-2 text-sm hover:bg-slate-100 dark:hover:bg-slate-700 cursor-pointer" onclick="selectAC(\''+m.replace(/'/g,"\\'")+'\')">'+m+'</div>'}).join('');
+  dd.style.display='block';
+}
+function selectAC(val){document.getElementById('ac-input').value=val;document.getElementById('ac-dropdown').style.display='none'}
+function setRating(n){
+  var btns=document.querySelectorAll('#rating-container button');
+  btns.forEach(function(b,i){b.style.color=i<n?'#f59e0b':'#cbd5e1'});
+  var labels=['','Poor','Fair','Good','Very Good','Excellent'];
+  document.getElementById('rating-text').textContent=labels[n]+' ('+n+'/5)';
+}
+var repeatCount=1;
+function addRepeatItem(){
+  repeatCount++;var container=document.getElementById('repeat-container');
+  var div=document.createElement('div');div.className='repeat-item border border-slate-200 dark:border-slate-700 rounded-lg p-4 mb-3';
+  div.innerHTML='<div class="flex items-center justify-between mb-3"><span class="text-sm font-medium text-slate-700 dark:text-slate-300">Experience #'+repeatCount+'</span><button type="button" class="text-xs text-red-500 hover:text-red-700" onclick="removeRepeatItem(this)">Remove</button></div><div class="grid grid-cols-2 gap-4"><div class="form-group"><label class="form-label">Company</label><input type="text" class="form-input" placeholder="Company name"/></div><div class="form-group"><label class="form-label">Role</label><input type="text" class="form-input" placeholder="Job title"/></div></div><div class="grid grid-cols-2 gap-4"><div class="form-group"><label class="form-label">Start Date</label><input type="date" class="form-input"/></div><div class="form-group"><label class="form-label">End Date</label><input type="date" class="form-input"/></div></div>';
+  container.appendChild(div);
+}
+function removeRepeatItem(btn){btn.closest('.repeat-item').remove()}
+// Signature pad
+var sigCanvas=document.getElementById('sig-canvas'),sigCtx=sigCanvas.getContext('2d'),drawing=false;
+sigCanvas.addEventListener('mousedown',function(e){drawing=true;sigCtx.beginPath();var r=sigCanvas.getBoundingClientRect();sigCtx.moveTo(e.clientX-r.left,e.clientY-r.top)});
+sigCanvas.addEventListener('mousemove',function(e){if(!drawing)return;var r=sigCanvas.getBoundingClientRect();sigCtx.lineTo(e.clientX-r.left,e.clientY-r.top);sigCtx.strokeStyle='#0f172a';sigCtx.lineWidth=2;sigCtx.stroke()});
+sigCanvas.addEventListener('mouseup',function(){drawing=false});
+sigCanvas.addEventListener('mouseleave',function(){drawing=false});
+function clearSignature(){sigCtx.clearRect(0,0,sigCanvas.width,sigCanvas.height)}
+// Touch support
+sigCanvas.addEventListener('touchstart',function(e){e.preventDefault();drawing=true;sigCtx.beginPath();var r=sigCanvas.getBoundingClientRect();var t=e.touches[0];sigCtx.moveTo(t.clientX-r.left,t.clientY-r.top)});
+sigCanvas.addEventListener('touchmove',function(e){e.preventDefault();if(!drawing)return;var r=sigCanvas.getBoundingClientRect();var t=e.touches[0];sigCtx.lineTo(t.clientX-r.left,t.clientY-r.top);sigCtx.strokeStyle='#0f172a';sigCtx.lineWidth=2;sigCtx.stroke()});
+sigCanvas.addEventListener('touchend',function(){drawing=false});
+
+</script>
 </body>
 </html>

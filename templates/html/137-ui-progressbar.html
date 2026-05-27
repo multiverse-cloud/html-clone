@@ -1,88 +1,217 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#465fff" />
-  <meta name="description" content="Progress bars for usage, onboarding, upload, and goal tracking." />
-  <title>Progressbar - mtverse</title>
-  <style>
-    .no-scrollbar::-webkit-scrollbar { display: none; }
-    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-    @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
-    .animate-slideDown { animation: slideDown 0.2s ease-out; }
-  </style>
-  <link rel="stylesheet" href="tailwind-production.css">
-  <link rel="stylesheet" href="pro-styles.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Progress Bars — UI Elements</title>
+<style>::-webkit-scrollbar{width:6px;height:6px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:3px}::-webkit-scrollbar-thumb:hover{background:#94a3b8}@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}</style>
+<link rel="stylesheet" href="tailwind-production.css">
+<link rel="stylesheet" href="pro-styles.css">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+.component-item{border:1px solid #e5e7eb;border-radius:.75rem;overflow:hidden;background:#fff;transition:box-shadow .2s,border-color .2s}.component-item:hover{box-shadow:0 4px 12px rgba(0,0,0,.08);border-color:#cbd5e1}
+.dark .component-item{border-color:#374151;background:#1f2937}.dark .component-item:hover{border-color:#4b5563;box-shadow:0 4px 12px rgba(0,0,0,.3)}
+.component-item-header{padding:1rem 1.25rem;border-bottom:1px solid #f3f4f6;display:flex;align-items:center;justify-content:space-between}.dark .component-item-header{border-color:#374151}
+.component-item-preview{padding:1.5rem;display:flex;flex-wrap:wrap;gap:.75rem;align-items:flex-start;min-height:80px}
+.component-item-actions{padding:.75rem 1.25rem;border-top:1px solid #f3f4f6;display:flex;gap:.5rem}.dark .component-item-actions{border-color:#374151}
+.modal-backdrop-demo{position:relative;background:#f9fafb;border-radius:.5rem;padding:2rem;display:flex;align-items:center;justify-content:center;min-height:220px;overflow:hidden}.dark .modal-backdrop-demo{background:#111827}
+.modal-demo{background:#fff;border-radius:.75rem;box-shadow:0 20px 60px rgba(0,0,0,.15);max-width:420px;width:100%;overflow:hidden}.dark .modal-demo{background:#1f2937;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+.tab-demo{border-bottom:2px solid #e5e7eb;display:flex;gap:0}.tab-demo button{padding:.625rem 1.25rem;font-size:.875rem;font-weight:500;color:#6b7280;border-bottom:2px solid transparent;margin-bottom:-2px;transition:color .2s,border-color .2s;cursor:pointer;background:none}.tab-demo button:hover{color:#374151}.tab-demo button.active{color:#2563eb;border-bottom-color:#2563eb}.dark .tab-demo{border-color:#374151}.dark .tab-demo button{color:#9ca3af}.dark .tab-demo button:hover{color:#d1d5db}.dark .tab-demo button.active{color:#60a5fa;border-bottom-color:#60a5fa}
+.progress-bar-demo{height:8px;background:#e5e7eb;border-radius:9999px;overflow:hidden}.progress-bar-demo .fill{height:100%;border-radius:9999px;transition:width .6s ease}.dark .progress-bar-demo{background:#374151}
+.avatar-ring{box-shadow:0 0 0 3px #fff,0 0 0 5px #3b82f6}.dark .avatar-ring{box-shadow:0 0 0 3px #1f2937,0 0 0 5px #3b82f6}
+.badge-dot{position:relative}.badge-dot::after{content:'';position:absolute;top:-2px;right:-2px;width:8px;height:8px;background:#ef4444;border:2px solid #fff;border-radius:50%}.dark .badge-dot::after{border-color:#1f2937}
+
+</style>
 </head>
 <body class="bg-gray-50 text-gray-800 font-sans dark:bg-gray-900 dark:text-gray-100">
-<div id="sidebar-overlay" class="fixed inset-0 bg-black/40 z-40 hidden lg:hidden" onclick="toggleSidebar()"></div>
+<div id="sidebar-overlay" class="fixed inset-0 bg-black/40 z-40 hidden lg:hidden" onclick="window.toggleSidebar&&toggleSidebar()"></div>
 <div class="flex h-screen overflow-hidden">
-  <div id="sidebar-container"></div>
-  <div class="flex-1 flex flex-col overflow-hidden">
-    <div id="header-container"></div>
-    <main class="flex-1 overflow-y-auto overflow-x-hidden px-4 md:px-6 2xl:px-10 py-6" tabindex="-1">
-      <div class="mx-auto w-full max-w-screen-2xl">
-        <div class="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-          <div>
-            <div class="mb-2 flex items-center gap-2 text-sm text-gray-500">
-              <span>mtverse</span><span>/</span><span>ui-elements</span><span>/</span>
-              <span class="font-medium text-gray-800 dark:text-white/90">Progressbar</span>
-            </div>
-            <h1 class="text-2xl font-bold text-gray-900 dark:text-white/90">Progressbar</h1>
-            <p class="mt-1 max-w-2xl text-sm text-gray-500 dark:text-gray-400">Progress bars for usage, onboarding, upload, and goal tracking.</p>
-          </div>
-          <div class="flex flex-wrap gap-2">
-            <button type="button" class="rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 dark:border-gray-800 dark:bg-white/[0.03] dark:text-gray-300">Preview</button>
-            <button type="button" class="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700">Use Component</button>
-          </div>
-        </div>
-
-        <div class="grid grid-cols-1 gap-5 md:grid-cols-3">
-          <div class="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03]">
-            <p class="text-sm text-gray-500">Components</p><p class="mt-2 text-3xl font-bold text-gray-900 dark:text-white">24</p>
-          </div>
-          <div class="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03]">
-            <p class="text-sm text-gray-500">States</p><p class="mt-2 text-3xl font-bold text-gray-900 dark:text-white">96</p>
-          </div>
-          <div class="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03]">
-            <p class="text-sm text-gray-500">Responsive</p><p class="mt-2 text-3xl font-bold text-green-600">Ready</p>
-          </div>
-        </div>
-        <div class="mt-5 grid grid-cols-1 gap-5 xl:grid-cols-2">
-
-          <section class="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03]">
-            <h2 class="text-lg font-semibold text-gray-900 dark:text-white/90">Progress states</h2>
-            <div class="mt-5"><div class="space-y-5"><div><div class="mb-2 flex justify-between text-sm font-semibold"><span>Onboarding</span><span>72%</span></div><div class="h-3 rounded-full bg-gray-200"><span class="block h-3 rounded-full bg-blue-600" style="width:72%"></span></div></div><div><div class="mb-2 flex justify-between text-sm font-semibold"><span>Storage</span><span>54%</span></div><div class="h-3 rounded-full bg-gray-200"><span class="block h-3 rounded-full bg-blue-600" style="width:54%"></span></div></div><div><div class="mb-2 flex justify-between text-sm font-semibold"><span>Uploads</span><span>88%</span></div><div class="h-3 rounded-full bg-gray-200"><span class="block h-3 rounded-full bg-blue-600" style="width:88%"></span></div></div><div><div class="mb-2 flex justify-between text-sm font-semibold"><span>Security</span><span>42%</span></div><div class="h-3 rounded-full bg-gray-200"><span class="block h-3 rounded-full bg-blue-600" style="width:42%"></span></div></div></div></div>
-          </section>
-
-          <section class="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] xl:col-span-2">
-            <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-              <div>
-                <h2 class="text-lg font-semibold text-gray-900 dark:text-white/90">Progressbar production states</h2>
-                <p class="mt-1 text-sm text-gray-500">Real dashboard states with actions, accessibility, responsive layout, and clean spacing.</p>
-              </div>
-              <div class="inline-flex rounded-xl bg-gray-100 p-1 dark:bg-white/[0.04]">
-                <button class="rounded-lg bg-white px-4 py-2 text-sm font-bold text-blue-600 shadow-sm dark:bg-gray-900">Preview</button>
-                <button class="rounded-lg px-4 py-2 text-sm font-bold text-gray-500">Code</button>
-                <button class="rounded-lg px-4 py-2 text-sm font-bold text-gray-500">States</button>
-              </div>
-            </div>
-            <div class="mt-5 grid gap-4 md:grid-cols-3">
-              <div class="rounded-xl border border-gray-200 p-4 dark:border-gray-800"><div class="mb-4 flex items-center justify-between"><p class="font-bold">Default</p><span class="h-2.5 w-2.5 rounded-full bg-green-500"></span></div><div class="space-y-2"><div class="h-3 rounded bg-gray-100 dark:bg-white/[0.06]"></div><div class="h-3 w-3/4 rounded bg-gray-100 dark:bg-white/[0.06]"></div><button type="button" class="mt-3 rounded-lg bg-blue-600 px-3 py-2 text-xs font-bold text-white">Action</button></div></div><div class="rounded-xl border border-gray-200 p-4 dark:border-gray-800"><div class="mb-4 flex items-center justify-between"><p class="font-bold">Hover / active</p><span class="h-2.5 w-2.5 rounded-full bg-green-500"></span></div><div class="space-y-2"><div class="h-3 rounded bg-gray-100 dark:bg-white/[0.06]"></div><div class="h-3 w-3/4 rounded bg-gray-100 dark:bg-white/[0.06]"></div><button type="button" class="mt-3 rounded-lg bg-blue-600 px-3 py-2 text-xs font-bold text-white">Action</button></div></div><div class="rounded-xl border border-gray-200 p-4 dark:border-gray-800"><div class="mb-4 flex items-center justify-between"><p class="font-bold">Loading / empty</p><span class="h-2.5 w-2.5 rounded-full bg-yellow-400"></span></div><div class="space-y-2"><div class="h-3 rounded bg-gray-100 dark:bg-white/[0.06]"></div><div class="h-3 w-3/4 rounded bg-gray-100 dark:bg-white/[0.06]"></div><button type="button" class="mt-3 rounded-lg bg-blue-600 px-3 py-2 text-xs font-bold text-white">Action</button></div></div>
-            </div>
-          </section>
-        </div>
-      </div>
-    </main>
-  </div>
+<div id="sidebar-container"></div>
+<div class="flex-1 flex flex-col overflow-hidden">
+<div id="header-container"></div>
+<main class="flex-1 overflow-y-auto overflow-x-hidden px-4 md:px-6 2xl:px-10 py-6" tabindex="-1">
+<div class="mx-auto w-full max-w-screen-2xl"><div class="mb-6">
+<nav class="text-sm text-gray-500 dark:text-gray-400 mb-2" aria-label="Breadcrumb"><ol class="flex items-center gap-1.5"><li><a href="01-main-dashboard.html" class="hover:text-blue-600">Home</a></li><li class="before:content-['/'] before:mx-1.5 before:text-gray-300 dark:before:text-gray-600">UI Elements</li><li class="before:content-['/'] before:mx-1.5 before:text-gray-300 dark:before:text-gray-600 font-medium text-gray-800 dark:text-gray-200">Progress Bars</li></ol></nav>
+<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+<div><h1 class="text-2xl font-bold text-gray-900 dark:text-white">Progress Bars</h1><p class="text-gray-500 dark:text-gray-400 mt-1">10 progress bar variants with live preview and source code</p></div>
+<div class="flex gap-2"><div class="relative"><input type="text" id="componentSearch" placeholder="Search progress…" class="pl-9 pr-4 py-2 text-sm border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-56" oninput="initComponentSearch(this.value)"><svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg></div></div>
+</div>
+</div>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6"><div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 p-5">
+<div class="flex items-center justify-between mb-3"><span class="text-sm font-medium text-gray-500 dark:text-gray-400">Variants</span><span class="w-8 h-8 rounded-lg bg-blue-50 dark:bg-blue-900/30 flex items-center justify-center"><svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7"/></svg></span></div>
+<p class="text-2xl font-bold text-gray-900 dark:text-white" data-counter="10">0</p><p class="text-xs text-green-600 font-medium mt-1">4 categories</p>
+</div><div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 p-5">
+<div class="flex items-center justify-between mb-3"><span class="text-sm font-medium text-gray-500 dark:text-gray-400">States</span><span class="w-8 h-8 rounded-lg bg-emerald-50 dark:bg-emerald-900/30 flex items-center justify-center"><svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></span></div>
+<p class="text-2xl font-bold text-gray-900 dark:text-white" data-counter="30">0</p><p class="text-xs text-green-600 font-medium mt-1">static/animated/loading</p>
+</div><div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 p-5">
+<div class="flex items-center justify-between mb-3"><span class="text-sm font-medium text-gray-500 dark:text-gray-400">Styles</span><span class="w-8 h-8 rounded-lg bg-violet-50 dark:bg-violet-900/30 flex items-center justify-center"><svg class="w-4 h-4 text-violet-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"/></svg></span></div>
+<p class="text-2xl font-bold text-gray-900 dark:text-white" data-counter="4">0</p><p class="text-xs text-green-600 font-medium mt-1">linear/circular/stepper</p>
+</div><div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 p-5">
+<div class="flex items-center justify-between mb-3"><span class="text-sm font-medium text-gray-500 dark:text-gray-400">Responsive</span><span class="w-8 h-8 rounded-lg bg-amber-50 dark:bg-amber-900/30 flex items-center justify-center"><svg class="w-4 h-4 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg></span></div>
+<p class="text-2xl font-bold text-gray-900 dark:text-white" >100%</p><p class="text-xs text-green-600 font-medium mt-1">Mobile ready</p>
+</div></div><div class="flex flex-wrap gap-2 mb-6" id="categoryFilter"><button class="px-3 py-1.5 text-sm font-medium rounded-lg bg-blue-600 text-white shadow-sm" data-category="all" onclick="initCategoryFilter('all',this)">All</button><button class="px-3 py-1.5 text-sm font-medium rounded-lg bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700" data-category="basic" onclick="initCategoryFilter('basic',this)">Basic</button><button class="px-3 py-1.5 text-sm font-medium rounded-lg bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700" data-category="style" onclick="initCategoryFilter('style',this)">Style</button><button class="px-3 py-1.5 text-sm font-medium rounded-lg bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700" data-category="data" onclick="initCategoryFilter('data',this)">Data</button></div><div class="grid grid-cols-1 lg:grid-cols-2 gap-6" id="componentGrid"><div class="component-item" data-category="basic" data-title="Basic Progress Bars">
+<div class="component-item-header"><div><h3 class="font-semibold text-gray-900 dark:text-white">Basic Progress Bars</h3><p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Standard horizontal progress indicators</p></div><span class="text-[10px] font-medium px-2 py-0.5 rounded-full bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300">Basic</span></div>
+<div class="component-item-preview" data-source-id="basic-progress-bars" data-source-code="&lt;div class=&quot;progress-bar&quot;&gt;
+  &lt;div class=&quot;flex justify-between text-sm mb-1&quot;&gt;
+    &lt;span&gt;Storage Used&lt;/span&gt;
+    &lt;span&gt;73%&lt;/span&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;h-2 bg-gray-200 rounded-full overflow-hidden&quot;&gt;
+    &lt;div class=&quot;h-full bg-blue-600 rounded-full&quot; style=&quot;width:73%&quot;&gt;&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;"><div class="w-full space-y-4">
+<div><div class="flex justify-between text-sm mb-1"><span class="text-gray-600 dark:text-gray-400">Storage Used</span><span class="font-medium text-gray-900 dark:text-white">73%</span></div><div class="progress-bar-demo"><div class="fill bg-blue-600" style="width:73%"></div></div></div>
+<div><div class="flex justify-between text-sm mb-1"><span class="text-gray-600 dark:text-gray-400">Upload Progress</span><span class="font-medium text-gray-900 dark:text-white">45%</span></div><div class="progress-bar-demo"><div class="fill bg-green-600" style="width:45%"></div></div></div>
+<div><div class="flex justify-between text-sm mb-1"><span class="text-gray-600 dark:text-gray-400">Memory Usage</span><span class="font-medium text-gray-900 dark:text-white">91%</span></div><div class="progress-bar-demo"><div class="fill bg-red-600" style="width:91%"></div></div></div>
+</div></div>
+<div class="component-item-actions"><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="openSourceViewer(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>View Source</button><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="copySourceCode(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>Copy</button></div>
+</div>
+<div class="component-item" data-category="style" data-title="Striped / Animated Progress">
+<div class="component-item-header"><div><h3 class="font-semibold text-gray-900 dark:text-white">Striped / Animated Progress</h3><p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Progress bars with stripe and animation effects</p></div><span class="text-[10px] font-medium px-2 py-0.5 rounded-full bg-violet-50 dark:bg-violet-900/30 text-violet-700 dark:text-violet-300">Style</span></div>
+<div class="component-item-preview" data-source-id="striped--animated-progress" data-source-code="&lt;div class=&quot;progress-bar h-3&quot;&gt;
+  &lt;div class=&quot;fill bg-blue-600&quot; style=&quot;width:65%;
+    background: repeating-linear-gradient(45deg,transparent,transparent 10px,rgba(255,255,255,.15) 10px,rgba(255,255,255,.15) 20px)&quot;&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;style&gt;
+@keyframes progressStripe {
+  0% { background-position: 0 0; }
+  100% { background-position: 28px 0; }
+}
+&lt;/style&gt;"><div class="w-full space-y-4">
+<div><div class="progress-bar-demo h-3"><div class="fill bg-blue-600" style="width:65%;background:repeating-linear-gradient(45deg,transparent,transparent 10px,rgba(255,255,255,.15) 10px,rgba(255,255,255,.15) 20px)"></div></div><p class="text-xs text-gray-500 mt-1">Striped — 65%</p></div>
+<div><div class="progress-bar-demo h-3"><div class="fill bg-green-600" style="width:80%;background:repeating-linear-gradient(45deg,transparent,transparent 10px,rgba(255,255,255,.15) 10px,rgba(255,255,255,.15) 20px);background-size:28px 28px;animation:progressStripe 1s linear infinite"></div></div><p class="text-xs text-gray-500 mt-1">Animated Stripe — 80%</p></div>
+</div></div>
+<div class="component-item-actions"><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="openSourceViewer(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>View Source</button><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="copySourceCode(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>Copy</button></div>
+</div>
+<div class="component-item" data-category="style" data-title="Circular / Radial Progress">
+<div class="component-item-header"><div><h3 class="font-semibold text-gray-900 dark:text-white">Circular / Radial Progress</h3><p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">SVG-based circular progress indicators</p></div><span class="text-[10px] font-medium px-2 py-0.5 rounded-full bg-violet-50 dark:bg-violet-900/30 text-violet-700 dark:text-violet-300">Style</span></div>
+<div class="component-item-preview" data-source-id="circular--radial-progress" data-source-code="&lt;svg class=&quot;w-20 h-20 -rotate-90&quot; viewBox=&quot;0 0 36 36&quot;&gt;
+  &lt;circle cx=&quot;18&quot; cy=&quot;18&quot; r=&quot;15.9&quot; fill=&quot;none&quot; stroke=&quot;#e5e7eb&quot; stroke-width=&quot;3&quot;/&gt;
+  &lt;circle cx=&quot;18&quot; cy=&quot;18&quot; r=&quot;15.9&quot; fill=&quot;none&quot; stroke=&quot;#3b82f6&quot; stroke-width=&quot;3&quot;
+    stroke-dasharray=&quot;75 25&quot; stroke-linecap=&quot;round&quot;/&gt;
+&lt;/svg&gt;
+&lt;p&gt;75%&lt;/p&gt;"><div class="flex flex-wrap gap-6 items-center">
+<div class="text-center"><svg class="w-20 h-20 -rotate-90" viewBox="0 0 36 36"><circle cx="18" cy="18" r="15.9" fill="none" stroke="#e5e7eb" stroke-width="3"/><circle cx="18" cy="18" r="15.9" fill="none" stroke="#3b82f6" stroke-width="3" stroke-dasharray="75 25" stroke-linecap="round" class="dark:stroke-blue-400"/></svg><p class="text-sm font-semibold text-gray-900 dark:text-white mt-1">75%</p><p class="text-xs text-gray-500">Storage</p></div>
+<div class="text-center"><svg class="w-20 h-20 -rotate-90" viewBox="0 0 36 36"><circle cx="18" cy="18" r="15.9" fill="none" stroke="#e5e7eb" stroke-width="3"/><circle cx="18" cy="18" r="15.9" fill="none" stroke="#10b981" stroke-width="3" stroke-dasharray="45 55" stroke-linecap="round"/></svg><p class="text-sm font-semibold text-gray-900 dark:text-white mt-1">45%</p><p class="text-xs text-gray-500">CPU</p></div>
+<div class="text-center"><svg class="w-20 h-20 -rotate-90" viewBox="0 0 36 36"><circle cx="18" cy="18" r="15.9" fill="none" stroke="#e5e7eb" stroke-width="3"/><circle cx="18" cy="18" r="15.9" fill="none" stroke="#f59e0b" stroke-width="3" stroke-dasharray="60 40" stroke-linecap="round"/></svg><p class="text-sm font-semibold text-gray-900 dark:text-white mt-1">60%</p><p class="text-xs text-gray-500">Memory</p></div>
+<div class="text-center"><svg class="w-20 h-20 -rotate-90" viewBox="0 0 36 36"><circle cx="18" cy="18" r="15.9" fill="none" stroke="#e5e7eb" stroke-width="3"/><circle cx="18" cy="18" r="15.9" fill="none" stroke="#ef4444" stroke-width="3" stroke-dasharray="92 8" stroke-linecap="round"/></svg><p class="text-sm font-semibold text-gray-900 dark:text-white mt-1">92%</p><p class="text-xs text-gray-500">Disk</p></div>
+</div></div>
+<div class="component-item-actions"><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="openSourceViewer(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>View Source</button><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="copySourceCode(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>Copy</button></div>
+</div>
+<div class="component-item" data-category="data" data-title="Multi-segment Progress">
+<div class="component-item-header"><div><h3 class="font-semibold text-gray-900 dark:text-white">Multi-segment Progress</h3><p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Stacked progress with multiple segments</p></div><span class="text-[10px] font-medium px-2 py-0.5 rounded-full bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-300">Data</span></div>
+<div class="component-item-preview" data-source-id="multi-segment-progress" data-source-code="&lt;div class=&quot;h-4 bg-gray-200 rounded-lg overflow-hidden&quot;&gt;
+  &lt;div class=&quot;flex h-full&quot;&gt;
+    &lt;div class=&quot;bg-green-500&quot; style=&quot;width:40%&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;bg-blue-500&quot; style=&quot;width:25%&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;bg-amber-500&quot; style=&quot;width:15%&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;bg-gray-300&quot; style=&quot;width:20%&quot;&gt;&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;"><div class="w-full space-y-4">
+<div><div class="flex justify-between text-sm mb-1"><span class="text-gray-600 dark:text-gray-400">Sprint Progress</span></div><div class="progress-bar-demo h-4 !rounded-lg"><div class="flex h-full rounded-lg overflow-hidden"><div class="bg-green-500" style="width:40%"></div><div class="bg-blue-500" style="width:25%"></div><div class="bg-amber-500" style="width:15%"></div><div class="bg-gray-300 dark:bg-gray-600" style="width:20%"></div></div></div><div class="flex gap-4 mt-2 text-xs"><span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-green-500"></span>Done 40%</span><span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-blue-500"></span>In Progress 25%</span><span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-amber-500"></span>Review 15%</span><span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-gray-300 dark:bg-gray-600"></span>Todo 20%</span></div></div>
+</div></div>
+<div class="component-item-actions"><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="openSourceViewer(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>View Source</button><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="copySourceCode(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>Copy</button></div>
+</div>
+<div class="component-item" data-category="data" data-title="Step Progress / Stepper">
+<div class="component-item-header"><div><h3 class="font-semibold text-gray-900 dark:text-white">Step Progress / Stepper</h3><p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Multi-step process progress indicator</p></div><span class="text-[10px] font-medium px-2 py-0.5 rounded-full bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-300">Data</span></div>
+<div class="component-item-preview" data-source-id="step-progress--stepper" data-source-code="&lt;div class=&quot;flex items-center&quot;&gt;
+  &lt;div class=&quot;step completed&quot;&gt;&lt;span&gt;✓&lt;/span&gt;Cart&lt;/div&gt;
+  &lt;div class=&quot;flex-1 h-0.5 bg-green-600&quot;&gt;&lt;/div&gt;
+  &lt;div class=&quot;step completed&quot;&gt;&lt;span&gt;✓&lt;/span&gt;Shipping&lt;/div&gt;
+  &lt;div class=&quot;flex-1 h-0.5 bg-blue-600&quot;&gt;&lt;/div&gt;
+  &lt;div class=&quot;step current&quot;&gt;&lt;span&gt;3&lt;/span&gt;Payment&lt;/div&gt;
+  &lt;div class=&quot;flex-1 h-0.5 bg-gray-200&quot;&gt;&lt;/div&gt;
+  &lt;div class=&quot;step&quot;&gt;&lt;span&gt;4&lt;/span&gt;Confirm&lt;/div&gt;
+&lt;/div&gt;"><div class="w-full"><div class="flex items-center"><div class="flex flex-col items-center"><span class="w-8 h-8 rounded-full bg-green-600 text-white text-sm flex items-center justify-center font-medium"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg></span><span class="text-xs font-medium text-green-600 mt-1">Cart</span></div><div class="flex-1 h-0.5 bg-green-600"></div><div class="flex flex-col items-center"><span class="w-8 h-8 rounded-full bg-green-600 text-white text-sm flex items-center justify-center font-medium"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg></span><span class="text-xs font-medium text-green-600 mt-1">Shipping</span></div><div class="flex-1 h-0.5 bg-blue-600"></div><div class="flex flex-col items-center"><span class="w-8 h-8 rounded-full bg-blue-600 text-white text-sm flex items-center justify-center font-medium">3</span><span class="text-xs font-medium text-blue-600 mt-1">Payment</span></div><div class="flex-1 h-0.5 bg-gray-200 dark:bg-gray-700"></div><div class="flex flex-col items-center"><span class="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-500 dark:text-gray-400 text-sm flex items-center justify-center font-medium">4</span><span class="text-xs font-medium text-gray-400 mt-1">Confirm</span></div></div></div></div>
+<div class="component-item-actions"><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="openSourceViewer(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>View Source</button><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="copySourceCode(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>Copy</button></div>
+</div>
+<div class="component-item" data-category="basic" data-title="Thin / Slim Progress">
+<div class="component-item-header"><div><h3 class="font-semibold text-gray-900 dark:text-white">Thin / Slim Progress</h3><p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Minimal thin progress bars for inline use</p></div><span class="text-[10px] font-medium px-2 py-0.5 rounded-full bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300">Basic</span></div>
+<div class="component-item-preview" data-source-id="thin--slim-progress" data-source-code="&lt;div class=&quot;flex items-center gap-3&quot;&gt;
+  &lt;span class=&quot;text-xs w-20&quot;&gt;React&lt;/span&gt;
+  &lt;div class=&quot;flex-1 h-1.5 bg-gray-200 rounded-full&quot;&gt;
+    &lt;div class=&quot;h-full bg-blue-600 rounded-full&quot; style=&quot;width:90%&quot;&gt;&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;span class=&quot;text-xs w-8 text-right&quot;&gt;90%&lt;/span&gt;
+&lt;/div&gt;"><div class="w-full space-y-3">
+<div class="flex items-center gap-3"><span class="text-xs text-gray-600 dark:text-gray-400 w-20">React</span><div class="flex-1 h-1.5 bg-gray-200 dark:bg-gray-700 rounded-full"><div class="h-full bg-blue-600 rounded-full" style="width:90%"></div></div><span class="text-xs font-medium text-gray-900 dark:text-white w-8 text-right">90%</span></div>
+<div class="flex items-center gap-3"><span class="text-xs text-gray-600 dark:text-gray-400 w-20">TypeScript</span><div class="flex-1 h-1.5 bg-gray-200 dark:bg-gray-700 rounded-full"><div class="h-full bg-blue-600 rounded-full" style="width:78%"></div></div><span class="text-xs font-medium text-gray-900 dark:text-white w-8 text-right">78%</span></div>
+<div class="flex items-center gap-3"><span class="text-xs text-gray-600 dark:text-gray-400 w-20">Python</span><div class="flex-1 h-1.5 bg-gray-200 dark:bg-gray-700 rounded-full"><div class="h-full bg-green-600 rounded-full" style="width:65%"></div></div><span class="text-xs font-medium text-gray-900 dark:text-white w-8 text-right">65%</span></div>
+<div class="flex items-center gap-3"><span class="text-xs text-gray-600 dark:text-gray-400 w-20">Rust</span><div class="flex-1 h-1.5 bg-gray-200 dark:bg-gray-700 rounded-full"><div class="h-full bg-amber-500 rounded-full" style="width:35%"></div></div><span class="text-xs font-medium text-gray-900 dark:text-white w-8 text-right">35%</span></div>
+</div></div>
+<div class="component-item-actions"><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="openSourceViewer(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>View Source</button><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="copySourceCode(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>Copy</button></div>
+</div>
+<div class="component-item" data-category="style" data-title="Progress with Label Inside">
+<div class="component-item-header"><div><h3 class="font-semibold text-gray-900 dark:text-white">Progress with Label Inside</h3><p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Progress bars with text inside the bar</p></div><span class="text-[10px] font-medium px-2 py-0.5 rounded-full bg-violet-50 dark:bg-violet-900/30 text-violet-700 dark:text-violet-300">Style</span></div>
+<div class="component-item-preview" data-source-id="progress-with-label-inside" data-source-code="&lt;div class=&quot;h-6 bg-gray-200 rounded-lg overflow-hidden&quot;&gt;
+  &lt;div class=&quot;h-full bg-blue-600 rounded-lg flex items-center justify-end pr-2&quot; style=&quot;width:68%&quot;&gt;
+    &lt;span class=&quot;text-xs font-medium text-white&quot;&gt;68%&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/div&gt;"><div class="w-full space-y-3">
+<div class="progress-bar-demo h-6 !rounded-lg"><div class="fill bg-blue-600 rounded-lg flex items-center justify-end pr-2" style="width:68%"><span class="text-xs font-medium text-white">68%</span></div></div>
+<div class="progress-bar-demo h-6 !rounded-lg"><div class="fill bg-green-600 rounded-lg flex items-center justify-end pr-2" style="width:45%"><span class="text-xs font-medium text-white">45%</span></div></div>
+<div class="progress-bar-demo h-6 !rounded-lg"><div class="fill bg-red-600 rounded-lg flex items-center justify-end pr-2" style="width:88%"><span class="text-xs font-medium text-white">88%</span></div></div>
+</div></div>
+<div class="component-item-actions"><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="openSourceViewer(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>View Source</button><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="copySourceCode(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>Copy</button></div>
+</div>
+<div class="component-item" data-category="basic" data-title="Color Variants">
+<div class="component-item-header"><div><h3 class="font-semibold text-gray-900 dark:text-white">Color Variants</h3><p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Progress bars in different semantic colors</p></div><span class="text-[10px] font-medium px-2 py-0.5 rounded-full bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300">Basic</span></div>
+<div class="component-item-preview" data-source-id="color-variants" data-source-code="&lt;div class=&quot;h-2 bg-gray-200 rounded-full overflow-hidden&quot;&gt;
+  &lt;div class=&quot;h-full bg-blue-600 rounded-full&quot; style=&quot;width:70%&quot;&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;!-- Use bg-green-600, bg-amber-500, bg-red-600, bg-purple-600 --&gt;"><div class="w-full space-y-3">
+<div class="progress-bar-demo"><div class="fill bg-blue-600" style="width:70%"></div></div><p class="text-xs text-gray-500">Blue — Default (70%)</p>
+<div class="progress-bar-demo"><div class="fill bg-green-600" style="width:55%"></div></div><p class="text-xs text-gray-500">Green — Success (55%)</p>
+<div class="progress-bar-demo"><div class="fill bg-amber-500" style="width:80%"></div></div><p class="text-xs text-gray-500">Amber — Warning (80%)</p>
+<div class="progress-bar-demo"><div class="fill bg-red-600" style="width:95%"></div></div><p class="text-xs text-gray-500">Red — Danger (95%)</p>
+<div class="progress-bar-demo"><div class="fill bg-purple-600" style="width:40%"></div></div><p class="text-xs text-gray-500">Purple — Info (40%)</p>
+</div></div>
+<div class="component-item-actions"><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="openSourceViewer(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>View Source</button><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="copySourceCode(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>Copy</button></div>
+</div>
+<div class="component-item" data-category="data" data-title="Skeleton Loading Bars">
+<div class="component-item-header"><div><h3 class="font-semibold text-gray-900 dark:text-white">Skeleton Loading Bars</h3><p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Placeholder progress indicators for loading states</p></div><span class="text-[10px] font-medium px-2 py-0.5 rounded-full bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-300">Data</span></div>
+<div class="component-item-preview" data-source-id="skeleton-loading-bars" data-source-code="&lt;div class=&quot;space-y-3&quot;&gt;
+  &lt;div class=&quot;h-3 bg-gray-200 rounded-full w-full animate-pulse&quot;&gt;&lt;/div&gt;
+  &lt;div class=&quot;h-3 bg-gray-200 rounded-full w-4/5 animate-pulse&quot;&gt;&lt;/div&gt;
+  &lt;div class=&quot;h-3 bg-gray-200 rounded-full w-3/5 animate-pulse&quot;&gt;&lt;/div&gt;
+  &lt;div class=&quot;h-8 bg-gray-200 rounded-lg w-2/5 animate-pulse&quot;&gt;&lt;/div&gt;
+&lt;/div&gt;"><div class="w-full space-y-3">
+<div class="h-3 bg-gray-200 dark:bg-gray-700 rounded-full w-full animate-pulse"></div>
+<div class="h-3 bg-gray-200 dark:bg-gray-700 rounded-full w-4/5 animate-pulse"></div>
+<div class="h-3 bg-gray-200 dark:bg-gray-700 rounded-full w-3/5 animate-pulse"></div>
+<div class="h-8 bg-gray-200 dark:bg-gray-700 rounded-lg w-2/5 animate-pulse mt-2"></div>
+</div></div>
+<div class="component-item-actions"><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="openSourceViewer(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>View Source</button><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="copySourceCode(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>Copy</button></div>
+</div>
+<div class="component-item" data-category="data" data-title="Dashboard Metric Cards">
+<div class="component-item-header"><div><h3 class="font-semibold text-gray-900 dark:text-white">Dashboard Metric Cards</h3><p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Cards combining metrics with progress indicators</p></div><span class="text-[10px] font-medium px-2 py-0.5 rounded-full bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-300">Data</span></div>
+<div class="component-item-preview" data-source-id="dashboard-metric-cards" data-source-code="&lt;div class=&quot;p-4 bg-white border rounded-xl&quot;&gt;
+  &lt;span class=&quot;text-xs text-gray-500&quot;&gt;Revenue&lt;/span&gt;
+  &lt;p class=&quot;text-xl font-bold&quot;&gt;$48,250&lt;/p&gt;
+  &lt;div class=&quot;mt-2 h-1.5 bg-gray-200 rounded-full&quot;&gt;
+    &lt;div class=&quot;h-full bg-green-500 rounded-full&quot; style=&quot;width:72%&quot;&gt;&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;"><div class="w-full grid grid-cols-2 gap-3">
+<div class="p-4 bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-xl"><div class="flex items-center justify-between mb-2"><span class="text-xs text-gray-500 dark:text-gray-400">Revenue</span><span class="text-xs font-medium text-green-600">+12%</span></div><p class="text-xl font-bold text-gray-900 dark:text-white">$48,250</p><div class="mt-2 progress-bar-demo h-1.5"><div class="fill bg-green-500" style="width:72%"></div></div></div>
+<div class="p-4 bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-xl"><div class="flex items-center justify-between mb-2"><span class="text-xs text-gray-500 dark:text-gray-400">Users</span><span class="text-xs font-medium text-blue-600">+8%</span></div><p class="text-xl font-bold text-gray-900 dark:text-white">12,480</p><div class="mt-2 progress-bar-demo h-1.5"><div class="fill bg-blue-500" style="width:58%"></div></div></div>
+<div class="p-4 bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-xl"><div class="flex items-center justify-between mb-2"><span class="text-xs text-gray-500 dark:text-gray-400">Orders</span><span class="text-xs font-medium text-amber-600">-3%</span></div><p class="text-xl font-bold text-gray-900 dark:text-white">1,284</p><div class="mt-2 progress-bar-demo h-1.5"><div class="fill bg-amber-500" style="width:45%"></div></div></div>
+<div class="p-4 bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-xl"><div class="flex items-center justify-between mb-2"><span class="text-xs text-gray-500 dark:text-gray-400">Conversion</span><span class="text-xs font-medium text-purple-600">+5%</span></div><p class="text-xl font-bold text-gray-900 dark:text-white">3.24%</p><div class="mt-2 progress-bar-demo h-1.5"><div class="fill bg-purple-500" style="width:32%"></div></div></div>
+</div></div>
+<div class="component-item-actions"><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="openSourceViewer(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>View Source</button><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="copySourceCode(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>Copy</button></div>
+</div></div></div>
+</main>
+</div>
 </div>
 <script src="common-loader.js"></script>
 <script src="common-sidebar.js"></script>
 <script src="common-header.js"></script>
 <script src="app-shell.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){document.querySelectorAll('[data-counter]').forEach(function(el){var target=parseInt(el.dataset.counter);var duration=1200;var start=0;var startTime=null;function step(ts){if(!startTime)startTime=ts;var p=Math.min((ts-startTime)/duration,1);el.textContent=Math.floor(p*target);if(p<1)requestAnimationFrame(step);else el.textContent=target;}requestAnimationFrame(step);});});
+</script>
+<style>
+@keyframes progressStripe{0%{background-position:0 0}100%{background-position:28px 0}}
+</style>
 </body>
 </html>

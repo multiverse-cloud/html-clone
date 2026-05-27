@@ -1,88 +1,586 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#465fff" />
-  <meta name="description" content="Button variants with icons, loading states, destructive actions, and segmented controls." />
-  <title>Buttons - mtverse</title>
-  <style>
-    .no-scrollbar::-webkit-scrollbar { display: none; }
-    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-    @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
-    .animate-slideDown { animation: slideDown 0.2s ease-out; }
-  </style>
-  <link rel="stylesheet" href="tailwind-production.css">
-  <link rel="stylesheet" href="pro-styles.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Buttons — UI Elements</title>
+<style>::-webkit-scrollbar{width:6px;height:6px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:3px}::-webkit-scrollbar-thumb:hover{background:#94a3b8}@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}</style>
+<link rel="stylesheet" href="tailwind-production.css">
+<link rel="stylesheet" href="pro-styles.css">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+.btn-3d{transform:translateY(0);box-shadow:0 4px 0 0 rgba(0,0,0,.25);transition:transform .1s,box-shadow .1s}.btn-3d:active{transform:translateY(3px);box-shadow:0 1px 0 0 rgba(0,0,0,.25)}
+.btn-shimmer{position:relative;overflow:hidden}.btn-shimmer::after{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.25),transparent);animation:shimmer 2s infinite}@keyframes shimmer{100%{left:100%}}
+@keyframes btnPulse{0%,100%{box-shadow:0 0 0 0 rgba(59,130,246,.5)}50%{box-shadow:0 0 0 8px rgba(59,130,246,0)}}
+.btn-pulse{animation:btnPulse 2s infinite}
+.component-item{border:1px solid #e5e7eb;border-radius:.75rem;overflow:hidden;background:#fff;transition:box-shadow .2s,border-color .2s}.component-item:hover{box-shadow:0 4px 12px rgba(0,0,0,.08);border-color:#cbd5e1}
+.dark .component-item{border-color:#374151;background:#1f2937}.dark .component-item:hover{border-color:#4b5563;box-shadow:0 4px 12px rgba(0,0,0,.3)}
+.component-item-header{padding:1rem 1.25rem;border-bottom:1px solid #f3f4f6;display:flex;align-items:center;justify-content:space-between}.dark .component-item-header{border-color:#374151}
+.component-item-preview{padding:1.5rem;display:flex;flex-wrap:wrap;gap:.75rem;align-items:center;min-height:80px}
+.component-item-actions{padding:.75rem 1.25rem;border-top:1px solid #f3f4f6;display:flex;gap:.5rem}.dark .component-item-actions{border-color:#374151}
+</style>
+<script src="https://sites.super.myninja.ai/_assets/ninja-daytona-script.js"></script>
 </head>
 <body class="bg-gray-50 text-gray-800 font-sans dark:bg-gray-900 dark:text-gray-100">
-<div id="sidebar-overlay" class="fixed inset-0 bg-black/40 z-40 hidden lg:hidden" onclick="toggleSidebar()"></div>
+<div id="sidebar-overlay" class="fixed inset-0 bg-black/40 z-40 hidden lg:hidden" onclick="window.toggleSidebar&&toggleSidebar()"></div>
 <div class="flex h-screen overflow-hidden">
-  <div id="sidebar-container"></div>
-  <div class="flex-1 flex flex-col overflow-hidden">
-    <div id="header-container"></div>
-    <main class="flex-1 overflow-y-auto overflow-x-hidden px-4 md:px-6 2xl:px-10 py-6" tabindex="-1">
-      <div class="mx-auto w-full max-w-screen-2xl">
-        <div class="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-          <div>
-            <div class="mb-2 flex items-center gap-2 text-sm text-gray-500">
-              <span>mtverse</span><span>/</span><span>ui-elements</span><span>/</span>
-              <span class="font-medium text-gray-800 dark:text-white/90">Buttons</span>
-            </div>
-            <h1 class="text-2xl font-bold text-gray-900 dark:text-white/90">Buttons</h1>
-            <p class="mt-1 max-w-2xl text-sm text-gray-500 dark:text-gray-400">Button variants with icons, loading states, destructive actions, and segmented controls.</p>
-          </div>
-          <div class="flex flex-wrap gap-2">
-            <button type="button" class="rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 dark:border-gray-800 dark:bg-white/[0.03] dark:text-gray-300">Preview</button>
-            <button type="button" class="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700">Use Component</button>
-          </div>
-        </div>
+<div id="sidebar-container"></div>
+<div class="flex-1 flex flex-col overflow-hidden">
+<div id="header-container"></div>
+<main class="flex-1 overflow-y-auto overflow-x-hidden px-4 md:px-6 2xl:px-10 py-6" tabindex="-1">
+<div class="mx-auto w-full max-w-screen-2xl">
 
-        <div class="grid grid-cols-1 gap-5 md:grid-cols-3">
-          <div class="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03]">
-            <p class="text-sm text-gray-500">Components</p><p class="mt-2 text-3xl font-bold text-gray-900 dark:text-white">24</p>
-          </div>
-          <div class="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03]">
-            <p class="text-sm text-gray-500">States</p><p class="mt-2 text-3xl font-bold text-gray-900 dark:text-white">96</p>
-          </div>
-          <div class="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03]">
-            <p class="text-sm text-gray-500">Responsive</p><p class="mt-2 text-3xl font-bold text-green-600">Ready</p>
-          </div>
-        </div>
-        <div class="mt-5 grid grid-cols-1 gap-5 xl:grid-cols-2">
+<!-- Page Header -->
+<div class="mb-6">
+<nav class="text-sm text-gray-500 dark:text-gray-400 mb-2" aria-label="Breadcrumb"><ol class="flex items-center gap-1.5"><li><a href="01-main-dashboard.html" class="hover:text-blue-600">Home</a></li><li class="before:content-['/'] before:mx-1.5 before:text-gray-300 dark:before:text-gray-600">UI Elements</li><li class="before:content-['/'] before:mx-1.5 before:text-gray-300 dark:before:text-gray-600 font-medium text-gray-800 dark:text-gray-200">Buttons</li></ol></nav>
+<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+<div><h1 class="text-2xl font-bold text-gray-900 dark:text-white">Buttons</h1><p class="text-gray-500 dark:text-gray-400 mt-1">54 component variants across 12 categories with live preview and source code</p></div>
+<div class="flex gap-2"><div class="relative"><input type="text" id="componentSearch" placeholder="Search buttons…" class="pl-9 pr-4 py-2 text-sm border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-56" oninput="initComponentSearch(this.value)"><svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg></div></div>
+</div>
+</div>
 
-          <section class="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03]">
-            <h2 class="text-lg font-semibold text-gray-900 dark:text-white/90">Action buttons</h2>
-            <div class="mt-5"><div class="flex flex-wrap gap-3"><button type="button" class="rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white">Primary</button><button class="rounded-lg border border-gray-200 px-4 py-2 text-sm font-semibold">Secondary</button><button class="rounded-lg bg-green-600 px-4 py-2 text-sm font-semibold text-white">Save</button><button class="rounded-lg bg-red-600 px-4 py-2 text-sm font-semibold text-white">Delete</button><button class="is-busy rounded-lg bg-gray-900 px-4 py-2 text-sm font-semibold text-white">Loading</button></div></div>
-          </section>
+<!-- Stat Cards -->
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+<div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 p-5">
+<div class="flex items-center justify-between mb-3"><span class="text-sm font-medium text-gray-500 dark:text-gray-400">Components</span><span class="w-8 h-8 rounded-lg bg-blue-50 dark:bg-blue-900/30 flex items-center justify-center"><svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7"/></svg></span></div>
+<p class="text-2xl font-bold text-gray-900 dark:text-white" data-counter="54">0</p><p class="text-xs text-green-600 font-medium mt-1">12 categories</p>
+</div>
+<div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 p-5">
+<div class="flex items-center justify-between mb-3"><span class="text-sm font-medium text-gray-500 dark:text-gray-400">States</span><span class="w-8 h-8 rounded-lg bg-emerald-50 dark:bg-emerald-900/30 flex items-center justify-center"><svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></span></div>
+<p class="text-2xl font-bold text-gray-900 dark:text-white" data-counter="216">0</p><p class="text-xs text-green-600 font-medium mt-1">with hover/focus/active</p>
+</div>
+<div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 p-5">
+<div class="flex items-center justify-between mb-3"><span class="text-sm font-medium text-gray-500 dark:text-gray-400">Variants</span><span class="w-8 h-8 rounded-lg bg-violet-50 dark:bg-violet-900/30 flex items-center justify-center"><svg class="w-4 h-4 text-violet-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"/></svg></span></div>
+<p class="text-2xl font-bold text-gray-900 dark:text-white" data-counter="12">0</p><p class="text-xs text-green-600 font-medium mt-1">unique styles</p>
+</div>
+<div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 p-5">
+<div class="flex items-center justify-between mb-3"><span class="text-sm font-medium text-gray-500 dark:text-gray-400">Responsive</span><span class="w-8 h-8 rounded-lg bg-amber-50 dark:bg-amber-900/30 flex items-center justify-center"><svg class="w-4 h-4 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg></span></div>
+<p class="text-2xl font-bold text-gray-900 dark:text-white">100%</p><p class="text-xs text-green-600 font-medium mt-1">Mobile ready</p>
+</div>
+</div>
 
-          <section class="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] xl:col-span-2">
-            <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-              <div>
-                <h2 class="text-lg font-semibold text-gray-900 dark:text-white/90">Buttons production states</h2>
-                <p class="mt-1 text-sm text-gray-500">Real dashboard states with actions, accessibility, responsive layout, and clean spacing.</p>
-              </div>
-              <div class="inline-flex rounded-xl bg-gray-100 p-1 dark:bg-white/[0.04]">
-                <button class="rounded-lg bg-white px-4 py-2 text-sm font-bold text-blue-600 shadow-sm dark:bg-gray-900">Preview</button>
-                <button class="rounded-lg px-4 py-2 text-sm font-bold text-gray-500">Code</button>
-                <button class="rounded-lg px-4 py-2 text-sm font-bold text-gray-500">States</button>
-              </div>
-            </div>
-            <div class="mt-5 grid gap-4 md:grid-cols-3">
-              <div class="rounded-xl border border-gray-200 p-4 dark:border-gray-800"><div class="mb-4 flex items-center justify-between"><p class="font-bold">Default</p><span class="h-2.5 w-2.5 rounded-full bg-green-500"></span></div><div class="space-y-2"><div class="h-3 rounded bg-gray-100 dark:bg-white/[0.06]"></div><div class="h-3 w-3/4 rounded bg-gray-100 dark:bg-white/[0.06]"></div><button type="button" class="mt-3 rounded-lg bg-blue-600 px-3 py-2 text-xs font-bold text-white">Action</button></div></div><div class="rounded-xl border border-gray-200 p-4 dark:border-gray-800"><div class="mb-4 flex items-center justify-between"><p class="font-bold">Hover / active</p><span class="h-2.5 w-2.5 rounded-full bg-green-500"></span></div><div class="space-y-2"><div class="h-3 rounded bg-gray-100 dark:bg-white/[0.06]"></div><div class="h-3 w-3/4 rounded bg-gray-100 dark:bg-white/[0.06]"></div><button type="button" class="mt-3 rounded-lg bg-blue-600 px-3 py-2 text-xs font-bold text-white">Action</button></div></div><div class="rounded-xl border border-gray-200 p-4 dark:border-gray-800"><div class="mb-4 flex items-center justify-between"><p class="font-bold">Loading / empty</p><span class="h-2.5 w-2.5 rounded-full bg-yellow-400"></span></div><div class="space-y-2"><div class="h-3 rounded bg-gray-100 dark:bg-white/[0.06]"></div><div class="h-3 w-3/4 rounded bg-gray-100 dark:bg-white/[0.06]"></div><button type="button" class="mt-3 rounded-lg bg-blue-600 px-3 py-2 text-xs font-bold text-white">Action</button></div></div>
-            </div>
-          </section>
-        </div>
-      </div>
-    </main>
-  </div>
+<!-- Category Filter -->
+<div class="flex flex-wrap gap-2 mb-6" id="categoryFilter">
+<button class="px-3 py-1.5 text-sm font-medium rounded-lg bg-blue-600 text-white shadow-sm" data-category="all" onclick="initCategoryFilter('all',this)">All</button>
+<button class="px-3 py-1.5 text-sm font-medium rounded-lg bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700" data-category="action" onclick="initCategoryFilter('action',this)">Action</button>
+<button class="px-3 py-1.5 text-sm font-medium rounded-lg bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700" data-category="state" onclick="initCategoryFilter('state',this)">State</button>
+<button class="px-3 py-1.5 text-sm font-medium rounded-lg bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700" data-category="icon" onclick="initCategoryFilter('icon',this)">Icon</button>
+<button class="px-3 py-1.5 text-sm font-medium rounded-lg bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700" data-category="social" onclick="initCategoryFilter('social',this)">Social</button>
+<button class="px-3 py-1.5 text-sm font-medium rounded-lg bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700" data-category="payment" onclick="initCategoryFilter('payment',this)">Payment</button>
+<button class="px-3 py-1.5 text-sm font-medium rounded-lg bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700" data-category="navigation" onclick="initCategoryFilter('navigation',this)">Navigation</button>
+<button class="px-3 py-1.5 text-sm font-medium rounded-lg bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700" data-category="floating" onclick="initCategoryFilter('floating',this)">Floating</button>
+<button class="px-3 py-1.5 text-sm font-medium rounded-lg bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700" data-category="toolbar" onclick="initCategoryFilter('toolbar',this)">Toolbar</button>
+<button class="px-3 py-1.5 text-sm font-medium rounded-lg bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700" data-category="cta" onclick="initCategoryFilter('cta',this)">CTA</button>
+<button class="px-3 py-1.5 text-sm font-medium rounded-lg bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700" data-category="mobile" onclick="initCategoryFilter('mobile',this)">Mobile</button>
+<button class="px-3 py-1.5 text-sm font-medium rounded-lg bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700" data-category="segmented" onclick="initCategoryFilter('segmented',this)">Segmented</button>
+</div>
+
+<!-- Component Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6" id="componentGrid">
+
+<!-- 1. Primary Buttons -->
+<div class="component-item" data-category="action" data-title="Primary Buttons">
+<div class="component-item-header"><div><h3 class="font-semibold text-gray-900 dark:text-white">Primary Buttons</h3><p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Main call-to-action styles</p></div><span class="text-[10px] font-medium px-2 py-0.5 rounded-full bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300">Action</span></div>
+<div class="component-item-preview" data-source-id="btn-primary" data-source-code='<button class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors">Primary</button>
+<button class="px-4 py-2 text-sm font-medium text-blue-600 bg-blue-50 rounded-lg hover:bg-blue-100 focus:ring-2 focus:ring-blue-500 transition-colors">Soft</button>
+<button class="px-4 py-2 text-sm font-medium text-blue-600 border border-blue-600 rounded-lg hover:bg-blue-50 focus:ring-2 focus:ring-blue-500 transition-colors">Outlined</button>
+<button class="px-6 py-2.5 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 shadow-sm shadow-blue-600/20 transition-all">With Shadow</button>
+<button class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-full hover:bg-blue-700 transition-colors">Rounded</button>
+<button class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>Add Item</button>'>
+<button class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors">Primary</button>
+<button class="px-4 py-2 text-sm font-medium text-blue-600 bg-blue-50 rounded-lg hover:bg-blue-100 focus:ring-2 focus:ring-blue-500 transition-colors">Soft</button>
+<button class="px-4 py-2 text-sm font-medium text-blue-600 border border-blue-600 rounded-lg hover:bg-blue-50 focus:ring-2 focus:ring-blue-500 transition-colors">Outlined</button>
+<button class="px-6 py-2.5 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 shadow-sm shadow-blue-600/20 transition-all">With Shadow</button>
+<button class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-full hover:bg-blue-700 transition-colors">Rounded</button>
+<button class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>Add Item</button>
+</div>
+<div class="component-item-actions"><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="openSourceViewer(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>View Source</button><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="copySourceCode(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>Copy</button></div>
+</div>
+
+<!-- 2. Secondary Buttons -->
+<div class="component-item" data-category="action" data-title="Secondary Buttons">
+<div class="component-item-header"><div><h3 class="font-semibold text-gray-900 dark:text-white">Secondary Buttons</h3><p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Supporting actions and alternatives</p></div><span class="text-[10px] font-medium px-2 py-0.5 rounded-full bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300">Action</span></div>
+<div class="component-item-preview" data-source-id="btn-secondary" data-source-code='<button class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 focus:ring-2 focus:ring-gray-300 transition-colors">Secondary</button>
+<button class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 focus:ring-2 focus:ring-gray-200 transition-colors">Light</button>
+<button class="px-4 py-2 text-sm font-medium text-gray-600 border border-gray-300 rounded-lg hover:border-gray-400 focus:ring-2 focus:ring-gray-200 transition-colors">Bordered</button>
+<button class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-full hover:bg-gray-200 transition-colors">Pill</button>
+<button class="px-4 py-2 text-sm font-medium text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg transition-colors">Ghost</button>'>
+<button class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 focus:ring-2 focus:ring-gray-300 transition-colors dark:text-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600">Secondary</button>
+<button class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 focus:ring-2 focus:ring-gray-200 transition-colors dark:text-gray-300 dark:bg-gray-800 dark:border-gray-600 dark:hover:bg-gray-700">Light</button>
+<button class="px-4 py-2 text-sm font-medium text-gray-600 border border-gray-300 rounded-lg hover:border-gray-400 focus:ring-2 focus:ring-gray-200 transition-colors dark:text-gray-400 dark:border-gray-600 dark:hover:border-gray-500">Bordered</button>
+<button class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-full hover:bg-gray-200 transition-colors dark:text-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600">Pill</button>
+<button class="px-4 py-2 text-sm font-medium text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg transition-colors dark:text-gray-400 dark:hover:text-gray-200 dark:hover:bg-gray-700">Ghost</button>
+</div>
+<div class="component-item-actions"><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="openSourceViewer(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>View Source</button><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="copySourceCode(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>Copy</button></div>
+</div>
+
+<!-- 3. Ghost / Text Buttons -->
+<div class="component-item" data-category="action" data-title="Ghost / Text Buttons">
+<div class="component-item-header"><div><h3 class="font-semibold text-gray-900 dark:text-white">Ghost / Text Buttons</h3><p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Minimal buttons with no background</p></div><span class="text-[10px] font-medium px-2 py-0.5 rounded-full bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300">Action</span></div>
+<div class="component-item-preview" data-source-id="btn-ghost" data-source-code='<button class="px-4 py-2 text-sm font-medium text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">Ghost</button>
+<button class="px-4 py-2 text-sm font-medium text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">Link Style</button>
+<button class="text-sm font-medium text-blue-600 hover:text-blue-700 underline underline-offset-2 transition-colors">Underline</button>
+<button class="px-3 py-1.5 text-sm font-medium text-gray-600 hover:text-blue-600 hover:bg-gray-100 rounded-md transition-colors">Compact</button>
+<button class="px-4 py-2 text-sm font-medium text-gray-500 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors">Danger Ghost</button>'>
+<button class="px-4 py-2 text-sm font-medium text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors dark:text-gray-400 dark:hover:text-blue-400 dark:hover:bg-blue-900/20">Ghost</button>
+<button class="px-4 py-2 text-sm font-medium text-blue-600 hover:bg-blue-50 rounded-lg transition-colors dark:text-blue-400 dark:hover:bg-blue-900/20">Link Style</button>
+<button class="text-sm font-medium text-blue-600 hover:text-blue-700 underline underline-offset-2 transition-colors dark:text-blue-400">Underline</button>
+<button class="px-3 py-1.5 text-sm font-medium text-gray-600 hover:text-blue-600 hover:bg-gray-100 rounded-md transition-colors dark:text-gray-400 dark:hover:bg-gray-700">Compact</button>
+<button class="px-4 py-2 text-sm font-medium text-gray-500 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors dark:text-gray-400 dark:hover:text-red-400 dark:hover:bg-red-900/20">Danger Ghost</button>
+</div>
+<div class="component-item-actions"><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="openSourceViewer(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>View Source</button><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="copySourceCode(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>Copy</button></div>
+</div>
+
+<!-- 4. Icon Buttons -->
+<div class="component-item" data-category="icon" data-title="Icon Buttons">
+<div class="component-item-header"><div><h3 class="font-semibold text-gray-900 dark:text-white">Icon Buttons</h3><p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Icon-only and icon-augmented buttons</p></div><span class="text-[10px] font-medium px-2 py-0.5 rounded-full bg-violet-50 dark:bg-violet-900/30 text-violet-700 dark:text-violet-300">Icon</span></div>
+<div class="component-item-preview" data-source-id="btn-icon" data-source-code='<button class="p-2 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors" aria-label="Search"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg></button>
+<button class="p-2 text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors" aria-label="Add"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg></button>
+<button class="p-2 text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors" aria-label="Delete"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg></button>
+<button class="p-2 text-gray-600 border border-gray-200 hover:bg-gray-50 rounded-lg transition-colors" aria-label="More"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"/></svg></button>
+<button class="p-2.5 text-white bg-gray-800 hover:bg-gray-900 rounded-full transition-colors" aria-label="Edit"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg></button>
+<button class="p-2 text-green-600 bg-green-50 hover:bg-green-100 rounded-lg transition-colors" aria-label="Approve"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg></button>'>
+<button class="p-2 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors dark:text-gray-400 dark:hover:text-blue-400 dark:hover:bg-blue-900/20" aria-label="Search"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg></button>
+<button class="p-2 text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors" aria-label="Add"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg></button>
+<button class="p-2 text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors dark:text-gray-400 dark:hover:text-red-400 dark:hover:bg-red-900/20" aria-label="Delete"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg></button>
+<button class="p-2 text-gray-600 border border-gray-200 hover:bg-gray-50 rounded-lg transition-colors dark:border-gray-600 dark:hover:bg-gray-700" aria-label="More"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"/></svg></button>
+<button class="p-2.5 text-white bg-gray-800 hover:bg-gray-900 rounded-full transition-colors dark:bg-gray-700 dark:hover:bg-gray-600" aria-label="Edit"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg></button>
+<button class="p-2 text-green-600 bg-green-50 hover:bg-green-100 rounded-lg transition-colors dark:text-green-400 dark:bg-green-900/30 dark:hover:bg-green-900/40" aria-label="Approve"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg></button>
+</div>
+<div class="component-item-actions"><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="openSourceViewer(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>View Source</button><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="copySourceCode(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>Copy</button></div>
+</div>
+
+<!-- 5. Icon + Label Buttons -->
+<div class="component-item" data-category="icon" data-title="Icon + Label Buttons">
+<div class="component-item-header"><div><h3 class="font-semibold text-gray-900 dark:text-white">Icon + Label Buttons</h3><p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Buttons with icons alongside text labels</p></div><span class="text-[10px] font-medium px-2 py-0.5 rounded-full bg-violet-50 dark:bg-violet-900/30 text-violet-700 dark:text-violet-300">Icon</span></div>
+<div class="component-item-preview" data-source-id="btn-icon-label" data-source-code='<button class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>Upload</button>
+<button class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>Download</button>
+<button class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">Share<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></button>
+<button class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700 transition-colors"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>Delete</button>
+<button class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-green-700 bg-green-50 rounded-lg hover:bg-green-100 transition-colors"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>Approve</button>'>
+<button class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>Upload</button>
+<button class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors dark:text-gray-300 dark:bg-gray-800 dark:border-gray-600 dark:hover:bg-gray-700"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>Download</button>
+<button class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors dark:text-gray-300 dark:bg-gray-800 dark:border-gray-600 dark:hover:bg-gray-700">Share<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></button>
+<button class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700 transition-colors"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>Delete</button>
+<button class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-green-700 bg-green-50 rounded-lg hover:bg-green-100 transition-colors dark:text-green-400 dark:bg-green-900/30 dark:hover:bg-green-900/40"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>Approve</button>
+</div>
+<div class="component-item-actions"><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="openSourceViewer(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>View Source</button><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="copySourceCode(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>Copy</button></div>
+</div>
+
+<!-- 6. Loading / Spinner Buttons -->
+<div class="component-item" data-category="state" data-title="Loading / Spinner Buttons">
+<div class="component-item-header"><div><h3 class="font-semibold text-gray-900 dark:text-white">Loading / Spinner Buttons</h3><p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Buttons showing async state</p></div><span class="text-[10px] font-medium px-2 py-0.5 rounded-full bg-amber-50 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300">State</span></div>
+<div class="component-item-preview" data-source-id="btn-loading" data-source-code='<button class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg opacity-80 cursor-wait" disabled><svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path></svg>Loading…</button>
+<button class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-lg opacity-80 cursor-wait" disabled><svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path></svg>Saving…</button>
+<button class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-500 bg-gray-100 rounded-lg cursor-wait" disabled>Processing…</button>
+<button class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg btn-shimmer" disabled>Please wait</button>'>
+<button class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg opacity-80 cursor-wait" disabled><svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path></svg>Loading…</button>
+<button class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-lg opacity-80 cursor-wait" disabled><svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path></svg>Saving…</button>
+<button class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-500 bg-gray-100 rounded-lg cursor-wait dark:bg-gray-700 dark:text-gray-400" disabled>Processing…</button>
+<button class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg btn-shimmer" disabled>Please wait</button>
+</div>
+<div class="component-item-actions"><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="openSourceViewer(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>View Source</button><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="copySourceCode(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>Copy</button></div>
+</div>
+
+<!-- 7. Destructive / Danger Buttons -->
+<div class="component-item" data-category="state" data-title="Destructive / Danger Buttons">
+<div class="component-item-header"><div><h3 class="font-semibold text-gray-900 dark:text-white">Destructive / Danger Buttons</h3><p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">High-risk actions with warning emphasis</p></div><span class="text-[10px] font-medium px-2 py-0.5 rounded-full bg-red-50 dark:bg-red-900/30 text-red-700 dark:text-red-300">State</span></div>
+<div class="component-item-preview" data-source-id="btn-danger" data-source-code='<button class="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700 focus:ring-2 focus:ring-red-500 transition-colors">Delete</button>
+<button class="px-4 py-2 text-sm font-medium text-red-600 bg-red-50 rounded-lg hover:bg-red-100 transition-colors">Soft Delete</button>
+<button class="px-4 py-2 text-sm font-medium text-red-600 border border-red-300 rounded-lg hover:bg-red-50 transition-colors">Outlined</button>
+<button class="px-4 py-2 text-sm font-medium text-red-600 hover:text-red-700 hover:bg-red-50 rounded-lg transition-colors">Ghost Danger</button>
+<button class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700 transition-colors"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z"/></svg>Confirm Removal</button>'>
+<button class="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700 focus:ring-2 focus:ring-red-500 transition-colors">Delete</button>
+<button class="px-4 py-2 text-sm font-medium text-red-600 bg-red-50 rounded-lg hover:bg-red-100 transition-colors dark:text-red-400 dark:bg-red-900/30 dark:hover:bg-red-900/40">Soft Delete</button>
+<button class="px-4 py-2 text-sm font-medium text-red-600 border border-red-300 rounded-lg hover:bg-red-50 transition-colors dark:text-red-400 dark:border-red-700 dark:hover:bg-red-900/20">Outlined</button>
+<button class="px-4 py-2 text-sm font-medium text-red-600 hover:text-red-700 hover:bg-red-50 rounded-lg transition-colors dark:text-red-400 dark:hover:bg-red-900/20">Ghost Danger</button>
+<button class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700 transition-colors"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z"/></svg>Confirm Removal</button>
+</div>
+<div class="component-item-actions"><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="openSourceViewer(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>View Source</button><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="copySourceCode(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>Copy</button></div>
+</div>
+
+<!-- 8. Success Buttons -->
+<div class="component-item" data-category="state" data-title="Success Buttons">
+<div class="component-item-header"><div><h3 class="font-semibold text-gray-900 dark:text-white">Success Buttons</h3><p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Positive action confirmation styles</p></div><span class="text-[10px] font-medium px-2 py-0.5 rounded-full bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-300">State</span></div>
+<div class="component-item-preview" data-source-id="btn-success" data-source-code='<button class="px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-lg hover:bg-green-700 transition-colors">Confirm</button>
+<button class="px-4 py-2 text-sm font-medium text-green-700 bg-green-50 rounded-lg hover:bg-green-100 transition-colors">Approve</button>
+<button class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-lg hover:bg-green-700 transition-colors"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>Save Changes</button>
+<button class="px-4 py-2 text-sm font-medium text-green-700 border border-green-300 rounded-lg hover:bg-green-50 transition-colors">Publish</button>'>
+<button class="px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-lg hover:bg-green-700 transition-colors">Confirm</button>
+<button class="px-4 py-2 text-sm font-medium text-green-700 bg-green-50 rounded-lg hover:bg-green-100 transition-colors dark:text-green-400 dark:bg-green-900/30 dark:hover:bg-green-900/40">Approve</button>
+<button class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-lg hover:bg-green-700 transition-colors"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>Save Changes</button>
+<button class="px-4 py-2 text-sm font-medium text-green-700 border border-green-300 rounded-lg hover:bg-green-50 transition-colors dark:text-green-400 dark:border-green-700 dark:hover:bg-green-900/20">Publish</button>
+</div>
+<div class="component-item-actions"><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="openSourceViewer(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>View Source</button><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="copySourceCode(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>Copy</button></div>
+</div>
+
+<!-- 9. Disabled Buttons -->
+<div class="component-item" data-category="state" data-title="Disabled Buttons">
+<div class="component-item-header"><div><h3 class="font-semibold text-gray-900 dark:text-white">Disabled Buttons</h3><p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Inactive states for unavailable actions</p></div><span class="text-[10px] font-medium px-2 py-0.5 rounded-full bg-amber-50 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300">State</span></div>
+<div class="component-item-preview" data-source-id="btn-disabled" data-source-code='<button class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg opacity-50 cursor-not-allowed" disabled>Primary Disabled</button>
+<button class="px-4 py-2 text-sm font-medium text-gray-400 bg-gray-100 rounded-lg cursor-not-allowed" disabled>Secondary Disabled</button>
+<button class="px-4 py-2 text-sm font-medium text-gray-400 border border-gray-200 rounded-lg cursor-not-allowed" disabled>Outlined Disabled</button>
+<button class="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-lg opacity-50 cursor-not-allowed" disabled>Danger Disabled</button>
+<button class="p-2 text-gray-300 bg-gray-50 rounded-lg cursor-not-allowed" disabled aria-label="Search disabled"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg></button>'>
+<button class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg opacity-50 cursor-not-allowed" disabled>Primary Disabled</button>
+<button class="px-4 py-2 text-sm font-medium text-gray-400 bg-gray-100 rounded-lg cursor-not-allowed dark:bg-gray-800" disabled>Secondary Disabled</button>
+<button class="px-4 py-2 text-sm font-medium text-gray-400 border border-gray-200 rounded-lg cursor-not-allowed dark:border-gray-700" disabled>Outlined Disabled</button>
+<button class="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-lg opacity-50 cursor-not-allowed" disabled>Danger Disabled</button>
+<button class="p-2 text-gray-300 bg-gray-50 rounded-lg cursor-not-allowed dark:bg-gray-800" disabled aria-label="Search disabled"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg></button>
+</div>
+<div class="component-item-actions"><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="openSourceViewer(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>View Source</button><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="copySourceCode(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>Copy</button></div>
+</div>
+
+<!-- 10. Split Buttons -->
+<div class="component-item" data-category="action" data-title="Split Buttons">
+<div class="component-item-header"><div><h3 class="font-semibold text-gray-900 dark:text-white">Split Buttons</h3><p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Action with dropdown for multiple options</p></div><span class="text-[10px] font-medium px-2 py-0.5 rounded-full bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300">Action</span></div>
+<div class="component-item-preview" data-source-id="btn-split" data-source-code='<div class="inline-flex rounded-lg overflow-hidden">
+<button class="px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 transition-colors">Save</button>
+<button class="px-2 py-2 text-white bg-blue-700 hover:bg-blue-800 transition-colors border-l border-blue-500"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg></button>
+</div>
+<div class="inline-flex rounded-lg overflow-hidden">
+<button class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-200 hover:bg-gray-50 transition-colors">Export</button>
+<button class="px-2 py-2 text-gray-600 bg-white border border-l-0 border-gray-200 hover:bg-gray-50 transition-colors"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg></button>
+</div>'>
+<div class="inline-flex rounded-lg overflow-hidden">
+<button class="px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 transition-colors">Save</button>
+<button class="px-2 py-2 text-white bg-blue-700 hover:bg-blue-800 transition-colors border-l border-blue-500"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg></button>
+</div>
+<div class="inline-flex rounded-lg overflow-hidden">
+<button class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-200 hover:bg-gray-50 transition-colors dark:text-gray-300 dark:bg-gray-800 dark:border-gray-600 dark:hover:bg-gray-700">Export</button>
+<button class="px-2 py-2 text-gray-600 bg-white border border-l-0 border-gray-200 hover:bg-gray-50 transition-colors dark:text-gray-400 dark:bg-gray-800 dark:border-gray-600 dark:hover:bg-gray-700"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg></button>
+</div>
+</div>
+<div class="component-item-actions"><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="openSourceViewer(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>View Source</button><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="copySourceCode(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>Copy</button></div>
+</div>
+
+<!-- 11. Social / Brand Buttons -->
+<div class="component-item" data-category="social" data-title="Social / Brand Buttons">
+<div class="component-item-header"><div><h3 class="font-semibold text-gray-900 dark:text-white">Social / Brand Buttons</h3><p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">OAuth and social sharing action buttons</p></div><span class="text-[10px] font-medium px-2 py-0.5 rounded-full bg-sky-50 dark:bg-sky-900/30 text-sky-700 dark:text-sky-300">Social</span></div>
+<div class="component-item-preview" data-source-id="btn-social" data-source-code='<button class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-[#1877F2] rounded-lg hover:bg-[#166FE5] transition-colors"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>Facebook</button>
+<button class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-[#0A66C2] rounded-lg hover:bg-[#004182] transition-colors"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>LinkedIn</button>
+<button class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-[#333] rounded-lg hover:bg-[#24292F] transition-colors dark:bg-[#24292F]"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>GitHub</button>
+<button class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-[#DB4437] rounded-lg hover:bg-[#C5372C] transition-colors"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>Google</button>
+<button class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-[#1DA1F2] rounded-lg hover:bg-[#0C85D0] transition-colors"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>X (Twitter)</button>'>
+<button class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-[#1877F2] rounded-lg hover:bg-[#166FE5] transition-colors"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>Facebook</button>
+<button class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-[#0A66C2] rounded-lg hover:bg-[#004182] transition-colors"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>LinkedIn</button>
+<button class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-[#333] rounded-lg hover:bg-[#24292F] transition-colors dark:bg-[#24292F]"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>GitHub</button>
+<button class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-[#DB4437] rounded-lg hover:bg-[#C5372C] transition-colors"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>Google</button>
+<button class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-[#1DA1F2] rounded-lg hover:bg-[#0C85D0] transition-colors"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>X (Twitter)</button>
+</div>
+<div class="component-item-actions"><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="openSourceViewer(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>View Source</button><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="copySourceCode(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>Copy</button></div>
+</div>
+
+<!-- 12. Payment Buttons -->
+<div class="component-item" data-category="payment" data-title="Payment Buttons">
+<div class="component-item-header"><div><h3 class="font-semibold text-gray-900 dark:text-white">Payment Buttons</h3><p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Stripe, PayPal, Apple Pay and more</p></div><span class="text-[10px] font-medium px-2 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300">Payment</span></div>
+<div class="component-item-preview" data-source-id="btn-payment" data-source-code='<button class="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-white bg-[#635BFF] rounded-lg hover:bg-[#5851DB] transition-colors">Pay with Stripe</button>
+<button class="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-[#003087] bg-[#FFC439] rounded-lg hover:bg-[#F0B72E] transition-colors">PayPal Checkout</button>
+<button class="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-white bg-black rounded-lg hover:bg-gray-900 transition-colors">Apple Pay</button>
+<button class="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-white bg-[#FF5F00] rounded-lg hover:bg-[#E65400] transition-colors">Mastercard</button>'>
+<button class="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-white bg-[#635BFF] rounded-lg hover:bg-[#5851DB] transition-colors"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M3.89 15.673L6.255.461A.542.542 0 017.27.288l2.543 4.771zm16.794 3.692l-2.25-14a.54.54 0 00-.919-.295L3.316 19.365l7.856 4.427a1.621 1.621 0 001.588 0zM14.3 7.147l-1.82-3.482a.542.542 0 00-.96 0L3.53 17.984z"/></svg>Pay with Stripe</button>
+<button class="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-[#003087] bg-[#FFC439] rounded-lg hover:bg-[#F0B72E] transition-colors font-semibold">PayPal</button>
+<button class="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-white bg-black rounded-lg hover:bg-gray-900 transition-colors dark:bg-gray-800"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>Apple Pay</button>
+<button class="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-white bg-[#FF5F00] rounded-lg hover:bg-[#E65400] transition-colors"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><circle cx="9.5" cy="12" r="7" opacity=".8"/><circle cx="14.5" cy="12" r="7" opacity=".5"/></svg>Mastercard</button>
+</div>
+<div class="component-item-actions"><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="openSourceViewer(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>View Source</button><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="copySourceCode(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>Copy</button></div>
+</div>
+
+<!-- 13. Segmented Control Buttons -->
+<div class="component-item" data-category="segmented" data-title="Segmented Control Buttons">
+<div class="component-item-header"><div><h3 class="font-semibold text-gray-900 dark:text-white">Segmented Control Buttons</h3><p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Toggle-style grouped selections</p></div><span class="text-[10px] font-medium px-2 py-0.5 rounded-full bg-indigo-50 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300">Segmented</span></div>
+<div class="component-item-preview" data-source-id="btn-segmented" data-source-code='<div class="inline-flex p-1 bg-gray-100 rounded-lg">
+<button class="px-3 py-1.5 text-sm font-medium text-white bg-blue-600 rounded-md shadow-sm">Day</button>
+<button class="px-3 py-1.5 text-sm font-medium text-gray-600 hover:text-gray-800 rounded-md">Week</button>
+<button class="px-3 py-1.5 text-sm font-medium text-gray-600 hover:text-gray-800 rounded-md">Month</button>
+<button class="px-3 py-1.5 text-sm font-medium text-gray-600 hover:text-gray-800 rounded-md">Year</button>
+</div>
+<div class="inline-flex p-1 bg-gray-100 rounded-full">
+<button class="px-4 py-1.5 text-sm font-medium text-gray-600 rounded-full">List</button>
+<button class="px-4 py-1.5 text-sm font-medium text-white bg-gray-800 rounded-full shadow-sm">Grid</button>
+</div>'>
+<div class="inline-flex p-1 bg-gray-100 rounded-lg dark:bg-gray-800">
+<button class="px-3 py-1.5 text-sm font-medium text-white bg-blue-600 rounded-md shadow-sm">Day</button>
+<button class="px-3 py-1.5 text-sm font-medium text-gray-600 hover:text-gray-800 rounded-md dark:text-gray-400 dark:hover:text-gray-200">Week</button>
+<button class="px-3 py-1.5 text-sm font-medium text-gray-600 hover:text-gray-800 rounded-md dark:text-gray-400 dark:hover:text-gray-200">Month</button>
+<button class="px-3 py-1.5 text-sm font-medium text-gray-600 hover:text-gray-800 rounded-md dark:text-gray-400 dark:hover:text-gray-200">Year</button>
+</div>
+<div class="inline-flex p-1 bg-gray-100 rounded-full dark:bg-gray-800">
+<button class="px-4 py-1.5 text-sm font-medium text-gray-600 rounded-full dark:text-gray-400">List</button>
+<button class="px-4 py-1.5 text-sm font-medium text-white bg-gray-800 rounded-full shadow-sm dark:bg-gray-600">Grid</button>
+</div>
+</div>
+<div class="component-item-actions"><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="openSourceViewer(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>View Source</button><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="copySourceCode(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>Copy</button></div>
+</div>
+
+<!-- 14. Toolbar Buttons -->
+<div class="component-item" data-category="toolbar" data-title="Toolbar Buttons">
+<div class="component-item-header"><div><h3 class="font-semibold text-gray-900 dark:text-white">Toolbar Buttons</h3><p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Editor and action toolbar groups</p></div><span class="text-[10px] font-medium px-2 py-0.5 rounded-full bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300">Toolbar</span></div>
+<div class="component-item-preview" data-source-id="btn-toolbar" data-source-code='<div class="inline-flex items-center border border-gray-200 rounded-lg overflow-hidden">
+<button class="p-2 text-gray-600 hover:bg-gray-100 transition-colors" title="Bold"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M6 4h8a4 4 0 014 4 4 4 0 01-4 4H6z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M6 12h9a4 4 0 014 4 4 4 0 01-4 4H6z"/></svg></button>
+<button class="p-2 text-gray-600 hover:bg-gray-100 transition-colors border-l border-gray-200" title="Italic"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 4h4m-2 0l-4 16m0 0h4"/></svg></button>
+<button class="p-2 text-gray-600 hover:bg-gray-100 transition-colors border-l border-gray-200" title="Underline"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4v7a5 5 0 0010 0V4M5 20h14"/></svg></button>
+<button class="p-2 text-gray-600 hover:bg-gray-100 transition-colors border-l border-gray-200" title="Link"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/></svg></button>
+</div>
+<div class="inline-flex items-center border border-gray-200 rounded-lg overflow-hidden">
+<button class="px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors">View</button>
+<button class="px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors border-l border-gray-200">Edit</button>
+<button class="px-3 py-2 text-sm font-medium text-gray-700 bg-blue-50 text-blue-600 border-l border-gray-200">Share</button>
+</div>'>
+<div class="inline-flex items-center border border-gray-200 rounded-lg overflow-hidden dark:border-gray-600">
+<button class="p-2 text-gray-600 hover:bg-gray-100 transition-colors dark:text-gray-400 dark:hover:bg-gray-700" title="Bold"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M6 4h8a4 4 0 014 4 4 4 0 01-4 4H6z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M6 12h9a4 4 0 014 4 4 4 0 01-4 4H6z"/></svg></button>
+<button class="p-2 text-gray-600 hover:bg-gray-100 transition-colors border-l border-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:border-gray-600" title="Italic"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 4h4m-2 0l-4 16m0 0h4"/></svg></button>
+<button class="p-2 text-gray-600 hover:bg-gray-100 transition-colors border-l border-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:border-gray-600" title="Underline"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4v7a5 5 0 0010 0V4M5 20h14"/></svg></button>
+<button class="p-2 text-gray-600 hover:bg-gray-100 transition-colors border-l border-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:border-gray-600" title="Link"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/></svg></button>
+</div>
+<div class="inline-flex items-center border border-gray-200 rounded-lg overflow-hidden dark:border-gray-600">
+<button class="px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors dark:text-gray-300 dark:hover:bg-gray-700">View</button>
+<button class="px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors border-l border-gray-200 dark:text-gray-300 dark:hover:bg-gray-700 dark:border-gray-600">Edit</button>
+<button class="px-3 py-2 text-sm font-medium text-gray-700 bg-blue-50 text-blue-600 border-l border-gray-200 dark:bg-blue-900/30 dark:text-blue-400 dark:border-gray-600">Share</button>
+</div>
+</div>
+<div class="component-item-actions"><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="openSourceViewer(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>View Source</button><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="copySourceCode(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>Copy</button></div>
+</div>
+
+<!-- 15. Floating Action Buttons -->
+<div class="component-item" data-category="floating" data-title="Floating Action Buttons">
+<div class="component-item-header"><div><h3 class="font-semibold text-gray-900 dark:text-white">Floating Action Buttons</h3><p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">FABs for primary page actions</p></div><span class="text-[10px] font-medium px-2 py-0.5 rounded-full bg-rose-50 dark:bg-rose-900/30 text-rose-700 dark:text-rose-300">Floating</span></div>
+<div class="component-item-preview" data-source-id="btn-fab" data-source-code='<button class="w-12 h-12 flex items-center justify-center text-white bg-blue-600 rounded-full shadow-lg hover:bg-blue-700 hover:shadow-xl transition-all" aria-label="Add"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg></button>
+<button class="w-12 h-12 flex items-center justify-center text-white bg-green-600 rounded-full shadow-lg hover:bg-green-700 transition-all" aria-label="Chat"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg></button>
+<button class="w-14 h-14 flex items-center justify-center text-white bg-blue-600 rounded-2xl shadow-lg hover:bg-blue-700 hover:shadow-xl transition-all" aria-label="Add"><svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg></button>
+<button class="w-12 h-12 flex items-center justify-center text-white bg-blue-600 rounded-full shadow-lg btn-pulse transition-all" aria-label="Add new"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg></button>'>
+<button class="w-12 h-12 flex items-center justify-center text-white bg-blue-600 rounded-full shadow-lg hover:bg-blue-700 hover:shadow-xl transition-all" aria-label="Add"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg></button>
+<button class="w-12 h-12 flex items-center justify-center text-white bg-green-600 rounded-full shadow-lg hover:bg-green-700 transition-all" aria-label="Chat"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg></button>
+<button class="w-14 h-14 flex items-center justify-center text-white bg-blue-600 rounded-2xl shadow-lg hover:bg-blue-700 hover:shadow-xl transition-all" aria-label="Add"><svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg></button>
+<button class="w-12 h-12 flex items-center justify-center text-white bg-blue-600 rounded-full shadow-lg btn-pulse transition-all" aria-label="Add new"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg></button>
+</div>
+<div class="component-item-actions"><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="openSourceViewer(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>View Source</button><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="copySourceCode(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>Copy</button></div>
+</div>
+
+<!-- 16. CTA Buttons -->
+<div class="component-item" data-category="cta" data-title="CTA Buttons">
+<div class="component-item-header"><div><h3 class="font-semibold text-gray-900 dark:text-white">CTA Buttons</h3><p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">High-emphasis call-to-action styles</p></div><span class="text-[10px] font-medium px-2 py-0.5 rounded-full bg-orange-50 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300">CTA</span></div>
+<div class="component-item-preview" data-source-id="btn-cta" data-source-code='<button class="px-8 py-3 text-base font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700 shadow-lg shadow-blue-600/25 transition-all hover:shadow-xl hover:shadow-blue-600/30 hover:-translate-y-0.5">Get Started Free</button>
+<button class="px-8 py-3 text-base font-semibold text-white bg-green-600 rounded-lg hover:bg-green-700 shadow-lg shadow-green-600/25 transition-all">Start Free Trial</button>
+<button class="px-8 py-3 text-base font-semibold text-blue-600 border-2 border-blue-600 rounded-lg hover:bg-blue-50 transition-colors">Learn More</button>
+<button class="group px-8 py-3 text-base font-semibold text-white bg-gray-900 rounded-lg hover:bg-gray-800 transition-colors inline-flex items-center gap-2">View Pricing<svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></button>'>
+<button class="px-8 py-3 text-base font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700 shadow-lg shadow-blue-600/25 transition-all hover:shadow-xl hover:shadow-blue-600/30 hover:-translate-y-0.5">Get Started Free</button>
+<button class="px-8 py-3 text-base font-semibold text-white bg-green-600 rounded-lg hover:bg-green-700 shadow-lg shadow-green-600/25 transition-all">Start Free Trial</button>
+<button class="px-8 py-3 text-base font-semibold text-blue-600 border-2 border-blue-600 rounded-lg hover:bg-blue-50 transition-colors dark:text-blue-400 dark:border-blue-400 dark:hover:bg-blue-900/20">Learn More</button>
+<button class="group px-8 py-3 text-base font-semibold text-white bg-gray-900 rounded-lg hover:bg-gray-800 transition-colors inline-flex items-center gap-2 dark:bg-gray-700 dark:hover:bg-gray-600">View Pricing<svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></button>
+</div>
+<div class="component-item-actions"><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="openSourceViewer(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>View Source</button><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="copySourceCode(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>Copy</button></div>
+</div>
+
+<!-- 17. Navigation Buttons -->
+<div class="component-item" data-category="navigation" data-title="Navigation Buttons">
+<div class="component-item-header"><div><h3 class="font-semibold text-gray-900 dark:text-white">Navigation Buttons</h3><p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Pagination, breadcrumbs, back/next</p></div><span class="text-[10px] font-medium px-2 py-0.5 rounded-full bg-teal-50 dark:bg-teal-900/30 text-teal-700 dark:text-teal-300">Navigation</span></div>
+<div class="component-item-preview" data-source-id="btn-navigation" data-source-code='<button class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>Back</button>
+<button class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors">Next<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></button>
+<button class="inline-flex items-center gap-1 px-3 py-1.5 text-sm font-medium text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-md transition-colors"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>Previous</button>
+<button class="inline-flex items-center gap-1 px-3 py-1.5 text-sm font-medium text-blue-600 hover:bg-blue-50 rounded-md transition-colors">Next<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></button>'>
+<button class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors dark:text-gray-300 dark:bg-gray-800 dark:border-gray-600 dark:hover:bg-gray-700"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>Back</button>
+<button class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors">Next<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></button>
+<button class="inline-flex items-center gap-1 px-3 py-1.5 text-sm font-medium text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-md transition-colors dark:text-gray-400 dark:hover:bg-blue-900/20"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>Previous</button>
+<button class="inline-flex items-center gap-1 px-3 py-1.5 text-sm font-medium text-blue-600 hover:bg-blue-50 rounded-md transition-colors dark:text-blue-400 dark:hover:bg-blue-900/20">Next<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></button>
+</div>
+<div class="component-item-actions"><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="openSourceViewer(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>View Source</button><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="copySourceCode(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>Copy</button></div>
+</div>
+
+<!-- 18. Copy / Upload / Download -->
+<div class="component-item" data-category="action" data-title="Copy / Upload / Download">
+<div class="component-item-header"><div><h3 class="font-semibold text-gray-900 dark:text-white">Copy / Upload / Download</h3><p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Utility action buttons with feedback</p></div><span class="text-[10px] font-medium px-2 py-0.5 rounded-full bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300">Action</span></div>
+<div class="component-item-preview" data-source-id="btn-utility" data-source-code='<button class="inline-flex items-center gap-2 px-3 py-1.5 text-xs font-medium text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-md border border-gray-200 transition-colors" onclick="navigator.clipboard.writeText(\'copied-text\')"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>Copy</button>
+<button class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-dashed border-gray-300 rounded-lg hover:bg-gray-50 hover:border-blue-400 transition-colors"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>Upload File</button>
+<button class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-green-700 bg-green-50 rounded-lg hover:bg-green-100 transition-colors"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>Download Report</button>'>
+<button class="inline-flex items-center gap-2 px-3 py-1.5 text-xs font-medium text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-md border border-gray-200 transition-colors dark:text-gray-400 dark:border-gray-600 dark:hover:bg-blue-900/20" onclick="navigator.clipboard.writeText('copied-text');if(window.showToast)showToast('Copied!','success')"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>Copy</button>
+<button class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-dashed border-gray-300 rounded-lg hover:bg-gray-50 hover:border-blue-400 transition-colors dark:text-gray-300 dark:bg-gray-800 dark:border-gray-600 dark:hover:bg-gray-700"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>Upload File</button>
+<button class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-green-700 bg-green-50 rounded-lg hover:bg-green-100 transition-colors dark:text-green-400 dark:bg-green-900/30 dark:hover:bg-green-900/40"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>Download Report</button>
+</div>
+<div class="component-item-actions"><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="openSourceViewer(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>View Source</button><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="copySourceCode(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>Copy</button></div>
+</div>
+
+<!-- 19. Pagination Buttons -->
+<div class="component-item" data-category="navigation" data-title="Pagination Buttons">
+<div class="component-item-header"><div><h3 class="font-semibold text-gray-900 dark:text-white">Pagination Buttons</h3><p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Page navigation controls</p></div><span class="text-[10px] font-medium px-2 py-0.5 rounded-full bg-teal-50 dark:bg-teal-900/30 text-teal-700 dark:text-teal-300">Navigation</span></div>
+<div class="component-item-preview" data-source-id="btn-pagination" data-source-code='<nav class="inline-flex items-center gap-1">
+<button class="px-3 py-1.5 text-sm text-gray-500 hover:bg-gray-100 rounded-md transition-colors"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg></button>
+<button class="px-3 py-1.5 text-sm text-gray-600 hover:bg-gray-100 rounded-md transition-colors">1</button>
+<button class="px-3 py-1.5 text-sm font-medium text-white bg-blue-600 rounded-md">2</button>
+<button class="px-3 py-1.5 text-sm text-gray-600 hover:bg-gray-100 rounded-md transition-colors">3</button>
+<span class="px-2 text-gray-400">…</span>
+<button class="px-3 py-1.5 text-sm text-gray-600 hover:bg-gray-100 rounded-md transition-colors">12</button>
+<button class="px-3 py-1.5 text-sm text-gray-500 hover:bg-gray-100 rounded-md transition-colors"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></button>
+</nav>'>
+<nav class="inline-flex items-center gap-1">
+<button class="px-3 py-1.5 text-sm text-gray-500 hover:bg-gray-100 rounded-md transition-colors dark:text-gray-400 dark:hover:bg-gray-700"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg></button>
+<button class="px-3 py-1.5 text-sm text-gray-600 hover:bg-gray-100 rounded-md transition-colors dark:text-gray-400 dark:hover:bg-gray-700">1</button>
+<button class="px-3 py-1.5 text-sm font-medium text-white bg-blue-600 rounded-md">2</button>
+<button class="px-3 py-1.5 text-sm text-gray-600 hover:bg-gray-100 rounded-md transition-colors dark:text-gray-400 dark:hover:bg-gray-700">3</button>
+<span class="px-2 text-gray-400">…</span>
+<button class="px-3 py-1.5 text-sm text-gray-600 hover:bg-gray-100 rounded-md transition-colors dark:text-gray-400 dark:hover:bg-gray-700">12</button>
+<button class="px-3 py-1.5 text-sm text-gray-500 hover:bg-gray-100 rounded-md transition-colors dark:text-gray-400 dark:hover:bg-gray-700"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></button>
+</nav>
+</div>
+<div class="component-item-actions"><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="openSourceViewer(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>View Source</button><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="copySourceCode(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>Copy</button></div>
+</div>
+
+<!-- 20. Table Row Action Buttons -->
+<div class="component-item" data-category="action" data-title="Table Row Action Buttons">
+<div class="component-item-header"><div><h3 class="font-semibold text-gray-900 dark:text-white">Table Row Action Buttons</h3><p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Inline actions for table rows and lists</p></div><span class="text-[10px] font-medium px-2 py-0.5 rounded-full bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300">Action</span></div>
+<div class="component-item-preview" data-source-id="btn-table-action" data-source-code='<button class="p-1 text-gray-400 hover:text-blue-600 transition-colors" title="Edit"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg></button>
+<button class="p-1 text-gray-400 hover:text-red-600 transition-colors" title="Delete"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg></button>
+<button class="p-1 text-gray-400 hover:text-green-600 transition-colors" title="Approve"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg></button>
+<div class="flex items-center gap-0.5">
+<button class="p-1 text-gray-400 hover:text-blue-600 transition-colors" title="View"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg></button>
+<button class="p-1 text-gray-400 hover:text-blue-600 transition-colors" title="Edit"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg></button>
+<button class="p-1 text-gray-400 hover:text-red-600 transition-colors" title="Delete"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg></button>
+</div>'>
+<button class="p-1 text-gray-400 hover:text-blue-600 transition-colors dark:text-gray-500 dark:hover:text-blue-400" title="Edit"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg></button>
+<button class="p-1 text-gray-400 hover:text-red-600 transition-colors dark:text-gray-500 dark:hover:text-red-400" title="Delete"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg></button>
+<button class="p-1 text-gray-400 hover:text-green-600 transition-colors dark:text-gray-500 dark:hover:text-green-400" title="Approve"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg></button>
+<div class="flex items-center gap-0.5">
+<button class="p-1 text-gray-400 hover:text-blue-600 transition-colors dark:text-gray-500 dark:hover:text-blue-400" title="View"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg></button>
+<button class="p-1 text-gray-400 hover:text-blue-600 transition-colors dark:text-gray-500 dark:hover:text-blue-400" title="Edit"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg></button>
+<button class="p-1 text-gray-400 hover:text-red-600 transition-colors dark:text-gray-500 dark:hover:text-red-400" title="Delete"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg></button>
+</div>
+</div>
+<div class="component-item-actions"><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="openSourceViewer(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>View Source</button><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="copySourceCode(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>Copy</button></div>
+</div>
+
+<!-- 21. Mobile Buttons -->
+<div class="component-item" data-category="mobile" data-title="Mobile Buttons">
+<div class="component-item-header"><div><h3 class="font-semibold text-gray-900 dark:text-white">Mobile Buttons</h3><p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Full-width and touch-friendly mobile buttons</p></div><span class="text-[10px] font-medium px-2 py-0.5 rounded-full bg-amber-50 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300">Mobile</span></div>
+<div class="component-item-preview flex-col !items-stretch max-w-xs" data-source-id="btn-mobile" data-source-code='<button class="w-full px-4 py-3 text-base font-medium text-white bg-blue-600 rounded-xl hover:bg-blue-700 transition-colors">Continue</button>
+<button class="w-full px-4 py-3 text-base font-medium text-blue-600 border border-blue-600 rounded-xl hover:bg-blue-50 transition-colors">Sign In</button>
+<button class="w-full px-4 py-3 text-base font-medium text-gray-700 bg-gray-100 rounded-xl hover:bg-gray-200 transition-colors">Cancel</button>
+<div class="flex gap-3">
+<button class="flex-1 px-4 py-3 text-sm font-medium text-gray-600 border border-gray-200 rounded-xl hover:bg-gray-50 transition-colors">Back</button>
+<button class="flex-1 px-4 py-3 text-sm font-medium text-white bg-blue-600 rounded-xl hover:bg-blue-700 transition-colors">Next</button>
+</div>'>
+<button class="w-full px-4 py-3 text-base font-medium text-white bg-blue-600 rounded-xl hover:bg-blue-700 transition-colors">Continue</button>
+<button class="w-full px-4 py-3 text-base font-medium text-blue-600 border border-blue-600 rounded-xl hover:bg-blue-50 transition-colors dark:text-blue-400 dark:border-blue-400 dark:hover:bg-blue-900/20">Sign In</button>
+<button class="w-full px-4 py-3 text-base font-medium text-gray-700 bg-gray-100 rounded-xl hover:bg-gray-200 transition-colors dark:text-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600">Cancel</button>
+<div class="flex gap-3">
+<button class="flex-1 px-4 py-3 text-sm font-medium text-gray-600 border border-gray-200 rounded-xl hover:bg-gray-50 transition-colors dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700">Back</button>
+<button class="flex-1 px-4 py-3 text-sm font-medium text-white bg-blue-600 rounded-xl hover:bg-blue-700 transition-colors">Next</button>
+</div>
+</div>
+<div class="component-item-actions"><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="openSourceViewer(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>View Source</button><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="copySourceCode(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>Copy</button></div>
+</div>
+
+<!-- 22. 3D Pressable Buttons -->
+<div class="component-item" data-category="action" data-title="3D Pressable Buttons">
+<div class="component-item-header"><div><h3 class="font-semibold text-gray-900 dark:text-white">3D Pressable Buttons</h3><p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Tactile press-down effect on click</p></div><span class="text-[10px] font-medium px-2 py-0.5 rounded-full bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300">Action</span></div>
+<div class="component-item-preview" data-source-id="btn-3d" data-source-code='<button class="px-5 py-2.5 text-sm font-medium text-white bg-blue-600 rounded-lg btn-3d" style="box-shadow:0 4px 0 0 #1d4ed8">Press Me</button>
+<button class="px-5 py-2.5 text-sm font-medium text-white bg-green-600 rounded-lg btn-3d" style="box-shadow:0 4px 0 0 #15803d">Confirm</button>
+<button class="px-5 py-2.5 text-sm font-medium text-white bg-red-600 rounded-lg btn-3d" style="box-shadow:0 4px 0 0 #b91c1c">Delete</button>
+<button class="px-5 py-2.5 text-sm font-medium text-white bg-gray-800 rounded-lg btn-3d" style="box-shadow:0 4px 0 0 #1f2937">Dark Press</button>'>
+<button class="px-5 py-2.5 text-sm font-medium text-white bg-blue-600 rounded-lg btn-3d" style="box-shadow:0 4px 0 0 #1d4ed8">Press Me</button>
+<button class="px-5 py-2.5 text-sm font-medium text-white bg-green-600 rounded-lg btn-3d" style="box-shadow:0 4px 0 0 #15803d">Confirm</button>
+<button class="px-5 py-2.5 text-sm font-medium text-white bg-red-600 rounded-lg btn-3d" style="box-shadow:0 4px 0 0 #b91c1c">Delete</button>
+<button class="px-5 py-2.5 text-sm font-medium text-white bg-gray-800 rounded-lg btn-3d" style="box-shadow:0 4px 0 0 #1f2937">Dark Press</button>
+</div>
+<div class="component-item-actions"><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="openSourceViewer(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>View Source</button><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="copySourceCode(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>Copy</button></div>
+</div>
+
+<!-- 23. Size Showcase -->
+<div class="component-item" data-category="action" data-title="Size Showcase">
+<div class="component-item-header"><div><h3 class="font-semibold text-gray-900 dark:text-white">Size Showcase</h3><p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">All sizes from extra-small to extra-large</p></div><span class="text-[10px] font-medium px-2 py-0.5 rounded-full bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300">Action</span></div>
+<div class="component-item-preview items-end" data-source-id="btn-sizes" data-source-code='<button class="px-2.5 py-1 text-xs font-medium text-white bg-blue-600 rounded hover:bg-blue-700 transition-colors">XS</button>
+<button class="px-3 py-1.5 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 transition-colors">Small</button>
+<button class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors">Medium</button>
+<button class="px-5 py-2.5 text-base font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors">Large</button>
+<button class="px-6 py-3 text-lg font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors">XL</button>'>
+<button class="px-2.5 py-1 text-xs font-medium text-white bg-blue-600 rounded hover:bg-blue-700 transition-colors">XS</button>
+<button class="px-3 py-1.5 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 transition-colors">Small</button>
+<button class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors">Medium</button>
+<button class="px-5 py-2.5 text-base font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors">Large</button>
+<button class="px-6 py-3 text-lg font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors">XL</button>
+</div>
+<div class="component-item-actions"><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="openSourceViewer(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>View Source</button><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="copySourceCode(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>Copy</button></div>
+</div>
+
+<!-- 24. Toggle Buttons -->
+<div class="component-item" data-category="state" data-title="Toggle Buttons">
+<div class="component-item-header"><div><h3 class="font-semibold text-gray-900 dark:text-white">Toggle Buttons</h3><p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">On/off and like/pin toggle states</p></div><span class="text-[10px] font-medium px-2 py-0.5 rounded-full bg-amber-50 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300">State</span></div>
+<div class="component-item-preview" data-source-id="btn-toggle" data-source-code='<button class="relative w-11 h-6 bg-blue-600 rounded-full transition-colors" role="switch" aria-checked="true"><span class="absolute top-0.5 left-6 w-5 h-5 bg-white rounded-full shadow transition-all"></span></button>
+<button class="relative w-11 h-6 bg-gray-200 rounded-full transition-colors" role="switch" aria-checked="false"><span class="absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow transition-all"></span></button>
+<button class="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium text-red-600 bg-red-50 rounded-full hover:bg-red-100 transition-colors"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z"/></svg>Liked</button>
+<button class="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium text-gray-500 hover:text-red-600 hover:bg-red-50 rounded-full transition-colors"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>Like</button>'>
+<button class="relative w-11 h-6 bg-blue-600 rounded-full transition-colors" role="switch" aria-checked="true" onclick="this.classList.toggle('bg-blue-600');this.classList.toggle('bg-gray-200');const s=this.querySelector('span');s.classList.toggle('left-6');s.classList.toggle('left-0.5')"><span class="absolute top-0.5 left-6 w-5 h-5 bg-white rounded-full shadow transition-all"></span></button>
+<button class="relative w-11 h-6 bg-gray-200 rounded-full transition-colors dark:bg-gray-600" role="switch" aria-checked="false" onclick="this.classList.toggle('bg-blue-600');this.classList.toggle('bg-gray-200');this.classList.toggle('dark:bg-gray-600');const s=this.querySelector('span');s.classList.toggle('left-6');s.classList.toggle('left-0.5')"><span class="absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow transition-all"></span></button>
+<button class="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium text-red-600 bg-red-50 rounded-full hover:bg-red-100 transition-colors dark:text-red-400 dark:bg-red-900/30"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z"/></svg>Liked</button>
+<button class="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium text-gray-500 hover:text-red-600 hover:bg-red-50 rounded-full transition-colors dark:text-gray-400 dark:hover:text-red-400 dark:hover:bg-red-900/20"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>Like</button>
+</div>
+<div class="component-item-actions"><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="openSourceViewer(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>View Source</button><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="copySourceCode(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>Copy</button></div>
+</div>
+
+<!-- 25. Button Groups -->
+<div class="component-item" data-category="action" data-title="Button Groups">
+<div class="component-item-header"><div><h3 class="font-semibold text-gray-900 dark:text-white">Button Groups</h3><p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Joined and stacked button groups</p></div><span class="text-[10px] font-medium px-2 py-0.5 rounded-full bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300">Action</span></div>
+<div class="component-item-preview" data-source-id="btn-groups" data-source-code='<div class="inline-flex rounded-lg overflow-hidden border border-gray-200">
+<button class="px-4 py-2 text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition-colors border-r border-gray-200">Left</button>
+<button class="px-4 py-2 text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition-colors border-r border-gray-200">Center</button>
+<button class="px-4 py-2 text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition-colors">Right</button>
+</div>
+<div class="inline-flex rounded-lg overflow-hidden">
+<button class="px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 transition-colors">Year</button>
+<button class="px-4 py-2 text-sm font-medium text-white bg-blue-700 hover:bg-blue-800 transition-colors border-l border-blue-500">Quarter</button>
+<button class="px-4 py-2 text-sm font-medium text-white bg-blue-700 hover:bg-blue-800 transition-colors border-l border-blue-500">Month</button>
+</div>
+<div class="flex flex-col w-40 rounded-lg overflow-hidden border border-gray-200">
+<button class="px-4 py-2 text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition-colors border-b border-gray-200">Option A</button>
+<button class="px-4 py-2 text-sm font-medium text-blue-600 bg-blue-50 hover:bg-blue-100 transition-colors border-b border-gray-200">Option B</button>
+<button class="px-4 py-2 text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition-colors">Option C</button>
+</div>'>
+<div class="inline-flex rounded-lg overflow-hidden border border-gray-200 dark:border-gray-600">
+<button class="px-4 py-2 text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition-colors border-r border-gray-200 dark:text-gray-300 dark:bg-gray-800 dark:border-gray-600 dark:hover:bg-gray-700">Left</button>
+<button class="px-4 py-2 text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition-colors border-r border-gray-200 dark:text-gray-300 dark:bg-gray-800 dark:border-gray-600 dark:hover:bg-gray-700">Center</button>
+<button class="px-4 py-2 text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition-colors dark:text-gray-300 dark:bg-gray-800 dark:hover:bg-gray-700">Right</button>
+</div>
+<div class="inline-flex rounded-lg overflow-hidden">
+<button class="px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 transition-colors">Year</button>
+<button class="px-4 py-2 text-sm font-medium text-white bg-blue-700 hover:bg-blue-800 transition-colors border-l border-blue-500">Quarter</button>
+<button class="px-4 py-2 text-sm font-medium text-white bg-blue-700 hover:bg-blue-800 transition-colors border-l border-blue-500">Month</button>
+</div>
+<div class="flex flex-col w-40 rounded-lg overflow-hidden border border-gray-200 dark:border-gray-600">
+<button class="px-4 py-2 text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition-colors border-b border-gray-200 dark:text-gray-300 dark:bg-gray-800 dark:border-gray-600 dark:hover:bg-gray-700">Option A</button>
+<button class="px-4 py-2 text-sm font-medium text-blue-600 bg-blue-50 hover:bg-blue-100 transition-colors border-b border-gray-200 dark:text-blue-400 dark:bg-blue-900/30 dark:border-gray-600">Option B</button>
+<button class="px-4 py-2 text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition-colors dark:text-gray-300 dark:bg-gray-800 dark:hover:bg-gray-700">Option C</button>
+</div>
+</div>
+<div class="component-item-actions"><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="openSourceViewer(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>View Source</button><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="copySourceCode(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>Copy</button></div>
+</div>
+
+<!-- 26. Animated / Emphasis Buttons -->
+<div class="component-item" data-category="cta" data-title="Animated / Emphasis Buttons">
+<div class="component-item-header"><div><h3 class="font-semibold text-gray-900 dark:text-white">Animated / Emphasis Buttons</h3><p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Subtle animation and emphasis effects</p></div><span class="text-[10px] font-medium px-2 py-0.5 rounded-full bg-orange-50 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300">CTA</span></div>
+<div class="component-item-preview" data-source-id="btn-animated" data-source-code='<button class="px-5 py-2.5 text-sm font-medium text-white bg-blue-600 rounded-lg btn-pulse">Pulse</button>
+<button class="px-5 py-2.5 text-sm font-medium text-white bg-blue-600 rounded-lg btn-shimmer">Shimmer</button>
+<button class="group px-5 py-2.5 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-all inline-flex items-center gap-2">Submit<svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></button>
+<button class="px-5 py-2.5 text-sm font-medium text-white bg-gray-900 rounded-lg hover:-translate-y-0.5 hover:shadow-lg transition-all">Hover Lift</button>'>
+<button class="px-5 py-2.5 text-sm font-medium text-white bg-blue-600 rounded-lg btn-pulse">Pulse</button>
+<button class="px-5 py-2.5 text-sm font-medium text-white bg-blue-600 rounded-lg btn-shimmer">Shimmer</button>
+<button class="group px-5 py-2.5 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-all inline-flex items-center gap-2">Submit<svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></button>
+<button class="px-5 py-2.5 text-sm font-medium text-white bg-gray-900 rounded-lg hover:-translate-y-0.5 hover:shadow-lg transition-all dark:bg-gray-700 dark:hover:bg-gray-600">Hover Lift</button>
+</div>
+<div class="component-item-actions"><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="openSourceViewer(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>View Source</button><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="copySourceCode(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>Copy</button></div>
+</div>
+
+</div><!-- end componentGrid -->
+
+</div>
+</main>
+</div>
 </div>
 <script src="common-loader.js"></script>
 <script src="common-sidebar.js"></script>
 <script src="common-header.js"></script>
 <script src="app-shell.js"></script>
+<script>
+// Animated counters on page load
+document.addEventListener('DOMContentLoaded',function(){document.querySelectorAll('[data-counter]').forEach(function(el){var target=parseInt(el.dataset.counter);var duration=1200;var start=0;var startTime=null;function step(ts){if(!startTime)startTime=ts;var p=Math.min((ts-startTime)/duration,1);el.textContent=Math.floor(p*target);if(p<1)requestAnimationFrame(step);else el.textContent=target;}requestAnimationFrame(step);});});
+</script>
 </body>
 </html>

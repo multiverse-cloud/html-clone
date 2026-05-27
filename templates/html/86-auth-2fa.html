@@ -1,108 +1,131 @@
-<!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<!doctype html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#465fff" />
-  <meta name="description" content="Two-factor authentication for your mtverse account." />
-  <title>Two-Factor Authentication - mtverse</title>
-  <link rel="stylesheet" href="tailwind-production.css">
-  <link rel="stylesheet" href="pro-styles.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
-  <style> .otp-input{caret-color:transparent;} </style>
-</head>
-<body class="bg-gray-50 text-gray-800 dark:bg-gray-950 dark:text-gray-100" style="font-family:'Outfit',sans-serif;">
-  <main class="grid min-h-screen grid-cols-1 lg:grid-cols-2">
-    <section class="flex items-center justify-center px-6 py-12 lg:px-16">
-      <div class="w-full max-w-[460px]">
-        <a href="01-main-dashboard.html" class="mb-10 inline-flex items-center gap-3 text-sm font-semibold text-gray-900 dark:text-white">
-          <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none"><path d="M12 4l-1.41 1.41L15.17 10H4v2h11.17l-4.58 4.59L12 18l6-6-6-6z" fill="currentColor"/></svg>
-          Back to dashboard
-        </a>
-        <div class="rounded-3xl border border-gray-200 bg-white p-10 shadow-lg shadow-gray-200/40 dark:border-gray-800 dark:bg-gray-950 dark:shadow-black/20">
-          <div class="mb-8 text-center">
-            <div class="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-3xl bg-purple-50 text-purple-600 dark:bg-purple-500/10 dark:text-purple-300">
-              <svg class="h-8 w-8" viewBox="0 0 24 24" fill="none"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z" fill="currentColor"/></svg>
-            </div>
-            <h1 class="text-3xl font-bold text-gray-900 dark:text-white">Two-factor authentication</h1>
-            <p class="mt-3 text-sm text-gray-500 dark:text-gray-400">Enter the 6-digit code sent to <span class="font-semibold text-gray-900 dark:text-white">+91 ••••• •7890</span>.</p>
-          </div>
-          <form class="grid gap-5" onsubmit="return false;">
-            <div class="grid gap-3 sm:grid-cols-6">
-              <input type="text" inputmode="numeric" maxlength="1" class="otp-input h-14 w-full rounded-3xl border border-gray-200 bg-white text-center text-2xl font-semibold text-gray-900 outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 dark:border-gray-700 dark:bg-gray-900 dark:text-white" />
-              <input type="text" inputmode="numeric" maxlength="1" class="otp-input h-14 w-full rounded-3xl border border-gray-200 bg-white text-center text-2xl font-semibold text-gray-900 outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 dark:border-gray-700 dark:bg-gray-900 dark:text-white" />
-              <input type="text" inputmode="numeric" maxlength="1" class="otp-input h-14 w-full rounded-3xl border border-gray-200 bg-white text-center text-2xl font-semibold text-gray-900 outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 dark:border-gray-700 dark:bg-gray-900 dark:text-white" />
-              <input type="text" inputmode="numeric" maxlength="1" class="otp-input h-14 w-full rounded-3xl border border-gray-200 bg-white text-center text-2xl font-semibold text-gray-900 outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 dark:border-gray-700 dark:bg-gray-900 dark:text-white" />
-              <input type="text" inputmode="numeric" maxlength="1" class="otp-input h-14 w-full rounded-3xl border border-gray-200 bg-white text-center text-2xl font-semibold text-gray-900 outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 dark:border-gray-700 dark:bg-gray-900 dark:text-white" />
-              <input type="text" inputmode="numeric" maxlength="1" class="otp-input h-14 w-full rounded-3xl border border-gray-200 bg-white text-center text-2xl font-semibold text-gray-900 outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 dark:border-gray-700 dark:bg-gray-900 dark:text-white" />
-            </div>
-            <button type="submit" class="h-11 rounded-2xl bg-blue-600 text-sm font-semibold text-white shadow-lg shadow-blue-600/25 transition hover:bg-blue-700 active:scale-[0.98]">Verify and sign in</button>
-          </form>
-          <p class="mt-6 text-center text-sm text-gray-500 dark:text-gray-400">
-            Didn�t receive a code?
-            <button id="resend-btn" onclick="startResendTimer()" class="font-semibold text-blue-600 hover:underline">Resend code</button>
-            <span id="resend-timer" class="hidden text-gray-400"> </span>
-          </p>
-          <p class="mt-6 text-center text-sm text-gray-500 dark:text-gray-400">
-            <a href="81-auth-login.html" class="font-semibold text-blue-600 hover:underline">Back to sign in</a>
-          </p>
-        </div>
-        <p class="mt-6 text-center text-xs text-gray-400 dark:text-gray-600">� 2025 mtverse. All rights reserved.</p>
-      </div>
-    </section>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+<title>Two-Step Verification | TailAdmin</title>
+<link rel="stylesheet" href="tailwind-production.css"/>
+<link rel="stylesheet" href="pro-styles.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+body{font-family:Outfit,system-ui,sans-serif}
+.auth-wrapper{min-height:100vh;display:flex;align-items:center;justify-content:center}
+.auth-card{width:100%;max-width:480px;padding:2.5rem;border-radius:1rem;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.06),0 8px 24px rgba(0,0,0,.04)}
+.dark .auth-card{background:#1e293b;box-shadow:0 1px 3px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.2)}
+.auth-illustration{display:flex;align-items:center;justify-content:center;min-height:200px}
+.form-group{margin-bottom:1.25rem}
+.form-label{display:block;margin-bottom:.375rem;font-size:.875rem;font-weight:500;color:#334155}
+.dark .form-label{color:#cbd5e1}
+.form-input{width:100%;padding:.625rem .875rem;border:1.5px solid #e2e8f0;border-radius:.5rem;font-size:.875rem;transition:border-color .15s,box-shadow .15s;background:#fff;color:#0f172a}
+.form-input:focus{outline:none;border-color:#6366f1;box-shadow:0 0 0 3px rgba(99,102,241,.12)}
+.dark .form-input{background:#0f172a;border-color:#334155;color:#e2e8f0}
+.dark .form-input:focus{border-color:#818cf8;box-shadow:0 0 0 3px rgba(129,140,248,.15)}
+.form-input.error{border-color:#ef4444;box-shadow:0 0 0 3px rgba(239,68,68,.1)}
+.form-input.success{border-color:#22c55e;box-shadow:0 0 0 3px rgba(34,197,94,.1)}
+.form-error{font-size:.75rem;color:#ef4444;margin-top:.25rem;display:none}
+.form-error.visible{display:block}
+.form-hint{font-size:.75rem;color:#94a3b8;margin-top:.25rem}
+.password-wrapper{position:relative}
+.password-toggle{position:absolute;right:.75rem;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:#94a3b8;padding:.25rem}
+.password-toggle:hover{color:#64748b}
+.btn-primary{width:100%;padding:.75rem;border:none;border-radius:.5rem;font-size:.875rem;font-weight:600;color:#fff;background:#6366f1;cursor:pointer;transition:background .15s,transform .1s}
+.btn-primary:hover{background:#4f46e5}
+.btn-primary:active{transform:scale(.98)}
+.btn-primary:disabled{opacity:.6;cursor:not-allowed}
+.btn-outline{width:100%;padding:.75rem;border:1.5px solid #e2e8f0;border-radius:.5rem;font-size:.875rem;font-weight:500;color:#334155;background:#fff;cursor:pointer;transition:background .15s,border-color .15s}
+.btn-outline:hover{background:#f8fafc;border-color:#cbd5e1}
+.dark .btn-outline{background:#1e293b;border-color:#334155;color:#e2e8f0}
+.dark .btn-outline:hover{background:#334155;border-color:#475569}
+.divider{display:flex;align-items:center;gap:.75rem;margin:1.5rem 0;color:#94a3b8;font-size:.8125rem}
+.divider::before,.divider::after{content:"";flex:1;height:1px;background:#e2e8f0}
+.dark .divider::before,.dark .divider::after{background:#334155}
+.otp-input{width:3rem;height:3.5rem;text-align:center;font-size:1.25rem;font-weight:600;border:1.5px solid #e2e8f0;border-radius:.5rem;background:#fff;color:#0f172a;transition:border-color .15s,box-shadow .15s}
+.otp-input:focus{outline:none;border-color:#6366f1;box-shadow:0 0 0 3px rgba(99,102,241,.12)}
+.dark .otp-input{background:#0f172a;border-color:#334155;color:#e2e8f0}
+.dark .otp-input:focus{border-color:#818cf8}
+.checkbox-wrapper{display:flex;align-items:center;gap:.5rem}
+.checkbox-wrapper input[type=checkbox]{width:1rem;height:1rem;accent-color:#6366f1;cursor:pointer}
+.strength-bar{height:4px;border-radius:2px;background:#e2e8f0;margin-top:.5rem;overflow:hidden}
+.strength-bar .fill{height:100%;border-radius:2px;transition:width .3s,background .3s}
+.dark .strength-bar{background:#334155}
+.social-btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;padding:.625rem 1rem;border:1.5px solid #e2e8f0;border-radius:.5rem;font-size:.8125rem;font-weight:500;color:#334155;background:#fff;cursor:pointer;transition:background .15s}
+.social-btn:hover{background:#f8fafc}
+.dark .social-btn{background:#1e293b;border-color:#334155;color:#e2e8f0}
+.dark .social-btn:hover{background:#334155}
+.link{color:#6366f1;font-weight:500;text-decoration:none;font-size:.875rem;transition:color .15s}
+.link:hover{color:#4f46e5;text-decoration:underline}
+.dark .link{color:#818cf8}
+.dark .link:hover{color:#a5b4fc}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.fade-up{animation:fadeUp .4s ease-out}
+@keyframes countUp{from{opacity:0}to{opacity:1}}
+@media(prefers-reduced-motion:reduce){.fade-up{animation:none}}
+@media(max-width:640px){.auth-card{margin:1rem;padding:1.5rem;border-radius:.75rem}.auth-split{flex-direction:column}.auth-split .auth-illustration{min-height:160px}}
+</style>
 
-    <section class="relative hidden overflow-hidden lg:flex lg:flex-col lg:justify-end" style="background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%);">
-      <div class="absolute inset-0 opacity-20" style="background-image: radial-gradient(circle at 20% 30%, rgba(139,92,246,0.22) 0%, transparent 35%), radial-gradient(circle at 80% 80%, rgba(168,85,247,0.18) 0%, transparent 30%);"></div>
-      <div class="relative z-10 flex flex-col items-center justify-center px-12 py-20 text-white">
-        <div class="mb-6 flex h-16 w-16 items-center justify-center rounded-3xl bg-white/10 shadow-2xl shadow-white/10">
-          <svg class="h-8 w-8" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
-        </div>
-        <h2 class="text-center text-4xl font-bold tracking-tight">Secure sign in with 2FA</h2>
-        <p class="mt-4 max-w-md text-center text-base text-white/70 leading-7">Add an extra layer of protection with a sleek verification step that keeps your workspace safe.</p>
-      </div>
-    </section>
-  </main>
-  <script>
-    const otpInputs = document.querySelectorAll('.otp-input');
-    otpInputs.forEach((input, idx) => {
-      input.addEventListener('input', (event) => {
-        const value = event.target.value.replace(/\D/g, '');
-        event.target.value = value.slice(-1);
-        if (value && idx < otpInputs.length - 1) otpInputs[idx + 1].focus();
-      });
-      input.addEventListener('keydown', (event) => {
-        if (event.key === 'Backspace' && !input.value && idx > 0) otpInputs[idx - 1].focus();
-      });
-      input.addEventListener('paste', (event) => {
-        event.preventDefault();
-        const pasted = (event.clipboardData || window.clipboardData).getData('text').replace(/\D/g, '');
-        pasted.split('').slice(0, otpInputs.length).forEach((char, index) => {
-          otpInputs[index].value = char;
-        });
-        const nextIndex = Math.min(pasted.length, otpInputs.length - 1);
-        otpInputs[nextIndex].focus();
-      });
-    });
-    otpInputs[0]?.focus();
-    function startResendTimer() {
-      const btn = document.getElementById('resend-btn');
-      const timer = document.getElementById('resend-timer');
-      btn.classList.add('hidden');
-      timer.classList.remove('hidden');
-      let seconds = 30;
-      timer.textContent = '(wait ' + seconds + 's)';
-      const interval = setInterval(() => {
-        seconds -= 1;
-        timer.textContent = '(wait ' + seconds + 's)';
-        if (seconds <= 0) {
-          clearInterval(interval);
-          timer.classList.add('hidden');
-          btn.classList.remove('hidden');
-        }
-      }, 1000);
-    }
-  </script>
+</head>
+<body class="bg-slate-50 dark:bg-slate-950 dark:text-white">
+<div class="auth-wrapper p-4 sm:p-6">
+<div class="auth-card fade-up" style="max-width:440px">
+<a href="81-auth-login.html" class="inline-flex items-center gap-1 text-sm text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 mb-6 transition-colors">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+Back to sign in
+</a>
+<div class="auth-illustration mb-6">
+<svg width="100" height="100" viewBox="0 0 100 100" fill="none">
+<circle cx="50" cy="50" r="40" fill="#f0fdf4" stroke="#22c55e" stroke-width="2"/>
+<rect x="38" y="30" width="24" height="30" rx="4" fill="#22c55e"/>
+<circle cx="50" cy="42" r="4" fill="#fff"/>
+<path d="M46 50h8" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+<path d="M42 60l8 8 16-16" stroke="#16a34a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+</div>
+<div class="mb-6 text-center">
+<h1 class="text-2xl font-bold text-slate-900 dark:text-white mb-1">Two-factor authentication</h1>
+<p class="text-sm text-slate-500 dark:text-slate-400">Enter the 6-digit code from your authenticator app</p>
+</div>
+<form id="twofa-form" novalidate onsubmit="return handle2FA(event)">
+<div class="form-group">
+<label class="form-label">Verification Code</label>
+<div class="flex gap-2 justify-center" id="otp-container">
+<input type="text" maxlength="1" class="otp-input" data-otp-index="0" inputmode="numeric" pattern="[0-9]" autocomplete="one-time-code"/>
+<input type="text" maxlength="1" class="otp-input" data-otp-index="1" inputmode="numeric" pattern="[0-9]" autocomplete="one-time-code"/>
+<input type="text" maxlength="1" class="otp-input" data-otp-index="2" inputmode="numeric" pattern="[0-9]" autocomplete="one-time-code"/>
+<input type="text" maxlength="1" class="otp-input" data-otp-index="3" inputmode="numeric" pattern="[0-9]" autocomplete="one-time-code"/>
+<input type="text" maxlength="1" class="otp-input" data-otp-index="4" inputmode="numeric" pattern="[0-9]" autocomplete="one-time-code"/>
+<input type="text" maxlength="1" class="otp-input" data-otp-index="5" inputmode="numeric" pattern="[0-9]" autocomplete="one-time-code"/>
+</div>
+<p class="form-error text-center" id="otp-error"></p>
+</div>
+<button type="submit" class="btn-primary mt-4" id="twofa-btn">Verify</button>
+</form>
+<div class="divider">or</div>
+<div class="text-center space-y-3">
+<button type="button" class="btn-outline" onclick="showToast('Recovery code mode activated','info')">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline mr-1"><path d="M9 12h6M12 9v6M3 12a9 9 0 1018 0 9 9 0 00-18 0z"/></svg>
+Use recovery code
+</button>
+<p class="text-sm text-slate-500 dark:text-slate-400">Having trouble? <a href="#" class="link">Contact support</a></p>
+</div>
+</div>
+</div>
+<script src="common-loader.js"></script>
+<script>
+
+initOtpInputs();
+function handle2FA(e){
+  e.preventDefault();
+  var inputs=document.querySelectorAll('.otp-input');
+  var code='';inputs.forEach(function(i){code+=i.value});
+  if(code.length<6){document.getElementById('otp-error').textContent='Please enter all 6 digits';document.getElementById('otp-error').classList.add('visible');return false}
+  document.getElementById('otp-error').classList.remove('visible');
+  var btn=document.getElementById('twofa-btn');
+  btn.disabled=true;btn.textContent='Verifying...';
+  setTimeout(function(){btn.disabled=false;btn.textContent='Verify';showToast('2FA verified! Redirecting...','success');setTimeout(function(){window.location.href='01-main-dashboard.html'},1500)},1200);
+  return false;
+}
+
+</script>
 </body>
 </html>

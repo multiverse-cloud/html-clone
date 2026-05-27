@@ -1,104 +1,330 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" class="scroll-smooth">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#465fff" />
-  <meta name="description" content="Production-ready Data Table HTML dashboard template with responsive TailAdmin-style layout, dark mode, command palette, actions, loaders, and polished UI states." />
-  <title>Data Table — mtverse</title>
-  <style>
-    .no-scrollbar::-webkit-scrollbar {
-      display: none;
-    }
-    .no-scrollbar {
-      -ms-overflow-style: none;
-      scrollbar-width: none;
-    }
-    @keyframes slideDown {
-      from {
-        opacity: 0;
-        transform: translateY(-10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-    .animate-slideDown {
-      animation: slideDown 0.2s ease-out;
-    }
-    .sidebar-text {
-      transition: opacity 0.2s ease-in-out;
-    }
-  </style>
-  <link rel="stylesheet" href="tailwind-production.css">
-  <link rel="stylesheet" href="pro-styles.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<meta name="theme-color" content="#465fff"/>
+<title>Data Table | TailAdmin</title>
+<link rel="stylesheet" href="tailwind-production.css"/>
+<link rel="stylesheet" href="pro-styles.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+body{font-family:Outfit,system-ui,sans-serif}
+.no-scrollbar::-webkit-scrollbar{display:none}
+.no-scrollbar{-ms-overflow-style:none;scrollbar-width:none}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.fade-up{animation:fadeUp .4s ease-out}
+@media(prefers-reduced-motion:reduce){.fade-up{animation:none}}
+.data-table{width:100%;border-collapse:separate;border-spacing:0}
+.data-table thead th{padding:.75rem 1rem;font-size:.75rem;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:#64748b;border-bottom:2px solid #e2e8f0;text-align:left;white-space:nowrap;position:sticky;top:0;background:#f8fafc;z-index:1}
+.dark .data-table thead th{background:#1e293b;border-color:#334155;color:#94a3b8}
+.data-table tbody td{padding:.75rem 1rem;font-size:.875rem;border-bottom:1px solid #f1f5f9;color:#334155}
+.dark .data-table tbody td{border-color:#1e293b;color:#cbd5e1}
+.data-table tbody tr:hover{background:#f8fafc}
+.dark .data-table tbody tr:hover{background:#1e293b}
+.data-table tbody tr.selected{background:#eef2ff}
+.dark .data-table tbody tr.selected{background:#1e1b4b}
+.sortable{cursor:pointer;user-select:none}
+.sortable:hover{color:#6366f1}
+.sort-icon{display:inline-block;margin-left:.25rem;opacity:.3}
+.sort-icon.active{opacity:1}
+.status-badge{display:inline-flex;align-items:center;gap:.375rem;padding:.25rem .75rem;border-radius:9999px;font-size:.75rem;font-weight:500}
+.status-badge::before{content:"";width:6px;height:6px;border-radius:50%}
+.status-success{background:#dcfce7;color:#166534}.status-success::before{background:#22c55e}
+.status-warning{background:#fef3c7;color:#92400e}.status-warning::before{background:#f59e0b}
+.status-danger{background:#fef2f2;color:#991b1b}.status-danger::before{background:#ef4444}
+.status-info{background:#dbeafe;color:#1e40af}.status-info::before{background:#3b82f6}
+.status-neutral{background:#f1f5f9;color:#475569}.status-neutral::before{background:#94a3b8}
+.dark .status-success{background:#052e16;color:#86efac}
+.dark .status-warning{background:#422006;color:#fde68a}
+.dark .status-danger{background:#450a0a;color:#fca5a5}
+.dark .status-info{background:#172554;color:#93c5fd}
+.dark .status-neutral{background:#1e293b;color:#94a3b8}
+.pagination{display:flex;align-items:center;gap:.25rem}
+.page-btn{display:flex;align-items:center;justify-content:center;width:2rem;height:2rem;border-radius:.375rem;font-size:.8125rem;border:1px solid #e2e8f0;background:#fff;color:#334155;cursor:pointer;transition:all .15s}
+.page-btn:hover{background:#f1f5f9;border-color:#cbd5e1}
+.page-btn.active{background:#6366f1;border-color:#6366f1;color:#fff}
+.page-btn:disabled{opacity:.4;cursor:not-allowed}
+.dark .page-btn{background:#1e293b;border-color:#334155;color:#e2e8f0}
+.dark .page-btn:hover{background:#334155}
+.dark .page-btn.active{background:#6366f1;border-color:#6366f1}
+.bulk-bar{display:none;padding:.75rem 1rem;background:#eef2ff;border-radius:.5rem;margin-bottom:1rem;font-size:.875rem;color:#4338ca;align-items:center;gap:.75rem}
+.bulk-bar.visible{display:flex}
+.dark .bulk-bar{background:#1e1b4b;color:#a5b4fc}
+.empty-state{text-align:center;padding:3rem 1rem}
+.empty-state svg{margin:0 auto 1rem}
+.skeleton{background:linear-gradient(90deg,#f1f5f9 25%,#e2e8f0 50%,#f1f5f9 75%);background-size:200% 100%;animation:shimmer 1.5s infinite;border-radius:.25rem}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.dark .skeleton{background:linear-gradient(90deg,#1e293b 25%,#334155 50%,#1e293b 75%);background-size:200% 100%}
+.filter-chip{display:inline-flex;align-items:center;gap:.375rem;padding:.375rem .75rem;border-radius:9999px;font-size:.75rem;font-weight:500;border:1px solid #e2e8f0;background:#fff;color:#334155;cursor:pointer;transition:all .15s}
+.filter-chip:hover{border-color:#cbd5e1;background:#f8fafc}
+.filter-chip.active{background:#6366f1;border-color:#6366f1;color:#fff}
+.dark .filter-chip{background:#1e293b;border-color:#334155;color:#e2e8f0}
+.dark .filter-chip.active{background:#6366f1;border-color:#6366f1}
+</style>
+
 </head>
-<body class="bg-gray-50 text-gray-800 font-sans dark:bg-gray-900 dark:text-gray-100">
-
-<!-- Mobile overlay -->
-<div id="sidebar-overlay" class="fixed inset-0 bg-black/40 z-40 hidden lg:hidden" onclick="toggleSidebar()"></div>
-
+<body class="bg-slate-50 dark:bg-slate-950 dark:text-white">
+<div class="sidebar-overlay fixed inset-0 bg-black/40 z-40 hidden lg:hidden"></div>
 <div class="flex h-screen overflow-hidden">
-  <!-- Sidebar Container -->
-  <div id="sidebar-container"></div>
-
-  <!-- Main content -->
-  <div class="flex-1 flex flex-col overflow-hidden">
-    <!-- Header Container -->
-    <div id="header-container"></div>
-
-    <!-- Page content -->
-    <main class="flex-1 overflow-y-auto overflow-x-hidden px-4 md:px-6 2xl:px-10 py-6" tabindex="-1">
-      <div class="mx-auto w-full max-w-screen-2xl">
-<div class="mb-6 flex items-center justify-between"><div><h1 class="text-2xl font-bold text-gray-900">Data Table</h1><p class="text-sm text-gray-500 mt-1">Sortable, filterable records table</p></div><button type="button" class="bg-blue-600 text-white text-sm px-4 py-2 rounded-lg hover:bg-blue-700 transition">+ Add Record</button></div>
-      <div class="bg-white rounded-xl border border-gray-200 overflow-hidden">
-        <div class="px-5 py-4 border-b border-gray-200 flex flex-col sm:flex-row gap-3">
-          <input type="text" placeholder="Search records..." class="flex-1 text-sm border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
-          <select class="text-sm border border-gray-200 rounded-lg px-3 py-2 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"><option>All Status</option><option>Active</option><option>Pending</option><option>Inactive</option></select>
-          <button class="text-sm border border-gray-200 rounded-lg px-3 py-2 text-gray-700 hover:bg-gray-50">Export CSV</button>
-        </div>
-        <div class="overflow-x-auto">
-          <table class="w-full text-sm">
-            <thead class="bg-gray-50 border-b border-gray-200">
-              <tr>
-                <th class="text-left px-5 py-3 font-semibold text-gray-600"><input type="checkbox" class="rounded"/></th>
-                <th class="text-left px-5 py-3 font-semibold text-gray-600">ID</th>
-                <th class="text-left px-5 py-3 font-semibold text-gray-600">Name</th>
-                <th class="text-left px-5 py-3 font-semibold text-gray-600">Category</th>
-                <th class="text-left px-5 py-3 font-semibold text-gray-600">Status</th>
-                <th class="text-left px-5 py-3 font-semibold text-gray-600">Value</th>
-                <th class="text-left px-5 py-3 font-semibold text-gray-600">Date</th>
-                <th class="text-left px-5 py-3 font-semibold text-gray-600">Actions</th>
-              </tr>
-            </thead>
-            <tbody class="divide-y divide-gray-100">
-              <tr class="hover:bg-gray-50"><td class="px-5 py-3"><input type="checkbox" class="rounded"/></td><td class="px-5 py-3 text-gray-500">#1001</td><td class="px-5 py-3 font-medium text-gray-900">Alpha Project</td><td class="px-5 py-3 text-gray-600">Engineering</td><td class="px-5 py-3"><span class="px-2 py-0.5 rounded-full text-xs bg-green-100 text-green-700">Active</span></td><td class="px-5 py-3 text-gray-900">$12,400</td><td class="px-5 py-3 text-gray-400">Jan 12, 2026</td><td class="px-5 py-3"><button class="text-blue-600 hover:underline text-xs mr-2">Edit</button><button class="text-red-500 hover:underline text-xs">Delete</button></td></tr>
-              <tr class="hover:bg-gray-50"><td class="px-5 py-3"><input type="checkbox" class="rounded"/></td><td class="px-5 py-3 text-gray-500">#1002</td><td class="px-5 py-3 font-medium text-gray-900">Beta Launch</td><td class="px-5 py-3 text-gray-600">Marketing</td><td class="px-5 py-3"><span class="px-2 py-0.5 rounded-full text-xs bg-yellow-100 text-yellow-700">Pending</span></td><td class="px-5 py-3 text-gray-900">$8,200</td><td class="px-5 py-3 text-gray-400">Feb 3, 2026</td><td class="px-5 py-3"><button class="text-blue-600 hover:underline text-xs mr-2">Edit</button><button class="text-red-500 hover:underline text-xs">Delete</button></td></tr>
-              <tr class="hover:bg-gray-50"><td class="px-5 py-3"><input type="checkbox" class="rounded"/></td><td class="px-5 py-3 text-gray-500">#1003</td><td class="px-5 py-3 font-medium text-gray-900">Gamma Pipeline</td><td class="px-5 py-3 text-gray-600">DevOps</td><td class="px-5 py-3"><span class="px-2 py-0.5 rounded-full text-xs bg-green-100 text-green-700">Active</span></td><td class="px-5 py-3 text-gray-900">$31,000</td><td class="px-5 py-3 text-gray-400">Mar 18, 2026</td><td class="px-5 py-3"><button class="text-blue-600 hover:underline text-xs mr-2">Edit</button><button class="text-red-500 hover:underline text-xs">Delete</button></td></tr>
-              <tr class="hover:bg-gray-50"><td class="px-5 py-3"><input type="checkbox" class="rounded"/></td><td class="px-5 py-3 text-gray-500">#1004</td><td class="px-5 py-3 font-medium text-gray-900">Delta Research</td><td class="px-5 py-3 text-gray-600">Analytics</td><td class="px-5 py-3"><span class="px-2 py-0.5 rounded-full text-xs bg-gray-100 text-gray-500">Inactive</span></td><td class="px-5 py-3 text-gray-900">$5,750</td><td class="px-5 py-3 text-gray-400">Aug 14, 2025</td><td class="px-5 py-3"><button class="text-blue-600 hover:underline text-xs mr-2">Edit</button><button class="text-red-500 hover:underline text-xs">Delete</button></td></tr>
-              <tr class="hover:bg-gray-50"><td class="px-5 py-3"><input type="checkbox" class="rounded"/></td><td class="px-5 py-3 text-gray-500">#1005</td><td class="px-5 py-3 font-medium text-gray-900">Epsilon Suite</td><td class="px-5 py-3 text-gray-600">Design</td><td class="px-5 py-3"><span class="px-2 py-0.5 rounded-full text-xs bg-green-100 text-green-700">Active</span></td><td class="px-5 py-3 text-gray-900">$19,800</td><td class="px-5 py-3 text-gray-400">Apr 1, 2026</td><td class="px-5 py-3"><button class="text-blue-600 hover:underline text-xs mr-2">Edit</button><button class="text-red-500 hover:underline text-xs">Delete</button></td></tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="px-5 py-3 border-t border-gray-200 flex items-center justify-between text-xs text-gray-500">
-          <span>Showing 1–5 of 128 results</span>
-          <div class="flex gap-1"><button class="px-2 py-1 rounded border border-gray-200 hover:bg-gray-50">Prev</button><button type="button" class="px-2 py-1 rounded bg-blue-600 text-white">1</button><button class="px-2 py-1 rounded border border-gray-200 hover:bg-gray-50">2</button><button class="px-2 py-1 rounded border border-gray-200 hover:bg-gray-50">3</button><button class="px-2 py-1 rounded border border-gray-200 hover:bg-gray-50">Next</button></div>
-        </div>
-      </div>
-      </div>
-    </main>
-  </div>
+<div class="sidebar-container w-72 flex-shrink-0"></div>
+<div class="header-container flex-1 flex flex-col overflow-hidden"></div>
+<main class="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8">
+<nav class="flex items-center gap-2 text-sm text-slate-400 mb-4">
+<a href="#" class="hover:text-slate-600 dark:hover:text-slate-300">Home</a><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+<a href="#" class="hover:text-slate-600 dark:hover:text-slate-300">Tables</a><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+<span class="text-slate-700 dark:text-slate-200 font-medium">Data Table</span>
+</nav>
+<div class="mb-6 fade-up">
+<h1 class="text-2xl font-bold text-slate-900 dark:text-white mb-1">Data Table</h1>
+<p class="text-sm text-slate-500 dark:text-slate-400">Full-featured data table with search, sort, filter, and pagination</p>
 </div>
-
-<!-- Common Components -->
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6 fade-up">
+<div class="bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 p-4"><p class="text-xs text-slate-400 mb-1">Total Users</p><p class="text-xl font-bold text-slate-900 dark:text-white">2,847</p><p class="text-xs text-green-600">&#9650; +12.5%</p></div>
+<div class="bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 p-4"><p class="text-xs text-slate-400 mb-1">Active</p><p class="text-xl font-bold text-slate-900 dark:text-white">2,103</p><p class="text-xs text-green-600">&#9650; +8.2%</p></div>
+<div class="bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 p-4"><p class="text-xs text-slate-400 mb-1">Inactive</p><p class="text-xl font-bold text-slate-900 dark:text-white">744</p><p class="text-xs text-red-500">&#9660; -3.1%</p></div>
+<div class="bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 p-4"><p class="text-xs text-slate-400 mb-1">New This Month</p><p class="text-xl font-bold text-slate-900 dark:text-white">186</p><p class="text-xs text-green-600">&#9650; +24.3%</p></div>
+</div>
+<div class="bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 fade-up">
+<div class="p-4 border-b border-slate-100 dark:border-slate-800">
+<div class="flex flex-col sm:flex-row gap-3 items-start sm:items-center justify-between">
+<div class="relative flex-1 max-w-xs"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" class="absolute left-3 top-1/2 -translate-y-1/2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg><input type="text" class="form-input pl-9" placeholder="Search users..." oninput="filterTable(this.value)"/></div>
+<div class="flex gap-2 flex-wrap">
+<button type="button" class="filter-chip active" onclick="filterByStatus(this,'all')">All</button>
+<button type="button" class="filter-chip" onclick="filterByStatus(this,'active')">Active</button>
+<button type="button" class="filter-chip" onclick="filterByStatus(this,'inactive')">Inactive</button>
+<button type="button" class="filter-chip" onclick="filterByStatus(this,'pending')">Pending</button>
+</div>
+<div class="flex gap-2"><button type="button" class="px-3 py-1.5 text-xs font-medium bg-indigo-500 text-white rounded-lg hover:bg-indigo-600 transition-colors" onclick="showToast('Export started','success')">Export</button></div>
+</div>
+</div>
+<div class="bulk-bar mx-4 mt-4" id="bulk-bar"><span id="bulk-count">0</span> selected <button type="button" class="text-xs font-medium underline" onclick="showToast('Bulk delete triggered','error')">Delete</button><button type="button" class="text-xs font-medium underline" onclick="showToast('Bulk export triggered','info')">Export</button><button type="button" class="text-xs font-medium underline ml-auto" onclick="clearSelection()">Clear</button></div>
+<div class="overflow-x-auto">
+<table class="data-table" id="data-table">
+<thead>
+<tr>
+<th class="w-10"><input type="checkbox" id="select-all" onchange="toggleSelectAll(this)"/></th>
+<th class="sortable" onclick="sortTable(1)">Name <span class="sort-icon">&#8597;</span></th>
+<th class="sortable" onclick="sortTable(2)">Email <span class="sort-icon">&#8597;</span></th>
+<th class="sortable" onclick="sortTable(3)">Role <span class="sort-icon">&#8597;</span></th>
+<th>Status</th>
+<th class="sortable" onclick="sortTable(5)">Joined <span class="sort-icon">&#8597;</span></th>
+<th class="w-10"></th>
+</tr>
+</thead>
+<tbody id="table-body">
+<tr data-status="success">
+<td><input type="checkbox" class="row-check" onchange="updateBulkBar()"/></td>
+<td><div class="flex items-center gap-2"><div class="w-8 h-8 rounded-full bg-indigo-100 dark:bg-indigo-900/30 flex items-center justify-center text-xs font-medium text-indigo-600 dark:text-indigo-400">A</div><span class="font-medium text-slate-700 dark:text-slate-300">Alice Johnson</span></div></td>
+<td class="text-slate-500 dark:text-slate-400">alice@example.com</td>
+<td>Admin</td>
+<td><span class="status-badge status-success">Success</span></td>
+<td class="text-slate-500 dark:text-slate-400">Jan 15, 2024</td>
+<td><div class="relative"><button type="button" class="p-1 rounded hover:bg-slate-100 dark:hover:bg-slate-800" onclick="toggleActionMenu(this)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg></button><div class="action-menu absolute right-0 top-full mt-1 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg shadow-lg py-1 z-10 min-w-[120px]" style="display:none"><a href="#" class="block px-3 py-1.5 text-sm hover:bg-slate-50 dark:hover:bg-slate-700" onclick="showToast('View action','info');return false">View</a><a href="#" class="block px-3 py-1.5 text-sm hover:bg-slate-50 dark:hover:bg-slate-700" onclick="showToast('Edit action','info');return false">Edit</a><a href="#" class="block px-3 py-1.5 text-sm text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20" onclick="showToast('Delete action','error');return false">Delete</a></div></div></td>
+</tr>
+<tr data-status="success">
+<td><input type="checkbox" class="row-check" onchange="updateBulkBar()"/></td>
+<td><div class="flex items-center gap-2"><div class="w-8 h-8 rounded-full bg-indigo-100 dark:bg-indigo-900/30 flex items-center justify-center text-xs font-medium text-indigo-600 dark:text-indigo-400">B</div><span class="font-medium text-slate-700 dark:text-slate-300">Bob Smith</span></div></td>
+<td class="text-slate-500 dark:text-slate-400">bob@example.com</td>
+<td>Editor</td>
+<td><span class="status-badge status-success">Success</span></td>
+<td class="text-slate-500 dark:text-slate-400">Feb 3, 2024</td>
+<td><div class="relative"><button type="button" class="p-1 rounded hover:bg-slate-100 dark:hover:bg-slate-800" onclick="toggleActionMenu(this)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg></button><div class="action-menu absolute right-0 top-full mt-1 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg shadow-lg py-1 z-10 min-w-[120px]" style="display:none"><a href="#" class="block px-3 py-1.5 text-sm hover:bg-slate-50 dark:hover:bg-slate-700" onclick="showToast('View action','info');return false">View</a><a href="#" class="block px-3 py-1.5 text-sm hover:bg-slate-50 dark:hover:bg-slate-700" onclick="showToast('Edit action','info');return false">Edit</a><a href="#" class="block px-3 py-1.5 text-sm text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20" onclick="showToast('Delete action','error');return false">Delete</a></div></div></td>
+</tr>
+<tr data-status="neutral">
+<td><input type="checkbox" class="row-check" onchange="updateBulkBar()"/></td>
+<td><div class="flex items-center gap-2"><div class="w-8 h-8 rounded-full bg-indigo-100 dark:bg-indigo-900/30 flex items-center justify-center text-xs font-medium text-indigo-600 dark:text-indigo-400">C</div><span class="font-medium text-slate-700 dark:text-slate-300">Carol White</span></div></td>
+<td class="text-slate-500 dark:text-slate-400">carol@example.com</td>
+<td>Viewer</td>
+<td><span class="status-badge status-neutral">Neutral</span></td>
+<td class="text-slate-500 dark:text-slate-400">Mar 12, 2024</td>
+<td><div class="relative"><button type="button" class="p-1 rounded hover:bg-slate-100 dark:hover:bg-slate-800" onclick="toggleActionMenu(this)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg></button><div class="action-menu absolute right-0 top-full mt-1 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg shadow-lg py-1 z-10 min-w-[120px]" style="display:none"><a href="#" class="block px-3 py-1.5 text-sm hover:bg-slate-50 dark:hover:bg-slate-700" onclick="showToast('View action','info');return false">View</a><a href="#" class="block px-3 py-1.5 text-sm hover:bg-slate-50 dark:hover:bg-slate-700" onclick="showToast('Edit action','info');return false">Edit</a><a href="#" class="block px-3 py-1.5 text-sm text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20" onclick="showToast('Delete action','error');return false">Delete</a></div></div></td>
+</tr>
+<tr data-status="warning">
+<td><input type="checkbox" class="row-check" onchange="updateBulkBar()"/></td>
+<td><div class="flex items-center gap-2"><div class="w-8 h-8 rounded-full bg-indigo-100 dark:bg-indigo-900/30 flex items-center justify-center text-xs font-medium text-indigo-600 dark:text-indigo-400">D</div><span class="font-medium text-slate-700 dark:text-slate-300">David Brown</span></div></td>
+<td class="text-slate-500 dark:text-slate-400">david@example.com</td>
+<td>Editor</td>
+<td><span class="status-badge status-warning">Warning</span></td>
+<td class="text-slate-500 dark:text-slate-400">Apr 7, 2024</td>
+<td><div class="relative"><button type="button" class="p-1 rounded hover:bg-slate-100 dark:hover:bg-slate-800" onclick="toggleActionMenu(this)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg></button><div class="action-menu absolute right-0 top-full mt-1 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg shadow-lg py-1 z-10 min-w-[120px]" style="display:none"><a href="#" class="block px-3 py-1.5 text-sm hover:bg-slate-50 dark:hover:bg-slate-700" onclick="showToast('View action','info');return false">View</a><a href="#" class="block px-3 py-1.5 text-sm hover:bg-slate-50 dark:hover:bg-slate-700" onclick="showToast('Edit action','info');return false">Edit</a><a href="#" class="block px-3 py-1.5 text-sm text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20" onclick="showToast('Delete action','error');return false">Delete</a></div></div></td>
+</tr>
+<tr data-status="success">
+<td><input type="checkbox" class="row-check" onchange="updateBulkBar()"/></td>
+<td><div class="flex items-center gap-2"><div class="w-8 h-8 rounded-full bg-indigo-100 dark:bg-indigo-900/30 flex items-center justify-center text-xs font-medium text-indigo-600 dark:text-indigo-400">E</div><span class="font-medium text-slate-700 dark:text-slate-300">Eve Davis</span></div></td>
+<td class="text-slate-500 dark:text-slate-400">eve@example.com</td>
+<td>Admin</td>
+<td><span class="status-badge status-success">Success</span></td>
+<td class="text-slate-500 dark:text-slate-400">May 20, 2024</td>
+<td><div class="relative"><button type="button" class="p-1 rounded hover:bg-slate-100 dark:hover:bg-slate-800" onclick="toggleActionMenu(this)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg></button><div class="action-menu absolute right-0 top-full mt-1 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg shadow-lg py-1 z-10 min-w-[120px]" style="display:none"><a href="#" class="block px-3 py-1.5 text-sm hover:bg-slate-50 dark:hover:bg-slate-700" onclick="showToast('View action','info');return false">View</a><a href="#" class="block px-3 py-1.5 text-sm hover:bg-slate-50 dark:hover:bg-slate-700" onclick="showToast('Edit action','info');return false">Edit</a><a href="#" class="block px-3 py-1.5 text-sm text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20" onclick="showToast('Delete action','error');return false">Delete</a></div></div></td>
+</tr>
+<tr data-status="danger">
+<td><input type="checkbox" class="row-check" onchange="updateBulkBar()"/></td>
+<td><div class="flex items-center gap-2"><div class="w-8 h-8 rounded-full bg-indigo-100 dark:bg-indigo-900/30 flex items-center justify-center text-xs font-medium text-indigo-600 dark:text-indigo-400">F</div><span class="font-medium text-slate-700 dark:text-slate-300">Frank Miller</span></div></td>
+<td class="text-slate-500 dark:text-slate-400">frank@example.com</td>
+<td>Viewer</td>
+<td><span class="status-badge status-danger">Danger</span></td>
+<td class="text-slate-500 dark:text-slate-400">Jun 1, 2024</td>
+<td><div class="relative"><button type="button" class="p-1 rounded hover:bg-slate-100 dark:hover:bg-slate-800" onclick="toggleActionMenu(this)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg></button><div class="action-menu absolute right-0 top-full mt-1 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg shadow-lg py-1 z-10 min-w-[120px]" style="display:none"><a href="#" class="block px-3 py-1.5 text-sm hover:bg-slate-50 dark:hover:bg-slate-700" onclick="showToast('View action','info');return false">View</a><a href="#" class="block px-3 py-1.5 text-sm hover:bg-slate-50 dark:hover:bg-slate-700" onclick="showToast('Edit action','info');return false">Edit</a><a href="#" class="block px-3 py-1.5 text-sm text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20" onclick="showToast('Delete action','error');return false">Delete</a></div></div></td>
+</tr>
+<tr data-status="success">
+<td><input type="checkbox" class="row-check" onchange="updateBulkBar()"/></td>
+<td><div class="flex items-center gap-2"><div class="w-8 h-8 rounded-full bg-indigo-100 dark:bg-indigo-900/30 flex items-center justify-center text-xs font-medium text-indigo-600 dark:text-indigo-400">G</div><span class="font-medium text-slate-700 dark:text-slate-300">Grace Lee</span></div></td>
+<td class="text-slate-500 dark:text-slate-400">grace@example.com</td>
+<td>Editor</td>
+<td><span class="status-badge status-success">Success</span></td>
+<td class="text-slate-500 dark:text-slate-400">Jul 14, 2024</td>
+<td><div class="relative"><button type="button" class="p-1 rounded hover:bg-slate-100 dark:hover:bg-slate-800" onclick="toggleActionMenu(this)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg></button><div class="action-menu absolute right-0 top-full mt-1 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg shadow-lg py-1 z-10 min-w-[120px]" style="display:none"><a href="#" class="block px-3 py-1.5 text-sm hover:bg-slate-50 dark:hover:bg-slate-700" onclick="showToast('View action','info');return false">View</a><a href="#" class="block px-3 py-1.5 text-sm hover:bg-slate-50 dark:hover:bg-slate-700" onclick="showToast('Edit action','info');return false">Edit</a><a href="#" class="block px-3 py-1.5 text-sm text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20" onclick="showToast('Delete action','error');return false">Delete</a></div></div></td>
+</tr>
+<tr data-status="neutral">
+<td><input type="checkbox" class="row-check" onchange="updateBulkBar()"/></td>
+<td><div class="flex items-center gap-2"><div class="w-8 h-8 rounded-full bg-indigo-100 dark:bg-indigo-900/30 flex items-center justify-center text-xs font-medium text-indigo-600 dark:text-indigo-400">H</div><span class="font-medium text-slate-700 dark:text-slate-300">Henry Wilson</span></div></td>
+<td class="text-slate-500 dark:text-slate-400">henry@example.com</td>
+<td>Viewer</td>
+<td><span class="status-badge status-neutral">Neutral</span></td>
+<td class="text-slate-500 dark:text-slate-400">Aug 22, 2024</td>
+<td><div class="relative"><button type="button" class="p-1 rounded hover:bg-slate-100 dark:hover:bg-slate-800" onclick="toggleActionMenu(this)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg></button><div class="action-menu absolute right-0 top-full mt-1 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg shadow-lg py-1 z-10 min-w-[120px]" style="display:none"><a href="#" class="block px-3 py-1.5 text-sm hover:bg-slate-50 dark:hover:bg-slate-700" onclick="showToast('View action','info');return false">View</a><a href="#" class="block px-3 py-1.5 text-sm hover:bg-slate-50 dark:hover:bg-slate-700" onclick="showToast('Edit action','info');return false">Edit</a><a href="#" class="block px-3 py-1.5 text-sm text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20" onclick="showToast('Delete action','error');return false">Delete</a></div></div></td>
+</tr>
+<tr data-status="success">
+<td><input type="checkbox" class="row-check" onchange="updateBulkBar()"/></td>
+<td><div class="flex items-center gap-2"><div class="w-8 h-8 rounded-full bg-indigo-100 dark:bg-indigo-900/30 flex items-center justify-center text-xs font-medium text-indigo-600 dark:text-indigo-400">I</div><span class="font-medium text-slate-700 dark:text-slate-300">Irene Moore</span></div></td>
+<td class="text-slate-500 dark:text-slate-400">irene@example.com</td>
+<td>Admin</td>
+<td><span class="status-badge status-success">Success</span></td>
+<td class="text-slate-500 dark:text-slate-400">Sep 5, 2024</td>
+<td><div class="relative"><button type="button" class="p-1 rounded hover:bg-slate-100 dark:hover:bg-slate-800" onclick="toggleActionMenu(this)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg></button><div class="action-menu absolute right-0 top-full mt-1 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg shadow-lg py-1 z-10 min-w-[120px]" style="display:none"><a href="#" class="block px-3 py-1.5 text-sm hover:bg-slate-50 dark:hover:bg-slate-700" onclick="showToast('View action','info');return false">View</a><a href="#" class="block px-3 py-1.5 text-sm hover:bg-slate-50 dark:hover:bg-slate-700" onclick="showToast('Edit action','info');return false">Edit</a><a href="#" class="block px-3 py-1.5 text-sm text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20" onclick="showToast('Delete action','error');return false">Delete</a></div></div></td>
+</tr>
+<tr data-status="warning">
+<td><input type="checkbox" class="row-check" onchange="updateBulkBar()"/></td>
+<td><div class="flex items-center gap-2"><div class="w-8 h-8 rounded-full bg-indigo-100 dark:bg-indigo-900/30 flex items-center justify-center text-xs font-medium text-indigo-600 dark:text-indigo-400">J</div><span class="font-medium text-slate-700 dark:text-slate-300">Jack Taylor</span></div></td>
+<td class="text-slate-500 dark:text-slate-400">jack@example.com</td>
+<td>Editor</td>
+<td><span class="status-badge status-warning">Warning</span></td>
+<td class="text-slate-500 dark:text-slate-400">Oct 18, 2024</td>
+<td><div class="relative"><button type="button" class="p-1 rounded hover:bg-slate-100 dark:hover:bg-slate-800" onclick="toggleActionMenu(this)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg></button><div class="action-menu absolute right-0 top-full mt-1 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg shadow-lg py-1 z-10 min-w-[120px]" style="display:none"><a href="#" class="block px-3 py-1.5 text-sm hover:bg-slate-50 dark:hover:bg-slate-700" onclick="showToast('View action','info');return false">View</a><a href="#" class="block px-3 py-1.5 text-sm hover:bg-slate-50 dark:hover:bg-slate-700" onclick="showToast('Edit action','info');return false">Edit</a><a href="#" class="block px-3 py-1.5 text-sm text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20" onclick="showToast('Delete action','error');return false">Delete</a></div></div></td>
+</tr>
+<tr data-status="success">
+<td><input type="checkbox" class="row-check" onchange="updateBulkBar()"/></td>
+<td><div class="flex items-center gap-2"><div class="w-8 h-8 rounded-full bg-indigo-100 dark:bg-indigo-900/30 flex items-center justify-center text-xs font-medium text-indigo-600 dark:text-indigo-400">K</div><span class="font-medium text-slate-700 dark:text-slate-300">Karen Anderson</span></div></td>
+<td class="text-slate-500 dark:text-slate-400">karen@example.com</td>
+<td>Viewer</td>
+<td><span class="status-badge status-success">Success</span></td>
+<td class="text-slate-500 dark:text-slate-400">Nov 2, 2024</td>
+<td><div class="relative"><button type="button" class="p-1 rounded hover:bg-slate-100 dark:hover:bg-slate-800" onclick="toggleActionMenu(this)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg></button><div class="action-menu absolute right-0 top-full mt-1 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg shadow-lg py-1 z-10 min-w-[120px]" style="display:none"><a href="#" class="block px-3 py-1.5 text-sm hover:bg-slate-50 dark:hover:bg-slate-700" onclick="showToast('View action','info');return false">View</a><a href="#" class="block px-3 py-1.5 text-sm hover:bg-slate-50 dark:hover:bg-slate-700" onclick="showToast('Edit action','info');return false">Edit</a><a href="#" class="block px-3 py-1.5 text-sm text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20" onclick="showToast('Delete action','error');return false">Delete</a></div></div></td>
+</tr>
+<tr data-status="success">
+<td><input type="checkbox" class="row-check" onchange="updateBulkBar()"/></td>
+<td><div class="flex items-center gap-2"><div class="w-8 h-8 rounded-full bg-indigo-100 dark:bg-indigo-900/30 flex items-center justify-center text-xs font-medium text-indigo-600 dark:text-indigo-400">L</div><span class="font-medium text-slate-700 dark:text-slate-300">Leo Thomas</span></div></td>
+<td class="text-slate-500 dark:text-slate-400">leo@example.com</td>
+<td>Admin</td>
+<td><span class="status-badge status-success">Success</span></td>
+<td class="text-slate-500 dark:text-slate-400">Dec 8, 2024</td>
+<td><div class="relative"><button type="button" class="p-1 rounded hover:bg-slate-100 dark:hover:bg-slate-800" onclick="toggleActionMenu(this)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg></button><div class="action-menu absolute right-0 top-full mt-1 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg shadow-lg py-1 z-10 min-w-[120px]" style="display:none"><a href="#" class="block px-3 py-1.5 text-sm hover:bg-slate-50 dark:hover:bg-slate-700" onclick="showToast('View action','info');return false">View</a><a href="#" class="block px-3 py-1.5 text-sm hover:bg-slate-50 dark:hover:bg-slate-700" onclick="showToast('Edit action','info');return false">Edit</a><a href="#" class="block px-3 py-1.5 text-sm text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20" onclick="showToast('Delete action','error');return false">Delete</a></div></div></td>
+</tr>
+<tr data-status="neutral">
+<td><input type="checkbox" class="row-check" onchange="updateBulkBar()"/></td>
+<td><div class="flex items-center gap-2"><div class="w-8 h-8 rounded-full bg-indigo-100 dark:bg-indigo-900/30 flex items-center justify-center text-xs font-medium text-indigo-600 dark:text-indigo-400">M</div><span class="font-medium text-slate-700 dark:text-slate-300">Mia Jackson</span></div></td>
+<td class="text-slate-500 dark:text-slate-400">mia@example.com</td>
+<td>Editor</td>
+<td><span class="status-badge status-neutral">Neutral</span></td>
+<td class="text-slate-500 dark:text-slate-400">Jan 25, 2025</td>
+<td><div class="relative"><button type="button" class="p-1 rounded hover:bg-slate-100 dark:hover:bg-slate-800" onclick="toggleActionMenu(this)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg></button><div class="action-menu absolute right-0 top-full mt-1 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg shadow-lg py-1 z-10 min-w-[120px]" style="display:none"><a href="#" class="block px-3 py-1.5 text-sm hover:bg-slate-50 dark:hover:bg-slate-700" onclick="showToast('View action','info');return false">View</a><a href="#" class="block px-3 py-1.5 text-sm hover:bg-slate-50 dark:hover:bg-slate-700" onclick="showToast('Edit action','info');return false">Edit</a><a href="#" class="block px-3 py-1.5 text-sm text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20" onclick="showToast('Delete action','error');return false">Delete</a></div></div></td>
+</tr>
+<tr data-status="danger">
+<td><input type="checkbox" class="row-check" onchange="updateBulkBar()"/></td>
+<td><div class="flex items-center gap-2"><div class="w-8 h-8 rounded-full bg-indigo-100 dark:bg-indigo-900/30 flex items-center justify-center text-xs font-medium text-indigo-600 dark:text-indigo-400">N</div><span class="font-medium text-slate-700 dark:text-slate-300">Nathan Harris</span></div></td>
+<td class="text-slate-500 dark:text-slate-400">nathan@example.com</td>
+<td>Viewer</td>
+<td><span class="status-badge status-danger">Danger</span></td>
+<td class="text-slate-500 dark:text-slate-400">Feb 14, 2025</td>
+<td><div class="relative"><button type="button" class="p-1 rounded hover:bg-slate-100 dark:hover:bg-slate-800" onclick="toggleActionMenu(this)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg></button><div class="action-menu absolute right-0 top-full mt-1 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg shadow-lg py-1 z-10 min-w-[120px]" style="display:none"><a href="#" class="block px-3 py-1.5 text-sm hover:bg-slate-50 dark:hover:bg-slate-700" onclick="showToast('View action','info');return false">View</a><a href="#" class="block px-3 py-1.5 text-sm hover:bg-slate-50 dark:hover:bg-slate-700" onclick="showToast('Edit action','info');return false">Edit</a><a href="#" class="block px-3 py-1.5 text-sm text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20" onclick="showToast('Delete action','error');return false">Delete</a></div></div></td>
+</tr>
+<tr data-status="success">
+<td><input type="checkbox" class="row-check" onchange="updateBulkBar()"/></td>
+<td><div class="flex items-center gap-2"><div class="w-8 h-8 rounded-full bg-indigo-100 dark:bg-indigo-900/30 flex items-center justify-center text-xs font-medium text-indigo-600 dark:text-indigo-400">O</div><span class="font-medium text-slate-700 dark:text-slate-300">Olivia Martin</span></div></td>
+<td class="text-slate-500 dark:text-slate-400">olivia@example.com</td>
+<td>Admin</td>
+<td><span class="status-badge status-success">Success</span></td>
+<td class="text-slate-500 dark:text-slate-400">Mar 3, 2025</td>
+<td><div class="relative"><button type="button" class="p-1 rounded hover:bg-slate-100 dark:hover:bg-slate-800" onclick="toggleActionMenu(this)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg></button><div class="action-menu absolute right-0 top-full mt-1 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg shadow-lg py-1 z-10 min-w-[120px]" style="display:none"><a href="#" class="block px-3 py-1.5 text-sm hover:bg-slate-50 dark:hover:bg-slate-700" onclick="showToast('View action','info');return false">View</a><a href="#" class="block px-3 py-1.5 text-sm hover:bg-slate-50 dark:hover:bg-slate-700" onclick="showToast('Edit action','info');return false">Edit</a><a href="#" class="block px-3 py-1.5 text-sm text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20" onclick="showToast('Delete action','error');return false">Delete</a></div></div></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="p-4 border-t border-slate-100 dark:border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-3">
+<p class="text-sm text-slate-400">Showing 1-15 of 2,847</p>
+<div class="pagination">
+<button class="page-btn" disabled>&laquo;</button>
+<button class="page-btn active">1</button>
+<button class="page-btn" onclick="showToast('Page 2','info')">2</button>
+<button class="page-btn" onclick="showToast('Page 3','info')">3</button>
+<button class="page-btn" onclick="showToast('Page 4','info')">4</button>
+<button class="page-btn" onclick="showToast('Page 5','info')">5</button>
+<button class="page-btn" onclick="showToast('Page 6','info')">6</button>
+<button class="page-btn" onclick="showToast('Page 7','info')">7</button>
+<button class="page-btn" disabled>...</button>
+<button class="page-btn" onclick="showToast('Last page','info')">190</button>
+<button class="page-btn">&raquo;</button>
+</div>
+</div>
+</div>
+</main>
+</div>
+</div>
 <script src="common-loader.js"></script>
 <script src="common-sidebar.js"></script>
 <script src="common-header.js"></script>
 <script src="app-shell.js"></script>
+<script>
 
+function filterTable(query){
+  var rows=document.querySelectorAll('#table-body tr');
+  query=query.toLowerCase();
+  rows.forEach(function(r){r.style.display=r.textContent.toLowerCase().indexOf(query)>=0?'':'none'});
+}
+function filterByStatus(btn,status){
+  document.querySelectorAll('.filter-chip').forEach(function(c){c.classList.remove('active')});
+  btn.classList.add('active');
+  var rows=document.querySelectorAll('#table-body tr');
+  rows.forEach(function(r){
+    if(status==='all')r.style.display='';
+    else r.style.display=r.dataset.status===status?'':'none';
+  });
+}
+function toggleSelectAll(cb){
+  document.querySelectorAll('.row-check').forEach(function(c){c.checked=cb.checked});
+  updateBulkBar();
+}
+function updateBulkBar(){
+  var checked=document.querySelectorAll('.row-check:checked').length;
+  var bar=document.getElementById('bulk-bar');
+  document.getElementById('bulk-count').textContent=checked;
+  bar.classList.toggle('visible',checked>0);
+}
+function clearSelection(){
+  document.querySelectorAll('.row-check').forEach(function(c){c.checked=false});
+  document.getElementById('select-all').checked=false;
+  updateBulkBar();
+}
+function toggleActionMenu(btn){
+  var menu=btn.nextElementSibling;
+  document.querySelectorAll('.action-menu').forEach(function(m){if(m!==menu)m.style.display='none'});
+  menu.style.display=menu.style.display==='none'?'block':'none';
+}
+document.addEventListener('click',function(e){if(!e.target.closest('.action-menu')&&!e.target.closest('[onclick*="toggleActionMenu"]'))document.querySelectorAll('.action-menu').forEach(function(m){m.style.display='none'})});
+var sortDir={};
+function sortTable(col){
+  var tbody=document.getElementById('table-body'),rows=Array.from(tbody.querySelectorAll('tr'));
+  sortDir[col]=!sortDir[col];
+  rows.sort(function(a,b){
+    var ta=a.cells[col].textContent.trim(),tb=b.cells[col].textContent.trim();
+    var na=parseFloat(ta.replace(/[^0-9.-]/g,'')),nb=parseFloat(tb.replace(/[^0-9.-]/g,''));
+    if(!isNaN(na)&&!isNaN(nb))return sortDir[col]?na-nb:nb-na;
+    return sortDir[col]?ta.localeCompare(tb):tb.localeCompare(ta);
+  });
+  rows.forEach(function(r){tbody.appendChild(r)});
+}
+
+</script>
 </body>
 </html>

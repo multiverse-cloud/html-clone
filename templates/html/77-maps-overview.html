@@ -1,242 +1,92 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" class="scroll-smooth">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#465fff" />
-  <meta name="description" content="Production-ready Maps - World Overview HTML dashboard template with responsive TailAdmin-style layout, dark mode, command palette, actions, loaders, and polished UI states." />
-  <title>Maps - World Overview — mtverse</title>
-  <style>
-    .no-scrollbar::-webkit-scrollbar {
-      display: none;
-    }
-    .no-scrollbar {
-      -ms-overflow-style: none;
-      scrollbar-width: none;
-    }
-    @keyframes slideDown {
-      from {
-        opacity: 0;
-        transform: translateY(-10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-    .animate-slideDown {
-      animation: slideDown 0.2s ease-out;
-    }
-    .sidebar-text {
-      transition: opacity 0.2s ease-in-out;
-    }
-  </style>
-  <link rel="stylesheet" href="tailwind-production.css">
-  <link rel="stylesheet" href="pro-styles.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<meta name="theme-color" content="#465fff"/>
+<title>Maps Overview | TailAdmin</title>
+<link rel="stylesheet" href="tailwind-production.css"/>
+<link rel="stylesheet" href="pro-styles.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+body{font-family:Outfit,system-ui,sans-serif}
+.no-scrollbar::-webkit-scrollbar{display:none}
+.no-scrollbar{-ms-overflow-style:none;scrollbar-width:none}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.fade-up{animation:fadeUp .4s ease-out}
+@media(prefers-reduced-motion:reduce){.fade-up{animation:none}}
+.chart-card{background:#fff;border:1px solid #e2e8f0;border-radius:.75rem;padding:1.5rem;margin-bottom:1.5rem}
+.dark .chart-card{background:#1e293b;border-color:#334155}
+.chart-card h3{font-size:1rem;font-weight:600;color:#0f172a;margin-bottom:.25rem}
+.dark .chart-card h3{color:#e2e8f0}
+.chart-card p{font-size:.8125rem;color:#94a3b8;margin-bottom:1rem}
+.chart-container{position:relative;width:100%}
+.chart-container svg{width:100%;height:auto}
+.chart-tooltip{position:absolute;background:#1e293b;color:#fff;padding:.375rem .75rem;border-radius:.375rem;font-size:.75rem;pointer-events:none;z-index:10;white-space:nowrap}
+.legend{display:flex;flex-wrap:wrap;gap:1rem;margin-top:1rem}
+.legend-item{display:flex;align-items:center;gap:.375rem;font-size:.75rem;color:#64748b}
+.legend-dot{width:8px;height:8px;border-radius:50%}
+.sparkline-card{display:flex;align-items:center;justify-content:space-between;padding:1rem 1.25rem;background:#fff;border:1px solid #e2e8f0;border-radius:.75rem;margin-bottom:1rem}
+.dark .sparkline-card{background:#1e293b;border-color:#334155}
+.map-container{position:relative;width:100%;overflow:hidden;border-radius:.5rem}
+.map-marker{cursor:pointer;transition:transform .15s}
+.map-marker:hover{transform:scale(1.3)}
+.map-legend{display:flex;flex-wrap:wrap;gap:.75rem;margin-top:1rem}
+.map-legend-item{display:flex;align-items:center;gap:.375rem;font-size:.75rem;color:#64748b}
+</style>
+
 </head>
-<body class="bg-gray-50 text-gray-800 font-sans dark:bg-gray-900 dark:text-gray-100">
-
-<!-- Mobile overlay -->
-<div id="sidebar-overlay" class="fixed inset-0 bg-black/40 z-40 hidden lg:hidden" onclick="toggleSidebar()"></div>
-
+<body class="bg-slate-50 dark:bg-slate-950 dark:text-white">
+<div class="sidebar-overlay fixed inset-0 bg-black/40 z-40 hidden lg:hidden"></div>
 <div class="flex h-screen overflow-hidden">
-  <!-- Sidebar Container -->
-  <div id="sidebar-container"></div>
-
-  <!-- Main content -->
-  <div class="flex-1 flex flex-col overflow-hidden">
-    <!-- Header Container -->
-    <div id="header-container"></div>
-
-    <!-- Page content -->
-    <main class="flex-1 overflow-y-auto overflow-x-hidden px-4 md:px-6 2xl:px-10 py-6" tabindex="-1">
-      <div class="mx-auto w-full max-w-screen-2xl">
-<!-- Breadcrumb -->
-      <nav class="flex items-center gap-1.5 text-sm text-gray-500 mb-4">
-        <a href="#" class="hover:text-blue-600">Dashboard</a>
-        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-        <a href="#" class="hover:text-blue-600">Maps</a>
-        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-        <span class="text-gray-800 font-medium">Overview</span>
-      </nav>
-
-      <!-- Page title -->
-      <div class="flex items-center justify-between mb-6">
-        <div>
-          <h1 class="text-xl font-bold text-gray-900">World Overview</h1>
-          <p class="text-sm text-gray-500 mt-0.5">Global user distribution and geographic analytics</p>
-        </div>
-        <div class="flex items-center gap-2">
-          <select class="text-sm border border-gray-200 rounded-lg px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white">
-            <option>Last 30 days</option>
-            <option>Last 90 days</option>
-            <option>This Year</option>
-          </select>
-          <button class="flex items-center gap-1.5 text-sm bg-white border border-gray-200 rounded-lg px-3 py-1.5 hover:bg-gray-50">
-            <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-            Export
-          </button>
-        </div>
-      </div>
-
-
-      <!-- Split layout: map left, stats right -->
-      <div class="flex flex-col xl:flex-row gap-5 mb-6">
-
-        <!-- Map area (60%) -->
-        <div class="flex-1 min-w-0 bg-white rounded-xl border border-gray-200 overflow-hidden">
-          <div class="flex items-center justify-between px-5 py-3 border-b border-gray-100">
-            <h2 class="font-semibold text-gray-800 text-sm">Global User Distribution</h2>
-            <div class="flex items-center gap-2">
-              <button class="w-7 h-7 flex items-center justify-center rounded-lg border border-gray-200 text-gray-500 hover:bg-gray-100 text-lg font-bold leading-none">+</button>
-              <button class="w-7 h-7 flex items-center justify-center rounded-lg border border-gray-200 text-gray-500 hover:bg-gray-100 text-lg font-bold leading-none">−</button>
-            </div>
-          </div>
-          <!-- SVG Map Container -->
-          <div class="relative bg-blue-50 p-4" style="min-height:340px;">
-            <svg viewBox="0 0 800 400" class="w-full h-full" style="max-height:320px;" xmlns="http://www.w3.org/2000/svg">
-              <!-- Ocean background -->
-              <rect width="800" height="400" fill="#dbeafe" rx="8"/>
-              <!-- Grid lines -->
-              <line x1="0" y1="200" x2="800" y2="200" stroke="#93c5fd" stroke-width="0.5" stroke-dasharray="4"/>
-              <line x1="400" y1="0" x2="400" y2="400" stroke="#93c5fd" stroke-width="0.5" stroke-dasharray="4"/>
-              <!-- North America -->
-              <ellipse cx="165" cy="155" rx="90" ry="70" fill="#3b82f6" opacity="0.75" rx="12"/>
-              <text x="165" y="159" text-anchor="middle" fill="white" font-size="10" font-weight="bold">North America</text>
-              <!-- South America -->
-              <ellipse cx="220" cy="280" rx="55" ry="75" fill="#2563eb" opacity="0.7"/>
-              <text x="220" y="284" text-anchor="middle" fill="white" font-size="9" font-weight="bold">S. America</text>
-              <!-- Europe -->
-              <ellipse cx="400" cy="130" rx="55" ry="45" fill="#1d4ed8" opacity="0.8"/>
-              <text x="400" y="134" text-anchor="middle" fill="white" font-size="10" font-weight="bold">Europe</text>
-              <!-- Africa -->
-              <ellipse cx="405" cy="255" rx="55" ry="80" fill="#1e40af" opacity="0.65"/>
-              <text x="405" y="259" text-anchor="middle" fill="white" font-size="10" font-weight="bold">Africa</text>
-              <!-- Middle East -->
-              <ellipse cx="490" cy="185" rx="35" ry="30" fill="#1d4ed8" opacity="0.72"/>
-              <text x="490" y="189" text-anchor="middle" fill="white" font-size="8" font-weight="bold">M. East</text>
-              <!-- Asia -->
-              <ellipse cx="600" cy="160" rx="110" ry="90" fill="#2563eb" opacity="0.7"/>
-              <text x="600" y="164" text-anchor="middle" fill="white" font-size="11" font-weight="bold">Asia Pacific</text>
-              <!-- Australia -->
-              <ellipse cx="640" cy="300" rx="50" ry="35" fill="#3b82f6" opacity="0.65"/>
-              <text x="640" y="304" text-anchor="middle" fill="white" font-size="9" font-weight="bold">Australia</text>
-            </svg>
-
-            <!-- Tooltip pins -->
-            <div class="absolute top-8 left-16 bg-white rounded-lg shadow-md px-2.5 py-1.5 text-xs border border-blue-100 pointer-events-none">
-              <div class="font-semibold text-gray-700">N. America</div>
-              <div class="text-blue-600 font-bold">49,210 users</div>
-            </div>
-            <div class="absolute top-4 right-52 bg-white rounded-lg shadow-md px-2.5 py-1.5 text-xs border border-blue-100 pointer-events-none">
-              <div class="font-semibold text-gray-700">Europe</div>
-              <div class="text-blue-600 font-bold">38,420 users</div>
-            </div>
-            <div class="absolute top-12 right-16 bg-white rounded-lg shadow-md px-2.5 py-1.5 text-xs border border-blue-100 pointer-events-none">
-              <div class="font-semibold text-gray-700">Asia Pacific</div>
-              <div class="text-blue-600 font-bold">24,190 users</div>
-            </div>
-            <div class="absolute bottom-16 left-24 bg-white rounded-lg shadow-md px-2.5 py-1.5 text-xs border border-blue-100 pointer-events-none">
-              <div class="font-semibold text-gray-700">Latin America</div>
-              <div class="text-blue-600 font-bold">11,840 users</div>
-            </div>
-            <div class="absolute bottom-12 right-24 bg-white rounded-lg shadow-md px-2.5 py-1.5 text-xs border border-blue-100 pointer-events-none">
-              <div class="font-semibold text-gray-700">M. East &amp; Africa</div>
-              <div class="text-blue-600 font-bold">4,790 users</div>
-            </div>
-          </div>
-
-          <!-- Legend row -->
-          <div class="px-5 py-3 border-t border-gray-100 flex flex-wrap items-center gap-4 text-xs text-gray-500">
-            <div class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-blue-600 opacity-80 inline-block"></span> High density (&gt;30k)</div>
-            <div class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-blue-400 opacity-80 inline-block"></span> Medium (10k–30k)</div>
-            <div class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-blue-300 opacity-70 inline-block"></span> Low (&lt;10k)</div>
-            <span class="ml-auto text-gray-400">Last updated: just now</span>
-          </div>
-        </div>
-
-        <!-- Right stats panel (40%) -->
-        <div class="xl:w-80 flex flex-col gap-4">
-          <!-- Stat cards -->
-          <div class="bg-white rounded-xl border border-gray-200 p-4">
-            <p class="text-xs text-gray-500 font-medium uppercase tracking-wide mb-1">Total Countries</p>
-            <p class="text-3xl font-bold text-gray-900">47</p>
-            <p class="text-xs text-green-600 mt-1">↑ 3 new this quarter</p>
-          </div>
-          <div class="bg-white rounded-xl border border-gray-200 p-4">
-            <p class="text-xs text-gray-500 font-medium uppercase tracking-wide mb-1">Top Region</p>
-            <p class="text-2xl font-bold text-gray-900">North America</p>
-            <div class="mt-2 bg-gray-100 rounded-full h-2">
-              <div class="bg-blue-500 h-2 rounded-full" style="width:38%"></div>
-            </div>
-            <p class="text-xs text-blue-600 mt-1 font-semibold">38% of total traffic</p>
-          </div>
-          <div class="bg-white rounded-xl border border-gray-200 p-4">
-            <p class="text-xs text-gray-500 font-medium uppercase tracking-wide mb-1">Active Users</p>
-            <p class="text-3xl font-bold text-gray-900">128,450</p>
-            <p class="text-xs text-green-600 mt-1">↑ +12.4% vs last month</p>
-          </div>
-          <!-- Revenue donut placeholder -->
-          <div class="bg-white rounded-xl border border-gray-200 p-4">
-            <p class="text-xs text-gray-500 font-medium uppercase tracking-wide mb-3">Revenue by Region</p>
-            <div class="flex items-center gap-4">
-              <svg viewBox="0 0 80 80" class="w-16 h-16 flex-shrink-0">
-                <circle cx="40" cy="40" r="30" fill="none" stroke="#e5e7eb" stroke-width="12"/>
-                <circle cx="40" cy="40" r="30" fill="none" stroke="#3b82f6" stroke-width="12" stroke-dasharray="71 118" stroke-dashoffset="-10" stroke-linecap="round"/>
-                <circle cx="40" cy="40" r="30" fill="none" stroke="#60a5fa" stroke-width="12" stroke-dasharray="45 144" stroke-dashoffset="-81" stroke-linecap="round"/>
-                <circle cx="40" cy="40" r="30" fill="none" stroke="#93c5fd" stroke-width="12" stroke-dasharray="30 159" stroke-dashoffset="-126" stroke-linecap="round"/>
-                <circle cx="40" cy="40" r="30" fill="none" stroke="#bfdbfe" stroke-width="12" stroke-dasharray="14 175" stroke-dashoffset="-156" stroke-linecap="round"/>
-              </svg>
-              <div class="text-xs space-y-1.5 flex-1">
-                <div class="flex items-center justify-between"><div class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-blue-500 inline-block"></span>N. America</div><span class="font-medium text-gray-700">45%</span></div>
-                <div class="flex items-center justify-between"><div class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-blue-400 inline-block"></span>Europe</div><span class="font-medium text-gray-700">30%</span></div>
-                <div class="flex items-center justify-between"><div class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-blue-300 inline-block"></span>Asia Pac</div><span class="font-medium text-gray-700">15%</span></div>
-                <div class="flex items-center justify-between"><div class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-blue-200 inline-block"></span>Others</div><span class="font-medium text-gray-700">10%</span></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Top 5 regions table -->
-      <div class="bg-white rounded-xl border border-gray-200 overflow-hidden">
-        <div class="px-5 py-3 border-b border-gray-100">
-          <h2 class="font-semibold text-gray-800 text-sm">Top Regions by Users</h2>
-        </div>
-        <div class="overflow-x-auto">
-          <table class="w-full text-sm">
-            <thead class="bg-gray-50 text-xs text-gray-500 uppercase tracking-wide">
-              <tr>
-                <th class="text-left px-5 py-3 font-medium">#</th>
-                <th class="text-left px-5 py-3 font-medium">Region</th>
-                <th class="text-right px-5 py-3 font-medium">Users</th>
-                <th class="text-right px-5 py-3 font-medium">Share</th>
-                <th class="px-5 py-3 font-medium text-left">Distribution</th>
-              </tr>
-            </thead>
-            <tbody class="divide-y divide-gray-100">
-              <tr class="hover:bg-gray-50"><td class="px-5 py-3 text-gray-400 font-medium">1</td><td class="px-5 py-3 font-medium text-gray-800">🌎 North America</td><td class="px-5 py-3 text-right text-gray-700">49,210</td><td class="px-5 py-3 text-right text-blue-600 font-semibold">38.3%</td><td class="px-5 py-3"><div class="bg-gray-100 rounded-full h-1.5 w-32"><div class="bg-blue-500 h-1.5 rounded-full" style="width:100%"></div></div></td></tr>
-              <tr class="hover:bg-gray-50"><td class="px-5 py-3 text-gray-400 font-medium">2</td><td class="px-5 py-3 font-medium text-gray-800">🌍 Europe</td><td class="px-5 py-3 text-right text-gray-700">38,420</td><td class="px-5 py-3 text-right text-blue-600 font-semibold">29.9%</td><td class="px-5 py-3"><div class="bg-gray-100 rounded-full h-1.5 w-32"><div class="bg-blue-500 h-1.5 rounded-full" style="width:78%"></div></div></td></tr>
-              <tr class="hover:bg-gray-50"><td class="px-5 py-3 text-gray-400 font-medium">3</td><td class="px-5 py-3 font-medium text-gray-800">🌏 Asia Pacific</td><td class="px-5 py-3 text-right text-gray-700">24,190</td><td class="px-5 py-3 text-right text-blue-600 font-semibold">18.8%</td><td class="px-5 py-3"><div class="bg-gray-100 rounded-full h-1.5 w-32"><div class="bg-blue-500 h-1.5 rounded-full" style="width:49%"></div></div></td></tr>
-              <tr class="hover:bg-gray-50"><td class="px-5 py-3 text-gray-400 font-medium">4</td><td class="px-5 py-3 font-medium text-gray-800">🌎 Latin America</td><td class="px-5 py-3 text-right text-gray-700">11,840</td><td class="px-5 py-3 text-right text-blue-600 font-semibold">9.2%</td><td class="px-5 py-3"><div class="bg-gray-100 rounded-full h-1.5 w-32"><div class="bg-blue-500 h-1.5 rounded-full" style="width:24%"></div></div></td></tr>
-              <tr class="hover:bg-gray-50"><td class="px-5 py-3 text-gray-400 font-medium">5</td><td class="px-5 py-3 font-medium text-gray-800">🌍 Middle East &amp; Africa</td><td class="px-5 py-3 text-right text-gray-700">4,790</td><td class="px-5 py-3 text-right text-blue-600 font-semibold">3.7%</td><td class="px-5 py-3"><div class="bg-gray-100 rounded-full h-1.5 w-32"><div class="bg-blue-500 h-1.5 rounded-full" style="width:10%"></div></div></td></tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-      </div>
-    </main>
-  </div>
+<div class="sidebar-container w-72 flex-shrink-0"></div>
+<div class="header-container flex-1 flex flex-col overflow-hidden"></div>
+<main class="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8">
+<nav class="flex items-center gap-2 text-sm text-slate-400 mb-4">
+<a href="#" class="hover:text-slate-600 dark:hover:text-slate-300">Home</a><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+<a href="#" class="hover:text-slate-600 dark:hover:text-slate-300">Charts</a><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+<span class="text-slate-700 dark:text-slate-200 font-medium">Maps Overview</span>
+</nav>
+<div class="mb-6 fade-up">
+<h1 class="text-2xl font-bold text-slate-900 dark:text-white mb-1">Maps Overview</h1>
+<p class="text-sm text-slate-500 dark:text-slate-400">Interactive SVG maps with markers and metrics</p>
 </div>
-
-<!-- Common Components -->
+<div class="chart-card fade-up"><h3>Global User Distribution</h3><p>Active users by region</p>
+<div class="map-container" style="background:#f8fafc;border-radius:.5rem;padding:1rem">
+<svg viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg" style="width:100%">
+<rect width="800" height="400" fill="#f1f5f9" rx="8"/>
+<ellipse cx="200" cy="180" rx="80" ry="60" fill="#dbeafe" stroke="#93c5fd" stroke-width="1"/>
+<ellipse cx="220" cy="300" rx="40" ry="50" fill="#dbeafe" stroke="#93c5fd" stroke-width="1"/>
+<ellipse cx="400" cy="170" rx="60" ry="70" fill="#dcfce7" stroke="#86efac" stroke-width="1"/>
+<ellipse cx="420" cy="280" rx="50" ry="60" fill="#fef3c7" stroke="#fde68a" stroke-width="1"/>
+<ellipse cx="580" cy="200" rx="90" ry="70" fill="#eef2ff" stroke="#a5b4fc" stroke-width="1"/>
+<ellipse cx="640" cy="320" rx="40" ry="30" fill="#fce7f3" stroke="#f9a8d4" stroke-width="1"/>
+<g class="map-marker"><circle cx="180" cy="160" r="6" fill="#6366f1" opacity="0.8"/><circle cx="180" cy="160" r="12" fill="#6366f1" opacity="0.2"/><title>New York: 2,847 users</title></g>
+<g class="map-marker"><circle cx="200" cy="190" r="6" fill="#6366f1" opacity="0.8"/><circle cx="200" cy="190" r="12" fill="#6366f1" opacity="0.2"/><title>Chicago: 1,203 users</title></g>
+<g class="map-marker"><circle cx="380" cy="150" r="6" fill="#22c55e" opacity="0.8"/><circle cx="380" cy="150" r="12" fill="#22c55e" opacity="0.2"/><title>London: 3,421 users</title></g>
+<g class="map-marker"><circle cx="420" cy="160" r="6" fill="#22c55e" opacity="0.8"/><circle cx="420" cy="160" r="12" fill="#22c55e" opacity="0.2"/><title>Berlin: 1,856 users</title></g>
+<g class="map-marker"><circle cx="560" cy="180" r="6" fill="#f59e0b" opacity="0.8"/><circle cx="560" cy="180" r="12" fill="#f59e0b" opacity="0.2"/><title>Tokyo: 4,102 users</title></g>
+<g class="map-marker"><circle cx="580" cy="220" r="6" fill="#f59e0b" opacity="0.8"/><circle cx="580" cy="220" r="12" fill="#f59e0b" opacity="0.2"/><title>Shanghai: 2,945 users</title></g>
+<g class="map-marker"><circle cx="620" cy="310" r="6" fill="#8b5cf6" opacity="0.8"/><circle cx="620" cy="310" r="12" fill="#8b5cf6" opacity="0.2"/><title>Sydney: 1,567 users</title></g>
+<g class="map-marker"><circle cx="210" cy="290" r="6" fill="#ef4444" opacity="0.8"/><circle cx="210" cy="290" r="12" fill="#ef4444" opacity="0.2"/><title>Sao Paulo: 2,134 users</title></g>
+</svg>
+</div>
+<div class="map-legend"><div class="map-legend-item"><span class="legend-dot" style="background:#6366f1"></span>Americas</div><div class="map-legend-item"><span class="legend-dot" style="background:#22c55e"></span>Europe</div><div class="map-legend-item"><span class="legend-dot" style="background:#f59e0b"></span>Asia</div><div class="map-legend-item"><span class="legend-dot" style="background:#8b5cf6"></span>Oceania</div><div class="map-legend-item"><span class="legend-dot" style="background:#ef4444"></span>South America</div></div></div>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 fade-up">
+<div class="chart-card" style="padding:1rem;border-left:3px solid #6366f1"><p class="text-xs text-slate-400 mb-1">North America</p><p class="text-lg font-bold text-slate-900 dark:text-white">8,421</p><p class="text-xs text-green-600">+12%</p></div>
+<div class="chart-card" style="padding:1rem;border-left:3px solid #22c55e"><p class="text-xs text-slate-400 mb-1">Europe</p><p class="text-lg font-bold text-slate-900 dark:text-white">6,234</p><p class="text-xs text-green-600">+8%</p></div>
+<div class="chart-card" style="padding:1rem;border-left:3px solid #f59e0b"><p class="text-xs text-slate-400 mb-1">Asia Pacific</p><p class="text-lg font-bold text-slate-900 dark:text-white">9,876</p><p class="text-xs text-green-600">+24%</p></div>
+<div class="chart-card" style="padding:1rem;border-left:3px solid #8b5cf6"><p class="text-xs text-slate-400 mb-1">Rest of World</p><p class="text-lg font-bold text-slate-900 dark:text-white">3,567</p><p class="text-xs text-green-600">+5%</p></div>
+</div>
+</main>
+</div>
+</div>
 <script src="common-loader.js"></script>
 <script src="common-sidebar.js"></script>
 <script src="common-header.js"></script>
 <script src="app-shell.js"></script>
+<script>
 
+</script>
 </body>
 </html>

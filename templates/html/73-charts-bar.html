@@ -1,260 +1,266 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" class="scroll-smooth">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#465fff" />
-  <meta name="description" content="Production-ready Charts - Bar Charts HTML dashboard template with responsive TailAdmin-style layout, dark mode, command palette, actions, loaders, and polished UI states." />
-  <title>Charts - Bar Charts — mtverse</title>
-  <style>
-    .no-scrollbar::-webkit-scrollbar {
-      display: none;
-    }
-    .no-scrollbar {
-      -ms-overflow-style: none;
-      scrollbar-width: none;
-    }
-    @keyframes slideDown {
-      from {
-        opacity: 0;
-        transform: translateY(-10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-    .animate-slideDown {
-      animation: slideDown 0.2s ease-out;
-    }
-    .sidebar-text {
-      transition: opacity 0.2s ease-in-out;
-    }
-  </style>
-  <link rel="stylesheet" href="tailwind-production.css">
-  <link rel="stylesheet" href="pro-styles.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<meta name="theme-color" content="#465fff"/>
+<title>Bar Charts | TailAdmin</title>
+<link rel="stylesheet" href="tailwind-production.css"/>
+<link rel="stylesheet" href="pro-styles.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+body{font-family:Outfit,system-ui,sans-serif}
+.no-scrollbar::-webkit-scrollbar{display:none}
+.no-scrollbar{-ms-overflow-style:none;scrollbar-width:none}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.fade-up{animation:fadeUp .4s ease-out}
+@media(prefers-reduced-motion:reduce){.fade-up{animation:none}}
+.chart-card{background:#fff;border:1px solid #e2e8f0;border-radius:.75rem;padding:1.5rem;margin-bottom:1.5rem}
+.dark .chart-card{background:#1e293b;border-color:#334155}
+.chart-card h3{font-size:1rem;font-weight:600;color:#0f172a;margin-bottom:.25rem}
+.dark .chart-card h3{color:#e2e8f0}
+.chart-card p{font-size:.8125rem;color:#94a3b8;margin-bottom:1rem}
+.chart-container{position:relative;width:100%}
+.chart-container svg{width:100%;height:auto}
+.chart-tooltip{position:absolute;background:#1e293b;color:#fff;padding:.375rem .75rem;border-radius:.375rem;font-size:.75rem;pointer-events:none;z-index:10;white-space:nowrap}
+.legend{display:flex;flex-wrap:wrap;gap:1rem;margin-top:1rem}
+.legend-item{display:flex;align-items:center;gap:.375rem;font-size:.75rem;color:#64748b}
+.legend-dot{width:8px;height:8px;border-radius:50%}
+.sparkline-card{display:flex;align-items:center;justify-content:space-between;padding:1rem 1.25rem;background:#fff;border:1px solid #e2e8f0;border-radius:.75rem;margin-bottom:1rem}
+.dark .sparkline-card{background:#1e293b;border-color:#334155}
+.map-container{position:relative;width:100%;overflow:hidden;border-radius:.5rem}
+.map-marker{cursor:pointer;transition:transform .15s}
+.map-marker:hover{transform:scale(1.3)}
+.map-legend{display:flex;flex-wrap:wrap;gap:.75rem;margin-top:1rem}
+.map-legend-item{display:flex;align-items:center;gap:.375rem;font-size:.75rem;color:#64748b}
+</style>
+
 </head>
-<body class="bg-gray-50 text-gray-800 font-sans dark:bg-gray-900 dark:text-gray-100">
-
-<!-- Mobile overlay -->
-<div id="sidebar-overlay" class="fixed inset-0 bg-black/40 z-40 hidden lg:hidden" onclick="toggleSidebar()"></div>
-
+<body class="bg-slate-50 dark:bg-slate-950 dark:text-white">
+<div class="sidebar-overlay fixed inset-0 bg-black/40 z-40 hidden lg:hidden"></div>
 <div class="flex h-screen overflow-hidden">
-  <!-- Sidebar Container -->
-  <div id="sidebar-container"></div>
-
-  <!-- Main content -->
-  <div class="flex-1 flex flex-col overflow-hidden">
-    <!-- Header Container -->
-    <div id="header-container"></div>
-
-    <!-- Page content -->
-    <main class="flex-1 overflow-y-auto overflow-x-hidden px-4 md:px-6 2xl:px-10 py-6" tabindex="-1">
-      <div class="mx-auto w-full max-w-screen-2xl">
-<div class="flex items-center gap-2 text-sm text-gray-500 mb-4">
-        <a href="#" class="hover:text-blue-600">Dashboard</a>
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-        <a href="#" class="hover:text-blue-600">Charts</a>
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-        <span class="text-gray-800 font-medium">Bar</span>
-      </div>
-      <div class="mb-6">
-        <h1 class="text-2xl font-bold text-gray-900">Bar Charts</h1>
-        <p class="text-gray-500 text-sm mt-1">Compare values across categories with vertical, horizontal, and grouped bar charts.</p>
-      </div>
-
-
-      <!-- Chart 1: Monthly Revenue Vertical Bars -->
-      <div class="bg-white rounded-xl border border-gray-200 p-6 mb-6">
-        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
-          <div>
-            <h2 class="text-base font-semibold text-gray-900">Monthly Revenue</h2>
-            <p class="text-sm text-gray-500">Revenue per month — Jan–Dec 2025</p>
-          </div>
-          <div class="flex items-center gap-2">
-            <div class="flex rounded-lg border border-gray-200 overflow-hidden text-xs font-medium">
-              <button class="px-3 py-1.5 text-gray-500 hover:bg-gray-50">7D</button>
-              <button class="px-3 py-1.5 text-gray-500 hover:bg-gray-50">30D</button>
-              <button class="px-3 py-1.5 text-gray-500 hover:bg-gray-50">90D</button>
-              <button type="button" class="px-3 py-1.5 bg-blue-600 text-white">1Y</button>
-            </div>
-            <button class="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-gray-600 border border-gray-200 rounded-lg hover:bg-gray-50">
-              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-              Export
-            </button>
-          </div>
-        </div>
-        <div class="flex items-center gap-4 mb-4 text-xs text-gray-500">
-          <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-sm bg-blue-500 inline-block"></span>Monthly Revenue</span>
-        </div>
-        <!-- SVG vertical bar chart -->
-        <!-- chart: w=780, plot area x=50..760, y=20..200, bar width=48, gap=9.8 -->
-        <!-- values: 42,46,49,53,58,61,65,69,72,78,84,89 (k) -->
-        <!-- y scale: 0-100k, range=180, px per k=1.8, bar_h = v*1.8, y = 200 - v*1.8 -->
-        <!-- x: centers at 50+i*59.2+24 = first bar left at 50 -->
-        <div class="w-full overflow-x-auto">
-          <svg viewBox="0 0 780 260" class="w-full" style="min-width:320px">
-            <line x1="50" y1="20" x2="760" y2="20" stroke="#f1f5f9" stroke-width="1"/>
-            <line x1="50" y1="56" x2="760" y2="56" stroke="#f1f5f9" stroke-width="1"/>
-            <line x1="50" y1="92" x2="760" y2="92" stroke="#f1f5f9" stroke-width="1"/>
-            <line x1="50" y1="128" x2="760" y2="128" stroke="#f1f5f9" stroke-width="1"/>
-            <line x1="50" y1="164" x2="760" y2="164" stroke="#f1f5f9" stroke-width="1"/>
-            <line x1="50" y1="200" x2="760" y2="200" stroke="#e2e8f0" stroke-width="1"/>
-            <line x1="50" y1="20" x2="50" y2="200" stroke="#e2e8f0" stroke-width="1"/>
-            <text x="44" y="24" text-anchor="end" font-size="11" fill="#94a3b8">$100k</text>
-            <text x="44" y="60" text-anchor="end" font-size="11" fill="#94a3b8">$80k</text>
-            <text x="44" y="96" text-anchor="end" font-size="11" fill="#94a3b8">$60k</text>
-            <text x="44" y="132" text-anchor="end" font-size="11" fill="#94a3b8">$40k</text>
-            <text x="44" y="168" text-anchor="end" font-size="11" fill="#94a3b8">$20k</text>
-            <text x="44" y="204" text-anchor="end" font-size="11" fill="#94a3b8">$0</text>
-            <!-- Bars: x centers at 50 + i*59.2 + 4, width=48 -->
-            <!-- Jan=42k: h=75.6, y=124.4 --><rect x="54" y="124" width="48" height="76" rx="3" fill="#3b82f6" opacity="0.85"/><text x="78" y="118" text-anchor="middle" font-size="10" fill="#3b82f6" font-weight="600">$42k</text>
-            <!-- Feb=46k: h=82.8, y=117.2 --><rect x="113.2" y="117" width="48" height="83" rx="3" fill="#3b82f6" opacity="0.85"/><text x="137.2" y="111" text-anchor="middle" font-size="10" fill="#3b82f6" font-weight="600">$46k</text>
-            <!-- Mar=49k: h=88.2, y=111.8 --><rect x="172.4" y="112" width="48" height="88" rx="3" fill="#3b82f6" opacity="0.85"/><text x="196.4" y="106" text-anchor="middle" font-size="10" fill="#3b82f6" font-weight="600">$49k</text>
-            <!-- Apr=53k: h=95.4, y=104.6 --><rect x="231.6" y="105" width="48" height="95" rx="3" fill="#3b82f6" opacity="0.85"/><text x="255.6" y="99" text-anchor="middle" font-size="10" fill="#3b82f6" font-weight="600">$53k</text>
-            <!-- May=58k: h=104.4, y=95.6 --><rect x="290.8" y="96" width="48" height="104" rx="3" fill="#3b82f6" opacity="0.9"/><text x="314.8" y="90" text-anchor="middle" font-size="10" fill="#3b82f6" font-weight="600">$58k</text>
-            <!-- Jun=61k: h=109.8, y=90.2 --><rect x="350" y="90" width="48" height="110" rx="3" fill="#3b82f6" opacity="0.9"/><text x="374" y="84" text-anchor="middle" font-size="10" fill="#3b82f6" font-weight="600">$61k</text>
-            <!-- Jul=65k: h=117, y=83 --><rect x="409.2" y="83" width="48" height="117" rx="3" fill="#2563eb" opacity="0.9"/><text x="433.2" y="77" text-anchor="middle" font-size="10" fill="#2563eb" font-weight="600">$65k</text>
-            <!-- Aug=69k: h=124.2, y=75.8 --><rect x="468.4" y="76" width="48" height="124" rx="3" fill="#2563eb" opacity="0.9"/><text x="492.4" y="70" text-anchor="middle" font-size="10" fill="#2563eb" font-weight="600">$69k</text>
-            <!-- Sep=72k: h=129.6, y=70.4 --><rect x="527.6" y="70" width="48" height="130" rx="3" fill="#1d4ed8" opacity="0.9"/><text x="551.6" y="64" text-anchor="middle" font-size="10" fill="#1d4ed8" font-weight="600">$72k</text>
-            <!-- Oct=78k: h=140.4, y=59.6 --><rect x="586.8" y="60" width="48" height="140" rx="3" fill="#1d4ed8" opacity="0.9"/><text x="610.8" y="54" text-anchor="middle" font-size="10" fill="#1d4ed8" font-weight="600">$78k</text>
-            <!-- Nov=84k: h=151.2, y=48.8 --><rect x="646" y="49" width="48" height="151" rx="3" fill="#1e40af"/><text x="670" y="43" text-anchor="middle" font-size="10" fill="#1e40af" font-weight="600">$84k</text>
-            <!-- Dec=89k: h=160.2, y=39.8 --><rect x="705.2" y="40" width="48" height="160" rx="3" fill="#1e3a8a"/><text x="729.2" y="34" text-anchor="middle" font-size="10" fill="#1e3a8a" font-weight="600">$89k</text>
-            <!-- X labels -->
-            <text x="78" y="220" text-anchor="middle" font-size="11" fill="#94a3b8">Jan</text>
-            <text x="137.2" y="220" text-anchor="middle" font-size="11" fill="#94a3b8">Feb</text>
-            <text x="196.4" y="220" text-anchor="middle" font-size="11" fill="#94a3b8">Mar</text>
-            <text x="255.6" y="220" text-anchor="middle" font-size="11" fill="#94a3b8">Apr</text>
-            <text x="314.8" y="220" text-anchor="middle" font-size="11" fill="#94a3b8">May</text>
-            <text x="374" y="220" text-anchor="middle" font-size="11" fill="#94a3b8">Jun</text>
-            <text x="433.2" y="220" text-anchor="middle" font-size="11" fill="#94a3b8">Jul</text>
-            <text x="492.4" y="220" text-anchor="middle" font-size="11" fill="#94a3b8">Aug</text>
-            <text x="551.6" y="220" text-anchor="middle" font-size="11" fill="#94a3b8">Sep</text>
-            <text x="610.8" y="220" text-anchor="middle" font-size="11" fill="#94a3b8">Oct</text>
-            <text x="670" y="220" text-anchor="middle" font-size="11" fill="#94a3b8">Nov</text>
-            <text x="729.2" y="220" text-anchor="middle" font-size="11" fill="#94a3b8">Dec</text>
-          </svg>
-        </div>
-      </div>
-
-      <!-- Chart 2: Horizontal Bar - Top 8 Templates by Downloads -->
-      <div class="bg-white rounded-xl border border-gray-200 p-6 mb-6">
-        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
-          <div>
-            <h2 class="text-base font-semibold text-gray-900">Top Templates by Downloads</h2>
-            <p class="text-sm text-gray-500">Cumulative downloads — all time</p>
-          </div>
-          <button class="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-gray-600 border border-gray-200 rounded-lg hover:bg-gray-50 w-fit">
-            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-            Export
-          </button>
-        </div>
-        <!-- Horizontal bars: max=4200, chart width=580, px per unit = 580/4500=0.129 -->
-        <!-- Bar y: first at 30, step=30, height=18 -->
-        <div class="w-full overflow-x-auto">
-          <svg viewBox="0 0 780 280" class="w-full" style="min-width:360px">
-            <line x1="160" y1="20" x2="760" y2="20" stroke="#f1f5f9" stroke-width="1"/>
-            <line x1="160" y1="260" x2="760" y2="260" stroke="#e2e8f0" stroke-width="1"/>
-            <line x1="310" y1="20" x2="310" y2="260" stroke="#f1f5f9" stroke-width="1"/>
-            <line x1="460" y1="20" x2="460" y2="260" stroke="#f1f5f9" stroke-width="1"/>
-            <line x1="610" y1="20" x2="610" y2="260" stroke="#f1f5f9" stroke-width="1"/>
-            <line x1="760" y1="20" x2="760" y2="260" stroke="#f1f5f9" stroke-width="1"/>
-            <text x="160" y="275" text-anchor="middle" font-size="10" fill="#94a3b8">0</text>
-            <text x="310" y="275" text-anchor="middle" font-size="10" fill="#94a3b8">1,500</text>
-            <text x="460" y="275" text-anchor="middle" font-size="10" fill="#94a3b8">3,000</text>
-            <text x="610" y="275" text-anchor="middle" font-size="10" fill="#94a3b8">4,500</text>
-            <!-- Admin Pro 4200: w=4200/4500*600=560 --><text x="155" y="43" text-anchor="end" font-size="11" fill="#374151">Admin Pro</text><rect x="160" y="30" width="560" height="20" rx="3" fill="#3b82f6"/><text x="728" y="44" font-size="11" fill="#1d4ed8" font-weight="600">4,200</text>
-            <!-- SaaS Kit 3800: w=506.7 --><text x="155" y="73" text-anchor="end" font-size="11" fill="#374151">SaaS Kit</text><rect x="160" y="60" width="507" height="20" rx="3" fill="#3b82f6" opacity="0.9"/><text x="675" y="74" font-size="11" fill="#1d4ed8" font-weight="600">3,800</text>
-            <!-- Dashboard X 3100: w=413.3 --><text x="155" y="103" text-anchor="end" font-size="11" fill="#374151">Dashboard X</text><rect x="160" y="90" width="413" height="20" rx="3" fill="#60a5fa" opacity="0.9"/><text x="581" y="104" font-size="11" fill="#1d4ed8" font-weight="600">3,100</text>
-            <!-- Analytics Hub 2900: w=386.7 --><text x="155" y="133" text-anchor="end" font-size="11" fill="#374151">Analytics Hub</text><rect x="160" y="120" width="387" height="20" rx="3" fill="#60a5fa" opacity="0.9"/><text x="555" y="134" font-size="11" fill="#1d4ed8" font-weight="600">2,900</text>
-            <!-- Commerce UI 2400: w=320 --><text x="155" y="163" text-anchor="end" font-size="11" fill="#374151">Commerce UI</text><rect x="160" y="150" width="320" height="20" rx="3" fill="#93c5fd" opacity="0.9"/><text x="488" y="164" font-size="11" fill="#1d4ed8" font-weight="600">2,400</text>
-            <!-- CRM Suite 1900: w=253.3 --><text x="155" y="193" text-anchor="end" font-size="11" fill="#374151">CRM Suite</text><rect x="160" y="180" width="253" height="20" rx="3" fill="#93c5fd" opacity="0.9"/><text x="421" y="194" font-size="11" fill="#1d4ed8" font-weight="600">1,900</text>
-            <!-- DevPanel 1500: w=200 --><text x="155" y="223" text-anchor="end" font-size="11" fill="#374151">DevPanel</text><rect x="160" y="210" width="200" height="20" rx="3" fill="#bfdbfe"/><text x="368" y="224" font-size="11" fill="#1d4ed8" font-weight="600">1,500</text>
-            <!-- Flux Admin 1100: w=146.7 --><text x="155" y="253" text-anchor="end" font-size="11" fill="#374151">Flux Admin</text><rect x="160" y="240" width="147" height="20" rx="3" fill="#bfdbfe"/><text x="315" y="254" font-size="11" fill="#1d4ed8" font-weight="600">1,100</text>
-          </svg>
-        </div>
-      </div>
-
-
-      <!-- Chart 3: Grouped Bar - Plan Distribution by Quarter -->
-      <div class="bg-white rounded-xl border border-gray-200 p-6 mb-6">
-        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
-          <div>
-            <h2 class="text-base font-semibold text-gray-900">Plan Distribution by Quarter</h2>
-            <p class="text-sm text-gray-500">Starter / Pro / Enterprise subscriptions — Q1–Q4 2025</p>
-          </div>
-          <button class="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-gray-600 border border-gray-200 rounded-lg hover:bg-gray-50 w-fit">
-            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-            Export
-          </button>
-        </div>
-        <div class="flex items-center gap-4 mb-4 text-xs text-gray-500">
-          <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-sm bg-blue-400 inline-block"></span>Starter</span>
-          <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-sm bg-violet-500 inline-block"></span>Pro</span>
-          <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-sm bg-amber-500 inline-block"></span>Enterprise</span>
-        </div>
-        <!-- Q1: S=840,P=1240,E=320 | Q2: S=920,P=1480,E=410 | Q3: S=1010,P=1750,E=520 | Q4: S=1080,P=2100,E=680 -->
-        <!-- y scale 0-2500, range=180, px per unit=0.072 -->
-        <!-- Q groups centered at x=160,320,480,640. 3 bars per group, bar_w=40, gap=10 -->
-        <!-- Q1 bars: x=120,162,204 | Q2: x=280,322,364 | Q3: x=440,482,524 | Q4: x=600,642,684 -->
-        <div class="w-full overflow-x-auto">
-          <svg viewBox="0 0 780 270" class="w-full" style="min-width:320px">
-            <line x1="50" y1="20" x2="760" y2="20" stroke="#f1f5f9" stroke-width="1"/>
-            <line x1="50" y1="65" x2="760" y2="65" stroke="#f1f5f9" stroke-width="1"/>
-            <line x1="50" y1="110" x2="760" y2="110" stroke="#f1f5f9" stroke-width="1"/>
-            <line x1="50" y1="155" x2="760" y2="155" stroke="#f1f5f9" stroke-width="1"/>
-            <line x1="50" y1="200" x2="760" y2="200" stroke="#e2e8f0" stroke-width="1"/>
-            <line x1="50" y1="20" x2="50" y2="200" stroke="#e2e8f0" stroke-width="1"/>
-            <text x="44" y="24" text-anchor="end" font-size="11" fill="#94a3b8">2,500</text>
-            <text x="44" y="69" text-anchor="end" font-size="11" fill="#94a3b8">2,000</text>
-            <text x="44" y="114" text-anchor="end" font-size="11" fill="#94a3b8">1,500</text>
-            <text x="44" y="159" text-anchor="end" font-size="11" fill="#94a3b8">1,000</text>
-            <text x="44" y="204" text-anchor="end" font-size="11" fill="#94a3b8">0</text>
-            <!-- Q1 -->
-            <!-- Starter 840: h=60.5, y=139.5 --><rect x="110" y="140" width="38" height="60" rx="2" fill="#60a5fa"/>
-            <!-- Pro 1240: h=89.3, y=110.7 --><rect x="152" y="111" width="38" height="89" rx="2" fill="#8b5cf6"/>
-            <!-- Enterprise 320: h=23, y=177 --><rect x="194" y="177" width="38" height="23" rx="2" fill="#f59e0b"/>
-            <text x="171" y="218" text-anchor="middle" font-size="12" fill="#6b7280" font-weight="600">Q1</text>
-            <!-- Q2 -->
-            <!-- Starter 920: h=66.2, y=133.8 --><rect x="270" y="134" width="38" height="66" rx="2" fill="#60a5fa"/>
-            <!-- Pro 1480: h=106.6, y=93.4 --><rect x="312" y="93" width="38" height="107" rx="2" fill="#8b5cf6"/>
-            <!-- Enterprise 410: h=29.5, y=170.5 --><rect x="354" y="170" width="38" height="30" rx="2" fill="#f59e0b"/>
-            <text x="331" y="218" text-anchor="middle" font-size="12" fill="#6b7280" font-weight="600">Q2</text>
-            <!-- Q3 -->
-            <!-- Starter 1010: h=72.7, y=127.3 --><rect x="430" y="127" width="38" height="73" rx="2" fill="#60a5fa"/>
-            <!-- Pro 1750: h=126, y=74 --><rect x="472" y="74" width="38" height="126" rx="2" fill="#8b5cf6"/>
-            <!-- Enterprise 520: h=37.4, y=162.6 --><rect x="514" y="163" width="38" height="37" rx="2" fill="#f59e0b"/>
-            <text x="491" y="218" text-anchor="middle" font-size="12" fill="#6b7280" font-weight="600">Q3</text>
-            <!-- Q4 -->
-            <!-- Starter 1080: h=77.8, y=122.2 --><rect x="590" y="122" width="38" height="78" rx="2" fill="#60a5fa"/>
-            <!-- Pro 2100: h=151.2, y=48.8 --><rect x="632" y="49" width="38" height="151" rx="2" fill="#8b5cf6"/>
-            <!-- Enterprise 680: h=49, y=151 --><rect x="674" y="151" width="38" height="49" rx="2" fill="#f59e0b"/>
-            <text x="651" y="218" text-anchor="middle" font-size="12" fill="#6b7280" font-weight="600">Q4</text>
-            <!-- Value labels Q4 -->
-            <text x="609" y="116" text-anchor="middle" font-size="9" fill="#3b82f6">1,080</text>
-            <text x="651" y="43" text-anchor="middle" font-size="9" fill="#7c3aed">2,100</text>
-            <text x="693" y="145" text-anchor="middle" font-size="9" fill="#d97706">680</text>
-          </svg>
-        </div>
-        <div class="mt-2 grid grid-cols-3 gap-4 text-sm">
-          <div class="bg-blue-50 rounded-lg p-3 text-center"><div class="text-xs text-gray-500">Starter (Q4)</div><div class="font-bold text-blue-600 text-lg">1,080</div></div>
-          <div class="bg-violet-50 rounded-lg p-3 text-center"><div class="text-xs text-gray-500">Pro (Q4)</div><div class="font-bold text-violet-600 text-lg">2,100</div></div>
-          <div class="bg-amber-50 rounded-lg p-3 text-center"><div class="text-xs text-gray-500">Enterprise (Q4)</div><div class="font-bold text-amber-600 text-lg">680</div></div>
-        </div>
-      </div>
-      </div>
-    </main>
-  </div>
+<div class="sidebar-container w-72 flex-shrink-0"></div>
+<div class="header-container flex-1 flex flex-col overflow-hidden"></div>
+<main class="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8">
+<nav class="flex items-center gap-2 text-sm text-slate-400 mb-4">
+<a href="#" class="hover:text-slate-600 dark:hover:text-slate-300">Home</a><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+<a href="#" class="hover:text-slate-600 dark:hover:text-slate-300">Charts</a><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+<span class="text-slate-700 dark:text-slate-200 font-medium">Bar Charts</span>
+</nav>
+<div class="mb-6 fade-up">
+<h1 class="text-2xl font-bold text-slate-900 dark:text-white mb-1">Bar Charts</h1>
+<p class="text-sm text-slate-500 dark:text-slate-400">SVG bar charts with animations and labels</p>
 </div>
-
-<!-- Common Components -->
+<div class="chart-card fade-up"><h3>Monthly Sales</h3><p>Sales performance by month</p>
+<div class="chart-container"><svg viewBox="0 0 500 220" xmlns="http://www.w3.org/2000/svg">
+<line x1="30" y1="30.0" x2="470" y2="30.0" stroke="#e2e8f0" stroke-width="0.5"/>
+<text x="26" y="34.0" text-anchor="end" font-size="9" fill="#94a3b8">90</text>
+<line x1="30" y1="65.0" x2="470" y2="65.0" stroke="#e2e8f0" stroke-width="0.5"/>
+<text x="26" y="69.0" text-anchor="end" font-size="9" fill="#94a3b8">67</text>
+<line x1="30" y1="100.0" x2="470" y2="100.0" stroke="#e2e8f0" stroke-width="0.5"/>
+<text x="26" y="104.0" text-anchor="end" font-size="9" fill="#94a3b8">45</text>
+<line x1="30" y1="135.0" x2="470" y2="135.0" stroke="#e2e8f0" stroke-width="0.5"/>
+<text x="26" y="139.0" text-anchor="end" font-size="9" fill="#94a3b8">22</text>
+<line x1="30" y1="170.0" x2="470" y2="170.0" stroke="#e2e8f0" stroke-width="0.5"/>
+<text x="26" y="174.0" text-anchor="end" font-size="9" fill="#94a3b8">0</text>
+<rect x="37.333333333333336" y="100.0" width="21.999999999999996" height="70.0" rx="3" fill="#6366f1" opacity="0.85">
+<animate attributeName="height" from="0" to="70.0" dur="0.8s" fill="freeze"/>
+<animate attributeName="y" from="170" to="100.0" dur="0.8s" fill="freeze"/>
+</rect>
+<text x="48.333333333333336" y="212" text-anchor="middle" font-size="9" fill="#94a3b8">Jan</text>
+<rect x="73.99999999999999" y="89.11111111111111" width="21.999999999999996" height="80.88888888888889" rx="3" fill="#6366f1" opacity="0.85">
+<animate attributeName="height" from="0" to="80.88888888888889" dur="0.8s" fill="freeze"/>
+<animate attributeName="y" from="170" to="89.11111111111111" dur="0.8s" fill="freeze"/>
+</rect>
+<text x="84.99999999999999" y="212" text-anchor="middle" font-size="9" fill="#94a3b8">Feb</text>
+<rect x="110.66666666666666" y="95.33333333333333" width="21.999999999999996" height="74.66666666666667" rx="3" fill="#6366f1" opacity="0.85">
+<animate attributeName="height" from="0" to="74.66666666666667" dur="0.8s" fill="freeze"/>
+<animate attributeName="y" from="170" to="95.33333333333333" dur="0.8s" fill="freeze"/>
+</rect>
+<text x="121.66666666666666" y="212" text-anchor="middle" font-size="9" fill="#94a3b8">Mar</text>
+<rect x="147.33333333333334" y="75.1111111111111" width="21.999999999999996" height="94.8888888888889" rx="3" fill="#6366f1" opacity="0.85">
+<animate attributeName="height" from="0" to="94.8888888888889" dur="0.8s" fill="freeze"/>
+<animate attributeName="y" from="170" to="75.1111111111111" dur="0.8s" fill="freeze"/>
+</rect>
+<text x="158.33333333333334" y="212" text-anchor="middle" font-size="9" fill="#94a3b8">Apr</text>
+<rect x="184.0" y="84.44444444444444" width="21.999999999999996" height="85.55555555555556" rx="3" fill="#6366f1" opacity="0.85">
+<animate attributeName="height" from="0" to="85.55555555555556" dur="0.8s" fill="freeze"/>
+<animate attributeName="y" from="170" to="84.44444444444444" dur="0.8s" fill="freeze"/>
+</rect>
+<text x="195.0" y="212" text-anchor="middle" font-size="9" fill="#94a3b8">May</text>
+<rect x="220.66666666666666" y="65.77777777777777" width="21.999999999999996" height="104.22222222222223" rx="3" fill="#6366f1" opacity="0.85">
+<animate attributeName="height" from="0" to="104.22222222222223" dur="0.8s" fill="freeze"/>
+<animate attributeName="y" from="170" to="65.77777777777777" dur="0.8s" fill="freeze"/>
+</rect>
+<text x="231.66666666666666" y="212" text-anchor="middle" font-size="9" fill="#94a3b8">Jun</text>
+<rect x="257.3333333333333" y="58.0" width="21.999999999999996" height="112.0" rx="3" fill="#6366f1" opacity="0.85">
+<animate attributeName="height" from="0" to="112.0" dur="0.8s" fill="freeze"/>
+<animate attributeName="y" from="170" to="58.0" dur="0.8s" fill="freeze"/>
+</rect>
+<text x="268.3333333333333" y="212" text-anchor="middle" font-size="9" fill="#94a3b8">Jul</text>
+<rect x="293.99999999999994" y="64.22222222222223" width="21.999999999999996" height="105.77777777777777" rx="3" fill="#6366f1" opacity="0.85">
+<animate attributeName="height" from="0" to="105.77777777777777" dur="0.8s" fill="freeze"/>
+<animate attributeName="y" from="170" to="64.22222222222223" dur="0.8s" fill="freeze"/>
+</rect>
+<text x="304.99999999999994" y="212" text-anchor="middle" font-size="9" fill="#94a3b8">Aug</text>
+<rect x="330.66666666666663" y="53.33333333333333" width="21.999999999999996" height="116.66666666666667" rx="3" fill="#6366f1" opacity="0.85">
+<animate attributeName="height" from="0" to="116.66666666666667" dur="0.8s" fill="freeze"/>
+<animate attributeName="y" from="170" to="53.33333333333333" dur="0.8s" fill="freeze"/>
+</rect>
+<text x="341.66666666666663" y="212" text-anchor="middle" font-size="9" fill="#94a3b8">Sep</text>
+<rect x="367.3333333333333" y="42.44444444444444" width="21.999999999999996" height="127.55555555555556" rx="3" fill="#6366f1" opacity="0.85">
+<animate attributeName="height" from="0" to="127.55555555555556" dur="0.8s" fill="freeze"/>
+<animate attributeName="y" from="170" to="42.44444444444444" dur="0.8s" fill="freeze"/>
+</rect>
+<text x="378.3333333333333" y="212" text-anchor="middle" font-size="9" fill="#94a3b8">Oct</text>
+<rect x="403.99999999999994" y="48.66666666666666" width="21.999999999999996" height="121.33333333333334" rx="3" fill="#6366f1" opacity="0.85">
+<animate attributeName="height" from="0" to="121.33333333333334" dur="0.8s" fill="freeze"/>
+<animate attributeName="y" from="170" to="48.66666666666666" dur="0.8s" fill="freeze"/>
+</rect>
+<text x="414.99999999999994" y="212" text-anchor="middle" font-size="9" fill="#94a3b8">Nov</text>
+<rect x="440.66666666666663" y="30.0" width="21.999999999999996" height="140.0" rx="3" fill="#6366f1" opacity="0.85">
+<animate attributeName="height" from="0" to="140.0" dur="0.8s" fill="freeze"/>
+<animate attributeName="y" from="170" to="30.0" dur="0.8s" fill="freeze"/>
+</rect>
+<text x="451.66666666666663" y="212" text-anchor="middle" font-size="9" fill="#94a3b8">Dec</text>
+</svg></div>
+</div>
+<div class="chart-card fade-up"><h3>Product Categories</h3><p>Revenue by product category</p>
+<div class="chart-container"><svg viewBox="0 0 500 200" xmlns="http://www.w3.org/2000/svg">
+<line x1="30" y1="30.0" x2="470" y2="30.0" stroke="#e2e8f0" stroke-width="0.5"/>
+<text x="26" y="34.0" text-anchor="end" font-size="9" fill="#94a3b8">120</text>
+<line x1="30" y1="60.0" x2="470" y2="60.0" stroke="#e2e8f0" stroke-width="0.5"/>
+<text x="26" y="64.0" text-anchor="end" font-size="9" fill="#94a3b8">90</text>
+<line x1="30" y1="90.0" x2="470" y2="90.0" stroke="#e2e8f0" stroke-width="0.5"/>
+<text x="26" y="94.0" text-anchor="end" font-size="9" fill="#94a3b8">60</text>
+<line x1="30" y1="120.0" x2="470" y2="120.0" stroke="#e2e8f0" stroke-width="0.5"/>
+<text x="26" y="124.0" text-anchor="end" font-size="9" fill="#94a3b8">30</text>
+<line x1="30" y1="150.0" x2="470" y2="150.0" stroke="#e2e8f0" stroke-width="0.5"/>
+<text x="26" y="154.0" text-anchor="end" font-size="9" fill="#94a3b8">0</text>
+<rect x="47.6" y="30.0" width="52.8" height="120.0" rx="3" fill="#22c55e" opacity="0.85">
+<animate attributeName="height" from="0" to="120.0" dur="0.8s" fill="freeze"/>
+<animate attributeName="y" from="150" to="30.0" dur="0.8s" fill="freeze"/>
+</rect>
+<text x="74.0" y="192" text-anchor="middle" font-size="9" fill="#94a3b8">Electronics</text>
+<rect x="135.6" y="55.0" width="52.8" height="95.0" rx="3" fill="#22c55e" opacity="0.85">
+<animate attributeName="height" from="0" to="95.0" dur="0.8s" fill="freeze"/>
+<animate attributeName="y" from="150" to="55.0" dur="0.8s" fill="freeze"/>
+</rect>
+<text x="162.0" y="192" text-anchor="middle" font-size="9" fill="#94a3b8">Clothing</text>
+<rect x="223.6" y="72.0" width="52.8" height="78.0" rx="3" fill="#22c55e" opacity="0.85">
+<animate attributeName="height" from="0" to="78.0" dur="0.8s" fill="freeze"/>
+<animate attributeName="y" from="150" to="72.0" dur="0.8s" fill="freeze"/>
+</rect>
+<text x="250.0" y="192" text-anchor="middle" font-size="9" fill="#94a3b8">Home</text>
+<rect x="311.6" y="85.0" width="52.8" height="65.0" rx="3" fill="#22c55e" opacity="0.85">
+<animate attributeName="height" from="0" to="65.0" dur="0.8s" fill="freeze"/>
+<animate attributeName="y" from="150" to="85.0" dur="0.8s" fill="freeze"/>
+</rect>
+<text x="338.0" y="192" text-anchor="middle" font-size="9" fill="#94a3b8">Sports</text>
+<rect x="399.6" y="108.0" width="52.8" height="42.0" rx="3" fill="#22c55e" opacity="0.85">
+<animate attributeName="height" from="0" to="42.0" dur="0.8s" fill="freeze"/>
+<animate attributeName="y" from="150" to="108.0" dur="0.8s" fill="freeze"/>
+</rect>
+<text x="426.0" y="192" text-anchor="middle" font-size="9" fill="#94a3b8">Books</text>
+</svg></div>
+</div>
+<div class="chart-card fade-up"><h3>Team Performance</h3><p>Tasks completed by team</p>
+<div class="chart-container"><svg viewBox="0 0 500 200" xmlns="http://www.w3.org/2000/svg">
+<line x1="30" y1="30.0" x2="470" y2="30.0" stroke="#e2e8f0" stroke-width="0.5"/>
+<text x="26" y="34.0" text-anchor="end" font-size="9" fill="#94a3b8">55</text>
+<line x1="30" y1="60.0" x2="470" y2="60.0" stroke="#e2e8f0" stroke-width="0.5"/>
+<text x="26" y="64.0" text-anchor="end" font-size="9" fill="#94a3b8">41</text>
+<line x1="30" y1="90.0" x2="470" y2="90.0" stroke="#e2e8f0" stroke-width="0.5"/>
+<text x="26" y="94.0" text-anchor="end" font-size="9" fill="#94a3b8">27</text>
+<line x1="30" y1="120.0" x2="470" y2="120.0" stroke="#e2e8f0" stroke-width="0.5"/>
+<text x="26" y="124.0" text-anchor="end" font-size="9" fill="#94a3b8">13</text>
+<line x1="30" y1="150.0" x2="470" y2="150.0" stroke="#e2e8f0" stroke-width="0.5"/>
+<text x="26" y="154.0" text-anchor="end" font-size="9" fill="#94a3b8">0</text>
+<rect x="47.6" y="58.36363636363636" width="52.8" height="91.63636363636364" rx="3" fill="#f59e0b" opacity="0.85">
+<animate attributeName="height" from="0" to="91.63636363636364" dur="0.8s" fill="freeze"/>
+<animate attributeName="y" from="150" to="58.36363636363636" dur="0.8s" fill="freeze"/>
+</rect>
+<text x="74.0" y="192" text-anchor="middle" font-size="9" fill="#94a3b8">Design</text>
+<rect x="135.6" y="67.0909090909091" width="52.8" height="82.9090909090909" rx="3" fill="#f59e0b" opacity="0.85">
+<animate attributeName="height" from="0" to="82.9090909090909" dur="0.8s" fill="freeze"/>
+<animate attributeName="y" from="150" to="67.0909090909091" dur="0.8s" fill="freeze"/>
+</rect>
+<text x="162.0" y="192" text-anchor="middle" font-size="9" fill="#94a3b8">Engineering</text>
+<rect x="223.6" y="30.0" width="52.8" height="120.0" rx="3" fill="#f59e0b" opacity="0.85">
+<animate attributeName="height" from="0" to="120.0" dur="0.8s" fill="freeze"/>
+<animate attributeName="y" from="150" to="30.0" dur="0.8s" fill="freeze"/>
+</rect>
+<text x="250.0" y="192" text-anchor="middle" font-size="9" fill="#94a3b8">Marketing</text>
+<rect x="311.6" y="47.45454545454547" width="52.8" height="102.54545454545453" rx="3" fill="#f59e0b" opacity="0.85">
+<animate attributeName="height" from="0" to="102.54545454545453" dur="0.8s" fill="freeze"/>
+<animate attributeName="y" from="150" to="47.45454545454547" dur="0.8s" fill="freeze"/>
+</rect>
+<text x="338.0" y="192" text-anchor="middle" font-size="9" fill="#94a3b8">Sales</text>
+<rect x="399.6" y="78.0" width="52.8" height="72.0" rx="3" fill="#f59e0b" opacity="0.85">
+<animate attributeName="height" from="0" to="72.0" dur="0.8s" fill="freeze"/>
+<animate attributeName="y" from="150" to="78.0" dur="0.8s" fill="freeze"/>
+</rect>
+<text x="426.0" y="192" text-anchor="middle" font-size="9" fill="#94a3b8">Support</text>
+</svg></div>
+</div>
+<div class="chart-card fade-up"><h3>Weekly Traffic</h3><p>Page views by day of week</p>
+<div class="chart-container"><svg viewBox="0 0 500 200" xmlns="http://www.w3.org/2000/svg">
+<line x1="30" y1="30.0" x2="470" y2="30.0" stroke="#e2e8f0" stroke-width="0.5"/>
+<text x="26" y="34.0" text-anchor="end" font-size="9" fill="#94a3b8">2600</text>
+<line x1="30" y1="60.0" x2="470" y2="60.0" stroke="#e2e8f0" stroke-width="0.5"/>
+<text x="26" y="64.0" text-anchor="end" font-size="9" fill="#94a3b8">1950</text>
+<line x1="30" y1="90.0" x2="470" y2="90.0" stroke="#e2e8f0" stroke-width="0.5"/>
+<text x="26" y="94.0" text-anchor="end" font-size="9" fill="#94a3b8">1300</text>
+<line x1="30" y1="120.0" x2="470" y2="120.0" stroke="#e2e8f0" stroke-width="0.5"/>
+<text x="26" y="124.0" text-anchor="end" font-size="9" fill="#94a3b8">650</text>
+<line x1="30" y1="150.0" x2="470" y2="150.0" stroke="#e2e8f0" stroke-width="0.5"/>
+<text x="26" y="154.0" text-anchor="end" font-size="9" fill="#94a3b8">0</text>
+<rect x="42.57142857142857" y="39.230769230769226" width="37.71428571428571" height="110.76923076923077" rx="3" fill="#8b5cf6" opacity="0.85">
+<animate attributeName="height" from="0" to="110.76923076923077" dur="0.8s" fill="freeze"/>
+<animate attributeName="y" from="150" to="39.230769230769226" dur="0.8s" fill="freeze"/>
+</rect>
+<text x="61.42857142857142" y="192" text-anchor="middle" font-size="9" fill="#94a3b8">Mon</text>
+<rect x="105.42857142857143" y="66.92307692307692" width="37.71428571428571" height="83.07692307692308" rx="3" fill="#8b5cf6" opacity="0.85">
+<animate attributeName="height" from="0" to="83.07692307692308" dur="0.8s" fill="freeze"/>
+<animate attributeName="y" from="150" to="66.92307692307692" dur="0.8s" fill="freeze"/>
+</rect>
+<text x="124.28571428571428" y="192" text-anchor="middle" font-size="9" fill="#94a3b8">Tue</text>
+<rect x="168.2857142857143" y="53.07692307692308" width="37.71428571428571" height="96.92307692307692" rx="3" fill="#8b5cf6" opacity="0.85">
+<animate attributeName="height" from="0" to="96.92307692307692" dur="0.8s" fill="freeze"/>
+<animate attributeName="y" from="150" to="53.07692307692308" dur="0.8s" fill="freeze"/>
+</rect>
+<text x="187.14285714285717" y="192" text-anchor="middle" font-size="9" fill="#94a3b8">Wed</text>
+<rect x="231.14285714285714" y="43.846153846153854" width="37.71428571428571" height="106.15384615384615" rx="3" fill="#8b5cf6" opacity="0.85">
+<animate attributeName="height" from="0" to="106.15384615384615" dur="0.8s" fill="freeze"/>
+<animate attributeName="y" from="150" to="43.846153846153854" dur="0.8s" fill="freeze"/>
+</rect>
+<text x="250.0" y="192" text-anchor="middle" font-size="9" fill="#94a3b8">Thu</text>
+<rect x="294.0" y="30.0" width="37.71428571428571" height="120.0" rx="3" fill="#8b5cf6" opacity="0.85">
+<animate attributeName="height" from="0" to="120.0" dur="0.8s" fill="freeze"/>
+<animate attributeName="y" from="150" to="30.0" dur="0.8s" fill="freeze"/>
+</rect>
+<text x="312.85714285714283" y="192" text-anchor="middle" font-size="9" fill="#94a3b8">Fri</text>
+<rect x="356.85714285714283" y="94.61538461538461" width="37.71428571428571" height="55.38461538461539" rx="3" fill="#8b5cf6" opacity="0.85">
+<animate attributeName="height" from="0" to="55.38461538461539" dur="0.8s" fill="freeze"/>
+<animate attributeName="y" from="150" to="94.61538461538461" dur="0.8s" fill="freeze"/>
+</rect>
+<text x="375.71428571428567" y="192" text-anchor="middle" font-size="9" fill="#94a3b8">Sat</text>
+<rect x="419.71428571428567" y="108.46153846153845" width="37.71428571428571" height="41.53846153846154" rx="3" fill="#8b5cf6" opacity="0.85">
+<animate attributeName="height" from="0" to="41.53846153846154" dur="0.8s" fill="freeze"/>
+<animate attributeName="y" from="150" to="108.46153846153845" dur="0.8s" fill="freeze"/>
+</rect>
+<text x="438.5714285714285" y="192" text-anchor="middle" font-size="9" fill="#94a3b8">Sun</text>
+</svg></div>
+</div>
+</main>
+</div>
+</div>
 <script src="common-loader.js"></script>
 <script src="common-sidebar.js"></script>
 <script src="common-header.js"></script>
 <script src="app-shell.js"></script>
+<script>
 
+</script>
 </body>
 </html>

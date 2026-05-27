@@ -1,88 +1,81 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#465fff" />
-  <meta name="description" content="Breadcrumb patterns for deep dashboard navigation." />
-  <title>Breadcrumb - mtverse</title>
-  <style>
-    .no-scrollbar::-webkit-scrollbar { display: none; }
-    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-    @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
-    .animate-slideDown { animation: slideDown 0.2s ease-out; }
-  </style>
-  <link rel="stylesheet" href="tailwind-production.css">
-  <link rel="stylesheet" href="pro-styles.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Breadcrumbs — UI Elements</title>
+<style>::-webkit-scrollbar{width:6px;height:6px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:3px}::-webkit-scrollbar-thumb:hover{background:#94a3b8}@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}</style>
+<link rel="stylesheet" href="tailwind-production.css">
+<link rel="stylesheet" href="pro-styles.css">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+.component-item{border:1px solid #e5e7eb;border-radius:.75rem;overflow:hidden;background:#fff;transition:box-shadow .2s,border-color .2s}.component-item:hover{box-shadow:0 4px 12px rgba(0,0,0,.08);border-color:#cbd5e1}
+.dark .component-item{border-color:#374151;background:#1f2937}.dark .component-item:hover{border-color:#4b5563;box-shadow:0 4px 12px rgba(0,0,0,.3)}
+.component-item-header{padding:1rem 1.25rem;border-bottom:1px solid #f3f4f6;display:flex;align-items:center;justify-content:space-between}.dark .component-item-header{border-color:#374151}
+.component-item-preview{padding:1.5rem;display:flex;flex-wrap:wrap;gap:.75rem;align-items:center;min-height:80px}
+.component-item-actions{padding:.75rem 1.25rem;border-top:1px solid #f3f4f6;display:flex;gap:.5rem}.dark .component-item-actions{border-color:#374151}
+
+</style>
+<script src="https://sites.super.myninja.ai/_assets/ninja-daytona-script.js"></script>
 </head>
 <body class="bg-gray-50 text-gray-800 font-sans dark:bg-gray-900 dark:text-gray-100">
-<div id="sidebar-overlay" class="fixed inset-0 bg-black/40 z-40 hidden lg:hidden" onclick="toggleSidebar()"></div>
+<div id="sidebar-overlay" class="fixed inset-0 bg-black/40 z-40 hidden lg:hidden" onclick="window.toggleSidebar&&toggleSidebar()"></div>
 <div class="flex h-screen overflow-hidden">
-  <div id="sidebar-container"></div>
-  <div class="flex-1 flex flex-col overflow-hidden">
-    <div id="header-container"></div>
-    <main class="flex-1 overflow-y-auto overflow-x-hidden px-4 md:px-6 2xl:px-10 py-6" tabindex="-1">
-      <div class="mx-auto w-full max-w-screen-2xl">
-        <div class="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-          <div>
-            <div class="mb-2 flex items-center gap-2 text-sm text-gray-500">
-              <span>mtverse</span><span>/</span><span>ui-elements</span><span>/</span>
-              <span class="font-medium text-gray-800 dark:text-white/90">Breadcrumb</span>
-            </div>
-            <h1 class="text-2xl font-bold text-gray-900 dark:text-white/90">Breadcrumb</h1>
-            <p class="mt-1 max-w-2xl text-sm text-gray-500 dark:text-gray-400">Breadcrumb patterns for deep dashboard navigation.</p>
-          </div>
-          <div class="flex flex-wrap gap-2">
-            <button type="button" class="rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 dark:border-gray-800 dark:bg-white/[0.03] dark:text-gray-300">Preview</button>
-            <button type="button" class="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700">Use Component</button>
-          </div>
-        </div>
+<div id="sidebar-container"></div>
+<div class="flex-1 flex flex-col overflow-hidden">
+<div id="header-container"></div>
+<main class="flex-1 overflow-y-auto overflow-x-hidden px-4 md:px-6 2xl:px-10 py-6" tabindex="-1">
+<div class="mx-auto w-full max-w-screen-2xl">
+<div class="mb-6">
+<nav class="text-sm text-gray-500 dark:text-gray-400 mb-2" aria-label="Breadcrumb"><ol class="flex items-center gap-1.5"><li><a href="01-main-dashboard.html" class="hover:text-blue-600">Home</a></li><li class="before:content-[&#39;/&#39;] before:mx-1.5 before:text-gray-300 dark:before:text-gray-600">UI Elements</li><li class="before:content-[&#39;/&#39;] before:mx-1.5 before:text-gray-300 dark:before:text-gray-600 font-medium text-gray-800 dark:text-gray-200">Breadcrumbs</li></ol></nav>
+<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+<div><h1 class="text-2xl font-bold text-gray-900 dark:text-white">Breadcrumbs</h1><p class="text-gray-500 dark:text-gray-400 mt-1">5 component variants across 2 categories with live preview and source code</p></div>
+<div class="flex gap-2"><div class="relative"><input type="text" id="componentSearch" placeholder="Search breadcrumbs&#8230;" class="pl-9 pr-4 py-2 text-sm border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-56" oninput="initComponentSearch(this.value)"><svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg></div></div>
+</div>
+</div><div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6"><div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 p-5">
+<div class="flex items-center justify-between mb-3"><span class="text-sm font-medium text-gray-500 dark:text-gray-400">Variants</span><span class="w-8 h-8 rounded-lg bg-blue-50 dark:bg-blue-900/30 flex items-center justify-center"><svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></span></div>
+<p class="text-2xl font-bold text-gray-900 dark:text-white" data-counter="5">0</p><p class="text-xs text-green-600 font-medium mt-1">2 categories</p>
+</div><div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 p-5">
+<div class="flex items-center justify-between mb-3"><span class="text-sm font-medium text-gray-500 dark:text-gray-400">Responsive</span><span class="w-8 h-8 rounded-lg bg-emerald-50 dark:bg-emerald-900/30 flex items-center justify-center"><svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg></span></div>
+<p class="text-2xl font-bold text-gray-900 dark:text-white">100%</p><p class="text-xs text-green-600 font-medium mt-1">Mobile ready</p>
+</div></div><div class="flex flex-wrap gap-2 mb-6" id="categoryFilter"><button class="px-3 py-1.5 text-sm font-medium rounded-lg bg-blue-600 text-white shadow-sm" data-category="all" onclick="initCategoryFilter(&#39;all&#39;,this)">All</button><button class="px-3 py-1.5 text-sm font-medium rounded-lg bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700" data-category="navigation" onclick="initCategoryFilter(&#39;navigation&#39;,this)">Navigation</button><button class="px-3 py-1.5 text-sm font-medium rounded-lg bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700" data-category="style" onclick="initCategoryFilter(&#39;style&#39;,this)">Style</button></div><div class="grid grid-cols-1 lg:grid-cols-2 gap-6" id="componentGrid">
+<div class="component-item" data-category="navigation" data-title="Basic Breadcrumb">
+<div class="component-item-header"><div><h3 class="font-semibold text-gray-900 dark:text-white">Basic Breadcrumb</h3><p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Standard chevron-separated breadcrumb</p></div><span class="text-[10px] font-medium px-2 py-0.5 rounded-full bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300">Navigation</span></div>
+<div class="component-item-preview" data-source-id="basic-breadcrumb" data-source-code='&lt;nav class=&quot;text-sm&quot;&gt;&lt;ol class=&quot;flex items-center gap-1.5 text-gray-500 dark:text-gray-400&quot;&gt;&lt;li&gt;&lt;a href=&quot;#&quot; class=&quot;hover:text-blue-600&quot;&gt;Home&lt;/a&gt;&lt;/li&gt;&lt;li class=&quot;before:content-[&amp;#39;/&amp;#39;] before:mx-1.5 before:text-gray-300 dark:before:text-gray-600&quot;&gt;Products&lt;/li&gt;&lt;li class=&quot;before:content-[&amp;#39;/&amp;#39;] before:mx-1.5 before:text-gray-300 dark:before:text-gray-600 font-medium text-gray-800 dark:text-gray-200&quot;&gt;Details&lt;/li&gt;&lt;/ol&gt;&lt;/nav&gt;'><nav class="text-sm"><ol class="flex items-center gap-1.5 text-gray-500 dark:text-gray-400"><li><a href="#" class="hover:text-blue-600">Home</a></li><li class="before:content-[&#39;/&#39;] before:mx-1.5 before:text-gray-300 dark:before:text-gray-600">Products</li><li class="before:content-[&#39;/&#39;] before:mx-1.5 before:text-gray-300 dark:before:text-gray-600 font-medium text-gray-800 dark:text-gray-200">Details</li></ol></nav></div>
+<div class="component-item-actions"><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="openSourceViewer(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>View Source</button><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="copySourceCode(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>Copy</button></div>
+</div>
+<div class="component-item" data-category="navigation" data-title="Chevron Breadcrumb">
+<div class="component-item-header"><div><h3 class="font-semibold text-gray-900 dark:text-white">Chevron Breadcrumb</h3><p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Chevron icon separator style</p></div><span class="text-[10px] font-medium px-2 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300">Navigation</span></div>
+<div class="component-item-preview" data-source-id="chevron-breadcrumb" data-source-code='&lt;nav class=&quot;text-sm&quot;&gt;&lt;ol class=&quot;flex items-center gap-1 text-gray-500 dark:text-gray-400&quot;&gt;&lt;li&gt;&lt;a href=&quot;#&quot; class=&quot;hover:text-blue-600&quot;&gt;Home&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;svg class=&quot;w-4 h-4 text-gray-300 dark:text-gray-600&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; viewBox=&quot;0 0 24 24&quot;&gt;&lt;path stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; stroke-width=&quot;2&quot; d=&quot;M9 5l7 7-7 7&quot;/&gt;&lt;/svg&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;#&quot; class=&quot;hover:text-blue-600&quot;&gt;Settings&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;svg class=&quot;w-4 h-4 text-gray-300 dark:text-gray-600&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; viewBox=&quot;0 0 24 24&quot;&gt;&lt;path stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; stroke-width=&quot;2&quot; d=&quot;M9 5l7 7-7 7&quot;/&gt;&lt;/svg&gt;&lt;/li&gt;&lt;li class=&quot;font-medium text-gray-800 dark:text-gray-200&quot;&gt;Profile&lt;/li&gt;&lt;/ol&gt;&lt;/nav&gt;'><nav class="text-sm"><ol class="flex items-center gap-1 text-gray-500 dark:text-gray-400"><li><a href="#" class="hover:text-blue-600">Home</a></li><li><svg class="w-4 h-4 text-gray-300 dark:text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></li><li><a href="#" class="hover:text-blue-600">Settings</a></li><li><svg class="w-4 h-4 text-gray-300 dark:text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></li><li class="font-medium text-gray-800 dark:text-gray-200">Profile</li></ol></nav></div>
+<div class="component-item-actions"><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="openSourceViewer(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>View Source</button><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="copySourceCode(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>Copy</button></div>
+</div>
+<div class="component-item" data-category="navigation" data-title="Breadcrumb with Icons">
+<div class="component-item-header"><div><h3 class="font-semibold text-gray-900 dark:text-white">Breadcrumb with Icons</h3><p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Breadcrumb with icon elements</p></div><span class="text-[10px] font-medium px-2 py-0.5 rounded-full bg-violet-50 dark:bg-violet-900/30 text-violet-700 dark:text-violet-300">Navigation</span></div>
+<div class="component-item-preview" data-source-id="breadcrumb-with-icons" data-source-code='&lt;nav class=&quot;text-sm&quot;&gt;&lt;ol class=&quot;flex items-center gap-1.5 text-gray-500 dark:text-gray-400&quot;&gt;&lt;li&gt;&lt;a href=&quot;#&quot; class=&quot;inline-flex items-center gap-1 hover:text-blue-600&quot;&gt;&lt;svg class=&quot;w-4 h-4&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; viewBox=&quot;0 0 24 24&quot;&gt;&lt;path stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; stroke-width=&quot;2&quot; d=&quot;M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6&quot;/&gt;&lt;/svg&gt;Home&lt;/a&gt;&lt;/li&gt;&lt;li class=&quot;before:content-[&amp;#39;/&amp;#39;] before:mx-1.5 before:text-gray-300 dark:before:text-gray-600&quot;&gt;&lt;a href=&quot;#&quot; class=&quot;inline-flex items-center gap-1 hover:text-blue-600&quot;&gt;&lt;svg class=&quot;w-4 h-4&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; viewBox=&quot;0 0 24 24&quot;&gt;&lt;path stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; stroke-width=&quot;2&quot; d=&quot;M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z&quot;/&gt;&lt;/svg&gt;Projects&lt;/a&gt;&lt;/li&gt;&lt;li class=&quot;before:content-[&amp;#39;/&amp;#39;] before:mx-1.5 before:text-gray-300 dark:before:text-gray-600 font-medium text-gray-800 dark:text-gray-200&quot;&gt;Design System&lt;/li&gt;&lt;/ol&gt;&lt;/nav&gt;'><nav class="text-sm"><ol class="flex items-center gap-1.5 text-gray-500 dark:text-gray-400"><li><a href="#" class="inline-flex items-center gap-1 hover:text-blue-600"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>Home</a></li><li class="before:content-[&#39;/&#39;] before:mx-1.5 before:text-gray-300 dark:before:text-gray-600"><a href="#" class="inline-flex items-center gap-1 hover:text-blue-600"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/></svg>Projects</a></li><li class="before:content-[&#39;/&#39;] before:mx-1.5 before:text-gray-300 dark:before:text-gray-600 font-medium text-gray-800 dark:text-gray-200">Design System</li></ol></nav></div>
+<div class="component-item-actions"><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="openSourceViewer(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>View Source</button><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="copySourceCode(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>Copy</button></div>
+</div>
+<div class="component-item" data-category="style" data-title="Pill Breadcrumb">
+<div class="component-item-header"><div><h3 class="font-semibold text-gray-900 dark:text-white">Pill Breadcrumb</h3><p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Pill-shaped breadcrumb segments</p></div><span class="text-[10px] font-medium px-2 py-0.5 rounded-full bg-amber-50 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300">Style</span></div>
+<div class="component-item-preview" data-source-id="pill-breadcrumb" data-source-code='&lt;nav class=&quot;text-sm&quot;&gt;&lt;ol class=&quot;flex items-center gap-1&quot;&gt;&lt;li&gt;&lt;a href=&quot;#&quot; class=&quot;px-3 py-1 rounded-l-full bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700&quot;&gt;Home&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;#&quot; class=&quot;px-3 py-1 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700&quot;&gt;Products&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;span class=&quot;px-3 py-1 rounded-r-full bg-blue-600 text-white font-medium&quot;&gt;Details&lt;/span&gt;&lt;/li&gt;&lt;/ol&gt;&lt;/nav&gt;'><nav class="text-sm"><ol class="flex items-center gap-1"><li><a href="#" class="px-3 py-1 rounded-l-full bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700">Home</a></li><li><a href="#" class="px-3 py-1 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700">Products</a></li><li><span class="px-3 py-1 rounded-r-full bg-blue-600 text-white font-medium">Details</span></li></ol></nav></div>
+<div class="component-item-actions"><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="openSourceViewer(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>View Source</button><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="copySourceCode(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>Copy</button></div>
+</div>
+<div class="component-item" data-category="style" data-title="Dark Background Breadcrumb">
+<div class="component-item-header"><div><h3 class="font-semibold text-gray-900 dark:text-white">Dark Background Breadcrumb</h3><p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Breadcrumb on dark surface</p></div><span class="text-[10px] font-medium px-2 py-0.5 rounded-full bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300">Style</span></div>
+<div class="component-item-preview" data-source-id="dark-background-breadcrumb" data-source-code='&lt;div class=&quot;bg-gray-900 rounded-lg p-4&quot;&gt;&lt;nav class=&quot;text-sm&quot;&gt;&lt;ol class=&quot;flex items-center gap-1.5 text-gray-400&quot;&gt;&lt;li&gt;&lt;a href=&quot;#&quot; class=&quot;hover:text-white transition-colors&quot;&gt;Home&lt;/a&gt;&lt;/li&gt;&lt;li class=&quot;before:content-[&amp;#39;/&amp;#39;] before:mx-1.5 before:text-gray-600&quot;&gt;Dashboard&lt;/a&gt;&lt;/li&gt;&lt;li class=&quot;before:content-[&amp;#39;/&amp;#39;] before:mx-1.5 before:text-gray-600 font-medium text-white&quot;&gt;Analytics&lt;/li&gt;&lt;/ol&gt;&lt;/nav&gt;&lt;/div&gt;'><div class="bg-gray-900 rounded-lg p-4"><nav class="text-sm"><ol class="flex items-center gap-1.5 text-gray-400"><li><a href="#" class="hover:text-white transition-colors">Home</a></li><li class="before:content-[&#39;/&#39;] before:mx-1.5 before:text-gray-600">Dashboard</a></li><li class="before:content-[&#39;/&#39;] before:mx-1.5 before:text-gray-600 font-medium text-white">Analytics</li></ol></nav></div></div>
+<div class="component-item-actions"><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="openSourceViewer(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>View Source</button><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="copySourceCode(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>Copy</button></div>
+</div>
+</div>
 
-        <div class="grid grid-cols-1 gap-5 md:grid-cols-3">
-          <div class="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03]">
-            <p class="text-sm text-gray-500">Components</p><p class="mt-2 text-3xl font-bold text-gray-900 dark:text-white">24</p>
-          </div>
-          <div class="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03]">
-            <p class="text-sm text-gray-500">States</p><p class="mt-2 text-3xl font-bold text-gray-900 dark:text-white">96</p>
-          </div>
-          <div class="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03]">
-            <p class="text-sm text-gray-500">Responsive</p><p class="mt-2 text-3xl font-bold text-green-600">Ready</p>
-          </div>
-        </div>
-        <div class="mt-5 grid grid-cols-1 gap-5 xl:grid-cols-2">
-
-          <section class="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03]">
-            <h2 class="text-lg font-semibold text-gray-900 dark:text-white/90">Breadcrumb examples</h2>
-            <div class="mt-5"><div class="space-y-4"><nav class="rounded-xl border border-gray-200 p-4 text-sm text-gray-500 dark:border-gray-800"><span class="">Home</span><span class="mx-2">/</span><span class="">UI Elements</span><span class="mx-2">/</span><span class="font-semibold text-gray-900 dark:text-white">Breadcrumb</span></nav><nav class="rounded-xl border border-gray-200 p-4 text-sm text-gray-500 dark:border-gray-800"><span class="">Dashboard</span><span class="mx-2">/</span><span class="">Ecommerce</span><span class="mx-2">/</span><span class="">Orders</span><span class="mx-2">/</span><span class="font-semibold text-gray-900 dark:text-white">Details</span></nav><nav class="rounded-xl border border-gray-200 p-4 text-sm text-gray-500 dark:border-gray-800"><span class="">Settings</span><span class="mx-2">/</span><span class="">Billing</span><span class="mx-2">/</span><span class="font-semibold text-gray-900 dark:text-white">Payment methods</span></nav></div></div>
-          </section>
-
-          <section class="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] xl:col-span-2">
-            <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-              <div>
-                <h2 class="text-lg font-semibold text-gray-900 dark:text-white/90">Breadcrumb production states</h2>
-                <p class="mt-1 text-sm text-gray-500">Real dashboard states with actions, accessibility, responsive layout, and clean spacing.</p>
-              </div>
-              <div class="inline-flex rounded-xl bg-gray-100 p-1 dark:bg-white/[0.04]">
-                <button class="rounded-lg bg-white px-4 py-2 text-sm font-bold text-blue-600 shadow-sm dark:bg-gray-900">Preview</button>
-                <button class="rounded-lg px-4 py-2 text-sm font-bold text-gray-500">Code</button>
-                <button class="rounded-lg px-4 py-2 text-sm font-bold text-gray-500">States</button>
-              </div>
-            </div>
-            <div class="mt-5 grid gap-4 md:grid-cols-3">
-              <div class="rounded-xl border border-gray-200 p-4 dark:border-gray-800"><div class="mb-4 flex items-center justify-between"><p class="font-bold">Default</p><span class="h-2.5 w-2.5 rounded-full bg-green-500"></span></div><div class="space-y-2"><div class="h-3 rounded bg-gray-100 dark:bg-white/[0.06]"></div><div class="h-3 w-3/4 rounded bg-gray-100 dark:bg-white/[0.06]"></div><button type="button" class="mt-3 rounded-lg bg-blue-600 px-3 py-2 text-xs font-bold text-white">Action</button></div></div><div class="rounded-xl border border-gray-200 p-4 dark:border-gray-800"><div class="mb-4 flex items-center justify-between"><p class="font-bold">Hover / active</p><span class="h-2.5 w-2.5 rounded-full bg-green-500"></span></div><div class="space-y-2"><div class="h-3 rounded bg-gray-100 dark:bg-white/[0.06]"></div><div class="h-3 w-3/4 rounded bg-gray-100 dark:bg-white/[0.06]"></div><button type="button" class="mt-3 rounded-lg bg-blue-600 px-3 py-2 text-xs font-bold text-white">Action</button></div></div><div class="rounded-xl border border-gray-200 p-4 dark:border-gray-800"><div class="mb-4 flex items-center justify-between"><p class="font-bold">Loading / empty</p><span class="h-2.5 w-2.5 rounded-full bg-yellow-400"></span></div><div class="space-y-2"><div class="h-3 rounded bg-gray-100 dark:bg-white/[0.06]"></div><div class="h-3 w-3/4 rounded bg-gray-100 dark:bg-white/[0.06]"></div><button type="button" class="mt-3 rounded-lg bg-blue-600 px-3 py-2 text-xs font-bold text-white">Action</button></div></div>
-            </div>
-          </section>
-        </div>
-      </div>
-    </main>
-  </div>
+</div>
+</main>
+</div>
 </div>
 <script src="common-loader.js"></script>
 <script src="common-sidebar.js"></script>
 <script src="common-header.js"></script>
 <script src="app-shell.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){document.querySelectorAll('[data-counter]').forEach(function(el){var target=parseInt(el.dataset.counter);var duration=1200;var start=0;var startTime=null;function step(ts){if(!startTime)startTime=ts;var p=Math.min((ts-startTime)/duration,1);el.textContent=Math.floor(p*target);if(p<1)requestAnimationFrame(step);else el.textContent=target;}requestAnimationFrame(step);});});
+</script>
 </body>
 </html>

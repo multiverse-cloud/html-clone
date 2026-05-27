@@ -1,296 +1,92 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" class="scroll-smooth">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#465fff" />
-  <meta name="description" content="Production-ready File Manager HTML dashboard template with responsive TailAdmin-style layout, dark mode, command palette, actions, loaders, and polished UI states." />
-  <title>File Manager — mtverse</title>
-  <style>
-    .no-scrollbar::-webkit-scrollbar {
-      display: none;
-    }
-    .no-scrollbar {
-      -ms-overflow-style: none;
-      scrollbar-width: none;
-    }
-    @keyframes slideDown {
-      from {
-        opacity: 0;
-        transform: translateY(-10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-    .animate-slideDown {
-      animation: slideDown 0.2s ease-out;
-    }
-    .sidebar-text {
-      transition: opacity 0.2s ease-in-out;
-    }
-  </style>
-  <link rel="stylesheet" href="tailwind-production.css">
-  <link rel="stylesheet" href="pro-styles.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<meta name="theme-color" content="#465fff"/>
+<title>File Manager | TailAdmin</title>
+<link rel="stylesheet" href="tailwind-production.css"/>
+<link rel="stylesheet" href="pro-styles.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+body{font-family:Outfit,system-ui,sans-serif}
+.no-scrollbar::-webkit-scrollbar{display:none}
+.no-scrollbar{-ms-overflow-style:none;scrollbar-width:none}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.fade-up{animation:fadeUp .4s ease-out}
+@media(prefers-reduced-motion:reduce){.fade-up{animation:none}}
+
+.file-item{display:flex;align-items:center;gap:.75rem;padding:.75rem 1rem;border:1px solid #e2e8f0;border-radius:.5rem;background:#fff;cursor:pointer;transition:background .15s,border-color .15s}
+.file-item:hover{background:#f8fafc;border-color:#cbd5e1}
+.dark .file-item{background:#1e293b;border-color:#334155}
+.dark .file-item:hover{background:#334155;border-color:#475569}
+.file-icon{width:40px;height:40px;border-radius:.5rem;display:flex;align-items:center;justify-content:center;font-size:1.25rem}
+.folder-icon{background:#fef3c7;color:#f59e0b}
+.file-pdf{background:#fef2f2;color:#ef4444}
+.file-doc{background:#dbeafe;color:#3b82f6}
+.file-img{background:#dcfce7;color:#22c55e}
+.file-xls{background:#dcfce7;color:#16a34a}
+.file-zip{background:#f3e8ff;color:#8b5cf6}
+.file-code{background:#eef2ff;color:#6366f1}
+
+</style>
 </head>
-<body class="bg-gray-50 text-gray-800 font-sans dark:bg-gray-900 dark:text-gray-100">
-
-<!-- Mobile overlay -->
-<div id="sidebar-overlay" class="fixed inset-0 bg-black/40 z-40 hidden lg:hidden" onclick="toggleSidebar()"></div>
-
+<body class="bg-slate-50 dark:bg-slate-950 dark:text-white">
+<div class="sidebar-overlay fixed inset-0 bg-black/40 z-40 hidden lg:hidden"></div>
 <div class="flex h-screen overflow-hidden">
-  <!-- Sidebar Container -->
-  <div id="sidebar-container"></div>
-
-  <!-- Main content -->
-  <div class="flex-1 flex flex-col overflow-hidden">
-    <!-- Header Container -->
-    <div id="header-container"></div>
-
-    <!-- Page content -->
-    <main class="flex-1 overflow-y-auto overflow-x-hidden px-4 md:px-6 2xl:px-10 py-6" tabindex="-1">
-      <div class="mx-auto w-full max-w-screen-2xl">
-<!-- File Manager Body: 3-col layout -->
-    <div class="flex flex-1 overflow-hidden">
-
-      <!-- Left Folder Tree Panel -->
-      <div class="hidden lg:flex flex-col w-48 border-r border-gray-200 bg-white overflow-y-auto flex-shrink-0">
-        <div class="px-4 py-3 border-b border-gray-100">
-          <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Storage</p>
-        </div>
-        <nav class="flex-1 px-2 py-3 space-y-0.5">
-          <a href="#" class="flex items-center justify-between px-3 py-2 rounded-lg bg-blue-50 text-blue-600 text-sm font-medium">
-            <span>📁 My Files</span><span class="text-xs bg-blue-100 text-blue-600 px-1.5 py-0.5 rounded-full">142</span>
-          </a>
-          <a href="#" class="flex items-center justify-between px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-50 text-sm">
-            <span>📁 Shared with Me</span><span class="text-xs text-gray-400">28</span>
-          </a>
-          <a href="#" class="flex items-center justify-between px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-50 text-sm">
-            <span>📁 Recent</span><span class="text-xs text-gray-400">15</span>
-          </a>
-          <a href="#" class="flex items-center justify-between px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-50 text-sm">
-            <span>📁 Starred</span><span class="text-xs text-gray-400">7</span>
-          </a>
-          <a href="#" class="flex items-center justify-between px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-50 text-sm">
-            <span>🗑 Trash</span><span class="text-xs text-gray-400">4</span>
-          </a>
-        </nav>
-        <div class="px-4 py-4 border-t border-gray-100">
-          <p class="text-xs text-gray-500 mb-2">73.2 GB of 100 GB used</p>
-          <div class="w-full bg-gray-200 rounded-full h-2">
-            <div class="bg-blue-500 h-2 rounded-full" style="width:73.2%"></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Main Area -->
-      <div class="flex-1 overflow-y-auto p-6">
-        <!-- Toolbar Row -->
-        <div class="flex flex-wrap items-center gap-3 mb-4">
-          <nav class="flex items-center gap-1 text-sm text-gray-500 flex-1">
-            <a href="#" class="hover:text-blue-600">My Files</a>
-            <span>/</span>
-            <a href="#" class="hover:text-blue-600">Projects</a>
-            <span>/</span>
-            <span class="text-gray-900 font-medium">Q2 2026</span>
-          </nav>
-          <div class="flex items-center gap-2">
-            <button type="button" class="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
-              Upload
-            </button>
-            <button class="flex items-center gap-2 border border-gray-200 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-50">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
-              New Folder
-            </button>
-            <div class="flex border border-gray-200 rounded-lg overflow-hidden">
-              <button class="p-2 bg-blue-50 text-blue-600 hover:bg-blue-100">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
-              </button>
-              <button class="p-2 text-gray-400 hover:bg-gray-50">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"/></svg>
-              </button>
-            </div>
-          </div>
-        </div>
-
-
-        <!-- Folders Section -->
-        <div class="mb-6">
-          <h3 class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">Folders</h3>
-          <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-            <!-- Folder Card -->
-            <div class="group relative bg-white rounded-xl border border-gray-200 p-4 hover:border-blue-300 hover:shadow-sm cursor-pointer transition-all">
-              <div class="w-10 h-10 bg-yellow-100 rounded-lg flex items-center justify-center text-2xl mb-3">📁</div>
-              <p class="text-sm font-medium text-gray-900 truncate">Design Assets</p>
-              <p class="text-xs text-gray-400 mt-1">24 files · May 20, 2026</p>
-              <div class="absolute top-2 right-2 hidden group-hover:flex items-center gap-1">
-                <button class="p-1 rounded hover:bg-gray-100 text-gray-400 hover:text-gray-600" title="Download">⬇️</button>
-                <button class="p-1 rounded hover:bg-gray-100 text-gray-400 hover:text-gray-600" title="Share">🔗</button>
-                <button class="p-1 rounded hover:bg-gray-100 text-gray-400 hover:text-red-500" title="Delete">🗑</button>
-              </div>
-            </div>
-            <div class="group relative bg-white rounded-xl border border-gray-200 p-4 hover:border-blue-300 hover:shadow-sm cursor-pointer transition-all">
-              <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center text-2xl mb-3">📁</div>
-              <p class="text-sm font-medium text-gray-900 truncate">Engineering Docs</p>
-              <p class="text-xs text-gray-400 mt-1">67 files · May 22, 2026</p>
-              <div class="absolute top-2 right-2 hidden group-hover:flex items-center gap-1">
-                <button class="p-1 rounded hover:bg-gray-100 text-gray-400" title="Download">⬇️</button>
-                <button class="p-1 rounded hover:bg-gray-100 text-gray-400" title="Share">🔗</button>
-                <button class="p-1 rounded hover:bg-gray-100 text-gray-400 hover:text-red-500" title="Delete">🗑</button>
-              </div>
-            </div>
-            <div class="group relative bg-white rounded-xl border border-gray-200 p-4 hover:border-blue-300 hover:shadow-sm cursor-pointer transition-all">
-              <div class="w-10 h-10 bg-pink-100 rounded-lg flex items-center justify-center text-2xl mb-3">📁</div>
-              <p class="text-sm font-medium text-gray-900 truncate">Marketing</p>
-              <p class="text-xs text-gray-400 mt-1">18 files · May 18, 2026</p>
-              <div class="absolute top-2 right-2 hidden group-hover:flex items-center gap-1">
-                <button class="p-1 rounded hover:bg-gray-100 text-gray-400" title="Download">⬇️</button>
-                <button class="p-1 rounded hover:bg-gray-100 text-gray-400" title="Share">🔗</button>
-                <button class="p-1 rounded hover:bg-gray-100 text-gray-400 hover:text-red-500" title="Delete">🗑</button>
-              </div>
-            </div>
-            <div class="group relative bg-white rounded-xl border border-gray-200 p-4 hover:border-blue-300 hover:shadow-sm cursor-pointer transition-all">
-              <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center text-2xl mb-3">📁</div>
-              <p class="text-sm font-medium text-gray-900 truncate">Reports</p>
-              <p class="text-xs text-gray-400 mt-1">11 files · May 24, 2026</p>
-              <div class="absolute top-2 right-2 hidden group-hover:flex items-center gap-1">
-                <button class="p-1 rounded hover:bg-gray-100 text-gray-400" title="Download">⬇️</button>
-                <button class="p-1 rounded hover:bg-gray-100 text-gray-400" title="Share">🔗</button>
-                <button class="p-1 rounded hover:bg-gray-100 text-gray-400 hover:text-red-500" title="Delete">🗑</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Files Section -->
-        <div class="mb-6">
-          <h3 class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">Files</h3>
-          <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-            <!-- File: PDF -->
-            <div class="group relative bg-white rounded-xl border border-gray-200 p-4 hover:border-blue-300 hover:shadow-sm cursor-pointer transition-all">
-              <div class="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center text-2xl mb-3">📄</div>
-              <p class="text-sm font-medium text-gray-900 truncate">Q2 Report.pdf</p>
-              <p class="text-xs text-gray-400 mt-1">4.2 MB · May 24, 2026</p>
-              <div class="absolute top-2 right-2 hidden group-hover:flex items-center gap-1">
-                <button class="p-1 rounded hover:bg-gray-100 text-gray-400" title="Download">⬇️</button>
-                <button class="p-1 rounded hover:bg-gray-100 text-gray-400" title="Share">🔗</button>
-                <button class="p-1 rounded hover:bg-gray-100 text-gray-400 hover:text-red-500" title="Delete">🗑</button>
-              </div>
-            </div>
-            <!-- File: XLSX -->
-            <div class="group relative bg-white rounded-xl border border-gray-200 p-4 hover:border-blue-300 hover:shadow-sm cursor-pointer transition-all">
-              <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center text-2xl mb-3">📊</div>
-              <p class="text-sm font-medium text-gray-900 truncate">Analytics Dashboard.xlsx</p>
-              <p class="text-xs text-gray-400 mt-1">1.8 MB · May 23, 2026</p>
-              <div class="absolute top-2 right-2 hidden group-hover:flex items-center gap-1">
-                <button class="p-1 rounded hover:bg-gray-100 text-gray-400" title="Download">⬇️</button>
-                <button class="p-1 rounded hover:bg-gray-100 text-gray-400" title="Share">🔗</button>
-                <button class="p-1 rounded hover:bg-gray-100 text-gray-400 hover:text-red-500" title="Delete">🗑</button>
-              </div>
-            </div>
-
-
-            <!-- File: PNG -->
-            <div class="group relative bg-white rounded-xl border border-gray-200 p-4 hover:border-blue-300 hover:shadow-sm cursor-pointer transition-all">
-              <div class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center text-2xl mb-3">🖼</div>
-              <p class="text-sm font-medium text-gray-900 truncate">Hero Banner.png</p>
-              <p class="text-xs text-gray-400 mt-1">892 KB · May 21, 2026</p>
-              <div class="absolute top-2 right-2 hidden group-hover:flex items-center gap-1">
-                <button class="p-1 rounded hover:bg-gray-100 text-gray-400" title="Download">⬇️</button>
-                <button class="p-1 rounded hover:bg-gray-100 text-gray-400" title="Share">🔗</button>
-                <button class="p-1 rounded hover:bg-gray-100 text-gray-400 hover:text-red-500" title="Delete">🗑</button>
-              </div>
-            </div>
-            <!-- File: DOCX -->
-            <div class="group relative bg-white rounded-xl border border-gray-200 p-4 hover:border-blue-300 hover:shadow-sm cursor-pointer transition-all">
-              <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center text-2xl mb-3">📝</div>
-              <p class="text-sm font-medium text-gray-900 truncate">Product Roadmap.docx</p>
-              <p class="text-xs text-gray-400 mt-1">234 KB · May 20, 2026</p>
-              <div class="absolute top-2 right-2 hidden group-hover:flex items-center gap-1">
-                <button class="p-1 rounded hover:bg-gray-100 text-gray-400" title="Download">⬇️</button>
-                <button class="p-1 rounded hover:bg-gray-100 text-gray-400" title="Share">🔗</button>
-                <button class="p-1 rounded hover:bg-gray-100 text-gray-400 hover:text-red-500" title="Delete">🗑</button>
-              </div>
-            </div>
-            <!-- File: MP4 -->
-            <div class="group relative bg-white rounded-xl border border-gray-200 p-4 hover:border-blue-300 hover:shadow-sm cursor-pointer transition-all">
-              <div class="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center text-2xl mb-3">🎥</div>
-              <p class="text-sm font-medium text-gray-900 truncate">Demo Video.mp4</p>
-              <p class="text-xs text-gray-400 mt-1">48.2 MB · May 19, 2026</p>
-              <div class="absolute top-2 right-2 hidden group-hover:flex items-center gap-1">
-                <button class="p-1 rounded hover:bg-gray-100 text-gray-400" title="Download">⬇️</button>
-                <button class="p-1 rounded hover:bg-gray-100 text-gray-400" title="Share">🔗</button>
-                <button class="p-1 rounded hover:bg-gray-100 text-gray-400 hover:text-red-500" title="Delete">🗑</button>
-              </div>
-            </div>
-            <!-- File: PDF 2 -->
-            <div class="group relative bg-white rounded-xl border border-gray-200 p-4 hover:border-blue-300 hover:shadow-sm cursor-pointer transition-all">
-              <div class="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center text-2xl mb-3">📄</div>
-              <p class="text-sm font-medium text-gray-900 truncate">API Documentation.pdf</p>
-              <p class="text-xs text-gray-400 mt-1">1.1 MB · May 17, 2026</p>
-              <div class="absolute top-2 right-2 hidden group-hover:flex items-center gap-1">
-                <button class="p-1 rounded hover:bg-gray-100 text-gray-400" title="Download">⬇️</button>
-                <button class="p-1 rounded hover:bg-gray-100 text-gray-400" title="Share">🔗</button>
-                <button class="p-1 rounded hover:bg-gray-100 text-gray-400 hover:text-red-500" title="Delete">🗑</button>
-              </div>
-            </div>
-            <!-- File: XLSX 2 -->
-            <div class="group relative bg-white rounded-xl border border-gray-200 p-4 hover:border-blue-300 hover:shadow-sm cursor-pointer transition-all">
-              <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center text-2xl mb-3">📊</div>
-              <p class="text-sm font-medium text-gray-900 truncate">Budget Forecast.xlsx</p>
-              <p class="text-xs text-gray-400 mt-1">567 KB · May 15, 2026</p>
-              <div class="absolute top-2 right-2 hidden group-hover:flex items-center gap-1">
-                <button class="p-1 rounded hover:bg-gray-100 text-gray-400" title="Download">⬇️</button>
-                <button class="p-1 rounded hover:bg-gray-100 text-gray-400" title="Share">🔗</button>
-                <button class="p-1 rounded hover:bg-gray-100 text-gray-400 hover:text-red-500" title="Delete">🗑</button>
-              </div>
-            </div>
-            <!-- File: ZIP -->
-            <div class="group relative bg-white rounded-xl border border-gray-200 p-4 hover:border-blue-300 hover:shadow-sm cursor-pointer transition-all">
-              <div class="w-10 h-10 bg-yellow-100 rounded-lg flex items-center justify-center text-2xl mb-3">🗜</div>
-              <p class="text-sm font-medium text-gray-900 truncate">Source Code.zip</p>
-              <p class="text-xs text-gray-400 mt-1">12.4 MB · May 14, 2026</p>
-              <div class="absolute top-2 right-2 hidden group-hover:flex items-center gap-1">
-                <button class="p-1 rounded hover:bg-gray-100 text-gray-400" title="Download">⬇️</button>
-                <button class="p-1 rounded hover:bg-gray-100 text-gray-400" title="Share">🔗</button>
-                <button class="p-1 rounded hover:bg-gray-100 text-gray-400 hover:text-red-500" title="Delete">🗑</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Footer -->
-        <div class="border-t border-gray-200 pt-4">
-          <p class="text-sm text-gray-500">12 items · 69.4 MB total</p>
-        </div>
-      </div><!-- end main area -->
-    </div><!-- end 3-col -->
-  </div><!-- end main content -->
-</div><!-- end outer flex -->
-
-<script>
-  function toggleSidebar() {
-    const sidebar = document.getElementById('sidebar');
-    const overlay = document.getElementById('sidebar-overlay');
-    sidebar.classList.toggle('-translate-x-full');
-    overlay.classList.toggle('hidden');
-  }
-</script>
-      </div>
-    </main>
-  </div>
+<div class="sidebar-container w-72 flex-shrink-0"></div>
+<div class="header-container flex-1 flex flex-col overflow-hidden"></div>
+<main class="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8">
+<nav class="flex items-center gap-2 text-sm text-slate-400 mb-4">
+<a href="#" class="hover:text-slate-600 dark:hover:text-slate-300">Home</a><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+<span class="text-slate-700 dark:text-slate-200 font-medium">File Manager</span>
+</nav>
+<div class="mb-6 fade-up">
+<h1 class="text-2xl font-bold text-slate-900 dark:text-white mb-1">File Manager</h1>
+<p class="text-sm text-slate-500 dark:text-slate-400">Manage your files and folders</p>
 </div>
-
-<!-- Common Components -->
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6 fade-up">
+<div class="bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 p-4"><p class="text-xs text-slate-400 mb-1">Total Files</p><p class="text-xl font-bold text-slate-900 dark:text-white">1,247</p><p class="text-xs text-slate-400">12.4 GB used</p></div>
+<div class="bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 p-4"><p class="text-xs text-slate-400 mb-1">Folders</p><p class="text-xl font-bold text-slate-900 dark:text-white">86</p><p class="text-xs text-slate-400">3 levels deep</p></div>
+<div class="bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 p-4"><p class="text-xs text-slate-400 mb-1">Shared</p><p class="text-xl font-bold text-slate-900 dark:text-white">234</p><p class="text-xs text-slate-400">With 12 users</p></div>
+<div class="bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 p-4"><p class="text-xs text-slate-400 mb-1">Recent</p><p class="text-xl font-bold text-slate-900 dark:text-white">18</p><p class="text-xs text-slate-400">Modified today</p></div>
+</div>
+<div class="flex flex-col sm:flex-row gap-3 items-start sm:items-center justify-between mb-6 fade-up">
+<div class="relative flex-1 max-w-xs"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" class="absolute left-3 top-1/2 -translate-y-1/2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg><input type="text" class="form-input pl-9" placeholder="Search files..." oninput="searchFiles(this.value)"/></div>
+<div class="flex gap-2"><button type="button" class="px-3 py-1.5 text-xs font-medium bg-indigo-500 text-white rounded-lg hover:bg-indigo-600 transition-colors" onclick="showToast('Upload dialog would open','info')">Upload</button><button type="button" class="px-3 py-1.5 text-xs font-medium border border-slate-300 dark:border-slate-600 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" onclick="showToast('New folder created','success')">New Folder</button></div>
+</div>
+<h3 class="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-3 fade-up">Folders</h3>
+<div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 mb-6 fade-up" id="folders-grid">
+<div class="file-item" onclick="showToast('Opening Documents','info')"><div class="file-icon folder-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg></div><div><p class="text-sm font-medium text-slate-700 dark:text-slate-300">Documents</p><p class="text-xs text-slate-400">24 files</p></div></div>
+<div class="file-item" onclick="showToast('Opening Images','info')"><div class="file-icon folder-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg></div><div><p class="text-sm font-medium text-slate-700 dark:text-slate-300">Images</p><p class="text-xs text-slate-400">156 files</p></div></div>
+<div class="file-item" onclick="showToast('Opening Videos','info')"><div class="file-icon folder-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg></div><div><p class="text-sm font-medium text-slate-700 dark:text-slate-300">Videos</p><p class="text-xs text-slate-400">12 files</p></div></div>
+<div class="file-item" onclick="showToast('Opening Downloads','info')"><div class="file-icon folder-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg></div><div><p class="text-sm font-medium text-slate-700 dark:text-slate-300">Downloads</p><p class="text-xs text-slate-400">89 files</p></div></div>
+<div class="file-item" onclick="showToast('Opening Projects','info')"><div class="file-icon folder-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg></div><div><p class="text-sm font-medium text-slate-700 dark:text-slate-300">Projects</p><p class="text-xs text-slate-400">34 files</p></div></div>
+<div class="file-item" onclick="showToast('Opening Archives','info')"><div class="file-icon folder-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg></div><div><p class="text-sm font-medium text-slate-700 dark:text-slate-300">Archives</p><p class="text-xs text-slate-400">18 files</p></div></div>
+</div>
+<h3 class="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-3 fade-up">Recent Files</h3>
+<div class="bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 fade-up">
+<div class="overflow-x-auto"><table class="data-table"><thead><tr><th>Name</th><th>Size</th><th>Modified</th><th>Type</th><th></th></tr></thead><tbody id="files-table">
+<tr><td><div class="flex items-center gap-3"><div class="file-icon file-pdf" style="width:32px;height:32px;font-size:.625rem;font-weight:700">PDF</div><span class="font-medium text-slate-700 dark:text-slate-300">Q4 Report.pdf</span></div></td><td class="text-slate-400">2.4 MB</td><td class="text-slate-400">Jan 15, 2024</td><td><span class="text-xs px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500">PDF</span></td><td><button type="button" class="p-1 rounded hover:bg-slate-100 dark:hover:bg-slate-800" onclick="showToast('Download started','success')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg></button></td></tr>
+<tr><td><div class="flex items-center gap-3"><div class="file-icon file-doc" style="width:32px;height:32px;font-size:.625rem;font-weight:700">FIG</div><span class="font-medium text-slate-700 dark:text-slate-300">Design System.fig</span></div></td><td class="text-slate-400">18.2 MB</td><td class="text-slate-400">Jan 14, 2024</td><td><span class="text-xs px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500">FIG</span></td><td><button type="button" class="p-1 rounded hover:bg-slate-100 dark:hover:bg-slate-800" onclick="showToast('Download started','success')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg></button></td></tr>
+<tr><td><div class="flex items-center gap-3"><div class="file-icon file-img" style="width:32px;height:32px;font-size:.625rem;font-weight:700">PNG</div><span class="font-medium text-slate-700 dark:text-slate-300">Screenshot.png</span></div></td><td class="text-slate-400">856 KB</td><td class="text-slate-400">Jan 13, 2024</td><td><span class="text-xs px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500">PNG</span></td><td><button type="button" class="p-1 rounded hover:bg-slate-100 dark:hover:bg-slate-800" onclick="showToast('Download started','success')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg></button></td></tr>
+<tr><td><div class="flex items-center gap-3"><div class="file-icon file-xls" style="width:32px;height:32px;font-size:.625rem;font-weight:700">XLSX</div><span class="font-medium text-slate-700 dark:text-slate-300">Budget 2024.xlsx</span></div></td><td class="text-slate-400">1.1 MB</td><td class="text-slate-400">Jan 12, 2024</td><td><span class="text-xs px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500">XLSX</span></td><td><button type="button" class="p-1 rounded hover:bg-slate-100 dark:hover:bg-slate-800" onclick="showToast('Download started','success')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg></button></td></tr>
+<tr><td><div class="flex items-center gap-3"><div class="file-icon file-zip" style="width:32px;height:32px;font-size:.625rem;font-weight:700">ZIP</div><span class="font-medium text-slate-700 dark:text-slate-300">Source Code.zip</span></div></td><td class="text-slate-400">45.6 MB</td><td class="text-slate-400">Jan 11, 2024</td><td><span class="text-xs px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500">ZIP</span></td><td><button type="button" class="p-1 rounded hover:bg-slate-100 dark:hover:bg-slate-800" onclick="showToast('Download started','success')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg></button></td></tr>
+<tr><td><div class="flex items-center gap-3"><div class="file-icon file-code" style="width:32px;height:32px;font-size:.625rem;font-weight:700">HTML</div><span class="font-medium text-slate-700 dark:text-slate-300">index.html</span></div></td><td class="text-slate-400">12 KB</td><td class="text-slate-400">Jan 10, 2024</td><td><span class="text-xs px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500">HTML</span></td><td><button type="button" class="p-1 rounded hover:bg-slate-100 dark:hover:bg-slate-800" onclick="showToast('Download started','success')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg></button></td></tr>
+<tr><td><div class="flex items-center gap-3"><div class="file-icon file-pdf" style="width:32px;height:32px;font-size:.625rem;font-weight:700">PDF</div><span class="font-medium text-slate-700 dark:text-slate-300">Presentation.pdf</span></div></td><td class="text-slate-400">5.8 MB</td><td class="text-slate-400">Jan 9, 2024</td><td><span class="text-xs px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500">PDF</span></td><td><button type="button" class="p-1 rounded hover:bg-slate-100 dark:hover:bg-slate-800" onclick="showToast('Download started','success')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg></button></td></tr>
+<tr><td><div class="flex items-center gap-3"><div class="file-icon file-img" style="width:32px;height:32px;font-size:.625rem;font-weight:700">SVG</div><span class="font-medium text-slate-700 dark:text-slate-300">Logo.svg</span></div></td><td class="text-slate-400">4 KB</td><td class="text-slate-400">Jan 8, 2024</td><td><span class="text-xs px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500">SVG</span></td><td><button type="button" class="p-1 rounded hover:bg-slate-100 dark:hover:bg-slate-800" onclick="showToast('Download started','success')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg></button></td></tr>
+</tbody></table></div></div>
+</main>
+</div>
+</div>
 <script src="common-loader.js"></script>
 <script src="common-sidebar.js"></script>
 <script src="common-header.js"></script>
 <script src="app-shell.js"></script>
+<script>
 
+function searchFiles(q){q=q.toLowerCase();document.querySelectorAll('#files-table tr').forEach(function(r){r.style.display=r.textContent.toLowerCase().indexOf(q)>=0?'':'none'})}
+
+</script>
 </body>
 </html>

@@ -1,243 +1,237 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" class="scroll-smooth">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#465fff" />
-  <meta name="description" content="Production-ready Multi-step Form Wizard HTML dashboard template with responsive TailAdmin-style layout, dark mode, command palette, actions, loaders, and polished UI states." />
-  <title>Multi-step Form Wizard — mtverse</title>
-  <style>
-    .no-scrollbar::-webkit-scrollbar {
-      display: none;
-    }
-    .no-scrollbar {
-      -ms-overflow-style: none;
-      scrollbar-width: none;
-    }
-    @keyframes slideDown {
-      from {
-        opacity: 0;
-        transform: translateY(-10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-    .animate-slideDown {
-      animation: slideDown 0.2s ease-out;
-    }
-    .sidebar-text {
-      transition: opacity 0.2s ease-in-out;
-    }
-  </style>
-  <link rel="stylesheet" href="tailwind-production.css">
-  <link rel="stylesheet" href="pro-styles.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<meta name="theme-color" content="#465fff"/>
+<title>Multi-Step Wizard | TailAdmin</title>
+<link rel="stylesheet" href="tailwind-production.css"/>
+<link rel="stylesheet" href="pro-styles.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+body{font-family:Outfit,system-ui,sans-serif}
+.no-scrollbar::-webkit-scrollbar{display:none}
+.no-scrollbar{-ms-overflow-style:none;scrollbar-width:none}
+@keyframes slideDown{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
+.animate-slideDown{animation:slideDown .2s ease-out}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.fade-up{animation:fadeUp .4s ease-out}
+@media(prefers-reduced-motion:reduce){.fade-up,.animate-slideDown{animation:none}}
+.component-item{border:1px solid #e2e8f0;border-radius:.75rem;padding:1.5rem;margin-bottom:1.5rem;background:#fff;transition:box-shadow .2s}
+.component-item:hover{box-shadow:0 4px 12px rgba(0,0,0,.06)}
+.dark .component-item{background:#1e293b;border-color:#334155}
+.component-item h3{font-size:1rem;font-weight:600;margin-bottom:.75rem;color:#0f172a}
+.dark .component-item h3{color:#e2e8f0}
+.form-group{margin-bottom:1.25rem}
+.form-label{display:block;margin-bottom:.375rem;font-size:.875rem;font-weight:500;color:#334155}
+.dark .form-label{color:#cbd5e1}
+.form-input{width:100%;padding:.625rem .875rem;border:1.5px solid #e2e8f0;border-radius:.5rem;font-size:.875rem;transition:border-color .15s,box-shadow .15s;background:#fff;color:#0f172a}
+.form-input:focus{outline:none;border-color:#6366f1;box-shadow:0 0 0 3px rgba(99,102,241,.12)}
+.dark .form-input{background:#0f172a;border-color:#334155;color:#e2e8f0}
+.dark .form-input:focus{border-color:#818cf8;box-shadow:0 0 0 3px rgba(129,140,248,.15)}
+.form-input.error{border-color:#ef4444}
+.form-input.success{border-color:#22c55e}
+.form-input:disabled{opacity:.5;cursor:not-allowed;background:#f1f5f9}
+.dark .form-input:disabled{background:#1e293b}
+.form-error{font-size:.75rem;color:#ef4444;margin-top:.25rem}
+.form-hint{font-size:.75rem;color:#94a3b8;margin-top:.25rem}
+.form-success{font-size:.75rem;color:#22c55e;margin-top:.25rem}
+.password-wrapper{position:relative}
+.password-toggle{position:absolute;right:.75rem;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:#94a3b8;padding:.25rem}
+.password-toggle:hover{color:#64748b}
+textarea.form-input{min-height:100px;resize:vertical}
+select.form-input{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right .75rem center;padding-right:2.5rem}
+.checkbox-wrapper{display:flex;align-items:center;gap:.5rem}
+.checkbox-wrapper input[type=checkbox]{width:1rem;height:1rem;accent-color:#6366f1;cursor:pointer}
+.radio-wrapper{display:flex;align-items:center;gap:.5rem}
+.radio-wrapper input[type=radio]{width:1rem;height:1rem;accent-color:#6366f1;cursor:pointer}
+.switch{position:relative;width:2.75rem;height:1.5rem}
+.switch input{opacity:0;width:0;height:0}
+.switch .slider{position:absolute;cursor:pointer;top:0;left:0;right:0;bottom:0;background:#cbd5e1;border-radius:1rem;transition:background .2s}
+.switch .slider::before{content:"";position:absolute;height:1.125rem;width:1.125rem;left:.1875rem;bottom:.1875rem;background:#fff;border-radius:50%;transition:transform .2s}
+.switch input:checked+.slider{background:#6366f1}
+.switch input:checked+.slider::before{transform:translateX(1.25rem)}
+.dark .switch .slider{background:#475569}
+.strength-bar{height:4px;border-radius:2px;background:#e2e8f0;margin-top:.5rem;overflow:hidden}
+.strength-bar .fill{height:100%;border-radius:2px;transition:width .3s,background .3s}
+.dark .strength-bar{background:#334155}
+.input-group{display:flex}
+.input-group .form-input{border-radius:0}
+.input-group .form-input:first-child{border-radius:.5rem 0 0 .5rem}
+.input-group .form-input:last-child{border-radius:0 .5rem .5rem 0}
+.input-group-addon{display:flex;align-items:center;padding:0 .875rem;border:1.5px solid #e2e8f0;background:#f8fafc;font-size:.875rem;color:#64748b;white-space:nowrap}
+.dark .input-group-addon{background:#1e293b;border-color:#334155;color:#94a3b8}
+.input-group-addon:first-child{border-radius:.5rem 0 0 .5rem;border-right:none}
+.input-group-addon:last-child{border-radius:0 .5rem .5rem 0;border-left:none}
+.file-drop{border:2px dashed #e2e8f0;border-radius:.5rem;padding:2rem;text-align:center;cursor:pointer;transition:border-color .2s,background .2s}
+.file-drop:hover{border-color:#6366f1;background:#f8fafc}
+.dark .file-drop{border-color:#334155}
+.dark .file-drop:hover{border-color:#818cf8;background:#1e293b}
+.range-input{-webkit-appearance:none;width:100%;height:6px;border-radius:3px;background:#e2e8f0;outline:none}
+.range-input::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:#6366f1;cursor:pointer}
+.dark .range-input{background:#334155}
+.color-swatch{width:2.5rem;height:2.5rem;border-radius:.5rem;border:2px solid #e2e8f0;cursor:pointer}
+.dark .color-swatch{border-color:#334155}
+.wizard-step{display:none}
+.wizard-step.active{display:block}
+.wizard-progress{display:flex;gap:.5rem;margin-bottom:2rem}
+.wizard-progress .step{flex:1;height:4px;border-radius:2px;background:#e2e8f0;transition:background .3s}
+.wizard-progress .step.done{background:#6366f1}
+.wizard-progress .step.current{background:#818cf8}
+.dark .wizard-progress .step{background:#334155}
+
+</style>
 </head>
-<body class="bg-gray-50 text-gray-800 font-sans dark:bg-gray-900 dark:text-gray-100">
-
-<!-- Mobile overlay -->
-<div id="sidebar-overlay" class="fixed inset-0 bg-black/40 z-40 hidden lg:hidden" onclick="toggleSidebar()"></div>
-
+<body class="bg-slate-50 dark:bg-slate-950 dark:text-white">
+<div class="sidebar-overlay fixed inset-0 bg-black/40 z-40 hidden lg:hidden"></div>
 <div class="flex h-screen overflow-hidden">
-  <!-- Sidebar Container -->
-  <div id="sidebar-container"></div>
-
-  <!-- Main content -->
-  <div class="flex-1 flex flex-col overflow-hidden">
-    <!-- Header Container -->
-    <div id="header-container"></div>
-
-    <!-- Page content -->
-    <main class="flex-1 overflow-y-auto overflow-x-hidden px-4 md:px-6 2xl:px-10 py-6" tabindex="-1">
-      <div class="mx-auto w-full max-w-screen-2xl">
-<div class="mb-6">
-        <h1 class="text-xl font-bold text-gray-900">Multi-step Form Wizard</h1>
-        <p class="text-sm text-gray-500 mt-1">Complete all steps to set up your account.</p>
-      </div>
-      <div class="max-w-2xl mx-auto">
-        <!-- Progress Bar -->
-        <div class="mb-6">
-          <div class="flex justify-between text-xs text-gray-500 mb-2">
-            <span id="step-label">Step 2 of 4</span>
-            <span id="step-pct">50%</span>
-          </div>
-          <div class="w-full bg-gray-200 rounded-full h-1.5">
-            <div id="progress-bar" class="bg-blue-600 h-1.5 rounded-full transition-all duration-300" style="width: 50%"></div>
-          </div>
-        </div>
-        <!-- Step Indicator -->
-        <div class="flex items-center justify-between mb-8">
-          <div class="flex items-center flex-1">
-            <!-- Step 1 -->
-            <div class="flex flex-col items-center">
-              <div id="ind-1" class="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-white text-xs font-bold">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
-              </div>
-              <span class="text-xs text-blue-600 font-medium mt-1 hidden sm:block">Account</span>
-            </div>
-            <div id="line-1" class="flex-1 h-0.5 bg-blue-600 mx-2"></div>
-            <!-- Step 2 -->
-            <div class="flex flex-col items-center">
-              <div id="ind-2" class="w-8 h-8 rounded-full bg-blue-600 ring-4 ring-blue-100 flex items-center justify-center text-white text-xs font-bold">2</div>
-              <span class="text-xs text-blue-600 font-semibold mt-1 hidden sm:block">Profile</span>
-            </div>
-            <div id="line-2" class="flex-1 h-0.5 bg-gray-200 mx-2"></div>
-            <!-- Step 3 -->
-            <div class="flex flex-col items-center">
-              <div id="ind-3" class="w-8 h-8 rounded-full border-2 border-gray-300 flex items-center justify-center text-gray-400 text-xs font-bold bg-white">3</div>
-              <span class="text-xs text-gray-400 mt-1 hidden sm:block">Plan</span>
-            </div>
-            <div id="line-3" class="flex-1 h-0.5 bg-gray-200 mx-2"></div>
-            <!-- Step 4 -->
-            <div class="flex flex-col items-center">
-              <div id="ind-4" class="w-8 h-8 rounded-full border-2 border-gray-300 flex items-center justify-center text-gray-400 text-xs font-bold bg-white">4</div>
-              <span class="text-xs text-gray-400 mt-1 hidden sm:block">Confirm</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Step 1 Content (hidden - completed) -->
-        <div id="step-1" class="hidden">
-          <div class="bg-white rounded-xl border border-gray-200 p-6">
-            <h2 class="text-base font-semibold text-gray-900 mb-5">Account Setup</h2>
-            <div class="space-y-4">
-              <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
-                <input type="email" placeholder="you@example.com" class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
-              </div>
-              <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Password</label>
-                <input type="password" placeholder="Create a strong password" class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
-              </div>
-              <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Confirm Password</label>
-                <input type="password" placeholder="Repeat your password" class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
-              </div>
-              <p class="text-sm text-gray-500">Already have an account? <a href="#" class="text-blue-600 hover:underline">Sign in</a></p>
-            </div>
-          </div>
-        </div>
-        <!-- Step 2 Content (ACTIVE) -->
-        <div id="step-2" class="">
-          <div class="bg-white rounded-xl border border-gray-200 p-6">
-            <h2 class="text-base font-semibold text-gray-900 mb-5">Your Profile</h2>
-            <div class="space-y-4">
-              <div class="grid grid-cols-2 gap-4">
-                <div>
-                  <label class="block text-sm font-medium text-gray-700 mb-1">First Name</label>
-                  <input type="text" value="Jane" class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
-                </div>
-                <div>
-                  <label class="block text-sm font-medium text-gray-700 mb-1">Last Name</label>
-                  <input type="text" value="Doe" class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
-                </div>
-              </div>
-              <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Job Title</label>
-                <input type="text" value="Senior Product Manager" class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
-              </div>
-              <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Company Name</label>
-                <input type="text" value="Acme Corp" class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
-              </div>
-              <div>
-                <label class="block text-sm font-medium text-gray-700 mb-2">Avatar Color</label>
-                <div class="flex gap-2">
-                  <button type="button" class="w-8 h-8 rounded-full bg-blue-600 ring-2 ring-offset-2 ring-blue-600"></button>
-                  <button class="w-8 h-8 rounded-full bg-green-500 hover:ring-2 hover:ring-offset-2 hover:ring-green-400"></button>
-                  <button class="w-8 h-8 rounded-full bg-purple-600 hover:ring-2 hover:ring-offset-2 hover:ring-purple-400"></button>
-                  <button class="w-8 h-8 rounded-full bg-orange-500 hover:ring-2 hover:ring-offset-2 hover:ring-orange-400"></button>
-                  <button class="w-8 h-8 rounded-full bg-pink-500 hover:ring-2 hover:ring-offset-2 hover:ring-pink-400"></button>
-                </div>
-              </div>
-              <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Bio</label>
-                <textarea rows="3" class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none" placeholder="Tell us a bit about yourself..."></textarea>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Step 3 Content (hidden) -->
-        <div id="step-3" class="hidden">
-          <div class="bg-white rounded-xl border border-gray-200 p-6">
-            <h2 class="text-base font-semibold text-gray-900 mb-5">Choose Your Plan</h2>
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              <label class="relative flex flex-col p-5 border-2 border-gray-200 rounded-xl cursor-pointer hover:border-blue-300 transition-colors">
-                <input type="radio" name="plan" value="starter" class="sr-only" />
-                <span class="text-sm font-semibold text-gray-900">Starter</span>
-                <span class="text-2xl font-bold text-gray-900 mt-1">$12<span class="text-sm font-normal text-gray-500">/mo</span></span>
-                <ul class="mt-3 space-y-1.5 text-xs text-gray-600">
-                  <li>✓ 5 projects</li><li>✓ 10GB storage</li><li>✓ Basic analytics</li>
-                </ul>
-              </label>
-              <label class="relative flex flex-col p-5 border-2 border-blue-600 rounded-xl cursor-pointer bg-blue-50/50">
-                <span class="absolute top-3 right-3 text-xs bg-blue-600 text-white rounded-full px-2 py-0.5 font-medium">Popular</span>
-                <input type="radio" name="plan" value="pro" checked class="sr-only" />
-                <span class="text-sm font-semibold text-blue-700">Pro</span>
-                <span class="text-2xl font-bold text-blue-700 mt-1">$49<span class="text-sm font-normal text-blue-500">/mo</span></span>
-                <ul class="mt-3 space-y-1.5 text-xs text-blue-700">
-                  <li>✓ 50 projects</li><li>✓ 100GB storage</li><li>✓ Advanced analytics</li>
-                </ul>
-              </label>
-              <label class="relative flex flex-col p-5 border-2 border-gray-200 rounded-xl cursor-pointer hover:border-blue-300 transition-colors">
-                <input type="radio" name="plan" value="enterprise" class="sr-only" />
-                <span class="text-sm font-semibold text-gray-900">Enterprise</span>
-                <span class="text-2xl font-bold text-gray-900 mt-1">$299<span class="text-sm font-normal text-gray-500">/mo</span></span>
-                <ul class="mt-3 space-y-1.5 text-xs text-gray-600">
-                  <li>✓ Unlimited projects</li><li>✓ 1TB storage</li><li>✓ Priority support</li>
-                </ul>
-              </label>
-            </div>
-          </div>
-        </div>
-        <!-- Step 4 Content (hidden) -->
-        <div id="step-4" class="hidden">
-          <div class="bg-white rounded-xl border border-gray-200 p-6">
-            <h2 class="text-base font-semibold text-gray-900 mb-5">Review & Confirm</h2>
-            <div class="rounded-lg border border-gray-200 overflow-hidden mb-5">
-              <table class="w-full text-sm">
-                <tbody class="divide-y divide-gray-100">
-                  <tr><td class="px-4 py-3 text-gray-500 font-medium w-1/3">Email</td><td class="px-4 py-3 text-gray-900">jane@company.com</td></tr>
-                  <tr class="bg-gray-50"><td class="px-4 py-3 text-gray-500 font-medium">Plan</td><td class="px-4 py-3 text-gray-900">Pro — $49/mo</td></tr>
-                  <tr><td class="px-4 py-3 text-gray-500 font-medium">Name</td><td class="px-4 py-3 text-gray-900">Jane Doe</td></tr>
-                  <tr class="bg-gray-50"><td class="px-4 py-3 text-gray-500 font-medium">Billing</td><td class="px-4 py-3 text-gray-900">Monthly — billed on 1st</td></tr>
-                </tbody>
-              </table>
-            </div>
-            <div class="space-y-3">
-              <label class="flex items-center gap-3 cursor-pointer">
-                <input type="checkbox" class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500" />
-                <span class="text-sm text-gray-700">I agree to the <a href="#" class="text-blue-600 underline">Terms of Service</a> and <a href="#" class="text-blue-600 underline">Privacy Policy</a></span>
-              </label>
-              <label class="flex items-center gap-3 cursor-pointer">
-                <input type="checkbox" checked class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500" />
-                <span class="text-sm text-gray-700">Subscribe to product updates and announcements</span>
-              </label>
-            </div>
-          </div>
-        </div>
-        <!-- Bottom Navigation -->
-        <div class="flex items-center justify-between mt-6 bg-white rounded-xl border border-gray-200 px-6 py-4">
-          <button id="btn-back" onclick="changeStep(-1)" disabled class="px-4 py-2 text-sm font-medium text-gray-400 border border-gray-200 rounded-lg bg-gray-50 cursor-not-allowed">← Back</button>
-          <span id="step-counter" class="text-sm text-gray-500 font-medium">Step 2 of 4</span>
-          <button id="btn-next" onclick="changeStep(1)" class="px-5 py-2 text-sm font-medium bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors">Next →</button>
-        </div>
-      </div>
-      </div>
-    </main>
-  </div>
+<div class="sidebar-container w-72 flex-shrink-0"></div>
+<div class="header-container flex-1 flex flex-col overflow-hidden"></div>
+<main class="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8">
+<nav class="flex items-center gap-2 text-sm text-slate-400 mb-4">
+<a href="#" class="hover:text-slate-600 dark:hover:text-slate-300">Home</a>
+<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+<a href="#" class="hover:text-slate-600 dark:hover:text-slate-300">Forms</a>
+<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+<span class="text-slate-700 dark:text-slate-200 font-medium">Multi-Step Wizard</span>
+</nav>
+<div class="mb-6 fade-up">
+<h1 class="text-2xl font-bold text-slate-900 dark:text-white mb-1">Multi-Step Wizard</h1>
+<p class="text-sm text-slate-500 dark:text-slate-400">Multi-step form with progress tracking and validation</p>
 </div>
-
-<!-- Common Components -->
+<div class="component-item fade-up" style="max-width:640px">
+<div class="flex items-center justify-between mb-8">
+<div class="flex items-center gap-2"><div class="w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium bg-indigo-500 text-white" id="wiz-step-0">1</div><span class="text-sm font-medium text-slate-700 dark:text-slate-300" id="wiz-label-0">Account</span></div>
+<div class="flex-1 h-0.5 bg-slate-200 dark:bg-slate-700" id="wiz-line-0"></div>
+<div class="flex items-center gap-2"><div class="w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium bg-slate-200 dark:bg-slate-700 text-slate-500" id="wiz-step-1">2</div><span class="text-sm font-medium text-slate-400" id="wiz-label-1">Profile</span></div>
+<div class="flex-1 h-0.5 bg-slate-200 dark:bg-slate-700" id="wiz-line-1"></div>
+<div class="flex items-center gap-2"><div class="w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium bg-slate-200 dark:bg-slate-700 text-slate-500" id="wiz-step-2">3</div><span class="text-sm font-medium text-slate-400" id="wiz-label-2">Social</span></div>
+<div class="flex-1 h-0.5 bg-slate-200 dark:bg-slate-700" id="wiz-line-2"></div>
+<div class="flex items-center gap-2"><div class="w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium bg-slate-200 dark:bg-slate-700 text-slate-500" id="wiz-step-3">4</div><span class="text-sm font-medium text-slate-400" id="wiz-label-3">Review</span></div>
+</div>
+<div class="wizard-step active" id="wiz-p-0">
+<h3 class="text-lg font-semibold text-slate-900 dark:text-white mb-4">Account Information</h3>
+<div class="form-group">
+<label class="form-label">Email</label>
+<input type="email" class="form-input" id="wz-email" placeholder="you@example.com"/>
+</div>
+<div class="form-group">
+<label class="form-label">Password</label>
+<div class="password-wrapper"><input type="password" class="form-input" id="wz-password" placeholder="Min 8 characters"/><button type="button" class="password-toggle" onclick="togglePasswordVisibility('wz-password')"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button></div>
+</div>
+<div class="form-group">
+<label class="form-label">Confirm Password</label>
+<div class="password-wrapper"><input type="password" class="form-input" id="wz-confirm" placeholder="Re-enter password"/><button type="button" class="password-toggle" onclick="togglePasswordVisibility('wz-confirm')"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button></div>
+</div>
+<div class="flex justify-end"><button type="button" class="px-5 py-2.5 bg-indigo-500 text-white text-sm font-medium rounded-lg hover:bg-indigo-600 transition-colors" onclick="wizardNext()">Next</button></div>
+</div>
+<div class="wizard-step" id="wiz-p-1">
+<h3 class="text-lg font-semibold text-slate-900 dark:text-white mb-4">Profile Details</h3>
+<div class="grid grid-cols-2 gap-4">
+<div class="form-group">
+<label class="form-label">First Name</label>
+<input type="text" class="form-input" id="wz-fname" placeholder="John"/>
+</div>
+<div class="form-group">
+<label class="form-label">Last Name</label>
+<input type="text" class="form-input" id="wz-lname" placeholder="Doe"/>
+</div>
+</div>
+<div class="form-group">
+<label class="form-label">Phone</label>
+<input type="tel" class="form-input" id="wz-phone" placeholder="+1 (555) 000-0000"/>
+</div>
+<div class="form-group">
+<label class="form-label">Country</label>
+<select class="form-input" id="wz-country"><option value="">Select country</option><option>United States</option><option>United Kingdom</option><option>Canada</option><option>Australia</option><option>Germany</option></select>
+</div>
+<div class="flex justify-between"><button type="button" class="px-5 py-2.5 border border-slate-300 dark:border-slate-600 text-sm font-medium rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" onclick="wizardPrev()">Back</button><button type="button" class="px-5 py-2.5 bg-indigo-500 text-white text-sm font-medium rounded-lg hover:bg-indigo-600 transition-colors" onclick="wizardNext()">Next</button></div>
+</div>
+<div class="wizard-step" id="wiz-p-2">
+<h3 class="text-lg font-semibold text-slate-900 dark:text-white mb-4">Social Profiles</h3>
+<div class="form-group">
+<label class="form-label">Twitter</label>
+<div class="input-group"><span class="input-group-addon">@</span><input type="text" class="form-input" id="wz-twitter" placeholder="username"/></div>
+</div>
+<div class="form-group">
+<label class="form-label">GitHub</label>
+<div class="input-group"><span class="input-group-addon">github.com/</span><input type="text" class="form-input" id="wz-github" placeholder="username"/></div>
+</div>
+<div class="form-group">
+<label class="form-label">LinkedIn</label>
+<div class="input-group"><span class="input-group-addon">linkedin.com/in/</span><input type="text" class="form-input" id="wz-linkedin" placeholder="username"/></div>
+</div>
+<div class="form-group">
+<label class="form-label">Website</label>
+<input type="url" class="form-input" id="wz-website" placeholder="https://yoursite.com"/>
+</div>
+<div class="flex justify-between"><button type="button" class="px-5 py-2.5 border border-slate-300 dark:border-slate-600 text-sm font-medium rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" onclick="wizardPrev()">Back</button><button type="button" class="px-5 py-2.5 bg-indigo-500 text-white text-sm font-medium rounded-lg hover:bg-indigo-600 transition-colors" onclick="wizardNext()">Next</button></div>
+</div>
+<div class="wizard-step" id="wiz-p-3">
+<h3 class="text-lg font-semibold text-slate-900 dark:text-white mb-4">Review & Submit</h3>
+<div class="space-y-3 mb-6" id="wiz-review">
+<div class="p-3 bg-slate-50 dark:bg-slate-800 rounded-lg"><p class="text-xs text-slate-400 mb-1">Email</p><p class="text-sm font-medium text-slate-700 dark:text-slate-300" id="rev-email">-</p></div>
+<div class="p-3 bg-slate-50 dark:bg-slate-800 rounded-lg"><p class="text-xs text-slate-400 mb-1">Name</p><p class="text-sm font-medium text-slate-700 dark:text-slate-300" id="rev-name">-</p></div>
+<div class="p-3 bg-slate-50 dark:bg-slate-800 rounded-lg"><p class="text-xs text-slate-400 mb-1">Phone</p><p class="text-sm font-medium text-slate-700 dark:text-slate-300" id="rev-phone">-</p></div>
+<div class="p-3 bg-slate-50 dark:bg-slate-800 rounded-lg"><p class="text-xs text-slate-400 mb-1">Country</p><p class="text-sm font-medium text-slate-700 dark:text-slate-300" id="rev-country">-</p></div>
+</div>
+<div class="checkbox-wrapper mb-4"><input type="checkbox" id="wz-terms"/><label for="wz-terms" class="text-sm text-slate-600 dark:text-slate-400 cursor-pointer">I confirm all information is correct</label></div>
+<div class="flex justify-between"><button type="button" class="px-5 py-2.5 border border-slate-300 dark:border-slate-600 text-sm font-medium rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" onclick="wizardPrev()">Back</button><button type="button" class="px-5 py-2.5 bg-green-500 text-white text-sm font-medium rounded-lg hover:bg-green-600 transition-colors" onclick="wizardSubmit()">Submit</button></div>
+</div>
+</div>
+</main>
+</div>
+</div>
 <script src="common-loader.js"></script>
 <script src="common-sidebar.js"></script>
 <script src="common-header.js"></script>
 <script src="app-shell.js"></script>
+<script>
 
+var wizCurrent=0,wizTotal=4;
+function wizardNext(){
+  if(!validateWizardStep(wizCurrent))return;
+  if(wizCurrent<wizTotal-1){showWizardStep(wizCurrent+1);wizCurrent++}
+}
+function wizardPrev(){if(wizCurrent>0){showWizardStep(wizCurrent-1);wizCurrent--}}
+function showWizardStep(n){
+  for(var i=0;i<wizTotal;i++){
+    var p=document.getElementById('wiz-p-'+i);
+    p.classList.toggle('active',i===n);
+    var step=document.getElementById('wiz-step-'+i);
+    var label=document.getElementById('wiz-label-'+i);
+    if(i<n){step.className='w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium bg-green-500 text-white';label.className='text-sm font-medium text-green-600'}
+    else if(i===n){step.className='w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium bg-indigo-500 text-white';label.className='text-sm font-medium text-slate-700 dark:text-slate-300'}
+    else{step.className='w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium bg-slate-200 dark:bg-slate-700 text-slate-500';label.className='text-sm text-slate-400'}
+    if(i<wizTotal-1){var line=document.getElementById('wiz-line-'+i);line.className='flex-1 h-0.5 '+(i<n?'bg-green-500':'bg-slate-200 dark:bg-slate-700')}
+  }
+  if(n===3)populateReview();
+}
+function validateWizardStep(n){
+  if(n===0){
+    var em=document.getElementById('wz-email'),pw=document.getElementById('wz-password'),cf=document.getElementById('wz-confirm');
+    if(!validateEmail(em.value)){showFieldError('wz-email','Invalid email');return false}clearFieldError('wz-email');
+    if(pw.value.length<8){showFieldError('wz-password','Min 8 characters');return false}clearFieldError('wz-password');
+    if(pw.value!==cf.value){showFieldError('wz-confirm','Passwords do not match');return false}clearFieldError('wz-confirm');
+  }
+  if(n===1){
+    var fn=document.getElementById('wz-fname'),ln=document.getElementById('wz-lname');
+    if(!fn.value.trim()){showFieldError('wz-fname','Required');return false}clearFieldError('wz-fname');
+    if(!ln.value.trim()){showFieldError('wz-lname','Required');return false}clearFieldError('wz-lname');
+  }
+  return true;
+}
+function populateReview(){
+  document.getElementById('rev-email').textContent=document.getElementById('wz-email').value||'-';
+  document.getElementById('rev-name').textContent=(document.getElementById('wz-fname').value||'')+' '+(document.getElementById('wz-lname').value||'')||'-';
+  document.getElementById('rev-phone').textContent=document.getElementById('wz-phone').value||'-';
+  document.getElementById('rev-country').textContent=document.getElementById('wz-country').value||'-';
+}
+function wizardSubmit(){
+  if(!document.getElementById('wz-terms').checked){showToast('Please confirm the information','error');return}
+  showToast('Form submitted successfully!','success');
+}
+
+</script>
 </body>
 </html>

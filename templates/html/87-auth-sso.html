@@ -1,76 +1,137 @@
-<!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<!doctype html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#465fff" />
-  <meta name="description" content="Sign in with your organization\'s SSO provider." />
-  <title>Enterprise SSO - mtverse</title>
-  <link rel="stylesheet" href="tailwind-production.css">
-  <link rel="stylesheet" href="pro-styles.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
-</head>
-<body class="bg-gray-50 text-gray-800 dark:bg-gray-950 dark:text-gray-100" style="font-family:'Outfit',sans-serif;">
-  <main class="grid min-h-screen grid-cols-1 lg:grid-cols-2">
-    <section class="flex items-center justify-center px-6 py-12 lg:px-16">
-      <div class="w-full max-w-[460px]">
-        <a href="01-main-dashboard.html" class="mb-10 inline-flex items-center gap-3 text-sm font-semibold text-gray-900 dark:text-white">
-          <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none"><path d="M12 4l-1.41 1.41L15.17 10H4v2h11.17l-4.58 4.59L12 18l6-6-6-6z" fill="currentColor"/></svg>
-          Back to dashboard
-        </a>
-        <div class="rounded-3xl border border-gray-200 bg-white p-10 shadow-lg shadow-gray-200/40 dark:border-gray-800 dark:bg-gray-950 dark:shadow-black/20">
-          <div class="mb-8 text-center">
-            <span class="inline-flex items-center rounded-full bg-blue-50 px-4 py-1.5 text-xs font-semibold text-blue-700 dark:bg-blue-500/10 dark:text-blue-300">Enterprise Single Sign-On</span>
-            <h1 class="mt-6 text-3xl font-bold text-gray-900 dark:text-white">Sign in with SSO</h1>
-            <p class="mt-3 text-sm text-gray-500 dark:text-gray-400">Enter your work email to access your organization's SSO provider.</p>
-          </div>
-          <form class="grid gap-5" onsubmit="return false;">
-            <label class="grid gap-2 text-sm text-gray-700 dark:text-gray-300">
-              <span>Work email</span>
-              <input type="email" placeholder="you@yourcompany.com" autocomplete="email"
-                class="h-11 w-full rounded-2xl border border-gray-200 bg-white px-4 text-sm text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 dark:border-gray-700 dark:bg-gray-900 dark:text-white dark:placeholder:text-gray-500" />
-            </label>
-            <label class="grid gap-2 text-sm text-gray-700 dark:text-gray-300">
-              <span>Workspace domain</span>
-              <div class="relative">
-                <input type="text" placeholder="yourcompany" autocomplete="off"
-                  class="h-11 w-full rounded-2xl border border-gray-200 bg-white px-4 pr-32 text-sm text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 dark:border-gray-700 dark:bg-gray-900 dark:text-white dark:placeholder:text-gray-500" />
-                <span class="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-gray-400">.mtverse.com</span>
-              </div>
-            </label>
-            <button type="submit" class="h-11 rounded-2xl bg-blue-600 text-sm font-semibold text-white shadow-lg shadow-blue-600/25 transition hover:bg-blue-700 active:scale-[0.98]">Continue with SSO</button>
-          </form>
-          <div class="my-6 grid gap-3">
-            <button type="button" class="inline-flex h-11 items-center justify-center gap-2.5 rounded-2xl border border-gray-200 bg-white px-4 text-sm font-medium text-gray-700 shadow-sm transition hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700">
-              <svg class="h-4 w-4 shrink-0" viewBox="0 0 24 24" fill="none"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
-              Continue with Google Workspace
-            </button>
-            <button type="button" class="inline-flex h-11 items-center justify-center gap-2.5 rounded-2xl border border-gray-200 bg-white px-4 text-sm font-medium text-gray-700 shadow-sm transition hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700">
-              <svg class="h-4 w-4 shrink-0 text-blue-700 fill-current" viewBox="0 0 24 24"><path d="M11.5 2C6.25 2 2 6.25 2 11.5S6.25 21 11.5 21 21 16.75 21 11.5 16.75 2 11.5 2zm-1 14.5v-5l-2 2-1-1.5L11 8l3.5 4-1 1.5-2-2v5h-2z"/></svg>
-              Continue with Microsoft Entra
-            </button>
-          </div>
-          <p class="mt-6 text-center text-sm text-gray-500 dark:text-gray-400">
-            Not using SSO?
-            <a href="81-auth-login.html" class="font-semibold text-blue-600 hover:underline">Sign in with email</a>
-          </p>
-        </div>
-        <p class="mt-6 text-center text-xs text-gray-400 dark:text-gray-600">© 2025 mtverse. All rights reserved.</p>
-      </div>
-    </section>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+<title>SSO Login | TailAdmin</title>
+<link rel="stylesheet" href="tailwind-production.css"/>
+<link rel="stylesheet" href="pro-styles.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+body{font-family:Outfit,system-ui,sans-serif}
+.auth-wrapper{min-height:100vh;display:flex;align-items:center;justify-content:center}
+.auth-card{width:100%;max-width:480px;padding:2.5rem;border-radius:1rem;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.06),0 8px 24px rgba(0,0,0,.04)}
+.dark .auth-card{background:#1e293b;box-shadow:0 1px 3px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.2)}
+.auth-illustration{display:flex;align-items:center;justify-content:center;min-height:200px}
+.form-group{margin-bottom:1.25rem}
+.form-label{display:block;margin-bottom:.375rem;font-size:.875rem;font-weight:500;color:#334155}
+.dark .form-label{color:#cbd5e1}
+.form-input{width:100%;padding:.625rem .875rem;border:1.5px solid #e2e8f0;border-radius:.5rem;font-size:.875rem;transition:border-color .15s,box-shadow .15s;background:#fff;color:#0f172a}
+.form-input:focus{outline:none;border-color:#6366f1;box-shadow:0 0 0 3px rgba(99,102,241,.12)}
+.dark .form-input{background:#0f172a;border-color:#334155;color:#e2e8f0}
+.dark .form-input:focus{border-color:#818cf8;box-shadow:0 0 0 3px rgba(129,140,248,.15)}
+.form-input.error{border-color:#ef4444;box-shadow:0 0 0 3px rgba(239,68,68,.1)}
+.form-input.success{border-color:#22c55e;box-shadow:0 0 0 3px rgba(34,197,94,.1)}
+.form-error{font-size:.75rem;color:#ef4444;margin-top:.25rem;display:none}
+.form-error.visible{display:block}
+.form-hint{font-size:.75rem;color:#94a3b8;margin-top:.25rem}
+.password-wrapper{position:relative}
+.password-toggle{position:absolute;right:.75rem;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:#94a3b8;padding:.25rem}
+.password-toggle:hover{color:#64748b}
+.btn-primary{width:100%;padding:.75rem;border:none;border-radius:.5rem;font-size:.875rem;font-weight:600;color:#fff;background:#6366f1;cursor:pointer;transition:background .15s,transform .1s}
+.btn-primary:hover{background:#4f46e5}
+.btn-primary:active{transform:scale(.98)}
+.btn-primary:disabled{opacity:.6;cursor:not-allowed}
+.btn-outline{width:100%;padding:.75rem;border:1.5px solid #e2e8f0;border-radius:.5rem;font-size:.875rem;font-weight:500;color:#334155;background:#fff;cursor:pointer;transition:background .15s,border-color .15s}
+.btn-outline:hover{background:#f8fafc;border-color:#cbd5e1}
+.dark .btn-outline{background:#1e293b;border-color:#334155;color:#e2e8f0}
+.dark .btn-outline:hover{background:#334155;border-color:#475569}
+.divider{display:flex;align-items:center;gap:.75rem;margin:1.5rem 0;color:#94a3b8;font-size:.8125rem}
+.divider::before,.divider::after{content:"";flex:1;height:1px;background:#e2e8f0}
+.dark .divider::before,.dark .divider::after{background:#334155}
+.otp-input{width:3rem;height:3.5rem;text-align:center;font-size:1.25rem;font-weight:600;border:1.5px solid #e2e8f0;border-radius:.5rem;background:#fff;color:#0f172a;transition:border-color .15s,box-shadow .15s}
+.otp-input:focus{outline:none;border-color:#6366f1;box-shadow:0 0 0 3px rgba(99,102,241,.12)}
+.dark .otp-input{background:#0f172a;border-color:#334155;color:#e2e8f0}
+.dark .otp-input:focus{border-color:#818cf8}
+.checkbox-wrapper{display:flex;align-items:center;gap:.5rem}
+.checkbox-wrapper input[type=checkbox]{width:1rem;height:1rem;accent-color:#6366f1;cursor:pointer}
+.strength-bar{height:4px;border-radius:2px;background:#e2e8f0;margin-top:.5rem;overflow:hidden}
+.strength-bar .fill{height:100%;border-radius:2px;transition:width .3s,background .3s}
+.dark .strength-bar{background:#334155}
+.social-btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;padding:.625rem 1rem;border:1.5px solid #e2e8f0;border-radius:.5rem;font-size:.8125rem;font-weight:500;color:#334155;background:#fff;cursor:pointer;transition:background .15s}
+.social-btn:hover{background:#f8fafc}
+.dark .social-btn{background:#1e293b;border-color:#334155;color:#e2e8f0}
+.dark .social-btn:hover{background:#334155}
+.link{color:#6366f1;font-weight:500;text-decoration:none;font-size:.875rem;transition:color .15s}
+.link:hover{color:#4f46e5;text-decoration:underline}
+.dark .link{color:#818cf8}
+.dark .link:hover{color:#a5b4fc}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.fade-up{animation:fadeUp .4s ease-out}
+@keyframes countUp{from{opacity:0}to{opacity:1}}
+@media(prefers-reduced-motion:reduce){.fade-up{animation:none}}
+@media(max-width:640px){.auth-card{margin:1rem;padding:1.5rem;border-radius:.75rem}.auth-split{flex-direction:column}.auth-split .auth-illustration{min-height:160px}}
+</style>
 
-    <section class="relative hidden overflow-hidden lg:flex lg:flex-col lg:justify-end" style="background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%);">
-      <div class="absolute inset-0 opacity-20" style="background-image: radial-gradient(circle at 20% 30%, rgba(59,130,246,0.25) 0%, transparent 40%), radial-gradient(circle at 80% 80%, rgba(96,165,250,0.2) 0%, transparent 30%);"></div>
-      <div class="relative z-10 flex flex-col items-center justify-center px-12 py-20 text-white">
-        <div class="mb-6 flex h-16 w-16 items-center justify-center rounded-3xl bg-white/10 shadow-2xl shadow-white/10">
-          <svg class="h-8 w-8" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm-1 8h2V7h-2v3zm0 4h2v-2h-2v2z"/></svg>
-        </div>
-        <h2 class="text-center text-4xl font-bold tracking-tight">Enterprise-ready SSO</h2>
-        <p class="mt-4 max-w-md text-center text-base text-white/70 leading-7">Access your team workspace through secure organization login and provider integrations.</p>
-      </div>
-    </section>
-  </main>
+</head>
+<body class="bg-slate-50 dark:bg-slate-950 dark:text-white">
+<div class="auth-wrapper p-4 sm:p-6">
+<div class="auth-card fade-up" style="max-width:520px">
+<a href="01-main-dashboard.html" class="inline-flex items-center gap-1 text-sm text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 mb-6 transition-colors">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+Back to dashboard
+</a>
+<div class="mb-6 text-center">
+<h1 class="text-2xl font-bold text-slate-900 dark:text-white mb-1">Sign in with SSO</h1>
+<p class="text-sm text-slate-500 dark:text-slate-400">Use your organization's identity provider to sign in</p>
+</div>
+<div class="space-y-3 mb-6">
+<button type="button" class="btn-outline flex items-center gap-3" onclick="handleSSO('Okta')">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="4" stroke="#0076CE" stroke-width="2"/><circle cx="12" cy="12" r="5" fill="#0076CE"/></svg>
+<span class="flex-1 text-left">Continue with Okta</span>
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+</button>
+<button type="button" class="btn-outline flex items-center gap-3" onclick="handleSSO('Azure AD')">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="4" stroke="#00a4ef" stroke-width="2"/><path d="M11 7l-5 5 5 5M13 7l5 5-5 5" stroke="#00a4ef" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+<span class="flex-1 text-left">Continue with Azure AD</span>
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+</button>
+<button type="button" class="btn-outline flex items-center gap-3" onclick="handleSSO('Google Workspace')">
+<svg width="20" height="20" viewBox="0 0 18 18" fill="none"><path d="M17.64 9.2c0-.74-.07-1.45-.2-2.13H9v4.03h4.87a4.16 4.16 0 01-1.8 2.73v2.27h2.91c1.7-1.57 2.66-3.88 2.66-6.9z" fill="#4285F4"/><path d="M9 18c2.43 0 4.47-.8 5.96-2.17l-2.91-2.27c-.8.54-1.83.86-3.05.86-2.35 0-4.34-1.58-5.05-3.71H.96v2.34A8.99 8.99 0 009 18z" fill="#34A853"/><path d="M3.95 10.71A5.4 5.4 0 013.67 9c0-.6.1-1.17.28-1.71V4.95H.96A8.99 8.99 0 000 9c0 1.45.35 2.82.96 4.05l2.99-2.34z" fill="#FBBC05"/><path d="M9 3.58c1.32 0 2.51.45 3.44 1.35l2.58-2.59C13.46.89 11.43 0 9 0 5.48 0 2.47 2.02.96 4.95l2.99 2.34C4.66 5.16 6.65 3.58 9 3.58z" fill="#EB4335"/></svg>
+<span class="flex-1 text-left">Continue with Google Workspace</span>
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+</button>
+<button type="button" class="btn-outline flex items-center gap-3" onclick="handleSSO('SAML')">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="4" stroke="#6366f1" stroke-width="2"/><path d="M8 12h8M12 8v8" stroke="#6366f1" stroke-width="2" stroke-linecap="round"/></svg>
+<span class="flex-1 text-left">Continue with SAML</span>
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+</button>
+</div>
+<div class="divider">or enter your company domain</div>
+<form id="sso-form" novalidate onsubmit="return handleDomainSSO(event)">
+<div class="form-group">
+<label class="form-label" for="company_domain">Company Domain</label>
+<input type="text" id="company_domain" name="company_domain" class="form-input" placeholder="acme-corp" autocomplete="organization"/>
+<p class="form-error" id="company_domain-error"></p>
+</div>
+<button type="submit" class="btn-primary" id="sso-btn">Continue with SSO</button>
+</form>
+<div class="divider">or</div>
+<div class="text-center">
+<a href="81-auth-login.html" class="link">Sign in with email and password</a>
+</div>
+<p class="text-center text-xs text-slate-400 dark:text-slate-500 mt-5">By continuing, you agree to our <a href="#" class="link text-xs">Terms</a> and <a href="#" class="link text-xs">Privacy Policy</a></p>
+</div>
+</div>
+<script src="common-loader.js"></script>
+<script>
+
+function handleSSO(provider){
+  showToast('Redirecting to '+provider+'...','info');
+  setTimeout(function(){showToast(provider+' authentication successful!','success');setTimeout(function(){window.location.href='01-main-dashboard.html'},1000)},1500);
+}
+function handleDomainSSO(e){
+  e.preventDefault();
+  var domain=document.getElementById('company_domain');
+  if(!domain.value.trim()||!domain.value.trim().match(/^[a-z0-9-]+$/i)){showFieldError('company_domain','Please enter a valid company domain');return false}
+  clearFieldError('company_domain');
+  var btn=document.getElementById('sso-btn');
+  btn.disabled=true;btn.textContent='Connecting...';
+  setTimeout(function(){showToast('Redirecting to SSO portal for '+domain.value.trim()+'...','info');setTimeout(function(){window.location.href='01-main-dashboard.html'},1500)},1200);
+  return false;
+}
+
+</script>
 </body>
 </html>

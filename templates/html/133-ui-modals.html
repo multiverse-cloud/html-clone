@@ -1,88 +1,394 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#465fff" />
-  <meta name="description" content="Modal examples for confirmation, forms, billing, and command workflows." />
-  <title>Modals - mtverse</title>
-  <style>
-    .no-scrollbar::-webkit-scrollbar { display: none; }
-    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-    @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
-    .animate-slideDown { animation: slideDown 0.2s ease-out; }
-  </style>
-  <link rel="stylesheet" href="tailwind-production.css">
-  <link rel="stylesheet" href="pro-styles.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Modals — UI Elements</title>
+<style>::-webkit-scrollbar{width:6px;height:6px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:3px}::-webkit-scrollbar-thumb:hover{background:#94a3b8}@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}</style>
+<link rel="stylesheet" href="tailwind-production.css">
+<link rel="stylesheet" href="pro-styles.css">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+.component-item{border:1px solid #e5e7eb;border-radius:.75rem;overflow:hidden;background:#fff;transition:box-shadow .2s,border-color .2s}.component-item:hover{box-shadow:0 4px 12px rgba(0,0,0,.08);border-color:#cbd5e1}
+.dark .component-item{border-color:#374151;background:#1f2937}.dark .component-item:hover{border-color:#4b5563;box-shadow:0 4px 12px rgba(0,0,0,.3)}
+.component-item-header{padding:1rem 1.25rem;border-bottom:1px solid #f3f4f6;display:flex;align-items:center;justify-content:space-between}.dark .component-item-header{border-color:#374151}
+.component-item-preview{padding:1.5rem;display:flex;flex-wrap:wrap;gap:.75rem;align-items:flex-start;min-height:80px}
+.component-item-actions{padding:.75rem 1.25rem;border-top:1px solid #f3f4f6;display:flex;gap:.5rem}.dark .component-item-actions{border-color:#374151}
+.modal-backdrop-demo{position:relative;background:#f9fafb;border-radius:.5rem;padding:2rem;display:flex;align-items:center;justify-content:center;min-height:220px;overflow:hidden}.dark .modal-backdrop-demo{background:#111827}
+.modal-demo{background:#fff;border-radius:.75rem;box-shadow:0 20px 60px rgba(0,0,0,.15);max-width:420px;width:100%;overflow:hidden}.dark .modal-demo{background:#1f2937;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+.tab-demo{border-bottom:2px solid #e5e7eb;display:flex;gap:0}.tab-demo button{padding:.625rem 1.25rem;font-size:.875rem;font-weight:500;color:#6b7280;border-bottom:2px solid transparent;margin-bottom:-2px;transition:color .2s,border-color .2s;cursor:pointer;background:none}.tab-demo button:hover{color:#374151}.tab-demo button.active{color:#2563eb;border-bottom-color:#2563eb}.dark .tab-demo{border-color:#374151}.dark .tab-demo button{color:#9ca3af}.dark .tab-demo button:hover{color:#d1d5db}.dark .tab-demo button.active{color:#60a5fa;border-bottom-color:#60a5fa}
+.progress-bar-demo{height:8px;background:#e5e7eb;border-radius:9999px;overflow:hidden}.progress-bar-demo .fill{height:100%;border-radius:9999px;transition:width .6s ease}.dark .progress-bar-demo{background:#374151}
+.avatar-ring{box-shadow:0 0 0 3px #fff,0 0 0 5px #3b82f6}.dark .avatar-ring{box-shadow:0 0 0 3px #1f2937,0 0 0 5px #3b82f6}
+.badge-dot{position:relative}.badge-dot::after{content:'';position:absolute;top:-2px;right:-2px;width:8px;height:8px;background:#ef4444;border:2px solid #fff;border-radius:50%}.dark .badge-dot::after{border-color:#1f2937}
+
+</style>
 </head>
 <body class="bg-gray-50 text-gray-800 font-sans dark:bg-gray-900 dark:text-gray-100">
-<div id="sidebar-overlay" class="fixed inset-0 bg-black/40 z-40 hidden lg:hidden" onclick="toggleSidebar()"></div>
+<div id="sidebar-overlay" class="fixed inset-0 bg-black/40 z-40 hidden lg:hidden" onclick="window.toggleSidebar&&toggleSidebar()"></div>
 <div class="flex h-screen overflow-hidden">
-  <div id="sidebar-container"></div>
-  <div class="flex-1 flex flex-col overflow-hidden">
-    <div id="header-container"></div>
-    <main class="flex-1 overflow-y-auto overflow-x-hidden px-4 md:px-6 2xl:px-10 py-6" tabindex="-1">
-      <div class="mx-auto w-full max-w-screen-2xl">
-        <div class="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-          <div>
-            <div class="mb-2 flex items-center gap-2 text-sm text-gray-500">
-              <span>mtverse</span><span>/</span><span>ui-elements</span><span>/</span>
-              <span class="font-medium text-gray-800 dark:text-white/90">Modals</span>
-            </div>
-            <h1 class="text-2xl font-bold text-gray-900 dark:text-white/90">Modals</h1>
-            <p class="mt-1 max-w-2xl text-sm text-gray-500 dark:text-gray-400">Modal examples for confirmation, forms, billing, and command workflows.</p>
-          </div>
-          <div class="flex flex-wrap gap-2">
-            <button type="button" class="rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 dark:border-gray-800 dark:bg-white/[0.03] dark:text-gray-300">Preview</button>
-            <button type="button" class="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700">Use Component</button>
-          </div>
-        </div>
-
-        <div class="grid grid-cols-1 gap-5 md:grid-cols-3">
-          <div class="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03]">
-            <p class="text-sm text-gray-500">Components</p><p class="mt-2 text-3xl font-bold text-gray-900 dark:text-white">24</p>
-          </div>
-          <div class="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03]">
-            <p class="text-sm text-gray-500">States</p><p class="mt-2 text-3xl font-bold text-gray-900 dark:text-white">96</p>
-          </div>
-          <div class="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03]">
-            <p class="text-sm text-gray-500">Responsive</p><p class="mt-2 text-3xl font-bold text-green-600">Ready</p>
-          </div>
-        </div>
-        <div class="mt-5 grid grid-cols-1 gap-5 xl:grid-cols-2">
-
-          <section class="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03]">
-            <h2 class="text-lg font-semibold text-gray-900 dark:text-white/90">Modal templates</h2>
-            <div class="mt-5"><div class="grid gap-4 md:grid-cols-2"><div class="rounded-xl border border-gray-200 p-5 dark:border-gray-800"><h3 class="font-bold">Confirm action</h3><p class="mt-2 text-sm text-gray-500">Use this for destructive or billing actions.</p><button class="mt-4 rounded-lg bg-red-600 px-4 py-2 text-sm font-semibold text-white">Open Confirm</button></div><div class="rounded-xl border border-gray-200 p-5 dark:border-gray-800"><h3 class="font-bold">Edit profile</h3><p class="mt-2 text-sm text-gray-500">Form modal with validation-ready fields.</p><button type="button" class="mt-4 rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white">Open Form</button></div></div></div>
-          </section>
-
-          <section class="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] xl:col-span-2">
-            <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-              <div>
-                <h2 class="text-lg font-semibold text-gray-900 dark:text-white/90">Modals production states</h2>
-                <p class="mt-1 text-sm text-gray-500">Real dashboard states with actions, accessibility, responsive layout, and clean spacing.</p>
-              </div>
-              <div class="inline-flex rounded-xl bg-gray-100 p-1 dark:bg-white/[0.04]">
-                <button class="rounded-lg bg-white px-4 py-2 text-sm font-bold text-blue-600 shadow-sm dark:bg-gray-900">Preview</button>
-                <button class="rounded-lg px-4 py-2 text-sm font-bold text-gray-500">Code</button>
-                <button class="rounded-lg px-4 py-2 text-sm font-bold text-gray-500">States</button>
-              </div>
-            </div>
-            <div class="mt-5 grid gap-4 md:grid-cols-3">
-              <div class="rounded-xl border border-gray-200 p-4 dark:border-gray-800"><div class="mb-4 flex items-center justify-between"><p class="font-bold">Default</p><span class="h-2.5 w-2.5 rounded-full bg-green-500"></span></div><div class="space-y-2"><div class="h-3 rounded bg-gray-100 dark:bg-white/[0.06]"></div><div class="h-3 w-3/4 rounded bg-gray-100 dark:bg-white/[0.06]"></div><button type="button" class="mt-3 rounded-lg bg-blue-600 px-3 py-2 text-xs font-bold text-white">Action</button></div></div><div class="rounded-xl border border-gray-200 p-4 dark:border-gray-800"><div class="mb-4 flex items-center justify-between"><p class="font-bold">Hover / active</p><span class="h-2.5 w-2.5 rounded-full bg-green-500"></span></div><div class="space-y-2"><div class="h-3 rounded bg-gray-100 dark:bg-white/[0.06]"></div><div class="h-3 w-3/4 rounded bg-gray-100 dark:bg-white/[0.06]"></div><button type="button" class="mt-3 rounded-lg bg-blue-600 px-3 py-2 text-xs font-bold text-white">Action</button></div></div><div class="rounded-xl border border-gray-200 p-4 dark:border-gray-800"><div class="mb-4 flex items-center justify-between"><p class="font-bold">Loading / empty</p><span class="h-2.5 w-2.5 rounded-full bg-yellow-400"></span></div><div class="space-y-2"><div class="h-3 rounded bg-gray-100 dark:bg-white/[0.06]"></div><div class="h-3 w-3/4 rounded bg-gray-100 dark:bg-white/[0.06]"></div><button type="button" class="mt-3 rounded-lg bg-blue-600 px-3 py-2 text-xs font-bold text-white">Action</button></div></div>
-            </div>
-          </section>
-        </div>
-      </div>
-    </main>
-  </div>
+<div id="sidebar-container"></div>
+<div class="flex-1 flex flex-col overflow-hidden">
+<div id="header-container"></div>
+<main class="flex-1 overflow-y-auto overflow-x-hidden px-4 md:px-6 2xl:px-10 py-6" tabindex="-1">
+<div class="mx-auto w-full max-w-screen-2xl"><div class="mb-6">
+<nav class="text-sm text-gray-500 dark:text-gray-400 mb-2" aria-label="Breadcrumb"><ol class="flex items-center gap-1.5"><li><a href="01-main-dashboard.html" class="hover:text-blue-600">Home</a></li><li class="before:content-['/'] before:mx-1.5 before:text-gray-300 dark:before:text-gray-600">UI Elements</li><li class="before:content-['/'] before:mx-1.5 before:text-gray-300 dark:before:text-gray-600 font-medium text-gray-800 dark:text-gray-200">Modals</li></ol></nav>
+<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+<div><h1 class="text-2xl font-bold text-gray-900 dark:text-white">Modals</h1><p class="text-gray-500 dark:text-gray-400 mt-1">16 modal variants with live preview, source code, and copy functionality</p></div>
+<div class="flex gap-2"><div class="relative"><input type="text" id="componentSearch" placeholder="Search modals…" class="pl-9 pr-4 py-2 text-sm border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-56" oninput="initComponentSearch(this.value)"><svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg></div></div>
+</div>
+</div>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6"><div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 p-5">
+<div class="flex items-center justify-between mb-3"><span class="text-sm font-medium text-gray-500 dark:text-gray-400">Variants</span><span class="w-8 h-8 rounded-lg bg-blue-50 dark:bg-blue-900/30 flex items-center justify-center"><svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7"/></svg></span></div>
+<p class="text-2xl font-bold text-gray-900 dark:text-white" data-counter="16">0</p><p class="text-xs text-green-600 font-medium mt-1">8 categories</p>
+</div><div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 p-5">
+<div class="flex items-center justify-between mb-3"><span class="text-sm font-medium text-gray-500 dark:text-gray-400">States</span><span class="w-8 h-8 rounded-lg bg-emerald-50 dark:bg-emerald-900/30 flex items-center justify-center"><svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></span></div>
+<p class="text-2xl font-bold text-gray-900 dark:text-white" data-counter="48">0</p><p class="text-xs text-green-600 font-medium mt-1">open/close/scroll</p>
+</div><div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 p-5">
+<div class="flex items-center justify-between mb-3"><span class="text-sm font-medium text-gray-500 dark:text-gray-400">Categories</span><span class="w-8 h-8 rounded-lg bg-violet-50 dark:bg-violet-900/30 flex items-center justify-center"><svg class="w-4 h-4 text-violet-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"/></svg></span></div>
+<p class="text-2xl font-bold text-gray-900 dark:text-white" data-counter="8">0</p><p class="text-xs text-green-600 font-medium mt-1">unique styles</p>
+</div><div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 p-5">
+<div class="flex items-center justify-between mb-3"><span class="text-sm font-medium text-gray-500 dark:text-gray-400">Responsive</span><span class="w-8 h-8 rounded-lg bg-amber-50 dark:bg-amber-900/30 flex items-center justify-center"><svg class="w-4 h-4 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg></span></div>
+<p class="text-2xl font-bold text-gray-900 dark:text-white" >100%</p><p class="text-xs text-green-600 font-medium mt-1">Mobile ready</p>
+</div></div><div class="flex flex-wrap gap-2 mb-6" id="categoryFilter"><button class="px-3 py-1.5 text-sm font-medium rounded-lg bg-blue-600 text-white shadow-sm" data-category="all" onclick="initCategoryFilter('all',this)">All</button><button class="px-3 py-1.5 text-sm font-medium rounded-lg bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700" data-category="basic" onclick="initCategoryFilter('basic',this)">Basic</button><button class="px-3 py-1.5 text-sm font-medium rounded-lg bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700" data-category="action" onclick="initCategoryFilter('action',this)">Action</button><button class="px-3 py-1.5 text-sm font-medium rounded-lg bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700" data-category="feedback" onclick="initCategoryFilter('feedback',this)">Feedback</button><button class="px-3 py-1.5 text-sm font-medium rounded-lg bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700" data-category="form" onclick="initCategoryFilter('form',this)">Form</button><button class="px-3 py-1.5 text-sm font-medium rounded-lg bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700" data-category="layout" onclick="initCategoryFilter('layout',this)">Layout</button><button class="px-3 py-1.5 text-sm font-medium rounded-lg bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700" data-category="media" onclick="initCategoryFilter('media',this)">Media</button><button class="px-3 py-1.5 text-sm font-medium rounded-lg bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700" data-category="navigation" onclick="initCategoryFilter('navigation',this)">Navigation</button><button class="px-3 py-1.5 text-sm font-medium rounded-lg bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700" data-category="content" onclick="initCategoryFilter('content',this)">Content</button></div><div class="grid grid-cols-1 lg:grid-cols-2 gap-6" id="componentGrid"><div class="component-item" data-category="basic" data-title="Basic Modal">
+<div class="component-item-header"><div><h3 class="font-semibold text-gray-900 dark:text-white">Basic Modal</h3><p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Standard modal with header, body, and footer</p></div><span class="text-[10px] font-medium px-2 py-0.5 rounded-full bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300">Basic</span></div>
+<div class="component-item-preview" data-source-id="basic-modal" data-source-code="&lt;div class=&quot;fixed inset-0 bg-black/50 flex items-center justify-center z-50&quot;&gt;
+  &lt;div class=&quot;bg-white rounded-xl shadow-xl max-w-lg w-full mx-4&quot;&gt;
+    &lt;div class=&quot;px-6 py-4 border-b border-gray-100&quot;&gt;
+      &lt;h3 class=&quot;text-lg font-semibold&quot;&gt;Modal Title&lt;/h3&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;px-6 py-5&quot;&gt;Body content&lt;/div&gt;
+    &lt;div class=&quot;px-6 py-3 border-t border-gray-100 flex justify-end gap-2&quot;&gt;
+      &lt;button class=&quot;px-4 py-2 text-sm text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200&quot;&gt;Cancel&lt;/button&gt;
+      &lt;button class=&quot;px-4 py-2 text-sm text-white bg-blue-600 rounded-lg hover:bg-blue-700&quot;&gt;Confirm&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;"><div class="modal-backdrop-demo"><div class="modal-demo">
+<div class="px-6 py-4 border-b border-gray-100 dark:border-gray-700"><h3 class="text-lg font-semibold text-gray-900 dark:text-white">Modal Title</h3><p class="text-sm text-gray-500 dark:text-gray-400 mt-0.5">A short description here</p></div>
+<div class="px-6 py-5"><p class="text-sm text-gray-600 dark:text-gray-300">This is the body content of a basic modal. You can place any content here including forms, text, or other components.</p></div>
+<div class="px-6 py-3 border-t border-gray-100 dark:border-gray-700 flex justify-end gap-2"><button class="px-4 py-2 text-sm font-medium text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors dark:text-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600">Cancel</button><button class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors">Confirm</button></div>
+</div></div></div>
+<div class="component-item-actions"><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="openSourceViewer(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>View Source</button><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="copySourceCode(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>Copy</button></div>
+</div>
+<div class="component-item" data-category="action" data-title="Confirmation Modal">
+<div class="component-item-header"><div><h3 class="font-semibold text-gray-900 dark:text-white">Confirmation Modal</h3><p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Destructive action confirmation with warning</p></div><span class="text-[10px] font-medium px-2 py-0.5 rounded-full bg-red-50 dark:bg-red-900/30 text-red-700 dark:text-red-300">Action</span></div>
+<div class="component-item-preview" data-source-id="confirmation-modal" data-source-code="&lt;div class=&quot;fixed inset-0 bg-black/50 flex items-center justify-center z-50&quot;&gt;
+  &lt;div class=&quot;bg-white rounded-xl shadow-xl max-w-md w-full mx-4&quot;&gt;
+    &lt;div class=&quot;px-6 py-4 border-b&quot;&gt;
+      &lt;div class=&quot;flex items-center gap-3&quot;&gt;
+        &lt;span class=&quot;w-10 h-10 rounded-full bg-red-100 flex items-center justify-center&quot;&gt;⚠️&lt;/span&gt;
+        &lt;h3 class=&quot;font-semibold&quot;&gt;Delete Project&lt;/h3&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;px-6 py-5&quot;&gt;&lt;p&gt;Are you sure? This cannot be undone.&lt;/p&gt;&lt;/div&gt;
+    &lt;div class=&quot;px-6 py-3 border-t flex justify-end gap-2&quot;&gt;
+      &lt;button class=&quot;btn-cancel&quot;&gt;Cancel&lt;/button&gt;
+      &lt;button class=&quot;btn-danger&quot;&gt;Delete&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;"><div class="modal-backdrop-demo"><div class="modal-demo">
+<div class="px-6 py-4 border-b border-gray-100 dark:border-gray-700"><div class="flex items-center gap-3"><span class="w-10 h-10 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center"><svg class="w-5 h-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z"/></svg></span><div><h3 class="text-lg font-semibold text-gray-900 dark:text-white">Delete Project</h3><p class="text-sm text-gray-500 dark:text-gray-400">This action cannot be undone</p></div></div></div>
+<div class="px-6 py-5"><p class="text-sm text-gray-600 dark:text-gray-300">Are you sure you want to delete <strong>Project Alpha</strong>? All data including files, settings, and team members will be permanently removed.</p></div>
+<div class="px-6 py-3 border-t border-gray-100 dark:border-gray-700 flex justify-end gap-2"><button class="px-4 py-2 text-sm font-medium text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors dark:text-gray-300 dark:bg-gray-700">Cancel</button><button class="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700 transition-colors">Delete Project</button></div>
+</div></div></div>
+<div class="component-item-actions"><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="openSourceViewer(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>View Source</button><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="copySourceCode(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>Copy</button></div>
+</div>
+<div class="component-item" data-category="feedback" data-title="Success Modal">
+<div class="component-item-header"><div><h3 class="font-semibold text-gray-900 dark:text-white">Success Modal</h3><p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Positive feedback after action completion</p></div><span class="text-[10px] font-medium px-2 py-0.5 rounded-full bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-300">Feedback</span></div>
+<div class="component-item-preview" data-source-id="success-modal" data-source-code="&lt;div class=&quot;fixed inset-0 bg-black/50 flex items-center justify-center z-50&quot;&gt;
+  &lt;div class=&quot;bg-white rounded-xl shadow-xl max-w-sm w-full mx-4 text-center&quot;&gt;
+    &lt;div class=&quot;px-6 py-8&quot;&gt;
+      &lt;span class=&quot;w-16 h-16 rounded-full bg-green-100 flex items-center justify-center mx-auto mb-4&quot;&gt;✓&lt;/span&gt;
+      &lt;h3 class=&quot;text-xl font-semibold mb-2&quot;&gt;Payment Successful!&lt;/h3&gt;
+      &lt;p class=&quot;text-sm text-gray-500&quot;&gt;Receipt sent to your email.&lt;/p&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;px-6 py-3 border-t&quot;&gt;
+      &lt;button class=&quot;w-full btn-primary&quot;&gt;View Receipt&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;"><div class="modal-backdrop-demo"><div class="modal-demo text-center">
+<div class="px-6 py-8"><span class="w-16 h-16 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center mx-auto mb-4"><svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg></span><h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">Payment Successful!</h3><p class="text-sm text-gray-500 dark:text-gray-400">Your payment of $299.00 has been processed. A receipt has been sent to your email.</p></div>
+<div class="px-6 py-3 border-t border-gray-100 dark:border-gray-700"><button class="w-full px-4 py-2.5 text-sm font-medium text-white bg-green-600 rounded-lg hover:bg-green-700 transition-colors">View Receipt</button></div>
+</div></div></div>
+<div class="component-item-actions"><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="openSourceViewer(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>View Source</button><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="copySourceCode(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>Copy</button></div>
+</div>
+<div class="component-item" data-category="form" data-title="Form Modal">
+<div class="component-item-header"><div><h3 class="font-semibold text-gray-900 dark:text-white">Form Modal</h3><p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Modal containing form inputs for data entry</p></div><span class="text-[10px] font-medium px-2 py-0.5 rounded-full bg-violet-50 dark:bg-violet-900/30 text-violet-700 dark:text-violet-300">Form</span></div>
+<div class="component-item-preview" data-source-id="form-modal" data-source-code="&lt;!-- Form Modal with input fields --&gt;
+&lt;div class=&quot;modal-overlay&quot;&gt;
+  &lt;div class=&quot;modal-content&quot;&gt;
+    &lt;div class=&quot;modal-header&quot;&gt;
+      &lt;h3&gt;Create New Project&lt;/h3&gt;
+      &lt;button class=&quot;close-btn&quot;&gt;&amp;times;&lt;/button&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;modal-body&quot;&gt;
+      &lt;form&gt;
+        &lt;label&gt;Project Name&lt;/label&gt;
+        &lt;input type=&quot;text&quot; placeholder=&quot;Enter name&quot; /&gt;
+        &lt;label&gt;Description&lt;/label&gt;
+        &lt;textarea rows=&quot;3&quot;&gt;&lt;/textarea&gt;
+        &lt;label&gt;Visibility&lt;/label&gt;
+        &lt;select&gt;&lt;option&gt;Private&lt;/option&gt;&lt;/select&gt;
+      &lt;/form&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;modal-footer&quot;&gt;
+      &lt;button&gt;Cancel&lt;/button&gt;
+      &lt;button&gt;Create Project&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;"><div class="modal-backdrop-demo"><div class="modal-demo">
+<div class="px-6 py-4 border-b border-gray-100 dark:border-gray-700 flex items-center justify-between"><h3 class="text-lg font-semibold text-gray-900 dark:text-white">Create New Project</h3><button class="p-1 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg></button></div>
+<div class="px-6 py-5 space-y-4"><div><label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Project Name</label><input type="text" class="w-full px-3 py-2 text-sm border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="Enter project name"></div><div><label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Description</label><textarea rows="3" class="w-full px-3 py-2 text-sm border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none" placeholder="Describe your project"></textarea></div><div><label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Visibility</label><select class="w-full px-3 py-2 text-sm border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700"><option>Private</option><option>Team</option><option>Public</option></select></div></div>
+<div class="px-6 py-3 border-t border-gray-100 dark:border-gray-700 flex justify-end gap-2"><button class="px-4 py-2 text-sm font-medium text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors dark:text-gray-300 dark:bg-gray-700">Cancel</button><button class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors">Create Project</button></div>
+</div></div></div>
+<div class="component-item-actions"><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="openSourceViewer(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>View Source</button><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="copySourceCode(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>Copy</button></div>
+</div>
+<div class="component-item" data-category="layout" data-title="Side Drawer / Slide-over">
+<div class="component-item-header"><div><h3 class="font-semibold text-gray-900 dark:text-white">Side Drawer / Slide-over</h3><p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Panel sliding in from the right edge</p></div><span class="text-[10px] font-medium px-2 py-0.5 rounded-full bg-indigo-50 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300">Layout</span></div>
+<div class="component-item-preview" data-source-id="side-drawer--slide-over" data-source-code="&lt;!-- Side Drawer --&gt;
+&lt;div class=&quot;fixed inset-0 bg-black/50 z-50 flex justify-end&quot;&gt;
+  &lt;div class=&quot;bg-white w-96 h-full shadow-xl flex flex-col&quot;&gt;
+    &lt;div class=&quot;px-5 py-4 border-b flex items-center justify-between&quot;&gt;
+      &lt;h3 class=&quot;font-semibold&quot;&gt;Panel Title&lt;/h3&gt;
+      &lt;button class=&quot;close-btn&quot;&gt;&amp;times;&lt;/button&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;flex-1 overflow-y-auto p-5&quot;&gt;
+      Panel content here
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;"><div class="modal-backdrop-demo justify-end"><div class="bg-white dark:bg-gray-800 border-l border-gray-200 dark:border-gray-700 shadow-xl h-full w-80 flex flex-col">
+<div class="px-5 py-4 border-b border-gray-100 dark:border-gray-700 flex items-center justify-between"><h3 class="font-semibold text-gray-900 dark:text-white">Notifications</h3><button class="p-1 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg></button></div>
+<div class="flex-1 overflow-y-auto p-5 space-y-4"><div class="flex gap-3 p-3 rounded-lg bg-blue-50 dark:bg-blue-900/20"><span class="w-8 h-8 rounded-full bg-blue-100 dark:bg-blue-900/40 flex items-center justify-center flex-shrink-0"><svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg></span><div><p class="text-sm font-medium text-gray-900 dark:text-white">New deployment</p><p class="text-xs text-gray-500 dark:text-gray-400">v2.4.1 deployed 2m ago</p></div></div><div class="flex gap-3 p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700/50"><span class="w-8 h-8 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center flex-shrink-0"><svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg></span><div><p class="text-sm font-medium text-gray-900 dark:text-white">Tests passed</p><p class="text-xs text-gray-500 dark:text-gray-400">142/142 tests passed</p></div></div><div class="flex gap-3 p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700/50"><span class="w-8 h-8 rounded-full bg-amber-100 dark:bg-amber-900/30 flex items-center justify-center flex-shrink-0"><svg class="w-4 h-4 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01"/></svg></span><div><p class="text-sm font-medium text-gray-900 dark:text-white">SSL warning</p><p class="text-xs text-gray-500 dark:text-gray-400">Certificate expires in 7 days</p></div></div></div>
+</div></div></div>
+<div class="component-item-actions"><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="openSourceViewer(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>View Source</button><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="copySourceCode(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>Copy</button></div>
+</div>
+<div class="component-item" data-category="layout" data-title="Fullscreen Modal">
+<div class="component-item-header"><div><h3 class="font-semibold text-gray-900 dark:text-white">Fullscreen Modal</h3><p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Full viewport modal for immersive experiences</p></div><span class="text-[10px] font-medium px-2 py-0.5 rounded-full bg-indigo-50 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300">Layout</span></div>
+<div class="component-item-preview" data-source-id="fullscreen-modal" data-source-code="&lt;!-- Fullscreen Modal --&gt;
+&lt;div class=&quot;fixed inset-0 z-50 bg-white dark:bg-gray-900 flex flex-col&quot;&gt;
+  &lt;div class=&quot;px-6 py-3 border-b flex items-center justify-between&quot;&gt;
+    &lt;h3&gt;Media Gallery&lt;/h3&gt;
+    &lt;button class=&quot;close-btn&quot;&gt;&amp;times;&lt;/button&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;flex-1 overflow-y-auto p-6&quot;&gt;Content&lt;/div&gt;
+  &lt;div class=&quot;px-6 py-3 border-t flex justify-between&quot;&gt;
+    &lt;span&gt;6 of 24 items&lt;/span&gt;
+    &lt;div class=&quot;flex gap-2&quot;&gt;&lt;button&gt;Previous&lt;/button&gt;&lt;button&gt;Next&lt;/button&gt;&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;"><div class="modal-backdrop-demo" style="min-height:280px"><div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full h-full flex flex-col">
+<div class="px-6 py-3 border-b border-gray-100 dark:border-gray-700 flex items-center justify-between"><h3 class="font-semibold text-gray-900 dark:text-white">Media Gallery</h3><button class="p-1 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg></button></div>
+<div class="flex-1 overflow-y-auto p-6"><div class="grid grid-cols-3 gap-3"><div class="aspect-square bg-gray-100 dark:bg-gray-700 rounded-lg"></div><div class="aspect-square bg-gray-100 dark:bg-gray-700 rounded-lg"></div><div class="aspect-square bg-gray-100 dark:bg-gray-700 rounded-lg"></div><div class="aspect-square bg-gray-100 dark:bg-gray-700 rounded-lg"></div><div class="aspect-square bg-gray-100 dark:bg-gray-700 rounded-lg"></div><div class="aspect-square bg-gray-100 dark:bg-gray-700 rounded-lg"></div></div></div>
+<div class="px-6 py-3 border-t border-gray-100 dark:border-gray-700 flex justify-between items-center"><span class="text-sm text-gray-500 dark:text-gray-400">6 of 24 items</span><div class="flex gap-2"><button class="px-3 py-1.5 text-sm text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-300">Previous</button><button class="px-3 py-1.5 text-sm text-white bg-blue-600 rounded-lg hover:bg-blue-700">Next</button></div></div>
+</div></div></div>
+<div class="component-item-actions"><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="openSourceViewer(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>View Source</button><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="copySourceCode(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>Copy</button></div>
+</div>
+<div class="component-item" data-category="feedback" data-title="Info / Announcement Modal">
+<div class="component-item-header"><div><h3 class="font-semibold text-gray-900 dark:text-white">Info / Announcement Modal</h3><p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Feature announcements and information dialogs</p></div><span class="text-[10px] font-medium px-2 py-0.5 rounded-full bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-300">Feedback</span></div>
+<div class="component-item-preview" data-source-id="info--announcement-modal" data-source-code="&lt;!-- Info Modal --&gt;
+&lt;div class=&quot;fixed inset-0 bg-black/50 flex items-center justify-center z-50&quot;&gt;
+  &lt;div class=&quot;bg-white rounded-xl shadow-xl max-w-sm w-full mx-4 text-center&quot;&gt;
+    &lt;div class=&quot;px-6 py-5&quot;&gt;
+      &lt;h3 class=&quot;text-lg font-semibold mb-2&quot;&gt;What's New in v3.0&lt;/h3&gt;
+      &lt;p class=&quot;text-sm text-gray-500&quot;&gt;Explore new features and improvements.&lt;/p&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;px-6 py-3 border-t flex flex-col gap-2&quot;&gt;
+      &lt;button class=&quot;btn-primary w-full&quot;&gt;Explore&lt;/button&gt;
+      &lt;button class=&quot;btn-ghost w-full&quot;&gt;Maybe Later&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;"><div class="modal-backdrop-demo"><div class="modal-demo">
+<div class="px-6 py-5 text-center"><span class="w-14 h-14 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center mx-auto mb-3"><svg class="w-7 h-7 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></span><h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">What's New in v3.0</h3><p class="text-sm text-gray-500 dark:text-gray-400">We've added dark mode, improved search, and 50+ new components. Check out the changelog for details.</p></div>
+<div class="px-6 py-3 border-t border-gray-100 dark:border-gray-700 flex flex-col gap-2"><button class="w-full px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors">Explore New Features</button><button class="w-full px-4 py-2 text-sm font-medium text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 transition-colors">Maybe Later</button></div>
+</div></div></div>
+<div class="component-item-actions"><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="openSourceViewer(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>View Source</button><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="copySourceCode(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>Copy</button></div>
+</div>
+<div class="component-item" data-category="media" data-title="Image Lightbox Modal">
+<div class="component-item-header"><div><h3 class="font-semibold text-gray-900 dark:text-white">Image Lightbox Modal</h3><p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Full-size image preview with zoom controls</p></div><span class="text-[10px] font-medium px-2 py-0.5 rounded-full bg-amber-50 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300">Media</span></div>
+<div class="component-item-preview" data-source-id="image-lightbox-modal" data-source-code="&lt;!-- Image Lightbox --&gt;
+&lt;div class=&quot;fixed inset-0 bg-black/90 z-50 flex items-center justify-center&quot;&gt;
+  &lt;img src=&quot;image.jpg&quot; class=&quot;max-w-full max-h-[80vh] object-contain&quot; /&gt;
+  &lt;div class=&quot;absolute bottom-6 flex items-center gap-3&quot;&gt;
+    &lt;button&gt;← Prev&lt;/button&gt;
+    &lt;span&gt;1 / 5&lt;/span&gt;
+    &lt;button&gt;Next →&lt;/button&gt;
+    &lt;button&gt;Zoom +&lt;/button&gt;
+  &lt;/div&gt;
+  &lt;button class=&quot;absolute top-4 right-4 text-white&quot;&gt;&amp;times;&lt;/button&gt;
+&lt;/div&gt;"><div class="modal-backdrop-demo !bg-black/80"><div class="text-center">
+<div class="w-64 h-40 bg-gray-700 rounded-lg mb-3 flex items-center justify-center"><svg class="w-12 h-12 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg></div>
+<div class="flex items-center justify-center gap-3"><button class="p-2 text-white/70 hover:text-white transition-colors"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg></button><span class="text-white/60 text-sm">1 / 5</span><button class="p-2 text-white/70 hover:text-white transition-colors"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></button><span class="mx-3 text-white/30">|</span><button class="p-2 text-white/70 hover:text-white transition-colors"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"/></svg></button></div>
+</div></div></div>
+<div class="component-item-actions"><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="openSourceViewer(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>View Source</button><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="copySourceCode(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>Copy</button></div>
+</div>
+<div class="component-item" data-category="form" data-title="Multi-step Wizard Modal">
+<div class="component-item-header"><div><h3 class="font-semibold text-gray-900 dark:text-white">Multi-step Wizard Modal</h3><p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Step-by-step process within a modal</p></div><span class="text-[10px] font-medium px-2 py-0.5 rounded-full bg-violet-50 dark:bg-violet-900/30 text-violet-700 dark:text-violet-300">Form</span></div>
+<div class="component-item-preview" data-source-id="multi-step-wizard-modal" data-source-code="&lt;!-- Wizard Modal --&gt;
+&lt;div class=&quot;modal-overlay&quot;&gt;
+  &lt;div class=&quot;modal-content&quot;&gt;
+    &lt;div class=&quot;modal-header&quot;&gt;
+      &lt;h3&gt;Create Campaign&lt;/h3&gt;
+      &lt;div class=&quot;steps&quot;&gt;1 → 2 → 3&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;modal-body&quot;&gt;
+      &lt;!-- Step 1 form fields --&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;modal-footer&quot;&gt;
+      &lt;button&gt;Skip&lt;/button&gt;
+      &lt;button&gt;Next Step →&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;"><div class="modal-backdrop-demo"><div class="modal-demo">
+<div class="px-6 py-4 border-b border-gray-100 dark:border-gray-700"><h3 class="text-lg font-semibold text-gray-900 dark:text-white">Create Campaign</h3><div class="flex items-center gap-2 mt-3"><div class="flex items-center gap-2"><span class="w-6 h-6 rounded-full bg-blue-600 text-white text-xs flex items-center justify-center font-medium">1</span><span class="text-xs font-medium text-blue-600">Details</span></div><div class="w-8 h-px bg-gray-300 dark:bg-gray-600"></div><div class="flex items-center gap-2"><span class="w-6 h-6 rounded-full bg-gray-200 dark:bg-gray-600 text-gray-500 dark:text-gray-400 text-xs flex items-center justify-center font-medium">2</span><span class="text-xs font-medium text-gray-400">Audience</span></div><div class="w-8 h-px bg-gray-300 dark:bg-gray-600"></div><div class="flex items-center gap-2"><span class="w-6 h-6 rounded-full bg-gray-200 dark:bg-gray-600 text-gray-500 dark:text-gray-400 text-xs flex items-center justify-center font-medium">3</span><span class="text-xs font-medium text-gray-400">Review</span></div></div></div>
+<div class="px-6 py-5"><div><label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Campaign Name</label><input type="text" class="w-full px-3 py-2 text-sm border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700" placeholder="e.g., Summer Sale 2024" value="Summer Sale 2024"></div><div class="mt-4"><label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Budget</label><input type="text" class="w-full px-3 py-2 text-sm border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700" placeholder="$0.00" value="$5,000"></div></div>
+<div class="px-6 py-3 border-t border-gray-100 dark:border-gray-700 flex justify-between"><button class="px-4 py-2 text-sm font-medium text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 transition-colors">Skip</button><button class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors inline-flex items-center gap-1">Next Step<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></button></div>
+</div></div></div>
+<div class="component-item-actions"><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="openSourceViewer(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>View Source</button><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="copySourceCode(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>Copy</button></div>
+</div>
+<div class="component-item" data-category="feedback" data-title="Toast / Notification Modal">
+<div class="component-item-header"><div><h3 class="font-semibold text-gray-900 dark:text-white">Toast / Notification Modal</h3><p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Auto-dismissing notification popups</p></div><span class="text-[10px] font-medium px-2 py-0.5 rounded-full bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-300">Feedback</span></div>
+<div class="component-item-preview" data-source-id="toast--notification-modal" data-source-code="&lt;!-- Toast Notifications --&gt;
+&lt;div class=&quot;fixed top-4 right-4 z-50 space-y-2&quot;&gt;
+  &lt;div class=&quot;flex items-center gap-3 px-4 py-3 bg-white border rounded-lg shadow-sm&quot;&gt;
+    &lt;span class=&quot;icon-success&quot;&gt;✓&lt;/span&gt;
+    &lt;div&gt;&lt;p class=&quot;font-medium&quot;&gt;Changes saved&lt;/p&gt;&lt;/div&gt;
+    &lt;button class=&quot;close&quot;&gt;&amp;times;&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;"><div class="flex flex-col gap-3">
+<div class="flex items-center gap-3 px-4 py-3 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm max-w-sm"><span class="w-8 h-8 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center flex-shrink-0"><svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg></span><div class="flex-1 min-w-0"><p class="text-sm font-medium text-gray-900 dark:text-white">Changes saved</p><p class="text-xs text-gray-500 dark:text-gray-400">Your profile has been updated</p></div><button class="p-1 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 flex-shrink-0"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg></button></div>
+<div class="flex items-center gap-3 px-4 py-3 bg-white dark:bg-gray-800 border border-red-200 dark:border-red-800 rounded-lg shadow-sm max-w-sm"><span class="w-8 h-8 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center flex-shrink-0"><svg class="w-4 h-4 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg></span><div class="flex-1 min-w-0"><p class="text-sm font-medium text-gray-900 dark:text-white">Upload failed</p><p class="text-xs text-gray-500 dark:text-gray-400">File size exceeds 10MB limit</p></div><button class="p-1 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 flex-shrink-0"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg></button></div>
+<div class="flex items-center gap-3 px-4 py-3 bg-white dark:bg-gray-800 border border-blue-200 dark:border-blue-800 rounded-lg shadow-sm max-w-sm"><span class="w-8 h-8 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center flex-shrink-0"><svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></span><div class="flex-1 min-w-0"><p class="text-sm font-medium text-gray-900 dark:text-white">New update available</p><p class="text-xs text-gray-500 dark:text-gray-400">v3.2.1 is ready to install</p></div><button class="px-3 py-1 text-xs font-medium text-blue-600 bg-blue-50 dark:bg-blue-900/30 dark:text-blue-400 rounded-md hover:bg-blue-100 dark:hover:bg-blue-900/40 transition-colors flex-shrink-0">Update</button></div>
+</div></div>
+<div class="component-item-actions"><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="openSourceViewer(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>View Source</button><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="copySourceCode(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>Copy</button></div>
+</div>
+<div class="component-item" data-category="action" data-title="Cookie Consent Modal">
+<div class="component-item-header"><div><h3 class="font-semibold text-gray-900 dark:text-white">Cookie Consent Modal</h3><p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">GDPR cookie consent banner and modal</p></div><span class="text-[10px] font-medium px-2 py-0.5 rounded-full bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300">Action</span></div>
+<div class="component-item-preview" data-source-id="cookie-consent-modal" data-source-code="&lt;!-- Cookie Consent --&gt;
+&lt;div class=&quot;fixed bottom-4 left-4 right-4 z-50 md:left-auto md:max-w-lg&quot;&gt;
+  &lt;div class=&quot;bg-white border rounded-xl shadow-lg p-5&quot;&gt;
+    &lt;h4&gt;We value your privacy&lt;/h4&gt;
+    &lt;p&gt;We use cookies to enhance your experience.&lt;/p&gt;
+    &lt;div class=&quot;flex gap-2 mt-3&quot;&gt;
+      &lt;button&gt;Manage&lt;/button&gt;
+      &lt;button&gt;Reject&lt;/button&gt;
+      &lt;button class=&quot;btn-primary&quot;&gt;Accept All&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;"><div class="w-full max-w-lg bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-lg p-5">
+<div class="flex gap-4"><span class="w-10 h-10 rounded-full bg-amber-100 dark:bg-amber-900/30 flex items-center justify-center flex-shrink-0"><svg class="w-5 h-5 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></span><div><h4 class="text-sm font-semibold text-gray-900 dark:text-white mb-1">We value your privacy</h4><p class="text-xs text-gray-500 dark:text-gray-400 mb-3">We use cookies to enhance your experience. By continuing to visit this site you agree to our use of cookies.</p><div class="flex flex-wrap gap-2"><button class="px-3 py-1.5 text-xs font-medium text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-300 transition-colors">Manage Preferences</button><button class="px-3 py-1.5 text-xs font-medium text-gray-600 border border-gray-200 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 dark:text-gray-300 transition-colors">Reject All</button><button class="px-3 py-1.5 text-xs font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors">Accept All</button></div></div></div>
+</div></div>
+<div class="component-item-actions"><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="openSourceViewer(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>View Source</button><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="copySourceCode(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>Copy</button></div>
+</div>
+<div class="component-item" data-category="feedback" data-title="Error / Warning Modal">
+<div class="component-item-header"><div><h3 class="font-semibold text-gray-900 dark:text-white">Error / Warning Modal</h3><p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Error display and warning dialogs</p></div><span class="text-[10px] font-medium px-2 py-0.5 rounded-full bg-red-50 dark:bg-red-900/30 text-red-700 dark:text-red-300">Feedback</span></div>
+<div class="component-item-preview" data-source-id="error--warning-modal" data-source-code="&lt;!-- Error Modal --&gt;
+&lt;div class=&quot;fixed inset-0 bg-black/50 flex items-center justify-center z-50&quot;&gt;
+  &lt;div class=&quot;bg-white rounded-xl shadow-xl max-w-sm mx-4 text-center&quot;&gt;
+    &lt;div class=&quot;px-6 py-5&quot;&gt;
+      &lt;span class=&quot;error-icon&quot;&gt;⚠️&lt;/span&gt;
+      &lt;h3&gt;Connection Failed&lt;/h3&gt;
+      &lt;p&gt;Unable to reach server.&lt;/p&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;px-6 py-3 border-t flex justify-center gap-2&quot;&gt;
+      &lt;button&gt;Dismiss&lt;/button&gt;
+      &lt;button class=&quot;btn-primary&quot;&gt;Retry&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;"><div class="modal-backdrop-demo"><div class="modal-demo">
+<div class="px-6 py-5 text-center"><span class="w-14 h-14 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center mx-auto mb-3"><svg class="w-7 h-7 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z"/></svg></span><h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-1">Connection Failed</h3><p class="text-sm text-gray-500 dark:text-gray-400">Unable to reach the server. Please check your internet connection and try again.</p></div>
+<div class="px-6 py-3 border-t border-gray-100 dark:border-gray-700 flex justify-center gap-2"><button class="px-4 py-2 text-sm font-medium text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors dark:text-gray-300 dark:bg-gray-700">Dismiss</button><button class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors">Retry</button></div>
+</div></div></div>
+<div class="component-item-actions"><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="openSourceViewer(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>View Source</button><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="copySourceCode(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>Copy</button></div>
+</div>
+<div class="component-item" data-category="content" data-title="Profile Card Modal">
+<div class="component-item-header"><div><h3 class="font-semibold text-gray-900 dark:text-white">Profile Card Modal</h3><p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">User profile information in a modal popup</p></div><span class="text-[10px] font-medium px-2 py-0.5 rounded-full bg-purple-50 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300">Content</span></div>
+<div class="component-item-preview" data-source-id="profile-card-modal" data-source-code="&lt;!-- Profile Card Modal --&gt;
+&lt;div class=&quot;fixed inset-0 bg-black/50 flex items-center justify-center z-50&quot;&gt;
+  &lt;div class=&quot;bg-white rounded-xl shadow-xl max-w-sm mx-4 text-center&quot;&gt;
+    &lt;div class=&quot;h-16 bg-blue-600 rounded-t-xl&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;px-6 pb-5&quot;&gt;
+      &lt;div class=&quot;avatar -mt-8 mx-auto&quot;&gt;JD&lt;/div&gt;
+      &lt;h3&gt;Jane Doe&lt;/h3&gt;
+      &lt;p&gt;Senior Product Designer&lt;/p&gt;
+      &lt;div class=&quot;stats&quot;&gt;142 Projects | 2.4k Followers&lt;/div&gt;
+      &lt;button class=&quot;btn-primary&quot;&gt;Follow&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;"><div class="modal-backdrop-demo"><div class="modal-demo text-center">
+<div class="h-16 bg-blue-600"></div>
+<div class="px-6 pb-5"><div class="w-16 h-16 rounded-full bg-gray-200 dark:bg-gray-600 border-4 border-white dark:border-gray-800 -mt-8 mx-auto flex items-center justify-center text-xl font-bold text-gray-600 dark:text-gray-300">JD</div><h3 class="text-lg font-semibold text-gray-900 dark:text-white mt-2">Jane Doe</h3><p class="text-sm text-gray-500 dark:text-gray-400">Senior Product Designer</p><p class="text-sm text-gray-500 dark:text-gray-400 mt-1">San Francisco, CA</p>
+<div class="flex justify-center gap-6 mt-4 pt-4 border-t border-gray-100 dark:border-gray-700"><div><p class="text-lg font-semibold text-gray-900 dark:text-white">142</p><p class="text-xs text-gray-500 dark:text-gray-400">Projects</p></div><div><p class="text-lg font-semibold text-gray-900 dark:text-white">2.4k</p><p class="text-xs text-gray-500 dark:text-gray-400">Followers</p></div><div><p class="text-lg font-semibold text-gray-900 dark:text-white">892</p><p class="text-xs text-gray-500 dark:text-gray-400">Following</p></div></div>
+<div class="flex justify-center gap-2 mt-4"><button class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors">Follow</button><button class="px-4 py-2 text-sm font-medium text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors dark:text-gray-300 dark:bg-gray-700">Message</button></div>
+</div></div></div></div>
+<div class="component-item-actions"><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="openSourceViewer(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>View Source</button><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="copySourceCode(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>Copy</button></div>
+</div>
+<div class="component-item" data-category="action" data-title="Pricing Upgrade Modal">
+<div class="component-item-header"><div><h3 class="font-semibold text-gray-900 dark:text-white">Pricing Upgrade Modal</h3><p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Upgrade and plan selection modal</p></div><span class="text-[10px] font-medium px-2 py-0.5 rounded-full bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300">Action</span></div>
+<div class="component-item-preview" data-source-id="pricing-upgrade-modal" data-source-code="&lt;!-- Pricing Modal --&gt;
+&lt;div class=&quot;modal-overlay&quot;&gt;
+  &lt;div class=&quot;modal-content&quot;&gt;
+    &lt;h3&gt;Upgrade to Pro&lt;/h3&gt;
+    &lt;div class=&quot;plan selected&quot;&gt;Pro - $12/mo&lt;/div&gt;
+    &lt;div class=&quot;plan&quot;&gt;Team - $29/mo&lt;/div&gt;
+    &lt;button class=&quot;btn-primary w-full&quot;&gt;Continue&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;"><div class="modal-backdrop-demo"><div class="modal-demo">
+<div class="px-6 py-4 border-b border-gray-100 dark:border-gray-700 text-center"><h3 class="text-lg font-semibold text-gray-900 dark:text-white">Upgrade to Pro</h3><p class="text-sm text-gray-500 dark:text-gray-400">Get unlimited access to all features</p></div>
+<div class="px-6 py-5 space-y-3"><div class="flex items-center gap-3 p-3 rounded-lg border-2 border-blue-600 bg-blue-50 dark:bg-blue-900/20"><div class="flex-1"><p class="text-sm font-semibold text-gray-900 dark:text-white">Pro Plan</p><p class="text-xs text-gray-500 dark:text-gray-400">Everything in Free + unlimited projects</p></div><p class="text-sm font-bold text-gray-900 dark:text-white">$12<span class="text-xs font-normal text-gray-500">/mo</span></p></div><div class="flex items-center gap-3 p-3 rounded-lg border border-gray-200 dark:border-gray-700"><div class="flex-1"><p class="text-sm font-semibold text-gray-900 dark:text-white">Team Plan</p><p class="text-xs text-gray-500 dark:text-gray-400">Pro + team collaboration & analytics</p></div><p class="text-sm font-bold text-gray-900 dark:text-white">$29<span class="text-xs font-normal text-gray-500">/mo</span></p></div></div>
+<div class="px-6 py-3 border-t border-gray-100 dark:border-gray-700"><button class="w-full px-4 py-2.5 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors">Continue with Pro — $12/mo</button></div>
+</div></div></div>
+<div class="component-item-actions"><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="openSourceViewer(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>View Source</button><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="copySourceCode(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>Copy</button></div>
+</div>
+<div class="component-item" data-category="navigation" data-title="Search / Command Palette">
+<div class="component-item-header"><div><h3 class="font-semibold text-gray-900 dark:text-white">Search / Command Palette</h3><p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Quick search and command execution overlay</p></div><span class="text-[10px] font-medium px-2 py-0.5 rounded-full bg-teal-50 dark:bg-teal-900/30 text-teal-700 dark:text-teal-300">Navigation</span></div>
+<div class="component-item-preview" data-source-id="search--command-palette" data-source-code="&lt;!-- Command Palette --&gt;
+&lt;div class=&quot;fixed inset-0 bg-black/50 flex items-start justify-center pt-[20vh] z-50&quot;&gt;
+  &lt;div class=&quot;bg-white rounded-xl shadow-2xl max-w-lg w-full&quot;&gt;
+    &lt;div class=&quot;flex items-center gap-3 px-4 py-3 border-b&quot;&gt;
+      &lt;input type=&quot;text&quot; placeholder=&quot;Type a command…&quot; /&gt;
+      &lt;kbd&gt;ESC&lt;/kbd&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;py-2&quot;&gt;
+      &lt;button class=&quot;result-item active&quot;&gt;Dashboard&lt;/button&gt;
+      &lt;button class=&quot;result-item&quot;&gt;Data Tables&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;"><div class="modal-backdrop-demo"><div class="bg-white dark:bg-gray-800 rounded-xl shadow-2xl max-w-lg w-full overflow-hidden">
+<div class="flex items-center gap-3 px-4 py-3 border-b border-gray-100 dark:border-gray-700"><svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg><input type="text" class="flex-1 text-sm bg-transparent outline-none text-gray-900 dark:text-white placeholder-gray-400" placeholder="Type a command or search…" value="dash"><kbd class="px-2 py-0.5 text-xs text-gray-400 bg-gray-100 dark:bg-gray-700 rounded">ESC</kbd></div>
+<div class="py-2"><div class="px-4 py-1"><p class="text-xs font-medium text-gray-400 uppercase">Pages</p></div><button class="w-full px-4 py-2 text-left flex items-center gap-3 bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0h4"/></svg><div><p class="text-sm font-medium">Dashboard</p><p class="text-xs opacity-60">Main analytics overview</p></div></button><button class="w-full px-4 py-2 text-left flex items-center gap-3 hover:bg-gray-50 dark:hover:bg-gray-700/50 text-gray-700 dark:text-gray-300"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg><div><p class="text-sm font-medium">Data Tables</p><p class="text-xs opacity-60">Sort, filter, and manage records</p></div></button></div>
+</div></div></div>
+<div class="component-item-actions"><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="openSourceViewer(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>View Source</button><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="copySourceCode(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>Copy</button></div>
+</div>
+<div class="component-item" data-category="media" data-title="Image Cropper / Upload Modal">
+<div class="component-item-header"><div><h3 class="font-semibold text-gray-900 dark:text-white">Image Cropper / Upload Modal</h3><p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Image upload with crop area preview</p></div><span class="text-[10px] font-medium px-2 py-0.5 rounded-full bg-amber-50 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300">Media</span></div>
+<div class="component-item-preview" data-source-id="image-cropper--upload-modal" data-source-code="&lt;!-- Image Crop Modal --&gt;
+&lt;div class=&quot;modal-overlay&quot;&gt;
+  &lt;div class=&quot;modal-content&quot;&gt;
+    &lt;h3&gt;Upload Avatar&lt;/h3&gt;
+    &lt;div class=&quot;crop-area&quot;&gt;
+      &lt;img src=&quot;preview.jpg&quot; /&gt;
+      &lt;div class=&quot;crop-circle&quot;&gt;&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;modal-footer&quot;&gt;
+      &lt;button&gt;Cancel&lt;/button&gt;
+      &lt;button class=&quot;btn-primary&quot;&gt;Apply&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;"><div class="modal-backdrop-demo"><div class="modal-demo">
+<div class="px-6 py-4 border-b border-gray-100 dark:border-gray-700 flex items-center justify-between"><h3 class="font-semibold text-gray-900 dark:text-white">Upload Avatar</h3><button class="p-1 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg></button></div>
+<div class="p-6"><div class="w-48 h-48 mx-auto bg-gray-100 dark:bg-gray-700 rounded-lg relative overflow-hidden"><div class="absolute inset-4 border-2 border-white/80 rounded-full"></div><div class="absolute inset-0 bg-gray-800/30"></div><div class="absolute top-4 left-4 w-10 h-10 bg-gray-400/50 rounded"></div></div><p class="text-xs text-gray-500 dark:text-gray-400 text-center mt-3">Drag to reposition • Scroll to zoom</p></div>
+<div class="px-6 py-3 border-t border-gray-100 dark:border-gray-700 flex justify-end gap-2"><button class="px-4 py-2 text-sm font-medium text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors dark:text-gray-300 dark:bg-gray-700">Cancel</button><button class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors">Apply</button></div>
+</div></div></div>
+<div class="component-item-actions"><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="openSourceViewer(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>View Source</button><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="copySourceCode(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>Copy</button></div>
+</div></div></div>
+</main>
+</div>
 </div>
 <script src="common-loader.js"></script>
 <script src="common-sidebar.js"></script>
 <script src="common-header.js"></script>
 <script src="app-shell.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){document.querySelectorAll('[data-counter]').forEach(function(el){var target=parseInt(el.dataset.counter);var duration=1200;var start=0;var startTime=null;function step(ts){if(!startTime)startTime=ts;var p=Math.min((ts-startTime)/duration,1);el.textContent=Math.floor(p*target);if(p<1)requestAnimationFrame(step);else el.textContent=target;}requestAnimationFrame(step);});});
+
+</script>
 </body>
 </html>

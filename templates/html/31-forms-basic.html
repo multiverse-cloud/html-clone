@@ -1,170 +1,361 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" class="scroll-smooth">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#465fff" />
-  <meta name="description" content="Production-ready Basic Forms HTML dashboard template with responsive TailAdmin-style layout, dark mode, command palette, actions, loaders, and polished UI states." />
-  <title>Basic Forms — mtverse</title>
-  <style>
-    .no-scrollbar::-webkit-scrollbar {
-      display: none;
-    }
-    .no-scrollbar {
-      -ms-overflow-style: none;
-      scrollbar-width: none;
-    }
-    @keyframes slideDown {
-      from {
-        opacity: 0;
-        transform: translateY(-10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-    .animate-slideDown {
-      animation: slideDown 0.2s ease-out;
-    }
-    .sidebar-text {
-      transition: opacity 0.2s ease-in-out;
-    }
-  </style>
-  <link rel="stylesheet" href="tailwind-production.css">
-  <link rel="stylesheet" href="pro-styles.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<meta name="theme-color" content="#465fff"/>
+<title>Basic Forms | TailAdmin</title>
+<link rel="stylesheet" href="tailwind-production.css"/>
+<link rel="stylesheet" href="pro-styles.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+body{font-family:Outfit,system-ui,sans-serif}
+.no-scrollbar::-webkit-scrollbar{display:none}
+.no-scrollbar{-ms-overflow-style:none;scrollbar-width:none}
+@keyframes slideDown{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
+.animate-slideDown{animation:slideDown .2s ease-out}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.fade-up{animation:fadeUp .4s ease-out}
+@media(prefers-reduced-motion:reduce){.fade-up,.animate-slideDown{animation:none}}
+.component-item{border:1px solid #e2e8f0;border-radius:.75rem;padding:1.5rem;margin-bottom:1.5rem;background:#fff;transition:box-shadow .2s}
+.component-item:hover{box-shadow:0 4px 12px rgba(0,0,0,.06)}
+.dark .component-item{background:#1e293b;border-color:#334155}
+.component-item h3{font-size:1rem;font-weight:600;margin-bottom:.75rem;color:#0f172a}
+.dark .component-item h3{color:#e2e8f0}
+.form-group{margin-bottom:1.25rem}
+.form-label{display:block;margin-bottom:.375rem;font-size:.875rem;font-weight:500;color:#334155}
+.dark .form-label{color:#cbd5e1}
+.form-input{width:100%;padding:.625rem .875rem;border:1.5px solid #e2e8f0;border-radius:.5rem;font-size:.875rem;transition:border-color .15s,box-shadow .15s;background:#fff;color:#0f172a}
+.form-input:focus{outline:none;border-color:#6366f1;box-shadow:0 0 0 3px rgba(99,102,241,.12)}
+.dark .form-input{background:#0f172a;border-color:#334155;color:#e2e8f0}
+.dark .form-input:focus{border-color:#818cf8;box-shadow:0 0 0 3px rgba(129,140,248,.15)}
+.form-input.error{border-color:#ef4444}
+.form-input.success{border-color:#22c55e}
+.form-input:disabled{opacity:.5;cursor:not-allowed;background:#f1f5f9}
+.dark .form-input:disabled{background:#1e293b}
+.form-error{font-size:.75rem;color:#ef4444;margin-top:.25rem}
+.form-hint{font-size:.75rem;color:#94a3b8;margin-top:.25rem}
+.form-success{font-size:.75rem;color:#22c55e;margin-top:.25rem}
+.password-wrapper{position:relative}
+.password-toggle{position:absolute;right:.75rem;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:#94a3b8;padding:.25rem}
+.password-toggle:hover{color:#64748b}
+textarea.form-input{min-height:100px;resize:vertical}
+select.form-input{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right .75rem center;padding-right:2.5rem}
+.checkbox-wrapper{display:flex;align-items:center;gap:.5rem}
+.checkbox-wrapper input[type=checkbox]{width:1rem;height:1rem;accent-color:#6366f1;cursor:pointer}
+.radio-wrapper{display:flex;align-items:center;gap:.5rem}
+.radio-wrapper input[type=radio]{width:1rem;height:1rem;accent-color:#6366f1;cursor:pointer}
+.switch{position:relative;width:2.75rem;height:1.5rem}
+.switch input{opacity:0;width:0;height:0}
+.switch .slider{position:absolute;cursor:pointer;top:0;left:0;right:0;bottom:0;background:#cbd5e1;border-radius:1rem;transition:background .2s}
+.switch .slider::before{content:"";position:absolute;height:1.125rem;width:1.125rem;left:.1875rem;bottom:.1875rem;background:#fff;border-radius:50%;transition:transform .2s}
+.switch input:checked+.slider{background:#6366f1}
+.switch input:checked+.slider::before{transform:translateX(1.25rem)}
+.dark .switch .slider{background:#475569}
+.strength-bar{height:4px;border-radius:2px;background:#e2e8f0;margin-top:.5rem;overflow:hidden}
+.strength-bar .fill{height:100%;border-radius:2px;transition:width .3s,background .3s}
+.dark .strength-bar{background:#334155}
+.input-group{display:flex}
+.input-group .form-input{border-radius:0}
+.input-group .form-input:first-child{border-radius:.5rem 0 0 .5rem}
+.input-group .form-input:last-child{border-radius:0 .5rem .5rem 0}
+.input-group-addon{display:flex;align-items:center;padding:0 .875rem;border:1.5px solid #e2e8f0;background:#f8fafc;font-size:.875rem;color:#64748b;white-space:nowrap}
+.dark .input-group-addon{background:#1e293b;border-color:#334155;color:#94a3b8}
+.input-group-addon:first-child{border-radius:.5rem 0 0 .5rem;border-right:none}
+.input-group-addon:last-child{border-radius:0 .5rem .5rem 0;border-left:none}
+.file-drop{border:2px dashed #e2e8f0;border-radius:.5rem;padding:2rem;text-align:center;cursor:pointer;transition:border-color .2s,background .2s}
+.file-drop:hover{border-color:#6366f1;background:#f8fafc}
+.dark .file-drop{border-color:#334155}
+.dark .file-drop:hover{border-color:#818cf8;background:#1e293b}
+.range-input{-webkit-appearance:none;width:100%;height:6px;border-radius:3px;background:#e2e8f0;outline:none}
+.range-input::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:#6366f1;cursor:pointer}
+.dark .range-input{background:#334155}
+.color-swatch{width:2.5rem;height:2.5rem;border-radius:.5rem;border:2px solid #e2e8f0;cursor:pointer}
+.dark .color-swatch{border-color:#334155}
+.wizard-step{display:none}
+.wizard-step.active{display:block}
+.wizard-progress{display:flex;gap:.5rem;margin-bottom:2rem}
+.wizard-progress .step{flex:1;height:4px;border-radius:2px;background:#e2e8f0;transition:background .3s}
+.wizard-progress .step.done{background:#6366f1}
+.wizard-progress .step.current{background:#818cf8}
+.dark .wizard-progress .step{background:#334155}
+
+</style>
 </head>
-<body class="bg-gray-50 text-gray-800 font-sans dark:bg-gray-900 dark:text-gray-100">
-
-<!-- Mobile overlay -->
-<div id="sidebar-overlay" class="fixed inset-0 bg-black/40 z-40 hidden lg:hidden" onclick="toggleSidebar()"></div>
-
+<body class="bg-slate-50 dark:bg-slate-950 dark:text-white">
+<div class="sidebar-overlay fixed inset-0 bg-black/40 z-40 hidden lg:hidden"></div>
 <div class="flex h-screen overflow-hidden">
-  <!-- Sidebar Container -->
-  <div id="sidebar-container"></div>
-
-  <!-- Main content -->
-  <div class="flex-1 flex flex-col overflow-hidden">
-    <!-- Header Container -->
-    <div id="header-container"></div>
-
-    <!-- Page content -->
-    <main class="flex-1 overflow-y-auto overflow-x-hidden px-4 md:px-6 2xl:px-10 py-6" tabindex="-1">
-      <div class="mx-auto w-full max-w-screen-2xl">
-<!-- Success Toast -->
-      <div id="toast" class="mb-5 flex items-center gap-3 bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-xl text-sm">
-        <svg class="w-4 h-4 text-green-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-        <span class="flex-1">Profile updated successfully</span>
-        <button type="button" onclick="document.getElementById('toast').remove()" class="text-green-400 hover:text-green-600">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
-        </button>
-      </div>
-      <div class="mb-6">
-        <h1 class="text-xl font-bold text-gray-900">Basic Forms</h1>
-        <p class="text-sm text-gray-500 mt-1">Manage your personal information and account settings.</p>
-      </div>
-      <!-- Two column grid -->
-      <div class="grid grid-cols-1 xl:grid-cols-2 gap-6">
-        <!-- LEFT: Personal Information -->
-        <div class="bg-white rounded-xl border border-gray-200 p-6">
-          <h2 class="text-base font-semibold text-gray-900 mb-5">Personal Information</h2>
-          <form class="space-y-4">
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
-              <input type="text" value="Jane Doe" class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" />
-            </div>
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
-              <input type="email" value="jane@company.com" class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" />
-            </div>
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
-              <input type="tel" value="+1 (555) 842-1923" class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" />
-            </div>
-
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1">Country</label>
-              <select class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white">
-                <option selected>United States</option>
-                <option>Canada</option>
-                <option>United Kingdom</option>
-                <option>Australia</option>
-                <option>Germany</option>
-                <option>France</option>
-              </select>
-            </div>
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1">Timezone</label>
-              <select class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white">
-                <option selected>America/New_York (EST)</option>
-                <option>America/Chicago (CST)</option>
-                <option>America/Denver (MST)</option>
-                <option>America/Los_Angeles (PST)</option>
-                <option>Europe/London (GMT)</option>
-              </select>
-            </div>
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1">Bio</label>
-              <textarea rows="3" class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none">Senior product manager with 8+ years experience building SaaS tools.</textarea>
-            </div>
-            <button type="button" class="w-full bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors">Save Changes</button>
-          </form>
-        </div>
-        <!-- RIGHT: Account Settings -->
-        <div class="bg-white rounded-xl border border-gray-200 p-6">
-          <h2 class="text-base font-semibold text-gray-900 mb-5">Account Settings</h2>
-          <form class="space-y-4">
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1">Username</label>
-              <input type="text" value="janedoe" class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
-            </div>
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1">Current Password</label>
-              <input type="password" placeholder="Enter current password" class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
-            </div>
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1">New Password</label>
-              <input type="password" placeholder="Enter new password" class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
-              <div class="flex gap-1 mt-2">
-                <div class="h-1.5 flex-1 rounded-full bg-green-400"></div>
-                <div class="h-1.5 flex-1 rounded-full bg-green-400"></div>
-                <div class="h-1.5 flex-1 rounded-full bg-green-400"></div>
-                <div class="h-1.5 flex-1 rounded-full bg-gray-200"></div>
-              </div>
-              <p class="text-xs text-gray-500 mt-1">Password strength: Good</p>
-            </div>
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1">Confirm New Password</label>
-              <input type="password" placeholder="Confirm new password" class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
-            </div>
-
-            <!-- 2FA Toggle -->
-            <div class="flex items-center justify-between py-2">
-              <div>
-                <p class="text-sm font-medium text-gray-900">Two-Factor Authentication</p>
-                <p class="text-xs text-gray-500 mt-0.5">Add an extra layer of security</p>
-              </div>
-              <button type="button" onclick="this.classList.toggle('bg-blue-600');this.classList.toggle('bg-gray-200');this.querySelector('span').classList.toggle('translate-x-5');this.querySelector('span').classList.toggle('translate-x-0.5')" class="relative inline-flex h-5 w-9 items-center rounded-full bg-blue-600 transition-colors focus:outline-none flex-shrink-0">
-                <span class="inline-block h-4 w-4 transform rounded-full bg-white shadow transition-transform translate-x-5"></span>
-              </button>
-            </div>
-            <button type="button" class="w-full bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors mt-2">Save Password</button>
-          </form>
-        </div>
-      </div>
-      </div>
-    </main>
-  </div>
+<div class="sidebar-container w-72 flex-shrink-0"></div>
+<div class="header-container flex-1 flex flex-col overflow-hidden"></div>
+<main class="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8">
+<nav class="flex items-center gap-2 text-sm text-slate-400 mb-4">
+<a href="#" class="hover:text-slate-600 dark:hover:text-slate-300">Home</a>
+<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+<a href="#" class="hover:text-slate-600 dark:hover:text-slate-300">Forms</a>
+<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+<span class="text-slate-700 dark:text-slate-200 font-medium">Basic Forms</span>
+</nav>
+<div class="mb-6 fade-up">
+<h1 class="text-2xl font-bold text-slate-900 dark:text-white mb-1">Basic Forms</h1>
+<p class="text-sm text-slate-500 dark:text-slate-400">Complete collection of form inputs, controls, and layouts</p>
 </div>
-
-<!-- Common Components -->
+<div class="component-item fade-up">
+<h3>Text Inputs</h3>
+<p class="text-sm text-slate-500 dark:text-slate-400 mb-4">Standard text input variations</p>
+<div class="form-group">
+<label class="form-label">Default Input</label>
+<input type="text" class="form-input" placeholder="Enter text..."/>
+</div>
+<div class="form-group">
+<label class="form-label">With Value</label>
+<input type="text" class="form-input" value="John Doe"/>
+</div>
+<div class="form-group">
+<label class="form-label">Disabled Input</label>
+<input type="text" class="form-input" placeholder="Disabled input" disabled/>
+</div>
+<div class="form-group">
+<label class="form-label">Read Only</label>
+<input type="text" class="form-input" value="Read only value" readonly/>
+</div>
+<div class="form-group">
+<label class="form-label">With Placeholder</label>
+<input type="text" class="form-input" placeholder="Search products..."/>
+</div>
+<div class="form-group">
+<label class="form-label">With Hint</label>
+<input type="text" class="form-input" placeholder="Enter username"/>
+<p class="form-hint">Must be 3-20 characters, alphanumeric</p>
+</div>
+<div class="form-group">
+<label class="form-label">Error State</label>
+<input type="text" class="form-input error" value="invalid@"/>
+<p class="form-error">Please enter a valid format</p>
+</div>
+<div class="form-group">
+<label class="form-label">Success State</label>
+<input type="text" class="form-input success" value="john@example.com"/>
+<p class="form-success">Email is valid</p>
+</div>
+<div class="form-group">
+<label class="form-label">Small Input</label>
+<input type="text" class="form-input py-1.5 text-xs" placeholder="Small size"/>
+</div>
+<div class="form-group">
+<label class="form-label">Large Input</label>
+<input type="text" class="form-input py-3 text-base" placeholder="Large size"/>
+</div>
+</div>
+<div class="component-item fade-up">
+<h3>Email &amp; URL Inputs</h3>
+<div class="form-group">
+<label class="form-label">Email</label>
+<input type="email" class="form-input" placeholder="you@example.com"/>
+</div>
+<div class="form-group">
+<label class="form-label">URL</label>
+<input type="url" class="form-input" placeholder="https://example.com"/>
+</div>
+<div class="form-group">
+<label class="form-label">Tel</label>
+<input type="tel" class="form-input" placeholder="+1 (555) 000-0000"/>
+</div>
+</div>
+<div class="component-item fade-up">
+<h3>Number Inputs</h3>
+<div class="form-group">
+<label class="form-label">Number</label>
+<input type="number" class="form-input" placeholder="0" min="0" max="100"/>
+</div>
+<div class="form-group">
+<label class="form-label">With Step</label>
+<input type="number" class="form-input" placeholder="0.00" step="0.01" min="0"/>
+</div>
+<div class="form-group">
+<label class="form-label">Quantity</label>
+<input type="number" class="form-input" value="1" min="1" max="99"/>
+</div>
+</div>
+<div class="component-item fade-up">
+<h3>Date &amp; Time Inputs</h3>
+<div class="form-group">
+<label class="form-label">Date</label>
+<input type="date" class="form-input"/>
+</div>
+<div class="form-group">
+<label class="form-label">Time</label>
+<input type="time" class="form-input"/>
+</div>
+<div class="form-group">
+<label class="form-label">Datetime Local</label>
+<input type="datetime-local" class="form-input"/>
+</div>
+<div class="form-group">
+<label class="form-label">Month</label>
+<input type="month" class="form-input"/>
+</div>
+<div class="form-group">
+<label class="form-label">Week</label>
+<input type="week" class="form-input"/>
+</div>
+</div>
+<div class="component-item fade-up">
+<h3>Textarea Controls</h3>
+<div class="form-group">
+<label class="form-label">Default Textarea</label>
+<textarea class="form-input" placeholder="Write your message..."></textarea>
+</div>
+<div class="form-group">
+<label class="form-label">With Rows</label>
+<textarea class="form-input" rows="6" placeholder="Detailed description..."></textarea>
+</div>
+<div class="form-group">
+<label class="form-label">Disabled Textarea</label>
+<textarea class="form-input" placeholder="Disabled" disabled></textarea>
+</div>
+<div class="form-group">
+<label class="form-label">Character Count</label>
+<textarea class="form-input" rows="3" placeholder="Max 200 characters" maxlength="200" oninput="document.getElementById('char-count').textContent=this.value.length+'/200'"></textarea><p class="form-hint" id="char-count">0/200</p>
+</div>
+</div>
+<div class="component-item fade-up">
+<h3>Select Dropdowns</h3>
+<div class="form-group">
+<label class="form-label">Default Select</label>
+<select class="form-input"><option value="">Select an option</option><option>Option 1</option><option>Option 2</option><option>Option 3</option></select>
+</div>
+<div class="form-group">
+<label class="form-label">With Optgroups</label>
+<select class="form-input"><option value="">Select a country</option><optgroup label="North America"><option>United States</option><option>Canada</option><option>Mexico</option></optgroup><optgroup label="Europe"><option>United Kingdom</option><option>Germany</option><option>France</option></optgroup><optgroup label="Asia"><option>Japan</option><option>China</option><option>India</option></optgroup></select>
+</div>
+<div class="form-group">
+<label class="form-label">Disabled Select</label>
+<select class="form-input" disabled><option>Disabled select</option></select>
+</div>
+<div class="form-group">
+<label class="form-label">Multiple Select</label>
+<select class="form-input" multiple size="4"><option>React</option><option>Vue</option><option>Angular</option><option>Svelte</option><option>Next.js</option></select>
+<p class="form-hint">Hold Ctrl/Cmd to select multiple</p>
+</div>
+</div>
+<div class="component-item fade-up">
+<h3>Checkboxes</h3>
+<div class="checkbox-wrapper mb-2"><input type="checkbox" id="chk-remember-me"/><label for="chk-remember-me" class="text-sm text-slate-600 dark:text-slate-400 cursor-pointer">Remember me</label></div>
+<div class="checkbox-wrapper mb-2"><input type="checkbox" id="chk-send-notifications"/><label for="chk-send-notifications" class="text-sm text-slate-600 dark:text-slate-400 cursor-pointer">Send notifications</label></div>
+<div class="checkbox-wrapper mb-2"><input type="checkbox" id="chk-accept-terms"/><label for="chk-accept-terms" class="text-sm text-slate-600 dark:text-slate-400 cursor-pointer">Accept terms</label></div>
+<div class="checkbox-wrapper mb-2"><input type="checkbox" id="chk-subscribe-to-newsletter"/><label for="chk-subscribe-to-newsletter" class="text-sm text-slate-600 dark:text-slate-400 cursor-pointer">Subscribe to newsletter</label></div>
+<div class="checkbox-wrapper mb-2"><input type="checkbox" id="chk-mark-as-important"/><label for="chk-mark-as-important" class="text-sm text-slate-600 dark:text-slate-400 cursor-pointer">Mark as important</label></div>
+<div class="checkbox-wrapper mb-2"><input type="checkbox" id="chk-disabled" disabled/><label for="chk-disabled" class="text-sm text-slate-400 dark:text-slate-500 cursor-not-allowed">Disabled checkbox</label></div>
+<div class="checkbox-wrapper mb-2"><input type="checkbox" id="chk-checked-disabled" checked disabled/><label for="chk-checked-disabled" class="text-sm text-slate-400 dark:text-slate-500 cursor-not-allowed">Checked & disabled</label></div>
+</div>
+<div class="component-item fade-up">
+<h3>Radio Buttons</h3>
+<div class="radio-wrapper mb-2"><input type="radio" id="rad-small" name="size" value="small"/><label for="rad-small" class="text-sm text-slate-600 dark:text-slate-400 cursor-pointer">Small</label></div>
+<div class="radio-wrapper mb-2"><input type="radio" id="rad-medium" name="size" value="medium"/><label for="rad-medium" class="text-sm text-slate-600 dark:text-slate-400 cursor-pointer">Medium</label></div>
+<div class="radio-wrapper mb-2"><input type="radio" id="rad-large" name="size" value="large"/><label for="rad-large" class="text-sm text-slate-600 dark:text-slate-400 cursor-pointer">Large</label></div>
+<div class="radio-wrapper mb-2"><input type="radio" id="rad-extra-large" name="size" value="extra-large"/><label for="rad-extra-large" class="text-sm text-slate-600 dark:text-slate-400 cursor-pointer">Extra Large</label></div>
+<div class="radio-wrapper mb-2"><input type="radio" id="rad-disabled" name="size" disabled/><label for="rad-disabled" class="text-sm text-slate-400 dark:text-slate-500 cursor-not-allowed">Disabled radio</label></div>
+</div>
+<div class="component-item fade-up">
+<h3>Toggle Switches</h3>
+<div class="flex items-center justify-between mb-3"><span class="text-sm text-slate-600 dark:text-slate-400">Email notifications</span><label class="switch"><input type="checkbox" id="sw-email-notifications" checked/><span class="slider"></span></label></div>
+<div class="flex items-center justify-between mb-3"><span class="text-sm text-slate-600 dark:text-slate-400">SMS alerts</span><label class="switch"><input type="checkbox" id="sw-sms-alerts"/><span class="slider"></span></label></div>
+<div class="flex items-center justify-between mb-3"><span class="text-sm text-slate-600 dark:text-slate-400">Auto-save</span><label class="switch"><input type="checkbox" id="sw-auto-save" checked/><span class="slider"></span></label></div>
+<div class="flex items-center justify-between mb-3"><span class="text-sm text-slate-600 dark:text-slate-400">Dark mode</span><label class="switch"><input type="checkbox" id="sw-dark-mode"/><span class="slider"></span></label></div>
+<div class="flex items-center justify-between mb-3"><span class="text-sm text-slate-600 dark:text-slate-400">Marketing emails</span><label class="switch"><input type="checkbox" id="sw-marketing-emails"/><span class="slider"></span></label></div>
+<div class="flex items-center justify-between mb-3"><span class="text-sm text-slate-400 dark:text-slate-500">Disabled toggle</span><label class="switch"><input type="checkbox" disabled/><span class="slider"></span></label></div>
+</div>
+<div class="component-item fade-up">
+<h3>File Upload</h3>
+<div class="form-group">
+<label class="form-label">Default File Input</label>
+<input type="file" class="form-input p-2"/>
+</div>
+<div class="form-group">
+<label class="form-label">Drag & Drop Zone</label>
+<div class="file-drop" id="file-drop" onclick="document.getElementById('file-input').click()">
+<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="mx-auto mb-2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+<p class="text-sm text-slate-500 dark:text-slate-400">Drag files here or <span class="text-indigo-500 font-medium">browse</span></p>
+<p class="text-xs text-slate-400 mt-1">PNG, JPG, GIF up to 10MB</p>
+<input type="file" id="file-input" class="hidden" multiple onchange="handleFileSelect(this)"/>
+</div>
+<p class="form-hint" id="file-names"></p>
+</div>
+</div>
+<div class="component-item fade-up">
+<h3>Range &amp; Color Inputs</h3>
+<div class="form-group">
+<label class="form-label">Range Slider</label>
+<input type="range" class="range-input" min="0" max="100" value="50" oninput="document.getElementById('range-val').textContent=this.value"/>
+<p class="form-hint">&lt;span id=&quot;range-val&quot;&gt;50&lt;/span&gt;</p>
+</div>
+<div class="form-group">
+<label class="form-label">Volume Control</label>
+<input type="range" class="range-input" min="0" max="100" value="75"/>
+</div>
+<div class="form-group">
+<label class="form-label">Color Picker</label>
+<div class="flex gap-2 items-center"><input type="color" value="#6366f1" class="color-swatch"/><input type="text" class="form-input w-32" value="#6366f1" id="color-text" oninput="document.getElementById('color-pick').value=this.value"/><input type="color" id="color-pick" value="#6366f1" class="color-swatch" oninput="document.getElementById('color-text').value=this.value"/></div>
+</div>
+</div>
+<div class="component-item fade-up">
+<h3>Input Groups</h3>
+<div class="form-group">
+<label class="form-label">Prepend</label>
+<div class="input-group"><span class="input-group-addon">$</span><input type="text" class="form-input" placeholder="0.00"/></div>
+</div>
+<div class="form-group">
+<label class="form-label">Append</label>
+<div class="input-group"><input type="text" class="form-input" placeholder="Enter username"/><span class="input-group-addon">@company.com</span></div>
+</div>
+<div class="form-group">
+<label class="form-label">Both</label>
+<div class="input-group"><span class="input-group-addon">https://</span><input type="text" class="form-input" placeholder="yoursite"/><span class="input-group-addon">.com</span></div>
+</div>
+<div class="form-group">
+<label class="form-label">Search with Button</label>
+<div class="input-group"><input type="text" class="form-input" placeholder="Search..."/><button type="button" class="px-4 bg-indigo-500 text-white text-sm font-medium rounded-r-lg hover:bg-indigo-600 transition-colors">Go</button></div>
+</div>
+</div>
+<div class="component-item fade-up">
+<h3>Special Inputs</h3>
+<div class="form-group">
+<label class="form-label">Search</label>
+<input type="search" class="form-input" placeholder="Search..." results="5"/>
+</div>
+<div class="form-group">
+<label class="form-label">Password</label>
+<div class="password-wrapper"><input type="password" class="form-input" id="pw-basic" placeholder="Enter password"/><button type="button" class="password-toggle" onclick="togglePasswordVisibility('pw-basic')"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button></div>
+</div>
+<div class="form-group">
+<label class="form-label">Password with Strength</label>
+<div class="password-wrapper"><input type="password" class="form-input" id="pw-strength" placeholder="Create a password" oninput="updateStrength(this)"/><button type="button" class="password-toggle" onclick="togglePasswordVisibility('pw-strength')"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button></div><div class="strength-bar"><div class="fill" id="pw-strength-bar" style="width:0%;background:#ef4444"></div></div><p class="form-hint" id="pw-strength-text">Use 8+ characters with a mix of letters, numbers & symbols</p>
+</div>
+</div>
+</main>
+</div>
+</div>
 <script src="common-loader.js"></script>
 <script src="common-sidebar.js"></script>
 <script src="common-header.js"></script>
 <script src="app-shell.js"></script>
+<script>
 
+function handleFileSelect(input){
+  var names=[];
+  for(var i=0;i<input.files.length;i++)names.push(input.files[i].name);
+  document.getElementById('file-names').textContent=names.join(', ')||'No files selected';
+}
+function updateStrength(input){
+  var v=input.value,s=0,bar=document.getElementById('pw-strength-bar'),txt=document.getElementById('pw-strength-text');
+  if(v.length>=8)s+=25;if(/[A-Z]/.test(v))s+=25;if(/[0-9]/.test(v))s+=25;if(/[^A-Za-z0-9]/.test(v))s+=25;
+  bar.style.width=s+'%';
+  if(s<=25){bar.style.background='#ef4444';txt.textContent='Weak'}
+  else if(s<=50){bar.style.background='#f97316';txt.textContent='Fair'}
+  else if(s<=75){bar.style.background='#eab308';txt.textContent='Good'}
+  else{bar.style.background='#22c55e';txt.textContent='Strong'}
+}
+
+</script>
 </body>
 </html>

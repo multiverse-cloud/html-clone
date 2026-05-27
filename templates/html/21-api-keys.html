@@ -1,272 +1,66 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" class="scroll-smooth">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#465fff" />
-  <meta name="description" content="Production-ready API Keys HTML dashboard template with responsive TailAdmin-style layout, dark mode, command palette, actions, loaders, and polished UI states." />
-  <title>API Keys — mtverse</title>
-  <style>
-    .no-scrollbar::-webkit-scrollbar {
-      display: none;
-    }
-    .no-scrollbar {
-      -ms-overflow-style: none;
-      scrollbar-width: none;
-    }
-    @keyframes slideDown {
-      from {
-        opacity: 0;
-        transform: translateY(-10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-    .animate-slideDown {
-      animation: slideDown 0.2s ease-out;
-    }
-    .sidebar-text {
-      transition: opacity 0.2s ease-in-out;
-    }
-  </style>
-  <link rel="stylesheet" href="tailwind-production.css">
-  <link rel="stylesheet" href="pro-styles.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<meta name="theme-color" content="#465fff"/>
+<title>API Keys | TailAdmin</title>
+<link rel="stylesheet" href="tailwind-production.css"/>
+<link rel="stylesheet" href="pro-styles.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+body{font-family:Outfit,system-ui,sans-serif}
+.no-scrollbar::-webkit-scrollbar{display:none}
+.no-scrollbar{-ms-overflow-style:none;scrollbar-width:none}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.fade-up{animation:fadeUp .4s ease-out}
+@media(prefers-reduced-motion:reduce){.fade-up{animation:none}}
+
+</style>
 </head>
-<body class="bg-gray-50 text-gray-800 font-sans dark:bg-gray-900 dark:text-gray-100">
-
-<!-- Mobile overlay -->
-<div id="sidebar-overlay" class="fixed inset-0 bg-black/40 z-40 hidden lg:hidden" onclick="toggleSidebar()"></div>
-
+<body class="bg-slate-50 dark:bg-slate-950 dark:text-white">
+<div class="sidebar-overlay fixed inset-0 bg-black/40 z-40 hidden lg:hidden"></div>
 <div class="flex h-screen overflow-hidden">
-  <!-- Sidebar Container -->
-  <div id="sidebar-container"></div>
-
-  <!-- Main content -->
-  <div class="flex-1 flex flex-col overflow-hidden">
-    <!-- Header Container -->
-    <div id="header-container"></div>
-
-    <!-- Page content -->
-    <main class="flex-1 overflow-y-auto overflow-x-hidden px-4 md:px-6 2xl:px-10 py-6" tabindex="-1">
-      <div class="mx-auto w-full max-w-screen-2xl">
-<!-- Page header -->
-      <div class="flex items-center justify-between mb-6">
-        <div>
-          <h1 class="text-xl font-bold text-gray-900">API Keys</h1>
-          <p class="text-sm text-gray-500 mt-0.5">Manage authentication keys for API access</p>
-        </div>
-        <button type="button" onclick="document.getElementById('create-key-form').classList.toggle('hidden')" class="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
-          Create New Key
-        </button>
-      </div>
-
-      <!-- Inline create form -->
-      <div id="create-key-form" class="hidden bg-white border border-gray-200 rounded-xl p-5 mb-6 shadow-sm">
-        <h2 class="text-base font-semibold text-gray-800 mb-4">New API Key</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">Key Name</label>
-            <input type="text" placeholder="e.g. Production Backend" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
-          </div>
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">Expiry</label>
-            <select class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
-              <option>30 days</option>
-              <option>60 days</option>
-              <option>90 days</option>
-              <option>Never</option>
-            </select>
-          </div>
-          <div class="md:col-span-2">
-            <label class="block text-sm font-medium text-gray-700 mb-2">Scopes</label>
-            <div class="flex flex-wrap gap-4">
-              <label class="flex items-center gap-2 text-sm text-gray-700 cursor-pointer"><input type="checkbox" class="rounded text-blue-600" checked /> Read</label>
-              <label class="flex items-center gap-2 text-sm text-gray-700 cursor-pointer"><input type="checkbox" class="rounded text-blue-600" /> Write</label>
-              <label class="flex items-center gap-2 text-sm text-gray-700 cursor-pointer"><input type="checkbox" class="rounded text-blue-600" /> Delete</label>
-              <label class="flex items-center gap-2 text-sm text-gray-700 cursor-pointer"><input type="checkbox" class="rounded text-blue-600" /> Admin</label>
-            </div>
-          </div>
-        </div>
-        <div class="flex items-center gap-3 mt-5">
-          <button type="button" class="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700">Generate Key</button>
-          <button type="button" onclick="document.getElementById('create-key-form').classList.add('hidden')" class="px-4 py-2 bg-white border border-gray-300 text-gray-700 text-sm font-medium rounded-lg hover:bg-gray-50">Cancel</button>
-        </div>
-      </div>
-
-
-      <!-- Filters -->
-      <div class="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden">
-        <div class="flex flex-col sm:flex-row items-start sm:items-center gap-3 p-4 border-b border-gray-100">
-          <div class="relative flex-1 max-w-xs">
-            <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-            <input type="text" placeholder="Search keys..." class="w-full pl-9 pr-4 py-1.5 text-sm bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
-          </div>
-          <select class="px-3 py-1.5 text-sm border border-gray-200 rounded-lg bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500">
-            <option>All Statuses</option>
-            <option>Active</option>
-            <option>Inactive</option>
-            <option>Revoked</option>
-          </select>
-        </div>
-
-        <!-- Table -->
-        <div class="overflow-x-auto">
-          <table class="w-full text-sm">
-            <thead class="bg-gray-50 border-b border-gray-100">
-              <tr>
-                <th class="text-left text-xs font-semibold text-gray-500 uppercase tracking-wider px-4 py-3">Key Name</th>
-                <th class="text-left text-xs font-semibold text-gray-500 uppercase tracking-wider px-4 py-3">Prefix</th>
-                <th class="text-left text-xs font-semibold text-gray-500 uppercase tracking-wider px-4 py-3">Scopes</th>
-                <th class="text-left text-xs font-semibold text-gray-500 uppercase tracking-wider px-4 py-3">Created</th>
-                <th class="text-left text-xs font-semibold text-gray-500 uppercase tracking-wider px-4 py-3">Last Used</th>
-                <th class="text-left text-xs font-semibold text-gray-500 uppercase tracking-wider px-4 py-3">Usage</th>
-                <th class="text-left text-xs font-semibold text-gray-500 uppercase tracking-wider px-4 py-3">Status</th>
-                <th class="text-left text-xs font-semibold text-gray-500 uppercase tracking-wider px-4 py-3">Actions</th>
-              </tr>
-            </thead>
-            <tbody class="divide-y divide-gray-50">
-              <!-- Row 1 -->
-              <tr class="hover:bg-gray-50 transition-colors">
-                <td class="px-4 py-3 font-medium text-gray-800">Production API Key</td>
-                <td class="px-4 py-3"><code class="text-xs bg-gray-100 px-2 py-0.5 rounded font-mono text-gray-600">sk-mt...8f3a</code></td>
-                <td class="px-4 py-3"><span class="inline-flex gap-1"><span class="text-xs bg-blue-100 text-blue-700 px-1.5 py-0.5 rounded">read</span><span class="text-xs bg-green-100 text-green-700 px-1.5 py-0.5 rounded">write</span></span></td>
-                <td class="px-4 py-3 text-gray-500">Jan 12, 2026</td>
-                <td class="px-4 py-3 text-gray-500">2 hrs ago</td>
-                <td class="px-4 py-3 w-32">
-                  <div class="flex items-center gap-2"><div class="flex-1 bg-gray-200 rounded-full h-1.5"><div class="bg-blue-500 h-1.5 rounded-full" style="width:67%"></div></div><span class="text-xs text-gray-500 whitespace-nowrap">67%</span></div>
-                </td>
-                <td class="px-4 py-3"><span class="text-xs bg-green-100 text-green-700 font-medium px-2 py-0.5 rounded-full">Active</span></td>
-                <td class="px-4 py-3">
-                  <div class="flex items-center gap-2">
-                    <button type="button" onclick="navigator.clipboard.writeText('sk-mt...8f3a')" title="Copy" class="p-1.5 rounded hover:bg-gray-100 text-gray-400 hover:text-gray-600">
-                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
-                    </button>
-                    <div class="relative" id="revoke-wrap-1">
-                      <button type="button" onclick="toggleRevoke(1)" class="p-1.5 rounded hover:bg-red-50 text-gray-400 hover:text-red-500" title="Revoke">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"/></svg>
-                      </button>
-                      <div id="revoke-confirm-1" class="hidden absolute right-0 top-8 z-10 bg-white border border-gray-200 rounded-lg shadow-lg p-3 w-48 text-xs">
-                        <p class="font-medium text-gray-800 mb-2">Confirm revoke?</p>
-                        <div class="flex gap-2"><button type="button" onclick="alert('Revoked')" class="px-2 py-1 bg-red-600 text-white rounded hover:bg-red-700">Yes</button><button type="button" onclick="toggleRevoke(1)" class="px-2 py-1 bg-gray-100 text-gray-700 rounded hover:bg-gray-200">Cancel</button></div>
-                      </div>
-                    </div>
-                  </div>
-                </td>
-              </tr>
-              <!-- Row 2 -->
-              <tr class="hover:bg-gray-50 transition-colors">
-                <td class="px-4 py-3 font-medium text-gray-800">Analytics Webhook</td>
-                <td class="px-4 py-3"><code class="text-xs bg-gray-100 px-2 py-0.5 rounded font-mono text-gray-600">sk-mt...2c1b</code></td>
-                <td class="px-4 py-3"><span class="text-xs bg-blue-100 text-blue-700 px-1.5 py-0.5 rounded">read</span></td>
-                <td class="px-4 py-3 text-gray-500">Feb 3, 2026</td>
-                <td class="px-4 py-3 text-gray-500">1 day ago</td>
-                <td class="px-4 py-3 w-32">
-                  <div class="flex items-center gap-2"><div class="flex-1 bg-gray-200 rounded-full h-1.5"><div class="bg-blue-500 h-1.5 rounded-full" style="width:23%"></div></div><span class="text-xs text-gray-500 whitespace-nowrap">23%</span></div>
-                </td>
-                <td class="px-4 py-3"><span class="text-xs bg-green-100 text-green-700 font-medium px-2 py-0.5 rounded-full">Active</span></td>
-                <td class="px-4 py-3">
-                  <div class="flex items-center gap-2">
-                    <button type="button" onclick="navigator.clipboard.writeText('sk-mt...2c1b')" title="Copy" class="p-1.5 rounded hover:bg-gray-100 text-gray-400 hover:text-gray-600"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg></button>
-                    <div class="relative"><button type="button" onclick="toggleRevoke(2)" class="p-1.5 rounded hover:bg-red-50 text-gray-400 hover:text-red-500"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"/></svg></button>
-                    <div id="revoke-confirm-2" class="hidden absolute right-0 top-8 z-10 bg-white border border-gray-200 rounded-lg shadow-lg p-3 w-48 text-xs"><p class="font-medium text-gray-800 mb-2">Confirm revoke?</p><div class="flex gap-2"><button type="button" onclick="alert('Revoked')" class="px-2 py-1 bg-red-600 text-white rounded">Yes</button><button type="button" onclick="toggleRevoke(2)" class="px-2 py-1 bg-gray-100 rounded">Cancel</button></div></div></div>
-                  </div>
-                </td>
-              </tr>
-              <!-- Row 3 -->
-              <tr class="hover:bg-gray-50 transition-colors">
-                <td class="px-4 py-3 font-medium text-gray-800">CI/CD Pipeline</td>
-                <td class="px-4 py-3"><code class="text-xs bg-gray-100 px-2 py-0.5 rounded font-mono text-gray-600">sk-mt...9e7d</code></td>
-                <td class="px-4 py-3"><span class="inline-flex gap-1 flex-wrap"><span class="text-xs bg-blue-100 text-blue-700 px-1.5 py-0.5 rounded">read</span><span class="text-xs bg-green-100 text-green-700 px-1.5 py-0.5 rounded">write</span><span class="text-xs bg-orange-100 text-orange-700 px-1.5 py-0.5 rounded">delete</span></span></td>
-                <td class="px-4 py-3 text-gray-500">Dec 5, 2025</td>
-                <td class="px-4 py-3 text-gray-500">5 days ago</td>
-                <td class="px-4 py-3 w-32">
-                  <div class="flex items-center gap-2"><div class="flex-1 bg-gray-200 rounded-full h-1.5"><div class="bg-orange-500 h-1.5 rounded-full" style="width:89%"></div></div><span class="text-xs text-gray-500 whitespace-nowrap">89%</span></div>
-                </td>
-                <td class="px-4 py-3"><span class="text-xs bg-green-100 text-green-700 font-medium px-2 py-0.5 rounded-full">Active</span></td>
-                <td class="px-4 py-3">
-                  <div class="flex items-center gap-2">
-                    <button class="p-1.5 rounded hover:bg-gray-100 text-gray-400 hover:text-gray-600"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg></button>
-                    <div class="relative"><button type="button" onclick="toggleRevoke(3)" class="p-1.5 rounded hover:bg-red-50 text-gray-400 hover:text-red-500"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"/></svg></button>
-                    <div id="revoke-confirm-3" class="hidden absolute right-0 top-8 z-10 bg-white border border-gray-200 rounded-lg shadow-lg p-3 w-48 text-xs"><p class="font-medium text-gray-800 mb-2">Confirm revoke?</p><div class="flex gap-2"><button type="button" onclick="alert('Revoked')" class="px-2 py-1 bg-red-600 text-white rounded">Yes</button><button type="button" onclick="toggleRevoke(3)" class="px-2 py-1 bg-gray-100 rounded">Cancel</button></div></div></div>
-                  </div>
-                </td>
-              </tr>
-              <!-- Row 4 -->
-              <tr class="hover:bg-gray-50 transition-colors">
-                <td class="px-4 py-3 font-medium text-gray-800">Dev Environment</td>
-                <td class="px-4 py-3"><code class="text-xs bg-gray-100 px-2 py-0.5 rounded font-mono text-gray-600">sk-mt...4a2f</code></td>
-                <td class="px-4 py-3"><span class="inline-flex gap-1 flex-wrap"><span class="text-xs bg-blue-100 text-blue-700 px-1.5 py-0.5 rounded">read</span><span class="text-xs bg-green-100 text-green-700 px-1.5 py-0.5 rounded">write</span><span class="text-xs bg-red-100 text-red-700 px-1.5 py-0.5 rounded">admin</span></span></td>
-                <td class="px-4 py-3 text-gray-500">Mar 18, 2026</td>
-                <td class="px-4 py-3 text-gray-500">3 weeks ago</td>
-                <td class="px-4 py-3 w-32">
-                  <div class="flex items-center gap-2"><div class="flex-1 bg-gray-200 rounded-full h-1.5"><div class="bg-blue-500 h-1.5 rounded-full" style="width:41%"></div></div><span class="text-xs text-gray-500 whitespace-nowrap">41%</span></div>
-                </td>
-                <td class="px-4 py-3"><span class="text-xs bg-green-100 text-green-700 font-medium px-2 py-0.5 rounded-full">Active</span></td>
-                <td class="px-4 py-3">
-                  <div class="flex items-center gap-2">
-                    <button class="p-1.5 rounded hover:bg-gray-100 text-gray-400 hover:text-gray-600"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg></button>
-                    <div class="relative"><button type="button" onclick="toggleRevoke(4)" class="p-1.5 rounded hover:bg-red-50 text-gray-400 hover:text-red-500"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"/></svg></button>
-                    <div id="revoke-confirm-4" class="hidden absolute right-0 top-8 z-10 bg-white border border-gray-200 rounded-lg shadow-lg p-3 w-48 text-xs"><p class="font-medium text-gray-800 mb-2">Confirm revoke?</p><div class="flex gap-2"><button type="button" onclick="alert('Revoked')" class="px-2 py-1 bg-red-600 text-white rounded">Yes</button><button type="button" onclick="toggleRevoke(4)" class="px-2 py-1 bg-gray-100 rounded">Cancel</button></div></div></div>
-                  </div>
-                </td>
-              </tr>
-              <!-- Row 5 -->
-              <tr class="hover:bg-gray-50 transition-colors">
-                <td class="px-4 py-3 font-medium text-gray-800">Legacy Integration</td>
-                <td class="px-4 py-3"><code class="text-xs bg-gray-100 px-2 py-0.5 rounded font-mono text-gray-600">sk-mt...7b5c</code></td>
-                <td class="px-4 py-3"><span class="text-xs bg-blue-100 text-blue-700 px-1.5 py-0.5 rounded">read</span></td>
-                <td class="px-4 py-3 text-gray-500">Aug 14, 2025</td>
-                <td class="px-4 py-3 text-gray-500">4 months ago</td>
-                <td class="px-4 py-3 w-32">
-                  <div class="flex items-center gap-2"><div class="flex-1 bg-gray-200 rounded-full h-1.5"><div class="bg-gray-400 h-1.5 rounded-full" style="width:0%"></div></div><span class="text-xs text-gray-500 whitespace-nowrap">0%</span></div>
-                </td>
-                <td class="px-4 py-3"><span class="text-xs bg-gray-100 text-gray-500 font-medium px-2 py-0.5 rounded-full">Inactive</span></td>
-                <td class="px-4 py-3">
-                  <div class="flex items-center gap-2">
-                    <button class="p-1.5 rounded hover:bg-gray-100 text-gray-400 hover:text-gray-600"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg></button>
-                    <div class="relative"><button type="button" onclick="toggleRevoke(5)" class="p-1.5 rounded hover:bg-red-50 text-gray-400 hover:text-red-500"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"/></svg></button>
-                    <div id="revoke-confirm-5" class="hidden absolute right-0 top-8 z-10 bg-white border border-gray-200 rounded-lg shadow-lg p-3 w-48 text-xs"><p class="font-medium text-gray-800 mb-2">Confirm revoke?</p><div class="flex gap-2"><button type="button" onclick="alert('Revoked')" class="px-2 py-1 bg-red-600 text-white rounded">Yes</button><button type="button" onclick="toggleRevoke(5)" class="px-2 py-1 bg-gray-100 rounded">Cancel</button></div></div></div>
-                  </div>
-                </td>
-              </tr>
-              <!-- Row 6 -->
-              <tr class="hover:bg-gray-50 transition-colors">
-                <td class="px-4 py-3 font-medium text-gray-800">Testing Key</td>
-                <td class="px-4 py-3"><code class="text-xs bg-gray-100 px-2 py-0.5 rounded font-mono text-gray-600">sk-mt...1d9e</code></td>
-                <td class="px-4 py-3"><span class="inline-flex gap-1"><span class="text-xs bg-blue-100 text-blue-700 px-1.5 py-0.5 rounded">read</span><span class="text-xs bg-green-100 text-green-700 px-1.5 py-0.5 rounded">write</span></span></td>
-                <td class="px-4 py-3 text-gray-500">Apr 1, 2026</td>
-                <td class="px-4 py-3 text-gray-500">Never</td>
-                <td class="px-4 py-3 w-32">
-                  <div class="flex items-center gap-2"><div class="flex-1 bg-gray-200 rounded-full h-1.5"><div class="bg-gray-400 h-1.5 rounded-full" style="width:0%"></div></div><span class="text-xs text-gray-500 whitespace-nowrap">0%</span></div>
-                </td>
-                <td class="px-4 py-3"><span class="text-xs bg-red-100 text-red-600 font-medium px-2 py-0.5 rounded-full">Revoked</span></td>
-                <td class="px-4 py-3">
-                  <div class="flex items-center gap-2">
-                    <button disabled class="p-1.5 rounded text-gray-300 cursor-not-allowed"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg></button>
-                    <button disabled class="p-1.5 rounded text-gray-300 cursor-not-allowed"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"/></svg></button>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-      </div>
-    </main>
-  </div>
+<div class="sidebar-container w-72 flex-shrink-0"></div>
+<div class="header-container flex-1 flex flex-col overflow-hidden"></div>
+<main class="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8">
+<nav class="flex items-center gap-2 text-sm text-slate-400 mb-4">
+<a href="#" class="hover:text-slate-600 dark:hover:text-slate-300">Home</a><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+<span class="text-slate-700 dark:text-slate-200 font-medium">API Keys</span>
+</nav>
+<div class="mb-6 fade-up">
+<h1 class="text-2xl font-bold text-slate-900 dark:text-white mb-1">API Keys</h1>
+<p class="text-sm text-slate-500 dark:text-slate-400">Manage your API keys and webhooks</p>
 </div>
-
-<!-- Common Components -->
+<div class="bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 p-6 mb-6 fade-up"><h3 class="font-semibold text-slate-900 dark:text-white mb-4">Create New Key</h3><div class="grid grid-cols-1 sm:grid-cols-3 gap-4"><div class="form-group"><label class="form-label">Key Name</label><input type="text" class="form-input" placeholder="e.g. Production API" id="key-name"/></div><div class="form-group"><label class="form-label">Permissions</label><select class="form-input" id="key-perm"><option>Read Only</option><option>Read & Write</option><option>Full Access</option></select></div><div class="form-group flex items-end"><button type="button" class="w-full px-4 py-2.5 bg-indigo-500 text-white text-sm font-medium rounded-lg hover:bg-indigo-600 transition-colors" onclick="createApiKey()">Generate Key</button></div></div></div>
+<div class="bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 fade-up"><div class="p-4 border-b border-slate-100 dark:border-slate-800"><h3 class="font-semibold text-slate-900 dark:text-white">Active Keys</h3></div><div class="overflow-x-auto"><table class="data-table"><thead><tr><th>Name</th><th>Key</th><th>Permissions</th><th>Created</th><th>Last Used</th><th>Status</th><th></th></tr></thead><tbody>
+<tr><td class="font-medium text-slate-700 dark:text-slate-300">Production API</td><td class="font-mono text-xs text-slate-400">prod_key_xxx...xxx <button type="button" class="text-indigo-500 hover:text-indigo-700" onclick="copySourceCode(this.parentElement);showToast('Key copied!','success')">Copy</button></td><td class="text-slate-500">Full Access</td><td class="text-slate-400">Jan 10, 2024</td><td class="text-slate-400">2 hours ago</td><td><span class="status-badge status-success">Active</span></td><td><button type="button" class="text-xs text-red-500 hover:text-red-700 font-medium" onclick="showToast('Key revoked','error')">Revoke</button></td></tr>
+<tr><td class="font-medium text-slate-700 dark:text-slate-300">Staging API</td><td class="font-mono text-xs text-slate-400">staging_key_xxx...xxx <button type="button" class="text-indigo-500 hover:text-indigo-700" onclick="copySourceCode(this.parentElement);showToast('Key copied!','success')">Copy</button></td><td class="text-slate-500">Read &amp; Write</td><td class="text-slate-400">Dec 5, 2023</td><td class="text-slate-400">1 day ago</td><td><span class="status-badge status-success">Active</span></td><td><button type="button" class="text-xs text-red-500 hover:text-red-700 font-medium" onclick="showToast('Key revoked','error')">Revoke</button></td></tr>
+<tr><td class="font-medium text-slate-700 dark:text-slate-300">Analytics Read</td><td class="font-mono text-xs text-slate-400">analytics_key_xxx...xxx <button type="button" class="text-indigo-500 hover:text-indigo-700" onclick="copySourceCode(this.parentElement);showToast('Key copied!','success')">Copy</button></td><td class="text-slate-500">Read Only</td><td class="text-slate-400">Nov 20, 2023</td><td class="text-slate-400">5 days ago</td><td><span class="status-badge status-warning">Expiring</span></td><td><button type="button" class="text-xs text-red-500 hover:text-red-700 font-medium" onclick="showToast('Key revoked','error')">Revoke</button></td></tr>
+<tr><td class="font-medium text-slate-700 dark:text-slate-300">Legacy Key</td><td class="font-mono text-xs text-slate-400">sk_old_1234...5678 <button type="button" class="text-indigo-500 hover:text-indigo-700" onclick="copySourceCode(this.parentElement);showToast('Key copied!','success')">Copy</button></td><td class="text-slate-500">Full Access</td><td class="text-slate-400">Jun 1, 2023</td><td class="text-slate-400">30 days ago</td><td><span class="status-badge status-danger">Expired</span></td><td><button type="button" class="text-xs text-red-500 hover:text-red-700 font-medium" onclick="showToast('Key revoked','error')">Revoke</button></td></tr>
+</tbody></table></div></div>
+<div class="bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 p-6 mt-6 fade-up"><h3 class="font-semibold text-slate-900 dark:text-white mb-4">Webhooks</h3><div class="space-y-3">
+<div class="flex items-center justify-between p-3 border border-slate-200 dark:border-slate-700 rounded-lg"><div><p class="text-sm font-mono text-slate-700 dark:text-slate-300">https://api.example.com/webhooks/payments</p><p class="text-xs text-slate-400">Payment Events</p></div><span class="status-badge status-success">Active</span></div>
+<div class="flex items-center justify-between p-3 border border-slate-200 dark:border-slate-700 rounded-lg"><div><p class="text-sm font-mono text-slate-700 dark:text-slate-300">https://api.example.com/webhooks/users</p><p class="text-xs text-slate-400">User Events</p></div><span class="status-badge status-success">Active</span></div>
+<div class="flex items-center justify-between p-3 border border-slate-200 dark:border-slate-700 rounded-lg"><div><p class="text-sm font-mono text-slate-700 dark:text-slate-300">https://api.example.com/webhooks/errors</p><p class="text-xs text-slate-400">Error Events</p></div><span class="status-badge status-danger">Failing</span></div>
+</div><button type="button" class="mt-4 px-4 py-2 text-sm font-medium border border-slate-300 dark:border-slate-600 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" onclick="showToast('Add webhook dialog','info')">Add Webhook</button></div>
+</main>
+</div>
+</div>
 <script src="common-loader.js"></script>
 <script src="common-sidebar.js"></script>
 <script src="common-header.js"></script>
 <script src="app-shell.js"></script>
+<script>
 
+function createApiKey(){
+  var name=document.getElementById('key-name').value.trim();
+  if(!name){showToast('Please enter a key name','error');return}
+  var perm=document.getElementById('key-perm').value;
+  showToast('API key "'+name+'" created with '+perm+' permissions','success');
+  document.getElementById('key-name').value='';
+}
+
+</script>
 </body>
 </html>

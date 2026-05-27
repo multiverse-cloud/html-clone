@@ -1,192 +1,43 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#465fff" />
-  <meta name="description" content="Production-ready AI Usage Analytics HTML dashboard template with responsive TailAdmin-style layout, dark mode, command palette, actions, loaders, and polished UI states." />
-  <title>AI Usage Analytics — mtverse</title>
-  <style>
-    .no-scrollbar::-webkit-scrollbar {
-      display: none;
-    }
-    .no-scrollbar {
-      -ms-overflow-style: none;
-      scrollbar-width: none;
-    }
-    @keyframes slideDown {
-      from {
-        opacity: 0;
-        transform: translateY(-10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-    .animate-slideDown {
-      animation: slideDown 0.2s ease-out;
-    }
-    .sidebar-text {
-      transition: opacity 0.2s ease-in-out;
-    }
-  </style>
-  <link rel="stylesheet" href="tailwind-production.css">
-  <link rel="stylesheet" href="pro-styles.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Production-ready Finance Dashboard with P&L, cash flow, expenses, and financial analytics">
+<title>Finance Dashboard — mtverse</title>
+<style>
+.no-scrollbar::-webkit-scrollbar{display:none}.no-scrollbar{-ms-overflow-style:none;scrollbar-width:none}
+@keyframes slideDown{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}.animate-slideDown{animation:slideDown .2s ease-out}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}.animate-fadeUp{animation:fadeUp .4s ease-out both}
+@keyframes countUp{from{opacity:0}to{opacity:1}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+
+</style>
+<link rel="stylesheet" href="tailwind-production.css">
+<link rel="stylesheet" href="pro-styles.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
 </head>
 <body class="bg-gray-50 text-gray-800 font-sans dark:bg-gray-900 dark:text-gray-100">
-
-<!-- Mobile overlay -->
-<div id="sidebar-overlay" class="fixed inset-0 bg-black/40 z-40 hidden lg:hidden" onclick="toggleSidebar()"></div>
-
+<div id="sidebar-overlay" class="fixed inset-0 bg-black/40 z-40 hidden lg:hidden" onclick="window.toggleSidebar&&toggleSidebar()"></div>
 <div class="flex h-screen overflow-hidden">
-  <!-- Sidebar Container -->
-  <div id="sidebar-container"></div>
-
-  <!-- Main content -->
-  <div class="flex-1 flex flex-col overflow-hidden">
-    <!-- Header Container -->
-    <div id="header-container"></div>
-
-    <!-- Page content -->
-    <main class="flex-1 overflow-y-auto overflow-x-hidden px-4 md:px-6 2xl:px-10 py-6" tabindex="-1">
-      <div class="mx-auto w-full max-w-screen-2xl">
-<div class="flex items-center justify-between mb-6">
-        <div>
-          <div class="flex items-center gap-2 text-sm text-gray-500 mb-1"><span>Management</span><svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg><span class="text-gray-800 font-medium">Usage Analytics</span></div>
-          <h1 class="text-xl font-bold text-gray-900">AI Usage Analytics</h1>
-        </div>
-        <div class="flex items-center gap-2">
-          <select class="text-sm border border-gray-200 rounded-lg px-3 py-1.5 text-gray-700 focus:outline-none bg-white">
-            <option>May 2026</option><option>April 2026</option><option>March 2026</option><option>Last 90 days</option>
-          </select>
-          <button class="px-3 py-1.5 text-sm border border-gray-200 rounded-lg hover:bg-gray-50 text-gray-600 flex items-center gap-1"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>Export</button>
-        </div>
-      </div>
-      <!-- KPI row -->
-      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-        <div class="bg-white rounded-xl border border-gray-200 p-4"><p class="text-xs text-gray-500 uppercase tracking-wide mb-2">Total Tokens</p><p class="text-2xl font-bold text-gray-900">84.2M</p><p class="text-xs text-green-600 mt-1">↑ 18.3% MoM</p></div>
-        <div class="bg-white rounded-xl border border-gray-200 p-4"><p class="text-xs text-gray-500 uppercase tracking-wide mb-2">Total Cost</p><p class="text-2xl font-bold text-gray-900">$1,284</p><p class="text-xs text-red-500 mt-1">↑ 22.1% MoM</p></div>
-        <div class="bg-white rounded-xl border border-gray-200 p-4"><p class="text-xs text-gray-500 uppercase tracking-wide mb-2">API Calls</p><p class="text-2xl font-bold text-gray-900">142,891</p><p class="text-xs text-green-600 mt-1">↑ 9.7% MoM</p></div>
-        <div class="bg-white rounded-xl border border-gray-200 p-4"><p class="text-xs text-gray-500 uppercase tracking-wide mb-2">Avg Latency</p><p class="text-2xl font-bold text-gray-900">1.84s</p><p class="text-xs text-green-600 mt-1">↓ 0.3s vs last month</p></div>
-      </div>
-      <!-- Bar chart + Donut -->
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6">
-        <!-- Bar chart -->
-        <div class="lg:col-span-2 bg-white rounded-xl border border-gray-200 p-5">
-          <div class="flex items-center justify-between mb-4">
-            <h2 class="text-sm font-semibold text-gray-800">Monthly Token Usage</h2>
-            <div class="flex gap-3 text-xs text-gray-500">
-              <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded bg-blue-500 inline-block"></span>GPT-4o</span>
-              <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded bg-purple-500 inline-block"></span>Claude</span>
-              <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded bg-green-500 inline-block"></span>Gemini</span>
-            </div>
-          </div>
-          <svg viewBox="0 0 420 130" class="w-full h-32">
-            <!-- Gridlines -->
-            <line x1="40" y1="10" x2="410" y2="10" stroke="#f3f4f6" stroke-width="1"/>
-            <line x1="40" y1="40" x2="410" y2="40" stroke="#f3f4f6" stroke-width="1"/>
-            <line x1="40" y1="70" x2="410" y2="70" stroke="#f3f4f6" stroke-width="1"/>
-            <line x1="40" y1="100" x2="410" y2="100" stroke="#f3f4f6" stroke-width="1"/>
-            <!-- Y axis labels -->
-            <text x="32" y="13" text-anchor="end" class="text-xs" font-size="9" fill="#9ca3af">80M</text>
-            <text x="32" y="43" text-anchor="end" class="text-xs" font-size="9" fill="#9ca3af">60M</text>
-            <text x="32" y="73" text-anchor="end" class="text-xs" font-size="9" fill="#9ca3af">40M</text>
-            <text x="32" y="103" text-anchor="end" class="text-xs" font-size="9" fill="#9ca3af">20M</text>
-            <!-- Bars: Jan-Jun, each month has 3 bars -->
-            <!-- Jan -->
-            <rect x="45" y="88" width="9" height="22" rx="2" fill="#3b82f6"/>
-            <rect x="55" y="95" width="9" height="15" rx="2" fill="#8b5cf6"/>
-            <rect x="65" y="99" width="9" height="11" rx="2" fill="#22c55e"/>
-            <!-- Feb -->
-            <rect x="105" y="82" width="9" height="28" rx="2" fill="#3b82f6"/>
-            <rect x="115" y="90" width="9" height="20" rx="2" fill="#8b5cf6"/>
-            <rect x="125" y="94" width="9" height="16" rx="2" fill="#22c55e"/>
-            <!-- Mar -->
-            <rect x="165" y="75" width="9" height="35" rx="2" fill="#3b82f6"/>
-            <rect x="175" y="85" width="9" height="25" rx="2" fill="#8b5cf6"/>
-            <rect x="185" y="90" width="9" height="20" rx="2" fill="#22c55e"/>
-            <!-- Apr -->
-            <rect x="225" y="68" width="9" height="42" rx="2" fill="#3b82f6"/>
-            <rect x="235" y="79" width="9" height="31" rx="2" fill="#8b5cf6"/>
-            <rect x="245" y="85" width="9" height="25" rx="2" fill="#22c55e"/>
-            <!-- May -->
-            <rect x="285" y="55" width="9" height="55" rx="2" fill="#3b82f6"/>
-            <rect x="295" y="68" width="9" height="42" rx="2" fill="#8b5cf6"/>
-            <rect x="305" y="76" width="9" height="34" rx="2" fill="#22c55e"/>
-            <!-- Jun (partial) -->
-            <rect x="345" y="45" width="9" height="65" rx="2" fill="#93c5fd"/>
-            <rect x="355" y="58" width="9" height="52" rx="2" fill="#c4b5fd"/>
-            <rect x="365" y="67" width="9" height="43" rx="2" fill="#86efac"/>
-            <!-- X labels -->
-            <text x="64" y="120" text-anchor="middle" font-size="9" fill="#9ca3af">Jan</text>
-            <text x="124" y="120" text-anchor="middle" font-size="9" fill="#9ca3af">Feb</text>
-            <text x="184" y="120" text-anchor="middle" font-size="9" fill="#9ca3af">Mar</text>
-            <text x="244" y="120" text-anchor="middle" font-size="9" fill="#9ca3af">Apr</text>
-            <text x="304" y="120" text-anchor="middle" font-size="9" fill="#9ca3af">May</text>
-            <text x="364" y="120" text-anchor="middle" font-size="9" fill="#9ca3af">Jun</text>
-          </svg>
-        </div>
-        <!-- Donut cost breakdown -->
-        <div class="bg-white rounded-xl border border-gray-200 p-5">
-          <h2 class="text-sm font-semibold text-gray-800 mb-4">Cost by Model</h2>
-          <div class="flex justify-center mb-4">
-            <svg viewBox="0 0 120 120" class="w-32 h-32">
-              <!-- Donut segments: GPT-4o 50%, Claude 34%, Gemini 16% -->
-              <circle cx="60" cy="60" r="40" fill="none" stroke="#3b82f6" stroke-width="20" stroke-dasharray="125.6 125.6" stroke-dashoffset="0" transform="rotate(-90 60 60)"/>
-              <circle cx="60" cy="60" r="40" fill="none" stroke="#8b5cf6" stroke-width="20" stroke-dasharray="85.3 166" stroke-dashoffset="-125.6" transform="rotate(-90 60 60)"/>
-              <circle cx="60" cy="60" r="40" fill="none" stroke="#22c55e" stroke-width="20" stroke-dasharray="40 211.3" stroke-dashoffset="-210.9" transform="rotate(-90 60 60)"/>
-              <text x="60" y="57" text-anchor="middle" font-size="11" font-weight="bold" fill="#1f2937">$1,284</text>
-              <text x="60" y="70" text-anchor="middle" font-size="8" fill="#6b7280">total</text>
-            </svg>
-          </div>
-          <div class="space-y-2">
-            <div class="flex items-center justify-between text-xs"><div class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded bg-blue-500 inline-block"></span><span class="text-gray-600">GPT-4o</span></div><span class="font-semibold text-gray-800">$642 (50%)</span></div>
-            <div class="flex items-center justify-between text-xs"><div class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded bg-purple-500 inline-block"></span><span class="text-gray-600">Claude 3.5</span></div><span class="font-semibold text-gray-800">$437 (34%)</span></div>
-            <div class="flex items-center justify-between text-xs"><div class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded bg-green-500 inline-block"></span><span class="text-gray-600">Gemini Pro</span></div><span class="font-semibold text-gray-800">$205 (16%)</span></div>
-          </div>
-        </div>
-      </div>
-      <!-- Top Users + API Key Usage -->
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        <div class="bg-white rounded-xl border border-gray-200 p-5">
-          <div class="flex items-center justify-between mb-4"><h2 class="text-sm font-semibold text-gray-800">Top Users by Token Usage</h2><a href="#" class="text-xs text-blue-600 hover:underline">View all</a></div>
-          <table class="w-full text-sm">
-            <thead><tr class="text-xs text-gray-400 uppercase border-b border-gray-100"><th class="pb-2 text-left font-medium">User</th><th class="pb-2 text-left font-medium">Tokens</th><th class="pb-2 text-left font-medium">Cost</th><th class="pb-2 text-left font-medium">Requests</th></tr></thead>
-            <tbody class="divide-y divide-gray-50">
-              <tr class="hover:bg-gray-50"><td class="py-2.5"><div class="flex items-center gap-2"><div class="w-6 h-6 rounded-full bg-blue-600 flex items-center justify-center text-white text-xs font-bold">JD</div><span class="text-gray-800 font-medium">Jane Doe</span></div></td><td class="py-2.5 text-gray-600">18.4M</td><td class="py-2.5 text-gray-700 font-medium">$281</td><td class="py-2.5 text-gray-500">32,481</td></tr>
-              <tr class="hover:bg-gray-50"><td class="py-2.5"><div class="flex items-center gap-2"><div class="w-6 h-6 rounded-full bg-purple-600 flex items-center justify-center text-white text-xs font-bold">MP</div><span class="text-gray-800 font-medium">Marcus Park</span></div></td><td class="py-2.5 text-gray-600">12.1M</td><td class="py-2.5 text-gray-700 font-medium">$185</td><td class="py-2.5 text-gray-500">21,302</td></tr>
-              <tr class="hover:bg-gray-50"><td class="py-2.5"><div class="flex items-center gap-2"><div class="w-6 h-6 rounded-full bg-green-600 flex items-center justify-center text-white text-xs font-bold">AL</div><span class="text-gray-800 font-medium">Aisha Larsson</span></div></td><td class="py-2.5 text-gray-600">9.8M</td><td class="py-2.5 text-gray-700 font-medium">$149</td><td class="py-2.5 text-gray-500">17,640</td></tr>
-              <tr class="hover:bg-gray-50"><td class="py-2.5"><div class="flex items-center gap-2"><div class="w-6 h-6 rounded-full bg-orange-600 flex items-center justify-center text-white text-xs font-bold">RC</div><span class="text-gray-800 font-medium">Ryan Chen</span></div></td><td class="py-2.5 text-gray-600">7.2M</td><td class="py-2.5 text-gray-700 font-medium">$110</td><td class="py-2.5 text-gray-500">12,890</td></tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="bg-white rounded-xl border border-gray-200 p-5">
-          <div class="flex items-center justify-between mb-4"><h2 class="text-sm font-semibold text-gray-800">API Key Usage</h2><a href="#" class="text-xs text-blue-600 hover:underline">Manage keys</a></div>
-          <table class="w-full text-sm">
-            <thead><tr class="text-xs text-gray-400 uppercase border-b border-gray-100"><th class="pb-2 text-left font-medium">Key Name</th><th class="pb-2 text-left font-medium">Calls</th><th class="pb-2 text-left font-medium">Tokens</th><th class="pb-2 text-left font-medium">Status</th></tr></thead>
-            <tbody class="divide-y divide-gray-50">
-              <tr class="hover:bg-gray-50"><td class="py-2.5"><p class="font-medium text-gray-800">Production Key</p><p class="text-xs text-gray-400 font-mono">sk-live-...4f2a</p></td><td class="py-2.5 text-gray-600">98,420</td><td class="py-2.5 text-gray-600">62.1M</td><td class="py-2.5"><span class="px-2 py-0.5 bg-green-50 text-green-700 rounded-full text-xs">Active</span></td></tr>
-              <tr class="hover:bg-gray-50"><td class="py-2.5"><p class="font-medium text-gray-800">Staging Key</p><p class="text-xs text-gray-400 font-mono">sk-test-...8b1c</p></td><td class="py-2.5 text-gray-600">24,110</td><td class="py-2.5 text-gray-600">14.8M</td><td class="py-2.5"><span class="px-2 py-0.5 bg-green-50 text-green-700 rounded-full text-xs">Active</span></td></tr>
-              <tr class="hover:bg-gray-50"><td class="py-2.5"><p class="font-medium text-gray-800">Analytics Bot</p><p class="text-xs text-gray-400 font-mono">sk-live-...9e3d</p></td><td class="py-2.5 text-gray-600">20,361</td><td class="py-2.5 text-gray-600">7.3M</td><td class="py-2.5"><span class="px-2 py-0.5 bg-green-50 text-green-700 rounded-full text-xs">Active</span></td></tr>
-              <tr class="hover:bg-gray-50"><td class="py-2.5"><p class="font-medium text-gray-800">Dev Sandbox</p><p class="text-xs text-gray-400 font-mono">sk-test-...2f7b</p></td><td class="py-2.5 text-gray-600">0</td><td class="py-2.5 text-gray-600">0</td><td class="py-2.5"><span class="px-2 py-0.5 bg-gray-100 text-gray-500 rounded-full text-xs">Inactive</span></td></tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-      </div>
-    </main>
-  </div>
+<div id="sidebar-container"></div>
+<div class="flex-1 flex flex-col overflow-hidden">
+<div id="header-container"></div>
+<main class="flex-1 overflow-y-auto overflow-x-hidden px-4 md:px-6 2xl:px-10 py-6" tabindex="-1">
+<div class="mx-auto w-full max-w-screen-2xl">
+<nav class="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 mb-4"><a href="01-main-dashboard.html" class="hover:text-blue-600">Home</a><svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg><a href="#" class="hover:text-blue-600">Dashboards</a><svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg><span class="text-gray-800 dark:text-gray-200 font-medium">Finance</span></nav><div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6"><div><h1 class="text-2xl font-bold text-gray-900 dark:text-white">Finance Overview</h1><p class="text-gray-500 dark:text-gray-400 mt-1">Revenue, expenses, and financial health</p></div><div class="flex gap-2"><select class="text-sm border border-gray-200 dark:border-gray-700 rounded-lg px-3 py-2 bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300"><option>FY 2026</option><option>FY 2025</option><option>FY 2024</option></select><button class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700">Download Report</button></div></div><div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6"><div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 p-5 animate-fadeUp"><div class="flex items-center justify-between mb-3"><span class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">Gross Revenue</span><div class="flex items-center gap-2"><div class="w-20 h-8 text-blue-500" data-sparkline="850,920,980,1020,1050,1080,1120,1160,1200,1240"></div><div class="w-8 h-8 bg-blue-50 dark:bg-blue-900/30 rounded-lg flex items-center justify-center"><svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div></div></div><p class="text-2xl font-bold text-gray-900 dark:text-white" data-counter="$1.24M">$1.24M</p><p class="text-xs text-green-600 mt-1 font-medium">↑ 14.2% vs last month</p></div><div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 p-5 animate-fadeUp"><div class="flex items-center justify-between mb-3"><span class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">Net Profit</span><div class="flex items-center gap-2"><div class="w-20 h-8 text-emerald-500" data-sparkline="220,240,260,280,290,300,310,320,330,342"></div><div class="w-8 h-8 bg-emerald-50 dark:bg-emerald-900/30 rounded-lg flex items-center justify-center"><svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg></div></div></div><p class="text-2xl font-bold text-gray-900 dark:text-white" data-counter="$342K">$342K</p><p class="text-xs text-green-600 mt-1 font-medium">↑ 8.5% vs last month</p></div><div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 p-5 animate-fadeUp"><div class="flex items-center justify-between mb-3"><span class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">Total Expenses</span><div class="flex items-center gap-2"><div class="w-20 h-8 text-rose-500" data-sparkline="630,680,720,750,780,800,820,840,860,898"></div><div class="w-8 h-8 bg-rose-50 dark:bg-rose-900/30 rounded-lg flex items-center justify-center"><svg class="w-4 h-4 text-rose-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/></svg></div></div></div><p class="text-2xl font-bold text-gray-900 dark:text-white" data-counter="$898K">$898K</p><p class="text-xs text-red-500 mt-1 font-medium">↓ 12.1% vs last month</p></div><div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 p-5 animate-fadeUp"><div class="flex items-center justify-between mb-3"><span class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">Profit Margin</span><div class="flex items-center gap-2"><div class="w-20 h-8 text-amber-500" data-sparkline="24,24.5,25,25.5,26,26.2,26.5,27,27.3,27.6"></div><div class="w-8 h-8 bg-amber-50 dark:bg-amber-900/30 rounded-lg flex items-center justify-center"><svg class="w-4 h-4 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg></div></div></div><p class="text-2xl font-bold text-gray-900 dark:text-white" data-counter="27.6%">27.6%</p><p class="text-xs text-green-600 mt-1 font-medium">↑ 1.2% vs last month</p></div></div><div class="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6"><div class="lg:col-span-2 bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 p-5"><div class="flex items-center justify-between mb-4"><h2 class="text-sm font-semibold text-gray-800 dark:text-white">Revenue vs Expenses</h2></div><svg viewBox="0 0 500 180" class="w-full" style="height:180px" id="line-chart-fin-rev"><defs><linearGradient id="areaGrad-fin-rev" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#3b82f6" stop-opacity="0.15"/><stop offset="100%" stop-color="#3b82f6" stop-opacity="0"/></linearGradient></defs><polygon fill="url(#areaGrad-fin-rev)" points="20,160 20.0,160.0 71.1,138.2 122.2,119.6 173.3,97.8 224.4,76.0 275.6,88.4 326.7,63.6 377.8,51.1 428.9,35.6 480.0,20.0 480,160"/><polyline fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" points="20.0,160.0 71.1,138.2 122.2,119.6 173.3,97.8 224.4,76.0 275.6,88.4 326.7,63.6 377.8,51.1 428.9,35.6 480.0,20.0"/><text x="20" y="178" text-anchor="middle" class="text-[10px] fill-gray-400">Jan</text><text x="71" y="178" text-anchor="middle" class="text-[10px] fill-gray-400">Feb</text><text x="122" y="178" text-anchor="middle" class="text-[10px] fill-gray-400">Mar</text><text x="173" y="178" text-anchor="middle" class="text-[10px] fill-gray-400">Apr</text><text x="224" y="178" text-anchor="middle" class="text-[10px] fill-gray-400">May</text><text x="276" y="178" text-anchor="middle" class="text-[10px] fill-gray-400">Jun</text><text x="327" y="178" text-anchor="middle" class="text-[10px] fill-gray-400">Jul</text><text x="378" y="178" text-anchor="middle" class="text-[10px] fill-gray-400">Aug</text><text x="429" y="178" text-anchor="middle" class="text-[10px] fill-gray-400">Sep</text><text x="480" y="178" text-anchor="middle" class="text-[10px] fill-gray-400">Oct</text></svg></div><div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 p-5"><h2 class="text-sm font-semibold text-gray-800 dark:text-white mb-4">Expense Breakdown</h2><div class="flex justify-center gap-4 mb-4"><div class="flex flex-col items-center"><svg viewBox="0 0 100 100" width="80" height="80"><circle cx="50" cy="50" r="40" fill="none" stroke="#e5e7eb" stroke-width="8" class="dark:stroke-gray-700"/><circle cx="50" cy="50" r="40" fill="none" stroke="#ef4444" stroke-width="8" stroke-dasharray="251.3" stroke-dashoffset="150.8" stroke-linecap="round" transform="rotate(-90 50 50)" style="transition:stroke-dashoffset .6s ease"/><text x="50" y="46" text-anchor="middle" class="text-lg font-bold fill-gray-900 dark:fill-white" style="font-size:16px">40%</text><text x="50" y="60" text-anchor="middle" class="text-[8px] fill-gray-400"></text></svg><p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Salaries</p></div><div class="flex flex-col items-center"><svg viewBox="0 0 100 100" width="80" height="80"><circle cx="50" cy="50" r="40" fill="none" stroke="#e5e7eb" stroke-width="8" class="dark:stroke-gray-700"/><circle cx="50" cy="50" r="40" fill="none" stroke="#3b82f6" stroke-width="8" stroke-dasharray="251.3" stroke-dashoffset="188.5" stroke-linecap="round" transform="rotate(-90 50 50)" style="transition:stroke-dashoffset .6s ease"/><text x="50" y="46" text-anchor="middle" class="text-lg font-bold fill-gray-900 dark:fill-white" style="font-size:16px">25%</text><text x="50" y="60" text-anchor="middle" class="text-[8px] fill-gray-400"></text></svg><p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Operations</p></div><div class="flex flex-col items-center"><svg viewBox="0 0 100 100" width="80" height="80"><circle cx="50" cy="50" r="40" fill="none" stroke="#e5e7eb" stroke-width="8" class="dark:stroke-gray-700"/><circle cx="50" cy="50" r="40" fill="none" stroke="#f59e0b" stroke-width="8" stroke-dasharray="251.3" stroke-dashoffset="201.1" stroke-linecap="round" transform="rotate(-90 50 50)" style="transition:stroke-dashoffset .6s ease"/><text x="50" y="46" text-anchor="middle" class="text-lg font-bold fill-gray-900 dark:fill-white" style="font-size:16px">20%</text><text x="50" y="60" text-anchor="middle" class="text-[8px] fill-gray-400"></text></svg><p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Marketing</p></div></div><div class="space-y-2"><div><div class="flex justify-between text-xs mb-1"><span class="text-gray-600 dark:text-gray-400">Salaries & Benefits</span><span class="font-medium text-gray-800 dark:text-gray-200">40%</span></div><div class="w-full bg-gray-100 dark:bg-gray-700 rounded-full h-1.5"><div class="bg-red-500 h-1.5 rounded-full" style="width:40%"></div></div></div><div><div class="flex justify-between text-xs mb-1"><span class="text-gray-600 dark:text-gray-400">Operations</span><span class="font-medium text-gray-800 dark:text-gray-200">25%</span></div><div class="w-full bg-gray-100 dark:bg-gray-700 rounded-full h-1.5"><div class="bg-blue-500 h-1.5 rounded-full" style="width:25%"></div></div></div><div><div class="flex justify-between text-xs mb-1"><span class="text-gray-600 dark:text-gray-400">Marketing</span><span class="font-medium text-gray-800 dark:text-gray-200">20%</span></div><div class="w-full bg-gray-100 dark:bg-gray-700 rounded-full h-1.5"><div class="bg-amber-500 h-1.5 rounded-full" style="width:20%"></div></div></div><div><div class="flex justify-between text-xs mb-1"><span class="text-gray-600 dark:text-gray-400">R&D</span><span class="font-medium text-gray-800 dark:text-gray-200">10%</span></div><div class="w-full bg-gray-100 dark:bg-gray-700 rounded-full h-1.5"><div class="bg-emerald-500 h-1.5 rounded-full" style="width:10%"></div></div></div><div><div class="flex justify-between text-xs mb-1"><span class="text-gray-600 dark:text-gray-400">Other</span><span class="font-medium text-gray-800 dark:text-gray-200">5%</span></div><div class="w-full bg-gray-100 dark:bg-gray-700 rounded-full h-1.5"><div class="bg-gray-400 h-1.5 rounded-full" style="width:5%"></div></div></div></div></div></div><div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6"><div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 p-5"><h2 class="text-sm font-semibold text-gray-800 dark:text-white mb-4">Monthly Cash Flow</h2><svg viewBox="0 0 500 160" class="w-full" style="height:160px"><rect x="29.2" y="67.4" width="27.6" height="57.6" rx="3" fill="#10b981" opacity="0.85"/><text x="43" y="158" text-anchor="middle" class="text-[10px] fill-gray-400">Mon</text><rect x="75.2" y="58.4" width="27.6" height="66.6" rx="3" fill="#10b981" opacity="0.85"/><text x="89" y="158" text-anchor="middle" class="text-[10px] fill-gray-400">Tue</text><rect x="121.2" y="140.4" width="27.6" height="-15.4" rx="3" fill="#10b981" opacity="0.85"/><text x="135" y="158" text-anchor="middle" class="text-[10px] fill-gray-400">Wed</text><rect x="167.2" y="76.3" width="27.6" height="48.7" rx="3" fill="#10b981" opacity="0.85"/><text x="181" y="158" text-anchor="middle" class="text-[10px] fill-gray-400">Thu</text><rect x="213.2" y="41.8" width="27.6" height="83.2" rx="3" fill="#10b981" opacity="0.85"/><text x="227" y="158" text-anchor="middle" class="text-[10px] fill-gray-400">Fri</text><rect x="259.2" y="135.2" width="27.6" height="-10.2" rx="3" fill="#10b981" opacity="0.85"/><text x="273" y="158" text-anchor="middle" class="text-[10px] fill-gray-400">Sat</text><rect x="305.2" y="32.8" width="27.6" height="92.2" rx="3" fill="#10b981" opacity="0.85"/><text x="319" y="158" text-anchor="middle" class="text-[10px] fill-gray-400">Sun</text><rect x="351.2" y="54.6" width="27.6" height="70.4" rx="3" fill="#10b981" opacity="0.85"/><text x="365" y="158" text-anchor="middle" class="text-[10px] fill-gray-400">W2</text><rect x="397.2" y="144.2" width="27.6" height="-19.2" rx="3" fill="#10b981" opacity="0.85"/><text x="411" y="158" text-anchor="middle" class="text-[10px] fill-gray-400">W3</text><rect x="443.2" y="20.0" width="27.6" height="105.0" rx="3" fill="#10b981" opacity="0.85"/><text x="457" y="158" text-anchor="middle" class="text-[10px] fill-gray-400">W4</text></svg></div><div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 p-5"><div class="flex items-center justify-between mb-4"><h2 class="text-sm font-semibold text-gray-800 dark:text-white">Recent Invoices</h2><a href="#" class="text-xs text-blue-600 hover:underline font-medium">View all</a></div><div class="overflow-x-auto"><table class="w-full text-sm"><thead><tr class="text-xs text-gray-400 uppercase border-b border-gray-100 dark:border-gray-700"><th class="pb-2 text-left font-medium">Invoice</th><th class="pb-2 text-left font-medium">Client</th><th class="pb-2 text-left font-medium">Amount</th><th class="pb-2 text-left font-medium">Status</th><th class="pb-2 text-left font-medium">Due</th></tr></thead><tbody class="divide-y divide-gray-50 dark:divide-gray-700"><tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50"><td class="py-2.5 font-medium text-gray-800 dark:text-gray-200">INV-2024-001</td><td class="py-2.5 text-gray-600 dark:text-gray-400">Acme Corp</td><td class="py-2.5 font-medium text-gray-800 dark:text-gray-200">$48,000</td><td class="py-2.5"><span class="px-2 py-0.5 rounded-full text-xs font-medium bg-green-50 text-green-700 dark:bg-green-900/30 dark:text-green-300">Paid</span></td><td class="py-2.5 text-gray-500 dark:text-gray-400">Jun 1</td></tr><tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50"><td class="py-2.5 font-medium text-gray-800 dark:text-gray-200">INV-2024-002</td><td class="py-2.5 text-gray-600 dark:text-gray-400">TechStart</td><td class="py-2.5 font-medium text-gray-800 dark:text-gray-200">$12,500</td><td class="py-2.5"><span class="px-2 py-0.5 rounded-full text-xs font-medium bg-amber-50 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300">Pending</span></td><td class="py-2.5 text-gray-500 dark:text-gray-400">Jun 15</td></tr><tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50"><td class="py-2.5 font-medium text-gray-800 dark:text-gray-200">INV-2024-003</td><td class="py-2.5 text-gray-600 dark:text-gray-400">GlobalNet</td><td class="py-2.5 font-medium text-gray-800 dark:text-gray-200">$96,000</td><td class="py-2.5"><span class="px-2 py-0.5 rounded-full text-xs font-medium bg-red-50 text-red-600 dark:bg-red-900/30 dark:text-red-300">Overdue</span></td><td class="py-2.5 text-gray-500 dark:text-gray-400">May 28</td></tr><tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50"><td class="py-2.5 font-medium text-gray-800 dark:text-gray-200">INV-2024-004</td><td class="py-2.5 text-gray-600 dark:text-gray-400">DataFlow</td><td class="py-2.5 font-medium text-gray-800 dark:text-gray-200">$8,400</td><td class="py-2.5"><span class="px-2 py-0.5 rounded-full text-xs font-medium bg-green-50 text-green-700 dark:bg-green-900/30 dark:text-green-300">Paid</span></td><td class="py-2.5 text-gray-500 dark:text-gray-400">Jun 5</td></tr><tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50"><td class="py-2.5 font-medium text-gray-800 dark:text-gray-200">INV-2024-005</td><td class="py-2.5 text-gray-600 dark:text-gray-400">CloudBase</td><td class="py-2.5 font-medium text-gray-800 dark:text-gray-200">$3,600</td><td class="py-2.5"><span class="px-2 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-300">Draft</span></td><td class="py-2.5 text-gray-500 dark:text-gray-400">Jun 20</td></tr></tbody></table></div></div></div></div>
+</main>
 </div>
-
-<!-- Common Components -->
+</div>
 <script src="common-loader.js"></script>
 <script src="common-sidebar.js"></script>
 <script src="common-header.js"></script>
 <script src="app-shell.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded",function(){document.querySelectorAll("[data-counter]").forEach(function(el){var t=el.dataset.counter;if(!t)return;var n=parseFloat(t.replace(/[^0-9.-]/g,""));var pre=t.replace(/[0-9.,-]/g,"");var dur=1200;var s=null;var st=null;function step(ts){if(!st)st=ts;var p=Math.min((ts-st)/dur,1);var v=Math.floor(p*n);if(n>=1000)el.textContent=pre+v.toLocaleString();else if(String(n).includes("."))el.textContent=pre+(p*n).toFixed(2);else el.textContent=pre+v;if(p<1)requestAnimationFrame(step);else el.textContent=t;}requestAnimationFrame(step);});document.querySelectorAll("[data-sparkline]").forEach(function(el){var d=el.dataset.sparkline;if(!d)return;var vals=d.split(",").map(Number);var w=el.offsetWidth||80;var h=el.offsetHeight||32;var max=Math.max.apply(null,vals);var min=Math.min.apply(null,vals);var range=max-min||1;var step=w/(vals.length-1);var pts=vals.map(function(v,i){return i*step+","+((1-(v-min)/range)*h);}).join(" ");el.innerHTML='<svg viewBox="0 0 '+w+' '+h+'" class="w-full h-full"><polyline fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" points="'+pts+'"/></svg>';});});
 
+</script>
 </body>
 </html>

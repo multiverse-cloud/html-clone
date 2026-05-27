@@ -1,367 +1,175 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" class="scroll-smooth">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#465fff" />
-  <meta name="description" content="Production-ready Charts - Realtime Dashboard HTML dashboard template with responsive TailAdmin-style layout, dark mode, command palette, actions, loaders, and polished UI states." />
-  <title>Charts - Realtime Dashboard — mtverse</title>
-  <style>
-    .no-scrollbar::-webkit-scrollbar {
-      display: none;
-    }
-    .no-scrollbar {
-      -ms-overflow-style: none;
-      scrollbar-width: none;
-    }
-    @keyframes slideDown {
-      from {
-        opacity: 0;
-        transform: translateY(-10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-    .animate-slideDown {
-      animation: slideDown 0.2s ease-out;
-    }
-    .sidebar-text {
-      transition: opacity 0.2s ease-in-out;
-    }
-  </style>
-  <link rel="stylesheet" href="tailwind-production.css">
-  <link rel="stylesheet" href="pro-styles.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<meta name="theme-color" content="#465fff"/>
+<title>Realtime Charts | TailAdmin</title>
+<link rel="stylesheet" href="tailwind-production.css"/>
+<link rel="stylesheet" href="pro-styles.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+body{font-family:Outfit,system-ui,sans-serif}
+.no-scrollbar::-webkit-scrollbar{display:none}
+.no-scrollbar{-ms-overflow-style:none;scrollbar-width:none}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.fade-up{animation:fadeUp .4s ease-out}
+@media(prefers-reduced-motion:reduce){.fade-up{animation:none}}
+.chart-card{background:#fff;border:1px solid #e2e8f0;border-radius:.75rem;padding:1.5rem;margin-bottom:1.5rem}
+.dark .chart-card{background:#1e293b;border-color:#334155}
+.chart-card h3{font-size:1rem;font-weight:600;color:#0f172a;margin-bottom:.25rem}
+.dark .chart-card h3{color:#e2e8f0}
+.chart-card p{font-size:.8125rem;color:#94a3b8;margin-bottom:1rem}
+.chart-container{position:relative;width:100%}
+.chart-container svg{width:100%;height:auto}
+.chart-tooltip{position:absolute;background:#1e293b;color:#fff;padding:.375rem .75rem;border-radius:.375rem;font-size:.75rem;pointer-events:none;z-index:10;white-space:nowrap}
+.legend{display:flex;flex-wrap:wrap;gap:1rem;margin-top:1rem}
+.legend-item{display:flex;align-items:center;gap:.375rem;font-size:.75rem;color:#64748b}
+.legend-dot{width:8px;height:8px;border-radius:50%}
+.sparkline-card{display:flex;align-items:center;justify-content:space-between;padding:1rem 1.25rem;background:#fff;border:1px solid #e2e8f0;border-radius:.75rem;margin-bottom:1rem}
+.dark .sparkline-card{background:#1e293b;border-color:#334155}
+.map-container{position:relative;width:100%;overflow:hidden;border-radius:.5rem}
+.map-marker{cursor:pointer;transition:transform .15s}
+.map-marker:hover{transform:scale(1.3)}
+.map-legend{display:flex;flex-wrap:wrap;gap:.75rem;margin-top:1rem}
+.map-legend-item{display:flex;align-items:center;gap:.375rem;font-size:.75rem;color:#64748b}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+.pulse{animation:pulse 2s ease-in-out infinite}
+.live-dot{width:8px;height:8px;border-radius:50%;background:#22c55e;display:inline-block;animation:pulse 1.5s ease-in-out infinite}
+</style>
 </head>
-<body class="bg-gray-50 text-gray-800 font-sans dark:bg-gray-900 dark:text-gray-100">
-
-<!-- Mobile overlay -->
-<div id="sidebar-overlay" class="fixed inset-0 bg-black/40 z-40 hidden lg:hidden" onclick="toggleSidebar()"></div>
-
+<body class="bg-slate-50 dark:bg-slate-950 dark:text-white">
+<div class="sidebar-overlay fixed inset-0 bg-black/40 z-40 hidden lg:hidden"></div>
 <div class="flex h-screen overflow-hidden">
-  <!-- Sidebar Container -->
-  <div id="sidebar-container"></div>
-
-  <!-- Main content -->
-  <div class="flex-1 flex flex-col overflow-hidden">
-    <!-- Header Container -->
-    <div id="header-container"></div>
-
-    <!-- Page content -->
-    <main class="flex-1 overflow-y-auto overflow-x-hidden px-4 md:px-6 2xl:px-10 py-6" tabindex="-1">
-      <div class="mx-auto w-full max-w-screen-2xl">
-<div class="flex items-center gap-2 text-sm text-gray-500 mb-4">
-        <a href="#" class="hover:text-blue-600">Dashboard</a>
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-        <a href="#" class="hover:text-blue-600">Charts</a>
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-        <span class="text-gray-800 font-medium">Realtime</span>
-      </div>
-      <div class="flex items-center justify-between mb-6">
-        <div>
-          <h1 class="text-2xl font-bold text-gray-900">Realtime Dashboard</h1>
-          <p class="text-gray-500 text-sm mt-1">Live system metrics, request counters, and service health indicators.</p>
-        </div>
-        <div class="flex items-center gap-2 text-xs text-gray-400">
-          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6l4 2"/></svg>
-          Last updated: <span class="text-green-600 font-medium ml-1">just now</span>
-        </div>
-      </div>
-
-      <!-- Row 1: System Gauges (CPU, Memory, Disk) -->
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-6">
-
-        <!-- CPU Gauge 67% -->
-        <div class="bg-white rounded-xl border border-gray-200 p-6 flex flex-col items-center">
-          <div class="text-sm font-semibold text-gray-700 mb-3">CPU Usage</div>
-          <!-- Semi-circle gauge: viewBox 0 0 200 120, arc r=80, center=(100,100) -->
-          <!-- Full arc: from 180° to 360° (left to right), half circle -->
-          <!-- Track arc: M 20,100 A 80,80 0 0,1 180,100 (semicircle, 180° sweep) -->
-          <!-- Filled arc: 67% of 180° = 120.6° from 180° -->
-          <!-- Stroke-dasharray for a full semicircle arc: circumference/2 = π*80 ≈ 251.3 -->
-          <!-- fill: 67% of 251.3 = 168.4, gap = 251.3-168.4 = 82.9 -->
-          <svg viewBox="0 0 200 120" class="w-48">
-            <!-- Track -->
-            <path d="M20,100 A80,80 0 0,1 180,100" fill="none" stroke="#e5e7eb" stroke-width="16" stroke-linecap="round"/>
-            <!-- Fill 67% -->
-            <path d="M20,100 A80,80 0 0,1 180,100" fill="none" stroke="#3b82f6" stroke-width="16" stroke-linecap="round"
-              stroke-dasharray="168.4 82.9" stroke-dashoffset="0"/>
-            <!-- Center value -->
-            <text x="100" y="88" text-anchor="middle" font-size="28" fill="#1f2937" font-weight="700">67%</text>
-            <text x="100" y="106" text-anchor="middle" font-size="11" fill="#9ca3af">CPU</text>
-            <!-- Min/Max labels -->
-            <text x="18" y="118" text-anchor="middle" font-size="10" fill="#9ca3af">0%</text>
-            <text x="182" y="118" text-anchor="middle" font-size="10" fill="#9ca3af">100%</text>
-          </svg>
-          <div class="mt-2 flex items-center gap-2 text-xs">
-            <span class="w-2 h-2 rounded-full bg-blue-500 inline-block"></span>
-            <span class="text-gray-500">4 cores @ 3.2GHz</span>
-          </div>
-          <div class="mt-1 text-xs text-amber-600 font-medium">↑ Elevated — normal &lt;50%</div>
-        </div>
-
-        <!-- Memory Gauge 84% -->
-        <div class="bg-white rounded-xl border border-gray-200 p-6 flex flex-col items-center">
-          <div class="text-sm font-semibold text-gray-700 mb-3">Memory Usage</div>
-          <!-- 84% of 251.3 = 211.1, gap = 40.2 -->
-          <svg viewBox="0 0 200 120" class="w-48">
-            <path d="M20,100 A80,80 0 0,1 180,100" fill="none" stroke="#e5e7eb" stroke-width="16" stroke-linecap="round"/>
-            <path d="M20,100 A80,80 0 0,1 180,100" fill="none" stroke="#ef4444" stroke-width="16" stroke-linecap="round"
-              stroke-dasharray="211.1 40.2" stroke-dashoffset="0"/>
-            <text x="100" y="88" text-anchor="middle" font-size="28" fill="#1f2937" font-weight="700">84%</text>
-            <text x="100" y="106" text-anchor="middle" font-size="11" fill="#9ca3af">Memory</text>
-            <text x="18" y="118" text-anchor="middle" font-size="10" fill="#9ca3af">0%</text>
-            <text x="182" y="118" text-anchor="middle" font-size="10" fill="#9ca3af">100%</text>
-          </svg>
-          <div class="mt-2 flex items-center gap-2 text-xs">
-            <span class="w-2 h-2 rounded-full bg-red-500 inline-block"></span>
-            <span class="text-gray-500">13.4 GB / 16 GB</span>
-          </div>
-          <div class="mt-1 text-xs text-red-600 font-medium">⚠ High — consider scaling</div>
-        </div>
-
-        <!-- Disk Gauge 45% -->
-        <div class="bg-white rounded-xl border border-gray-200 p-6 flex flex-col items-center">
-          <div class="text-sm font-semibold text-gray-700 mb-3">Disk Usage</div>
-          <!-- 45% of 251.3 = 113.1, gap = 138.2 -->
-          <svg viewBox="0 0 200 120" class="w-48">
-            <path d="M20,100 A80,80 0 0,1 180,100" fill="none" stroke="#e5e7eb" stroke-width="16" stroke-linecap="round"/>
-            <path d="M20,100 A80,80 0 0,1 180,100" fill="none" stroke="#10b981" stroke-width="16" stroke-linecap="round"
-              stroke-dasharray="113.1 138.2" stroke-dashoffset="0"/>
-            <text x="100" y="88" text-anchor="middle" font-size="28" fill="#1f2937" font-weight="700">45%</text>
-            <text x="100" y="106" text-anchor="middle" font-size="11" fill="#9ca3af">Disk</text>
-            <text x="18" y="118" text-anchor="middle" font-size="10" fill="#9ca3af">0%</text>
-            <text x="182" y="118" text-anchor="middle" font-size="10" fill="#9ca3af">100%</text>
-          </svg>
-          <div class="mt-2 flex items-center gap-2 text-xs">
-            <span class="w-2 h-2 rounded-full bg-emerald-500 inline-block"></span>
-            <span class="text-gray-500">450 GB / 1 TB SSD</span>
-          </div>
-          <div class="mt-1 text-xs text-green-600 font-medium">✓ Healthy</div>
-        </div>
-      </div>
-
-
-      <!-- Row 2: Live counters + sparklines -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
-        <!-- Live request counter -->
-        <div class="bg-white rounded-xl border border-gray-200 p-5">
-          <div class="flex items-center justify-between mb-2">
-            <span class="text-xs font-semibold text-gray-500 uppercase tracking-wide">Requests/min</span>
-            <span class="flex items-center gap-1 text-xs text-green-600 font-medium">
-              <span class="w-2 h-2 rounded-full bg-green-500 pulse inline-block"></span>
-              Live
-            </span>
-          </div>
-          <div class="text-3xl font-bold text-gray-900 mb-1">1,847</div>
-          <div class="text-xs text-green-600">↑ 12% vs 5min avg</div>
-          <!-- Sparkline -->
-          <svg viewBox="0 0 180 40" class="w-full mt-3">
-            <polyline points="0,30 15,25 30,28 45,20 60,22 75,15 90,18 105,12 120,16 135,10 150,13 165,8 180,6" fill="none" stroke="#22c55e" stroke-width="2" stroke-linejoin="round"/>
-            <path d="M0,30 15,25 30,28 45,20 60,22 75,15 90,18 105,12 120,16 135,10 150,13 165,8 180,6 L180,40 L0,40 Z" fill="#22c55e" opacity="0.1"/>
-          </svg>
-        </div>
-
-        <!-- Response Time sparkline -->
-        <div class="bg-white rounded-xl border border-gray-200 p-5">
-          <div class="flex items-center justify-between mb-2">
-            <span class="text-xs font-semibold text-gray-500 uppercase tracking-wide">Avg Response</span>
-            <span class="flex items-center gap-1 text-xs text-blue-600 font-medium">
-              <span class="w-2 h-2 rounded-full bg-blue-500 pulse inline-block"></span>
-              Live
-            </span>
-          </div>
-          <div class="text-3xl font-bold text-gray-900 mb-1">48<span class="text-lg font-normal text-gray-400">ms</span></div>
-          <div class="text-xs text-green-600">↓ 6ms vs last hour</div>
-          <!-- Response time sparkline (fluctuating) -->
-          <svg viewBox="0 0 180 40" class="w-full mt-3">
-            <polyline points="0,20 15,18 30,25 45,16 60,22 75,14 90,28 105,18 120,15 135,22 150,12 165,19 180,14" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linejoin="round"/>
-            <path d="M0,20 15,18 30,25 45,16 60,22 75,14 90,28 105,18 120,15 135,22 150,12 165,19 180,14 L180,40 L0,40 Z" fill="#3b82f6" opacity="0.1"/>
-          </svg>
-        </div>
-
-        <!-- Error Rate sparkline -->
-        <div class="bg-white rounded-xl border border-gray-200 p-5">
-          <div class="flex items-center justify-between mb-2">
-            <span class="text-xs font-semibold text-gray-500 uppercase tracking-wide">Error Rate</span>
-            <span class="flex items-center gap-1 text-xs text-green-600 font-medium">
-              <span class="w-2 h-2 rounded-full bg-green-500 pulse inline-block"></span>
-              Live
-            </span>
-          </div>
-          <div class="text-3xl font-bold text-gray-900 mb-1">0.12<span class="text-lg font-normal text-gray-400">%</span></div>
-          <div class="text-xs text-green-600">↓ Well below 1% SLA</div>
-          <!-- Error sparkline (mostly near zero, small spikes) -->
-          <svg viewBox="0 0 180 40" class="w-full mt-3">
-            <line x1="0" y1="36" x2="180" y2="36" stroke="#f1f5f9" stroke-width="1"/>
-            <polyline points="0,36 15,36 30,35 45,36 60,36 75,34 90,36 105,36 120,35 135,36 150,36 165,35 180,36" fill="none" stroke="#ef4444" stroke-width="2" stroke-linejoin="round"/>
-            <path d="M0,36 15,36 30,35 45,36 60,36 75,34 90,36 105,36 120,35 135,36 150,36 165,35 180,36 L180,40 L0,40 Z" fill="#ef4444" opacity="0.12"/>
-          </svg>
-        </div>
-
-        <!-- Connected Users -->
-        <div class="bg-white rounded-xl border border-gray-200 p-5">
-          <div class="flex items-center justify-between mb-2">
-            <span class="text-xs font-semibold text-gray-500 uppercase tracking-wide">Connected Users</span>
-            <span class="flex items-center gap-1 text-xs text-green-600 font-medium">
-              <span class="w-2 h-2 rounded-full bg-green-500 pulse inline-block"></span>
-              Live
-            </span>
-          </div>
-          <div class="text-3xl font-bold text-gray-900 mb-1">2,341</div>
-          <div class="text-xs text-blue-600">↑ 148 in last 10min</div>
-          <!-- Users sparkline -->
-          <svg viewBox="0 0 180 40" class="w-full mt-3">
-            <polyline points="0,32 15,30 30,28 45,26 60,24 75,22 90,20 105,18 120,17 135,16 150,15 165,13 180,12" fill="none" stroke="#8b5cf6" stroke-width="2" stroke-linejoin="round"/>
-            <path d="M0,32 15,30 30,28 45,26 60,24 75,22 90,20 105,18 120,17 135,16 150,15 165,13 180,12 L180,40 L0,40 Z" fill="#8b5cf6" opacity="0.1"/>
-          </svg>
-        </div>
-      </div>
-
-      <!-- Row 3: Service Status + Throughput timeline -->
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-        <!-- Service Status LEDs -->
-        <div class="bg-white rounded-xl border border-gray-200 p-6">
-          <div class="flex items-center justify-between mb-4">
-            <h2 class="text-base font-semibold text-gray-900">Service Health</h2>
-            <span class="text-xs text-gray-400 blink">● Auto-refresh 30s</span>
-          </div>
-          <div class="space-y-3">
-            <!-- API Gateway -->
-            <div class="flex items-center justify-between py-2 border-b border-gray-50">
-              <div class="flex items-center gap-3">
-                <span class="w-3 h-3 rounded-full bg-green-500 pulse inline-block"></span>
-                <div>
-                  <div class="text-sm font-medium text-gray-800">API Gateway</div>
-                  <div class="text-xs text-gray-400">us-east-1 · v2.14.1</div>
-                </div>
-              </div>
-              <div class="text-right">
-                <div class="text-sm font-semibold text-green-600">Operational</div>
-                <div class="text-xs text-gray-400">p99: 142ms</div>
-              </div>
-            </div>
-            <!-- Database -->
-            <div class="flex items-center justify-between py-2 border-b border-gray-50">
-              <div class="flex items-center gap-3">
-                <span class="w-3 h-3 rounded-full bg-green-500 pulse inline-block"></span>
-                <div>
-                  <div class="text-sm font-medium text-gray-800">Database</div>
-                  <div class="text-xs text-gray-400">PostgreSQL 15 · Primary</div>
-                </div>
-              </div>
-              <div class="text-right">
-                <div class="text-sm font-semibold text-green-600">Operational</div>
-                <div class="text-xs text-gray-400">42 active conns</div>
-              </div>
-            </div>
-            <!-- Cache -->
-            <div class="flex items-center justify-between py-2 border-b border-gray-50">
-              <div class="flex items-center gap-3">
-                <span class="w-3 h-3 rounded-full bg-green-500 pulse inline-block"></span>
-                <div>
-                  <div class="text-sm font-medium text-gray-800">Cache</div>
-                  <div class="text-xs text-gray-400">Redis 7 · Cluster mode</div>
-                </div>
-              </div>
-              <div class="text-right">
-                <div class="text-sm font-semibold text-green-600">Operational</div>
-                <div class="text-xs text-gray-400">Hit rate: 94.7%</div>
-              </div>
-            </div>
-            <!-- Queue -->
-            <div class="flex items-center justify-between py-2 border-b border-gray-50">
-              <div class="flex items-center gap-3">
-                <span class="w-3 h-3 rounded-full bg-green-500 pulse inline-block"></span>
-                <div>
-                  <div class="text-sm font-medium text-gray-800">Message Queue</div>
-                  <div class="text-xs text-gray-400">RabbitMQ · 3 nodes</div>
-                </div>
-              </div>
-              <div class="text-right">
-                <div class="text-sm font-semibold text-green-600">Operational</div>
-                <div class="text-xs text-gray-400">Queue depth: 12</div>
-              </div>
-            </div>
-            <!-- CDN -->
-            <div class="flex items-center justify-between py-2">
-              <div class="flex items-center gap-3">
-                <span class="w-3 h-3 rounded-full bg-green-500 pulse inline-block"></span>
-                <div>
-                  <div class="text-sm font-medium text-gray-800">CDN</div>
-                  <div class="text-xs text-gray-400">CloudFront · 47 PoPs</div>
-                </div>
-              </div>
-              <div class="text-right">
-                <div class="text-sm font-semibold text-green-600">Operational</div>
-                <div class="text-xs text-gray-400">Cache hit: 89.2%</div>
-              </div>
-            </div>
-          </div>
-          <div class="mt-4 flex items-center gap-2 bg-green-50 rounded-lg px-3 py-2">
-            <svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-            <span class="text-xs font-medium text-green-700">All 5 services operational — 99.97% uptime (30d)</span>
-          </div>
-        </div>
-
-        <!-- Throughput timeline -->
-        <div class="bg-white rounded-xl border border-gray-200 p-6">
-          <div class="flex items-center justify-between mb-4">
-            <div>
-              <h2 class="text-base font-semibold text-gray-900">Request Throughput</h2>
-              <p class="text-xs text-gray-500">Last 60 minutes (req/min)</p>
-            </div>
-            <span class="flex items-center gap-1.5 text-xs text-green-600 font-medium bg-green-50 px-2 py-1 rounded-full">
-              <span class="w-1.5 h-1.5 rounded-full bg-green-500 pulse inline-block"></span>
-              Live
-            </span>
-          </div>
-          <!-- 60-min throughput sparkline, larger -->
-          <svg viewBox="0 0 560 180" class="w-full">
-            <line x1="40" y1="20" x2="540" y2="20" stroke="#f1f5f9" stroke-width="1"/>
-            <line x1="40" y1="65" x2="540" y2="65" stroke="#f1f5f9" stroke-width="1"/>
-            <line x1="40" y1="110" x2="540" y2="110" stroke="#f1f5f9" stroke-width="1"/>
-            <line x1="40" y1="155" x2="540" y2="155" stroke="#e2e8f0" stroke-width="1"/>
-            <line x1="40" y1="20" x2="40" y2="155" stroke="#e2e8f0" stroke-width="1"/>
-            <text x="34" y="24" text-anchor="end" font-size="10" fill="#94a3b8">2500</text>
-            <text x="34" y="69" text-anchor="end" font-size="10" fill="#94a3b8">2000</text>
-            <text x="34" y="114" text-anchor="end" font-size="10" fill="#94a3b8">1500</text>
-            <text x="34" y="159" text-anchor="end" font-size="10" fill="#94a3b8">1000</text>
-            <!-- Throughput path: realistic fluctuating data -->
-            <defs><linearGradient id="tput-grad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#22c55e" stop-opacity="0.3"/><stop offset="100%" stop-color="#22c55e" stop-opacity="0.02"/></linearGradient></defs>
-            <path d="M40,108 L58,102 L76,95 L94,98 L112,90 L130,85 L148,88 L166,78 L184,82 L202,74 L220,80 L238,72 L256,68 L274,75 L292,65 L310,70 L328,62 L346,58 L364,65 L382,55 L400,50 L418,58 L436,48 L454,44 L472,52 L490,42 L508,38 L526,44 L540,35 L540,155 L40,155 Z" fill="url(#tput-grad)"/>
-            <polyline points="40,108 58,102 76,95 94,98 112,90 130,85 148,88 166,78 184,82 202,74 220,80 238,72 256,68 274,75 292,65 310,70 328,62 346,58 364,65 382,55 400,50 418,58 436,48 454,44 472,52 490,42 508,38 526,44 540,35" fill="none" stroke="#22c55e" stroke-width="2" stroke-linejoin="round"/>
-            <!-- Current position marker -->
-            <circle cx="540" cy="35" r="5" fill="#22c55e"/>
-            <line x1="540" y1="20" x2="540" y2="155" stroke="#22c55e" stroke-width="1" stroke-dasharray="3,3" opacity="0.5"/>
-            <!-- X axis time labels -->
-            <text x="40" y="168" text-anchor="middle" font-size="9" fill="#94a3b8">-60m</text>
-            <text x="165" y="168" text-anchor="middle" font-size="9" fill="#94a3b8">-45m</text>
-            <text x="290" y="168" text-anchor="middle" font-size="9" fill="#94a3b8">-30m</text>
-            <text x="415" y="168" text-anchor="middle" font-size="9" fill="#94a3b8">-15m</text>
-            <text x="540" y="168" text-anchor="middle" font-size="9" fill="#22c55e">now</text>
-          </svg>
-          <div class="mt-3 grid grid-cols-3 gap-3 text-center text-xs">
-            <div class="bg-gray-50 rounded-lg p-2"><div class="text-gray-400">Min (1h)</div><div class="font-bold text-gray-700">1,124</div></div>
-            <div class="bg-gray-50 rounded-lg p-2"><div class="text-gray-400">Avg (1h)</div><div class="font-bold text-gray-700">1,652</div></div>
-            <div class="bg-green-50 rounded-lg p-2"><div class="text-gray-400">Current</div><div class="font-bold text-green-600">1,847</div></div>
-          </div>
-        </div>
-      </div>
-      </div>
-    </main>
-  </div>
+<div class="sidebar-container w-72 flex-shrink-0"></div>
+<div class="header-container flex-1 flex flex-col overflow-hidden"></div>
+<main class="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8">
+<nav class="flex items-center gap-2 text-sm text-slate-400 mb-4">
+<a href="#" class="hover:text-slate-600 dark:hover:text-slate-300">Home</a><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+<a href="#" class="hover:text-slate-600 dark:hover:text-slate-300">Charts</a><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+<span class="text-slate-700 dark:text-slate-200 font-medium">Realtime Charts</span>
+</nav>
+<div class="mb-6 fade-up">
+<h1 class="text-2xl font-bold text-slate-900 dark:text-white mb-1">Realtime Charts</h1>
+<p class="text-sm text-slate-500 dark:text-slate-400">Live-updating charts with real-time data simulation</p>
 </div>
-
-<!-- Common Components -->
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6 fade-up">
+<div class="chart-card" style="padding:1rem"><div class="flex items-center gap-2 mb-2"><span class="live-dot"></span><p class="text-xs text-slate-400">Active Users</p></div><p class="text-xl font-bold text-slate-900 dark:text-white" id="live-active-users">1,247</p></div>
+<div class="chart-card" style="padding:1rem"><div class="flex items-center gap-2 mb-2"><span class="live-dot"></span><p class="text-xs text-slate-400">Requests/sec</p></div><p class="text-xl font-bold text-slate-900 dark:text-white" id="live-requestssec">342</p></div>
+<div class="chart-card" style="padding:1rem"><div class="flex items-center gap-2 mb-2"><span class="live-dot"></span><p class="text-xs text-slate-400">Avg Latency</p></div><p class="text-xl font-bold text-slate-900 dark:text-white" id="live-avg-latency">45ms</p></div>
+<div class="chart-card" style="padding:1rem"><div class="flex items-center gap-2 mb-2"><span class="live-dot"></span><p class="text-xs text-slate-400">Error Rate</p></div><p class="text-xl font-bold text-slate-900 dark:text-white" id="live-error-rate">0.12%</p></div>
+</div>
+<div class="chart-card fade-up"><h3 class="flex items-center gap-2">Live Traffic <span class="live-dot"></span></h3><p>Real-time page views per second</p>
+<div class="chart-container"><canvas id="realtime-chart" height="200" style="width:100%"></canvas></div></div>
+<div class="chart-card fade-up"><h3 class="flex items-center gap-2">Server Load <span class="live-dot"></span></h3><p>Current server resource utilization</p>
+<div class="grid grid-cols-4 gap-4" id="server-gauges">
+<div class="text-center"><div class="chart-container" style="max-width:90px;margin:0 auto">
+<svg viewBox="0 0 90 90" xmlns="http://www.w3.org/2000/svg">
+<circle cx="45.0" cy="45.0" r="35.0" fill="none" stroke="#e2e8f0" stroke-width="8"/>
+<circle cx="45.0" cy="45.0" r="35.0" fill="none" stroke="#6366f1" stroke-width="8" stroke-dasharray="147.34057099999998 72.570729" stroke-dashoffset="54.977824999999996" stroke-linecap="round" transform="rotate(-90 45.0 45.0)">
+<animate attributeName="stroke-dasharray" from="0 219.91129999999998" to="147.34057099999998 72.570729" dur="1s" fill="freeze"/>
+</circle>
+<text x="45.0" y="41.0" text-anchor="middle" font-size="18" font-weight="700" fill="#0f172a">67%</text>
+<text x="45.0" y="59.0" text-anchor="middle" font-size="9" fill="#94a3b8">CPU</text>
+</svg>
+</div>
+</div>
+<div class="text-center"><div class="chart-container" style="max-width:90px;margin:0 auto">
+<svg viewBox="0 0 90 90" xmlns="http://www.w3.org/2000/svg">
+<circle cx="45.0" cy="45.0" r="35.0" fill="none" stroke="#e2e8f0" stroke-width="8"/>
+<circle cx="45.0" cy="45.0" r="35.0" fill="none" stroke="#22c55e" stroke-width="8" stroke-dasharray="118.752102 101.15919799999999" stroke-dashoffset="54.977824999999996" stroke-linecap="round" transform="rotate(-90 45.0 45.0)">
+<animate attributeName="stroke-dasharray" from="0 219.91129999999998" to="118.752102 101.15919799999999" dur="1s" fill="freeze"/>
+</circle>
+<text x="45.0" y="41.0" text-anchor="middle" font-size="18" font-weight="700" fill="#0f172a">54%</text>
+<text x="45.0" y="59.0" text-anchor="middle" font-size="9" fill="#94a3b8">Memory</text>
+</svg>
+</div>
+</div>
+<div class="text-center"><div class="chart-container" style="max-width:90px;margin:0 auto">
+<svg viewBox="0 0 90 90" xmlns="http://www.w3.org/2000/svg">
+<circle cx="45.0" cy="45.0" r="35.0" fill="none" stroke="#e2e8f0" stroke-width="8"/>
+<circle cx="45.0" cy="45.0" r="35.0" fill="none" stroke="#f59e0b" stroke-width="8" stroke-dasharray="83.566294 136.34500599999998" stroke-dashoffset="54.977824999999996" stroke-linecap="round" transform="rotate(-90 45.0 45.0)">
+<animate attributeName="stroke-dasharray" from="0 219.91129999999998" to="83.566294 136.34500599999998" dur="1s" fill="freeze"/>
+</circle>
+<text x="45.0" y="41.0" text-anchor="middle" font-size="18" font-weight="700" fill="#0f172a">38%</text>
+<text x="45.0" y="59.0" text-anchor="middle" font-size="9" fill="#94a3b8">Disk</text>
+</svg>
+</div>
+</div>
+<div class="text-center"><div class="chart-container" style="max-width:90px;margin:0 auto">
+<svg viewBox="0 0 90 90" xmlns="http://www.w3.org/2000/svg">
+<circle cx="45.0" cy="45.0" r="35.0" fill="none" stroke="#e2e8f0" stroke-width="8"/>
+<circle cx="45.0" cy="45.0" r="35.0" fill="none" stroke="#8b5cf6" stroke-width="8" stroke-dasharray="158.33613599999998 61.575164" stroke-dashoffset="54.977824999999996" stroke-linecap="round" transform="rotate(-90 45.0 45.0)">
+<animate attributeName="stroke-dasharray" from="0 219.91129999999998" to="158.33613599999998 61.575164" dur="1s" fill="freeze"/>
+</circle>
+<text x="45.0" y="41.0" text-anchor="middle" font-size="18" font-weight="700" fill="#0f172a">72%</text>
+<text x="45.0" y="59.0" text-anchor="middle" font-size="9" fill="#94a3b8">Network</text>
+</svg>
+</div>
+</div>
+</div></div>
+<div class="chart-card fade-up"><h3 class="flex items-center gap-2">Event Stream <span class="live-dot"></span></h3><p>Recent system events</p>
+<div id="event-feed" class="space-y-2 max-h-64 overflow-y-auto">
+<div class="flex items-center justify-between py-2 border-b border-slate-100 dark:border-slate-800 last:border-0"><p class="text-sm text-slate-600 dark:text-slate-400">User alice@acme.com logged in</p><span class="text-xs text-slate-400">2s ago</span></div>
+<div class="flex items-center justify-between py-2 border-b border-slate-100 dark:border-slate-800 last:border-0"><p class="text-sm text-slate-600 dark:text-slate-400">API request processed in 45ms</p><span class="text-xs text-slate-400">5s ago</span></div>
+<div class="flex items-center justify-between py-2 border-b border-slate-100 dark:border-slate-800 last:border-0"><p class="text-sm text-slate-600 dark:text-slate-400">Cache hit ratio: 94.2%</p><span class="text-xs text-slate-400">8s ago</span></div>
+<div class="flex items-center justify-between py-2 border-b border-slate-100 dark:border-slate-800 last:border-0"><p class="text-sm text-slate-600 dark:text-slate-400">New signup: bob@example.com</p><span class="text-xs text-slate-400">12s ago</span></div>
+<div class="flex items-center justify-between py-2 border-b border-slate-100 dark:border-slate-800 last:border-0"><p class="text-sm text-slate-600 dark:text-slate-400">Payment processed: $245.00</p><span class="text-xs text-slate-400">15s ago</span></div>
+</div></div>
+</main>
+</div>
+</div>
 <script src="common-loader.js"></script>
 <script src="common-sidebar.js"></script>
 <script src="common-header.js"></script>
 <script src="app-shell.js"></script>
+<script>
 
+// Realtime chart using canvas
+var rtCanvas=document.getElementById('realtime-chart');
+var rtCtx=rtCanvas.getContext('2d');
+var rtData=[];
+for(var i=0;i<60;i++)rtData.push(Math.random()*50+20);
+function drawRealtime(){
+  var w=rtCanvas.width=rtCanvas.offsetWidth;
+  var h=rtCanvas.height=200;
+  rtCtx.clearRect(0,0,w,h);
+  // Grid
+  rtCtx.strokeStyle='#e2e8f0';rtCtx.lineWidth=0.5;
+  for(var i=0;i<5;i++){var y=i*40+20;rtCtx.beginPath();rtCtx.moveTo(0,y);rtCtx.lineTo(w,y);rtCtx.stroke()}
+  // Area
+  var max=Math.max.apply(null,rtData)+10;
+  rtCtx.beginPath();
+  rtCtx.moveTo(0,h);
+  for(var i=0;i<rtData.length;i++){var x=i*(w/(rtData.length-1));var y=h-(rtData[i]/max)*(h-20);rtCtx.lineTo(x,y)}
+  rtCtx.lineTo(w,h);rtCtx.closePath();
+  rtCtx.fillStyle='rgba(99,102,241,0.1)';rtCtx.fill();
+  // Line
+  rtCtx.beginPath();
+  for(var i=0;i<rtData.length;i++){var x=i*(w/(rtData.length-1));var y=h-(rtData[i]/max)*(h-20);if(i===0)rtCtx.moveTo(x,y);else rtCtx.lineTo(x,y)}
+  rtCtx.strokeStyle='#6366f1';rtCtx.lineWidth=2;rtCtx.stroke();
+  // Dot at end
+  var lastX=(rtData.length-1)*(w/(rtData.length-1));
+  var lastY=h-(rtData[rtData.length-1]/max)*(h-20);
+  rtCtx.beginPath();rtCtx.arc(lastX,lastY,4,0,Math.PI*2);rtCtx.fillStyle='#6366f1';rtCtx.fill();
+  rtCtx.beginPath();rtCtx.arc(lastX,lastY,7,0,Math.PI*2);rtCtx.strokeStyle='rgba(99,102,241,0.3)';rtCtx.lineWidth=2;rtCtx.stroke();
+}
+setInterval(function(){
+  rtData.shift();
+  rtData.push(Math.random()*50+20);
+  drawRealtime();
+},1000);
+drawRealtime();
+// Simulate live stat updates
+setInterval(function(){
+  var el=document.getElementById('live-active-users');
+  if(el)el.textContent=(1200+Math.floor(Math.random()*100)).toLocaleString();
+  var el2=document.getElementById('live-requestssec');
+  if(el2)el2.textContent=(300+Math.floor(Math.random()*80));
+  var el3=document.getElementById('live-avglatency');
+  if(el3)el3.textContent=(35+Math.floor(Math.random()*20))+'ms';
+},2000);
+
+</script>
 </body>
 </html>

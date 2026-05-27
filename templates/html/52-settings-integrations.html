@@ -1,205 +1,84 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" class="scroll-smooth">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#465fff" />
-  <meta name="description" content="Production-ready Integrations HTML dashboard template with responsive TailAdmin-style layout, dark mode, command palette, actions, loaders, and polished UI states." />
-  <title>Integrations — mtverse</title>
-  <style>
-    .no-scrollbar::-webkit-scrollbar {
-      display: none;
-    }
-    .no-scrollbar {
-      -ms-overflow-style: none;
-      scrollbar-width: none;
-    }
-    @keyframes slideDown {
-      from {
-        opacity: 0;
-        transform: translateY(-10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-    .animate-slideDown {
-      animation: slideDown 0.2s ease-out;
-    }
-    .sidebar-text {
-      transition: opacity 0.2s ease-in-out;
-    }
-  </style>
-  <link rel="stylesheet" href="tailwind-production.css">
-  <link rel="stylesheet" href="pro-styles.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<meta name="theme-color" content="#465fff"/>
+<title>Integrations | TailAdmin</title>
+<link rel="stylesheet" href="tailwind-production.css"/>
+<link rel="stylesheet" href="pro-styles.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+body{font-family:Outfit,system-ui,sans-serif}
+.no-scrollbar::-webkit-scrollbar{display:none}
+.no-scrollbar{-ms-overflow-style:none;scrollbar-width:none}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.fade-up{animation:fadeUp .4s ease-out}
+@media(prefers-reduced-motion:reduce){.fade-up{animation:none}}
+
+</style>
 </head>
-<body class="bg-gray-50 text-gray-800 font-sans dark:bg-gray-900 dark:text-gray-100">
-
-<!-- Mobile overlay -->
-<div id="sidebar-overlay" class="fixed inset-0 bg-black/40 z-40 hidden lg:hidden" onclick="toggleSidebar()"></div>
-
+<body class="bg-slate-50 dark:bg-slate-950 dark:text-white">
+<div class="sidebar-overlay fixed inset-0 bg-black/40 z-40 hidden lg:hidden"></div>
 <div class="flex h-screen overflow-hidden">
-  <!-- Sidebar Container -->
-  <div id="sidebar-container"></div>
-
-  <!-- Main content -->
-  <div class="flex-1 flex flex-col overflow-hidden">
-    <!-- Header Container -->
-    <div id="header-container"></div>
-
-    <!-- Page content -->
-    <main class="flex-1 overflow-y-auto overflow-x-hidden px-4 md:px-6 2xl:px-10 py-6" tabindex="-1">
-      <div class="mx-auto w-full max-w-screen-2xl">
-<div class="mb-6">
-      <h1 class="text-xl font-bold text-gray-900">Integrations</h1>
-      <p class="text-sm text-gray-500 mt-1">Connect your favorite tools and services</p>
-    </div>
-
-    <!-- Filter Tabs -->
-    <div class="flex gap-2 mb-6 flex-wrap">
-      <button type="button" class="px-3 py-1.5 bg-blue-600 text-white text-xs font-medium rounded-full">All</button>
-      <button class="px-3 py-1.5 border border-gray-200 text-gray-600 text-xs rounded-full hover:bg-gray-50">Connected</button>
-      <button class="px-3 py-1.5 border border-gray-200 text-gray-600 text-xs rounded-full hover:bg-gray-50">Communication</button>
-      <button class="px-3 py-1.5 border border-gray-200 text-gray-600 text-xs rounded-full hover:bg-gray-50">AI & ML</button>
-      <button class="px-3 py-1.5 border border-gray-200 text-gray-600 text-xs rounded-full hover:bg-gray-50">Dev Tools</button>
-      <button class="px-3 py-1.5 border border-gray-200 text-gray-600 text-xs rounded-full hover:bg-gray-50">Analytics</button>
-    </div>
-
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-      <!-- Slack - Connected -->
-      <div class="bg-white rounded-xl border border-gray-200 p-4 hover:shadow-md transition-shadow">
-        <div class="flex items-start justify-between mb-3">
-          <div class="text-3xl">💬</div>
-          <span class="px-2 py-0.5 bg-green-100 text-green-700 text-xs rounded-full font-medium">Connected</span>
-        </div>
-        <h3 class="font-semibold text-gray-800 text-sm">Slack</h3>
-        <p class="text-xs text-gray-500 mt-1 mb-3">Send alerts and notifications to Slack channels</p>
-        <p class="text-xs text-gray-400 mb-3">Last synced: 2 min ago</p>
-        <button class="w-full px-3 py-1.5 border border-red-200 text-red-600 text-xs rounded-lg hover:bg-red-50">Disconnect</button>
-      </div>
-
-      <!-- GitHub - Connected -->
-      <div class="bg-white rounded-xl border border-gray-200 p-4 hover:shadow-md transition-shadow">
-        <div class="flex items-start justify-between mb-3">
-          <div class="text-3xl">🐙</div>
-          <span class="px-2 py-0.5 bg-green-100 text-green-700 text-xs rounded-full font-medium">Connected</span>
-        </div>
-        <h3 class="font-semibold text-gray-800 text-sm">GitHub</h3>
-        <p class="text-xs text-gray-500 mt-1 mb-3">Sync template files and automate deployments</p>
-        <p class="text-xs text-gray-400 mb-3">Last synced: 15 min ago</p>
-        <button class="w-full px-3 py-1.5 border border-red-200 text-red-600 text-xs rounded-lg hover:bg-red-50">Disconnect</button>
-      </div>
-
-      <!-- Zapier - Not Connected -->
-      <div class="bg-white rounded-xl border border-gray-200 p-4 hover:shadow-md transition-shadow">
-        <div class="flex items-start justify-between mb-3">
-          <div class="text-3xl">⚡</div>
-          <span class="px-2 py-0.5 bg-gray-100 text-gray-500 text-xs rounded-full">Not Connected</span>
-        </div>
-        <h3 class="font-semibold text-gray-800 text-sm">Zapier</h3>
-        <p class="text-xs text-gray-500 mt-1 mb-3">Automate workflows with 5,000+ apps via Zapier</p>
-        <p class="text-xs text-gray-400 mb-3">—</p>
-        <button type="button" class="w-full px-3 py-1.5 bg-blue-600 text-white text-xs rounded-lg hover:bg-blue-700">Connect</button>
-      </div>
-
-      <!-- Stripe - Connected -->
-      <div class="bg-white rounded-xl border border-gray-200 p-4 hover:shadow-md transition-shadow">
-        <div class="flex items-start justify-between mb-3">
-          <div class="text-3xl">💳</div>
-          <span class="px-2 py-0.5 bg-green-100 text-green-700 text-xs rounded-full font-medium">Connected</span>
-        </div>
-        <h3 class="font-semibold text-gray-800 text-sm">Stripe</h3>
-        <p class="text-xs text-gray-500 mt-1 mb-3">Process payments and manage subscriptions</p>
-        <p class="text-xs text-gray-400 mb-3">Last synced: 1 hour ago</p>
-        <button class="w-full px-3 py-1.5 border border-red-200 text-red-600 text-xs rounded-lg hover:bg-red-50">Disconnect</button>
-      </div>
-
-      <!-- OpenAI - Connected -->
-      <div class="bg-white rounded-xl border border-gray-200 p-4 hover:shadow-md transition-shadow">
-        <div class="flex items-start justify-between mb-3">
-          <div class="text-3xl">🤖</div>
-          <span class="px-2 py-0.5 bg-green-100 text-green-700 text-xs rounded-full font-medium">Connected</span>
-        </div>
-        <h3 class="font-semibold text-gray-800 text-sm">OpenAI</h3>
-        <p class="text-xs text-gray-500 mt-1 mb-3">Power your AI tools with GPT-4o and DALL·E</p>
-        <p class="text-xs text-gray-400 mb-3">Last synced: 30 min ago</p>
-        <button class="w-full px-3 py-1.5 border border-red-200 text-red-600 text-xs rounded-lg hover:bg-red-50">Disconnect</button>
-      </div>
-
-      <!-- Anthropic - Not Connected -->
-      <div class="bg-white rounded-xl border border-gray-200 p-4 hover:shadow-md transition-shadow">
-        <div class="flex items-start justify-between mb-3">
-          <div class="text-3xl">🧠</div>
-          <span class="px-2 py-0.5 bg-gray-100 text-gray-500 text-xs rounded-full">Not Connected</span>
-        </div>
-        <h3 class="font-semibold text-gray-800 text-sm">Anthropic</h3>
-        <p class="text-xs text-gray-500 mt-1 mb-3">Use Claude 3.5 Sonnet for AI features</p>
-        <p class="text-xs text-gray-400 mb-3">—</p>
-        <button type="button" class="w-full px-3 py-1.5 bg-blue-600 text-white text-xs rounded-lg hover:bg-blue-700">Connect</button>
-      </div>
-
-      <!-- Google Analytics - Connected -->
-      <div class="bg-white rounded-xl border border-gray-200 p-4 hover:shadow-md transition-shadow">
-        <div class="flex items-start justify-between mb-3">
-          <div class="text-3xl">📊</div>
-          <span class="px-2 py-0.5 bg-green-100 text-green-700 text-xs rounded-full font-medium">Connected</span>
-        </div>
-        <h3 class="font-semibold text-gray-800 text-sm">Google Analytics</h3>
-        <p class="text-xs text-gray-500 mt-1 mb-3">Track template views, clicks and conversions</p>
-        <p class="text-xs text-gray-400 mb-3">Last synced: 5 min ago</p>
-        <button class="w-full px-3 py-1.5 border border-red-200 text-red-600 text-xs rounded-lg hover:bg-red-50">Disconnect</button>
-      </div>
-
-      <!-- Notion - Not Connected -->
-      <div class="bg-white rounded-xl border border-gray-200 p-4 hover:shadow-md transition-shadow">
-        <div class="flex items-start justify-between mb-3">
-          <div class="text-3xl">📓</div>
-          <span class="px-2 py-0.5 bg-gray-100 text-gray-500 text-xs rounded-full">Not Connected</span>
-        </div>
-        <h3 class="font-semibold text-gray-800 text-sm">Notion</h3>
-        <p class="text-xs text-gray-500 mt-1 mb-3">Sync content and documentation to Notion</p>
-        <p class="text-xs text-gray-400 mb-3">—</p>
-        <button type="button" class="w-full px-3 py-1.5 bg-blue-600 text-white text-xs rounded-lg hover:bg-blue-700">Connect</button>
-      </div>
-
-      <!-- Linear - Not Connected -->
-      <div class="bg-white rounded-xl border border-gray-200 p-4 hover:shadow-md transition-shadow">
-        <div class="flex items-start justify-between mb-3">
-          <div class="text-3xl">🚀</div>
-          <span class="px-2 py-0.5 bg-gray-100 text-gray-500 text-xs rounded-full">Not Connected</span>
-        </div>
-        <h3 class="font-semibold text-gray-800 text-sm">Linear</h3>
-        <p class="text-xs text-gray-500 mt-1 mb-3">Create issues from template feedback automatically</p>
-        <p class="text-xs text-gray-400 mb-3">—</p>
-        <button type="button" class="w-full px-3 py-1.5 bg-blue-600 text-white text-xs rounded-lg hover:bg-blue-700">Connect</button>
-      </div>
-
-      <!-- Figma - Connected -->
-      <div class="bg-white rounded-xl border border-gray-200 p-4 hover:shadow-md transition-shadow">
-        <div class="flex items-start justify-between mb-3">
-          <div class="text-3xl">🎨</div>
-          <span class="px-2 py-0.5 bg-green-100 text-green-700 text-xs rounded-full font-medium">Connected</span>
-        </div>
-        <h3 class="font-semibold text-gray-800 text-sm">Figma</h3>
-        <p class="text-xs text-gray-500 mt-1 mb-3">Import design components from Figma files</p>
-        <p class="text-xs text-gray-400 mb-3">Last synced: 3 hours ago</p>
-        <button class="w-full px-3 py-1.5 border border-red-200 text-red-600 text-xs rounded-lg hover:bg-red-50">Disconnect</button>
-      </div>
-    </div>
-      </div>
-    </main>
-  </div>
+<div class="sidebar-container w-72 flex-shrink-0"></div>
+<div class="header-container flex-1 flex flex-col overflow-hidden"></div>
+<main class="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8">
+<nav class="flex items-center gap-2 text-sm text-slate-400 mb-4">
+<a href="#" class="hover:text-slate-600 dark:hover:text-slate-300">Home</a><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+<span class="text-slate-700 dark:text-slate-200 font-medium">Integrations</span>
+</nav>
+<div class="mb-6 fade-up">
+<h1 class="text-2xl font-bold text-slate-900 dark:text-white mb-1">Integrations</h1>
+<p class="text-sm text-slate-500 dark:text-slate-400">Connect your favorite tools and services</p>
 </div>
-
-<!-- Common Components -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 fade-up">
+<div class="bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 p-5 transition-shadow hover:shadow-md">
+<div class="flex items-center gap-3 mb-3"><div class="w-10 h-10 rounded-lg flex items-center justify-center text-white text-sm font-bold" style="background:#4A154B">S</div><div><h4 class="text-sm font-semibold text-slate-900 dark:text-white">Slack</h4><p class="text-xs text-slate-400">Get notifications in your Slack channels</p></div></div>
+<div class="flex items-center justify-between"><span class="status-badge status-success">Connected</span><button type="button" class="text-xs text-red-500 hover:text-red-700 font-medium" onclick="showToast('Slack disconnected','error')">Disconnect</button></div>
+</div>
+<div class="bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 p-5 transition-shadow hover:shadow-md">
+<div class="flex items-center gap-3 mb-3"><div class="w-10 h-10 rounded-lg flex items-center justify-center text-white text-sm font-bold" style="background:#333">G</div><div><h4 class="text-sm font-semibold text-slate-900 dark:text-white">GitHub</h4><p class="text-xs text-slate-400">Sync issues and pull requests</p></div></div>
+<div class="flex items-center justify-between"><span class="status-badge status-success">Connected</span><button type="button" class="text-xs text-red-500 hover:text-red-700 font-medium" onclick="showToast('GitHub disconnected','error')">Disconnect</button></div>
+</div>
+<div class="bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 p-5 transition-shadow hover:shadow-md">
+<div class="flex items-center gap-3 mb-3"><div class="w-10 h-10 rounded-lg flex items-center justify-center text-white text-sm font-bold" style="background:#0052CC">J</div><div><h4 class="text-sm font-semibold text-slate-900 dark:text-white">Jira</h4><p class="text-xs text-slate-400">Link tickets and track progress</p></div></div>
+<button type="button" class="w-full py-2 text-sm font-medium border border-slate-300 dark:border-slate-600 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" onclick="showToast('Jira connected!','success')">Connect</button>
+</div>
+<div class="bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 p-5 transition-shadow hover:shadow-md">
+<div class="flex items-center gap-3 mb-3"><div class="w-10 h-10 rounded-lg flex items-center justify-center text-white text-sm font-bold" style="background:#F24E1E">F</div><div><h4 class="text-sm font-semibold text-slate-900 dark:text-white">Figma</h4><p class="text-xs text-slate-400">Import designs and prototypes</p></div></div>
+<div class="flex items-center justify-between"><span class="status-badge status-success">Connected</span><button type="button" class="text-xs text-red-500 hover:text-red-700 font-medium" onclick="showToast('Figma disconnected','error')">Disconnect</button></div>
+</div>
+<div class="bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 p-5 transition-shadow hover:shadow-md">
+<div class="flex items-center gap-3 mb-3"><div class="w-10 h-10 rounded-lg flex items-center justify-center text-white text-sm font-bold" style="background:#000">N</div><div><h4 class="text-sm font-semibold text-slate-900 dark:text-white">Notion</h4><p class="text-xs text-slate-400">Sync docs and databases</p></div></div>
+<button type="button" class="w-full py-2 text-sm font-medium border border-slate-300 dark:border-slate-600 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" onclick="showToast('Notion connected!','success')">Connect</button>
+</div>
+<div class="bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 p-5 transition-shadow hover:shadow-md">
+<div class="flex items-center gap-3 mb-3"><div class="w-10 h-10 rounded-lg flex items-center justify-center text-white text-sm font-bold" style="background:#FF4A00">Z</div><div><h4 class="text-sm font-semibold text-slate-900 dark:text-white">Zapier</h4><p class="text-xs text-slate-400">Automate workflows with 5000+ apps</p></div></div>
+<button type="button" class="w-full py-2 text-sm font-medium border border-slate-300 dark:border-slate-600 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" onclick="showToast('Zapier connected!','success')">Connect</button>
+</div>
+<div class="bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 p-5 transition-shadow hover:shadow-md">
+<div class="flex items-center gap-3 mb-3"><div class="w-10 h-10 rounded-lg flex items-center justify-center text-white text-sm font-bold" style="background:#4285F4">G</div><div><h4 class="text-sm font-semibold text-slate-900 dark:text-white">Google Drive</h4><p class="text-xs text-slate-400">Access and share files</p></div></div>
+<div class="flex items-center justify-between"><span class="status-badge status-success">Connected</span><button type="button" class="text-xs text-red-500 hover:text-red-700 font-medium" onclick="showToast('Google Drive disconnected','error')">Disconnect</button></div>
+</div>
+<div class="bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 p-5 transition-shadow hover:shadow-md">
+<div class="flex items-center gap-3 mb-3"><div class="w-10 h-10 rounded-lg flex items-center justify-center text-white text-sm font-bold" style="background:#00A1E0">S</div><div><h4 class="text-sm font-semibold text-slate-900 dark:text-white">Salesforce</h4><p class="text-xs text-slate-400">Sync CRM data</p></div></div>
+<button type="button" class="w-full py-2 text-sm font-medium border border-slate-300 dark:border-slate-600 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" onclick="showToast('Salesforce connected!','success')">Connect</button>
+</div>
+<div class="bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 p-5 transition-shadow hover:shadow-md">
+<div class="flex items-center gap-3 mb-3"><div class="w-10 h-10 rounded-lg flex items-center justify-center text-white text-sm font-bold" style="background:#635BFF">S</div><div><h4 class="text-sm font-semibold text-slate-900 dark:text-white">Stripe</h4><p class="text-xs text-slate-400">Process payments automatically</p></div></div>
+<div class="flex items-center justify-between"><span class="status-badge status-success">Connected</span><button type="button" class="text-xs text-red-500 hover:text-red-700 font-medium" onclick="showToast('Stripe disconnected','error')">Disconnect</button></div>
+</div>
+</div>
+</main>
+</div>
+</div>
 <script src="common-loader.js"></script>
 <script src="common-sidebar.js"></script>
 <script src="common-header.js"></script>
 <script src="app-shell.js"></script>
+<script>
 
+</script>
 </body>
 </html>

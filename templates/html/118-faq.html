@@ -1,95 +1,81 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" class="scroll-smooth">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#465fff" />
-  <meta name="description" content="Production FAQ page with accordions, support cards, and help-center actions." />
-  <title>FAQ - mtverse</title>
-  <style>
-    .no-scrollbar::-webkit-scrollbar { display: none; }
-    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-    @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
-    .animate-slideDown { animation: slideDown 0.2s ease-out; }
-  </style>
-  <link rel="stylesheet" href="tailwind-production.css">
-  <link rel="stylesheet" href="pro-styles.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<meta name="theme-color" content="#465fff"/>
+<title>FAQ | TailAdmin</title>
+<link rel="stylesheet" href="tailwind-production.css"/>
+<link rel="stylesheet" href="pro-styles.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+body{font-family:Outfit,system-ui,sans-serif}
+.no-scrollbar::-webkit-scrollbar{display:none}
+.no-scrollbar{-ms-overflow-style:none;scrollbar-width:none}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.fade-up{animation:fadeUp .4s ease-out}
+@media(prefers-reduced-motion:reduce){.fade-up{animation:none}}
+
+</style>
 </head>
-<body class="bg-gray-50 text-gray-800 font-sans dark:bg-gray-900 dark:text-gray-100">
-<div id="sidebar-overlay" class="fixed inset-0 bg-black/40 z-40 hidden lg:hidden" onclick="toggleSidebar()"></div>
+<body class="bg-slate-50 dark:bg-slate-950 dark:text-white">
+<div class="sidebar-overlay fixed inset-0 bg-black/40 z-40 hidden lg:hidden"></div>
 <div class="flex h-screen overflow-hidden">
-  <div id="sidebar-container"></div>
-  <div class="flex-1 flex flex-col overflow-hidden">
-    <div id="header-container"></div>
-    <main class="flex-1 overflow-y-auto overflow-x-hidden px-4 md:px-6 2xl:px-10 py-6" tabindex="-1">
-      <div class="mx-auto w-full max-w-screen-2xl">
-        <div class="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-          <div>
-            <div class="mb-2 flex items-center gap-2 text-sm text-gray-500">
-              <span>mtverse</span><span>/</span><span>pages</span><span>/</span>
-              <span class="font-medium text-gray-800 dark:text-white/90">FAQ</span>
-            </div>
-            <h1 class="text-2xl font-bold text-gray-900 dark:text-white/90">FAQ</h1>
-            <p class="mt-1 max-w-2xl text-sm text-gray-500 dark:text-gray-400">Production FAQ page with accordions, support cards, and help-center actions.</p>
-          </div>
-          <div class="flex flex-wrap gap-2">
-            <button type="button" class="rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 dark:border-gray-800 dark:bg-white/[0.03] dark:text-gray-300">Preview</button>
-            <button type="button" class="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700">Use Component</button>
-          </div>
-        </div>
-
-        <div class="grid grid-cols-1 gap-5 md:grid-cols-3">
-          <div class="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03]">
-            <p class="text-sm text-gray-500">Components</p><p class="mt-2 text-3xl font-bold text-gray-900 dark:text-white">24</p>
-          </div>
-          <div class="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03]">
-            <p class="text-sm text-gray-500">States</p><p class="mt-2 text-3xl font-bold text-gray-900 dark:text-white">96</p>
-          </div>
-          <div class="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03]">
-            <p class="text-sm text-gray-500">Responsive</p><p class="mt-2 text-3xl font-bold text-green-600">Ready</p>
-          </div>
-        </div>
-        <div class="mt-5 grid grid-cols-1 gap-5 xl:grid-cols-2">
-
-          <section class="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03]">
-            <h2 class="text-lg font-semibold text-gray-900 dark:text-white/90">Popular questions</h2>
-            <div class="mt-5"><div class="divide-y divide-gray-200 dark:divide-gray-800">
-        <details class="group py-4" open><summary class="flex cursor-pointer list-none items-center justify-between font-semibold text-gray-900 dark:text-white">How do I customize the sidebar?<span class="text-blue-600">+</span></summary><p class="mt-2 text-sm leading-6 text-gray-500">Use the shared header, sidebar, CSS tokens, and app-shell behaviors so every page stays consistent after build.</p></details><details class="group py-4" ><summary class="flex cursor-pointer list-none items-center justify-between font-semibold text-gray-900 dark:text-white">Can I add new HTML pages?<span class="text-blue-600">+</span></summary><p class="mt-2 text-sm leading-6 text-gray-500">Use the shared header, sidebar, CSS tokens, and app-shell behaviors so every page stays consistent after build.</p></details><details class="group py-4" ><summary class="flex cursor-pointer list-none items-center justify-between font-semibold text-gray-900 dark:text-white">Where do charts live?<span class="text-blue-600">+</span></summary><p class="mt-2 text-sm leading-6 text-gray-500">Use the shared header, sidebar, CSS tokens, and app-shell behaviors so every page stays consistent after build.</p></details><details class="group py-4" ><summary class="flex cursor-pointer list-none items-center justify-between font-semibold text-gray-900 dark:text-white">Is dark mode production ready?<span class="text-blue-600">+</span></summary><p class="mt-2 text-sm leading-6 text-gray-500">Use the shared header, sidebar, CSS tokens, and app-shell behaviors so every page stays consistent after build.</p></details>
-      </div></div>
-          </section>
-
-          <section class="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03]">
-            <h2 class="text-lg font-semibold text-gray-900 dark:text-white/90">Support routing</h2>
-            <div class="mt-5"><div class="grid gap-3 sm:grid-cols-3"><button class="rounded-xl border border-gray-200 p-4 text-left dark:border-gray-800"><b>Docs</b><p class="mt-1 text-sm text-gray-500">Read setup notes.</p></button><button class="rounded-xl border border-gray-200 p-4 text-left dark:border-gray-800"><b>Ticket</b><p class="mt-1 text-sm text-gray-500">Create support case.</p></button><button class="rounded-xl border border-gray-200 p-4 text-left dark:border-gray-800"><b>Chat</b><p class="mt-1 text-sm text-gray-500">Talk to support.</p></button></div></div>
-          </section>
-
-          <section class="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] xl:col-span-2">
-            <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-              <div>
-                <h2 class="text-lg font-semibold text-gray-900 dark:text-white/90">FAQ production states</h2>
-                <p class="mt-1 text-sm text-gray-500">Real dashboard states with actions, accessibility, responsive layout, and clean spacing.</p>
-              </div>
-              <div class="inline-flex rounded-xl bg-gray-100 p-1 dark:bg-white/[0.04]">
-                <button class="rounded-lg bg-white px-4 py-2 text-sm font-bold text-blue-600 shadow-sm dark:bg-gray-900">Preview</button>
-                <button class="rounded-lg px-4 py-2 text-sm font-bold text-gray-500">Code</button>
-                <button class="rounded-lg px-4 py-2 text-sm font-bold text-gray-500">States</button>
-              </div>
-            </div>
-            <div class="mt-5 grid gap-4 md:grid-cols-3">
-              <div class="rounded-xl border border-gray-200 p-4 dark:border-gray-800"><div class="mb-4 flex items-center justify-between"><p class="font-bold">Default</p><span class="h-2.5 w-2.5 rounded-full bg-green-500"></span></div><div class="space-y-2"><div class="h-3 rounded bg-gray-100 dark:bg-white/[0.06]"></div><div class="h-3 w-3/4 rounded bg-gray-100 dark:bg-white/[0.06]"></div><button type="button" class="mt-3 rounded-lg bg-blue-600 px-3 py-2 text-xs font-bold text-white">Action</button></div></div><div class="rounded-xl border border-gray-200 p-4 dark:border-gray-800"><div class="mb-4 flex items-center justify-between"><p class="font-bold">Hover / active</p><span class="h-2.5 w-2.5 rounded-full bg-green-500"></span></div><div class="space-y-2"><div class="h-3 rounded bg-gray-100 dark:bg-white/[0.06]"></div><div class="h-3 w-3/4 rounded bg-gray-100 dark:bg-white/[0.06]"></div><button type="button" class="mt-3 rounded-lg bg-blue-600 px-3 py-2 text-xs font-bold text-white">Action</button></div></div><div class="rounded-xl border border-gray-200 p-4 dark:border-gray-800"><div class="mb-4 flex items-center justify-between"><p class="font-bold">Loading / empty</p><span class="h-2.5 w-2.5 rounded-full bg-yellow-400"></span></div><div class="space-y-2"><div class="h-3 rounded bg-gray-100 dark:bg-white/[0.06]"></div><div class="h-3 w-3/4 rounded bg-gray-100 dark:bg-white/[0.06]"></div><button type="button" class="mt-3 rounded-lg bg-blue-600 px-3 py-2 text-xs font-bold text-white">Action</button></div></div>
-            </div>
-          </section>
-        </div>
-      </div>
-    </main>
-  </div>
+<div class="sidebar-container w-72 flex-shrink-0"></div>
+<div class="header-container flex-1 flex flex-col overflow-hidden"></div>
+<main class="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8">
+<nav class="flex items-center gap-2 text-sm text-slate-400 mb-4">
+<a href="#" class="hover:text-slate-600 dark:hover:text-slate-300">Home</a><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+<span class="text-slate-700 dark:text-slate-200 font-medium">FAQ</span>
+</nav>
+<div class="mb-6 fade-up">
+<h1 class="text-2xl font-bold text-slate-900 dark:text-white mb-1">FAQ</h1>
+<p class="text-sm text-slate-500 dark:text-slate-400">Frequently asked questions and answers</p>
+</div>
+<div class="max-w-2xl mx-auto mb-8 fade-up"><div class="relative"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" class="absolute left-4 top-1/2 -translate-y-1/2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg><input type="text" class="form-input pl-12 py-3 text-base" placeholder="Search questions..." oninput="searchFaq(this.value)"/></div></div>
+<div class="max-w-2xl mx-auto mb-6 fade-up"><h2 class="text-lg font-semibold text-slate-900 dark:text-white mb-3">Getting Started</h2>
+<div class="faq-item border border-slate-200 dark:border-slate-700 rounded-lg mb-2"><button type="button" class="w-full flex items-center justify-between p-4 text-sm font-medium text-slate-700 dark:text-slate-300 text-left" onclick="toggleFaq(this)">How do I create an account?<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="transition-transform flex-shrink-0"><path d="M6 9l6 6 6-6"/></svg></button><div class="px-4 pb-4 text-sm text-slate-500 dark:text-slate-400" style="display:none">Visit our sign-up page and fill in your details. You will receive a verification email to confirm your account.</div></div>
+<div class="faq-item border border-slate-200 dark:border-slate-700 rounded-lg mb-2"><button type="button" class="w-full flex items-center justify-between p-4 text-sm font-medium text-slate-700 dark:text-slate-300 text-left" onclick="toggleFaq(this)">What are the system requirements?<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="transition-transform flex-shrink-0"><path d="M6 9l6 6 6-6"/></svg></button><div class="px-4 pb-4 text-sm text-slate-500 dark:text-slate-400" style="display:none">Our platform works in all modern browsers (Chrome, Firefox, Safari, Edge). No installation required.</div></div>
+<div class="faq-item border border-slate-200 dark:border-slate-700 rounded-lg mb-2"><button type="button" class="w-full flex items-center justify-between p-4 text-sm font-medium text-slate-700 dark:text-slate-300 text-left" onclick="toggleFaq(this)">How do I set up my profile?<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="transition-transform flex-shrink-0"><path d="M6 9l6 6 6-6"/></svg></button><div class="px-4 pb-4 text-sm text-slate-500 dark:text-slate-400" style="display:none">After signing in, go to Settings &gt; Profile to update your personal information, avatar, and preferences.</div></div>
+</div>
+<div class="max-w-2xl mx-auto mb-6 fade-up"><h2 class="text-lg font-semibold text-slate-900 dark:text-white mb-3">Billing &amp; Plans</h2>
+<div class="faq-item border border-slate-200 dark:border-slate-700 rounded-lg mb-2"><button type="button" class="w-full flex items-center justify-between p-4 text-sm font-medium text-slate-700 dark:text-slate-300 text-left" onclick="toggleFaq(this)">What payment methods do you accept?<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="transition-transform flex-shrink-0"><path d="M6 9l6 6 6-6"/></svg></button><div class="px-4 pb-4 text-sm text-slate-500 dark:text-slate-400" style="display:none">We accept all major credit cards (Visa, Mastercard, Amex), PayPal, and bank transfers for annual plans.</div></div>
+<div class="faq-item border border-slate-200 dark:border-slate-700 rounded-lg mb-2"><button type="button" class="w-full flex items-center justify-between p-4 text-sm font-medium text-slate-700 dark:text-slate-300 text-left" onclick="toggleFaq(this)">Can I change my plan anytime?<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="transition-transform flex-shrink-0"><path d="M6 9l6 6 6-6"/></svg></button><div class="px-4 pb-4 text-sm text-slate-500 dark:text-slate-400" style="display:none">Yes, you can upgrade or downgrade your plan at any time. Changes take effect at the next billing cycle.</div></div>
+<div class="faq-item border border-slate-200 dark:border-slate-700 rounded-lg mb-2"><button type="button" class="w-full flex items-center justify-between p-4 text-sm font-medium text-slate-700 dark:text-slate-300 text-left" onclick="toggleFaq(this)">Do you offer refunds?<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="transition-transform flex-shrink-0"><path d="M6 9l6 6 6-6"/></svg></button><div class="px-4 pb-4 text-sm text-slate-500 dark:text-slate-400" style="display:none">We offer a 30-day money-back guarantee on all paid plans. Contact support for assistance.</div></div>
+</div>
+<div class="max-w-2xl mx-auto mb-6 fade-up"><h2 class="text-lg font-semibold text-slate-900 dark:text-white mb-3">Features &amp; Usage</h2>
+<div class="faq-item border border-slate-200 dark:border-slate-700 rounded-lg mb-2"><button type="button" class="w-full flex items-center justify-between p-4 text-sm font-medium text-slate-700 dark:text-slate-300 text-left" onclick="toggleFaq(this)">How many users can I add?<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="transition-transform flex-shrink-0"><path d="M6 9l6 6 6-6"/></svg></button><div class="px-4 pb-4 text-sm text-slate-500 dark:text-slate-400" style="display:none">The number of users depends on your plan: Starter (1), Professional (10), Enterprise (unlimited).</div></div>
+<div class="faq-item border border-slate-200 dark:border-slate-700 rounded-lg mb-2"><button type="button" class="w-full flex items-center justify-between p-4 text-sm font-medium text-slate-700 dark:text-slate-300 text-left" onclick="toggleFaq(this)">Can I export my data?<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="transition-transform flex-shrink-0"><path d="M6 9l6 6 6-6"/></svg></button><div class="px-4 pb-4 text-sm text-slate-500 dark:text-slate-400" style="display:none">Yes, you can export all your data in CSV, JSON, or PDF format from Settings &gt; Data Export.</div></div>
+<div class="faq-item border border-slate-200 dark:border-slate-700 rounded-lg mb-2"><button type="button" class="w-full flex items-center justify-between p-4 text-sm font-medium text-slate-700 dark:text-slate-300 text-left" onclick="toggleFaq(this)">Is there an API available?<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="transition-transform flex-shrink-0"><path d="M6 9l6 6 6-6"/></svg></button><div class="px-4 pb-4 text-sm text-slate-500 dark:text-slate-400" style="display:none">Yes, our REST API is available on Professional and Enterprise plans with comprehensive documentation.</div></div>
+</div>
+<div class="max-w-2xl mx-auto mb-6 fade-up"><h2 class="text-lg font-semibold text-slate-900 dark:text-white mb-3">Security &amp; Privacy</h2>
+<div class="faq-item border border-slate-200 dark:border-slate-700 rounded-lg mb-2"><button type="button" class="w-full flex items-center justify-between p-4 text-sm font-medium text-slate-700 dark:text-slate-300 text-left" onclick="toggleFaq(this)">Is my data encrypted?<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="transition-transform flex-shrink-0"><path d="M6 9l6 6 6-6"/></svg></button><div class="px-4 pb-4 text-sm text-slate-500 dark:text-slate-400" style="display:none">Yes, all data is encrypted at rest (AES-256) and in transit (TLS 1.3). We follow industry best practices.</div></div>
+<div class="faq-item border border-slate-200 dark:border-slate-700 rounded-lg mb-2"><button type="button" class="w-full flex items-center justify-between p-4 text-sm font-medium text-slate-700 dark:text-slate-300 text-left" onclick="toggleFaq(this)">Do you support 2FA?<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="transition-transform flex-shrink-0"><path d="M6 9l6 6 6-6"/></svg></button><div class="px-4 pb-4 text-sm text-slate-500 dark:text-slate-400" style="display:none">Yes, we support TOTP-based two-factor authentication via apps like Google Authenticator or Authy.</div></div>
+<div class="faq-item border border-slate-200 dark:border-slate-700 rounded-lg mb-2"><button type="button" class="w-full flex items-center justify-between p-4 text-sm font-medium text-slate-700 dark:text-slate-300 text-left" onclick="toggleFaq(this)">Where is my data stored?<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="transition-transform flex-shrink-0"><path d="M6 9l6 6 6-6"/></svg></button><div class="px-4 pb-4 text-sm text-slate-500 dark:text-slate-400" style="display:none">Data is stored in SOC 2 Type II certified data centers in the US and EU. You can choose your region.</div></div>
+</div>
+<div class="max-w-2xl mx-auto mt-8 text-center fade-up"><p class="text-sm text-slate-400 mb-3">Still have questions?</p><button type="button" class="px-5 py-2.5 bg-indigo-500 text-white text-sm font-medium rounded-lg hover:bg-indigo-600 transition-colors" onclick="showToast('Contact support dialog','info')">Contact Support</button></div>
+</main>
+</div>
 </div>
 <script src="common-loader.js"></script>
 <script src="common-sidebar.js"></script>
 <script src="common-header.js"></script>
 <script src="app-shell.js"></script>
+<script>
+
+function toggleFaq(btn){
+  var content=btn.nextElementSibling;
+  var icon=btn.querySelector('svg');
+  content.style.display=content.style.display==='none'?'block':'none';
+  icon.style.transform=content.style.display==='block'?'rotate(180deg)':'';
+}
+function searchFaq(q){
+  q=q.toLowerCase();
+  document.querySelectorAll('.faq-item').forEach(function(item){
+    item.style.display=item.textContent.toLowerCase().indexOf(q)>=0?'':'none';
+  });
+}
+
+</script>
 </body>
 </html>

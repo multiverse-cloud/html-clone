@@ -1,88 +1,192 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#465fff" />
-  <meta name="description" content="Tabs and segmented tab surfaces for dashboards and settings." />
-  <title>Tabs - mtverse</title>
-  <style>
-    .no-scrollbar::-webkit-scrollbar { display: none; }
-    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-    @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
-    .animate-slideDown { animation: slideDown 0.2s ease-out; }
-  </style>
-  <link rel="stylesheet" href="tailwind-production.css">
-  <link rel="stylesheet" href="pro-styles.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tabs — UI Elements</title>
+<style>::-webkit-scrollbar{width:6px;height:6px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:3px}::-webkit-scrollbar-thumb:hover{background:#94a3b8}@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}</style>
+<link rel="stylesheet" href="tailwind-production.css">
+<link rel="stylesheet" href="pro-styles.css">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+.component-item{border:1px solid #e5e7eb;border-radius:.75rem;overflow:hidden;background:#fff;transition:box-shadow .2s,border-color .2s}.component-item:hover{box-shadow:0 4px 12px rgba(0,0,0,.08);border-color:#cbd5e1}
+.dark .component-item{border-color:#374151;background:#1f2937}.dark .component-item:hover{border-color:#4b5563;box-shadow:0 4px 12px rgba(0,0,0,.3)}
+.component-item-header{padding:1rem 1.25rem;border-bottom:1px solid #f3f4f6;display:flex;align-items:center;justify-content:space-between}.dark .component-item-header{border-color:#374151}
+.component-item-preview{padding:1.5rem;display:flex;flex-wrap:wrap;gap:.75rem;align-items:flex-start;min-height:80px}
+.component-item-actions{padding:.75rem 1.25rem;border-top:1px solid #f3f4f6;display:flex;gap:.5rem}.dark .component-item-actions{border-color:#374151}
+.modal-backdrop-demo{position:relative;background:#f9fafb;border-radius:.5rem;padding:2rem;display:flex;align-items:center;justify-content:center;min-height:220px;overflow:hidden}.dark .modal-backdrop-demo{background:#111827}
+.modal-demo{background:#fff;border-radius:.75rem;box-shadow:0 20px 60px rgba(0,0,0,.15);max-width:420px;width:100%;overflow:hidden}.dark .modal-demo{background:#1f2937;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+.tab-demo{border-bottom:2px solid #e5e7eb;display:flex;gap:0}.tab-demo button{padding:.625rem 1.25rem;font-size:.875rem;font-weight:500;color:#6b7280;border-bottom:2px solid transparent;margin-bottom:-2px;transition:color .2s,border-color .2s;cursor:pointer;background:none}.tab-demo button:hover{color:#374151}.tab-demo button.active{color:#2563eb;border-bottom-color:#2563eb}.dark .tab-demo{border-color:#374151}.dark .tab-demo button{color:#9ca3af}.dark .tab-demo button:hover{color:#d1d5db}.dark .tab-demo button.active{color:#60a5fa;border-bottom-color:#60a5fa}
+.progress-bar-demo{height:8px;background:#e5e7eb;border-radius:9999px;overflow:hidden}.progress-bar-demo .fill{height:100%;border-radius:9999px;transition:width .6s ease}.dark .progress-bar-demo{background:#374151}
+.avatar-ring{box-shadow:0 0 0 3px #fff,0 0 0 5px #3b82f6}.dark .avatar-ring{box-shadow:0 0 0 3px #1f2937,0 0 0 5px #3b82f6}
+.badge-dot{position:relative}.badge-dot::after{content:'';position:absolute;top:-2px;right:-2px;width:8px;height:8px;background:#ef4444;border:2px solid #fff;border-radius:50%}.dark .badge-dot::after{border-color:#1f2937}
+
+</style>
 </head>
 <body class="bg-gray-50 text-gray-800 font-sans dark:bg-gray-900 dark:text-gray-100">
-<div id="sidebar-overlay" class="fixed inset-0 bg-black/40 z-40 hidden lg:hidden" onclick="toggleSidebar()"></div>
+<div id="sidebar-overlay" class="fixed inset-0 bg-black/40 z-40 hidden lg:hidden" onclick="window.toggleSidebar&&toggleSidebar()"></div>
 <div class="flex h-screen overflow-hidden">
-  <div id="sidebar-container"></div>
-  <div class="flex-1 flex flex-col overflow-hidden">
-    <div id="header-container"></div>
-    <main class="flex-1 overflow-y-auto overflow-x-hidden px-4 md:px-6 2xl:px-10 py-6" tabindex="-1">
-      <div class="mx-auto w-full max-w-screen-2xl">
-        <div class="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-          <div>
-            <div class="mb-2 flex items-center gap-2 text-sm text-gray-500">
-              <span>mtverse</span><span>/</span><span>ui-elements</span><span>/</span>
-              <span class="font-medium text-gray-800 dark:text-white/90">Tabs</span>
-            </div>
-            <h1 class="text-2xl font-bold text-gray-900 dark:text-white/90">Tabs</h1>
-            <p class="mt-1 max-w-2xl text-sm text-gray-500 dark:text-gray-400">Tabs and segmented tab surfaces for dashboards and settings.</p>
-          </div>
-          <div class="flex flex-wrap gap-2">
-            <button type="button" class="rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 dark:border-gray-800 dark:bg-white/[0.03] dark:text-gray-300">Preview</button>
-            <button type="button" class="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700">Use Component</button>
-          </div>
-        </div>
-
-        <div class="grid grid-cols-1 gap-5 md:grid-cols-3">
-          <div class="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03]">
-            <p class="text-sm text-gray-500">Components</p><p class="mt-2 text-3xl font-bold text-gray-900 dark:text-white">24</p>
-          </div>
-          <div class="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03]">
-            <p class="text-sm text-gray-500">States</p><p class="mt-2 text-3xl font-bold text-gray-900 dark:text-white">96</p>
-          </div>
-          <div class="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03]">
-            <p class="text-sm text-gray-500">Responsive</p><p class="mt-2 text-3xl font-bold text-green-600">Ready</p>
-          </div>
-        </div>
-        <div class="mt-5 grid grid-cols-1 gap-5 xl:grid-cols-2">
-
-          <section class="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03]">
-            <h2 class="text-lg font-semibold text-gray-900 dark:text-white/90">Tabs surface</h2>
-            <div class="mt-5"><div class="rounded-xl border border-gray-200 p-2 dark:border-gray-800"><div class="flex gap-2 rounded-lg bg-gray-100 p-1 dark:bg-white/[0.04]"><button class="flex-1 rounded-lg px-4 py-2 text-sm font-semibold bg-white text-blue-600 shadow-sm dark:bg-gray-900">Overview</button><button class="flex-1 rounded-lg px-4 py-2 text-sm font-semibold text-gray-500">Activity</button><button class="flex-1 rounded-lg px-4 py-2 text-sm font-semibold text-gray-500">Settings</button></div><div class="p-5 text-sm text-gray-500">Tab panel content with production spacing.</div></div></div>
-          </section>
-
-          <section class="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] xl:col-span-2">
-            <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-              <div>
-                <h2 class="text-lg font-semibold text-gray-900 dark:text-white/90">Tabs production states</h2>
-                <p class="mt-1 text-sm text-gray-500">Real dashboard states with actions, accessibility, responsive layout, and clean spacing.</p>
-              </div>
-              <div class="inline-flex rounded-xl bg-gray-100 p-1 dark:bg-white/[0.04]">
-                <button class="rounded-lg bg-white px-4 py-2 text-sm font-bold text-blue-600 shadow-sm dark:bg-gray-900">Preview</button>
-                <button class="rounded-lg px-4 py-2 text-sm font-bold text-gray-500">Code</button>
-                <button class="rounded-lg px-4 py-2 text-sm font-bold text-gray-500">States</button>
-              </div>
-            </div>
-            <div class="mt-5 grid gap-4 md:grid-cols-3">
-              <div class="rounded-xl border border-gray-200 p-4 dark:border-gray-800"><div class="mb-4 flex items-center justify-between"><p class="font-bold">Default</p><span class="h-2.5 w-2.5 rounded-full bg-green-500"></span></div><div class="space-y-2"><div class="h-3 rounded bg-gray-100 dark:bg-white/[0.06]"></div><div class="h-3 w-3/4 rounded bg-gray-100 dark:bg-white/[0.06]"></div><button type="button" class="mt-3 rounded-lg bg-blue-600 px-3 py-2 text-xs font-bold text-white">Action</button></div></div><div class="rounded-xl border border-gray-200 p-4 dark:border-gray-800"><div class="mb-4 flex items-center justify-between"><p class="font-bold">Hover / active</p><span class="h-2.5 w-2.5 rounded-full bg-green-500"></span></div><div class="space-y-2"><div class="h-3 rounded bg-gray-100 dark:bg-white/[0.06]"></div><div class="h-3 w-3/4 rounded bg-gray-100 dark:bg-white/[0.06]"></div><button type="button" class="mt-3 rounded-lg bg-blue-600 px-3 py-2 text-xs font-bold text-white">Action</button></div></div><div class="rounded-xl border border-gray-200 p-4 dark:border-gray-800"><div class="mb-4 flex items-center justify-between"><p class="font-bold">Loading / empty</p><span class="h-2.5 w-2.5 rounded-full bg-yellow-400"></span></div><div class="space-y-2"><div class="h-3 rounded bg-gray-100 dark:bg-white/[0.06]"></div><div class="h-3 w-3/4 rounded bg-gray-100 dark:bg-white/[0.06]"></div><button type="button" class="mt-3 rounded-lg bg-blue-600 px-3 py-2 text-xs font-bold text-white">Action</button></div></div>
-            </div>
-          </section>
-        </div>
-      </div>
-    </main>
-  </div>
+<div id="sidebar-container"></div>
+<div class="flex-1 flex flex-col overflow-hidden">
+<div id="header-container"></div>
+<main class="flex-1 overflow-y-auto overflow-x-hidden px-4 md:px-6 2xl:px-10 py-6" tabindex="-1">
+<div class="mx-auto w-full max-w-screen-2xl"><div class="mb-6">
+<nav class="text-sm text-gray-500 dark:text-gray-400 mb-2" aria-label="Breadcrumb"><ol class="flex items-center gap-1.5"><li><a href="01-main-dashboard.html" class="hover:text-blue-600">Home</a></li><li class="before:content-['/'] before:mx-1.5 before:text-gray-300 dark:before:text-gray-600">UI Elements</li><li class="before:content-['/'] before:mx-1.5 before:text-gray-300 dark:before:text-gray-600 font-medium text-gray-800 dark:text-gray-200">Tabs</li></ol></nav>
+<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+<div><h1 class="text-2xl font-bold text-gray-900 dark:text-white">Tabs</h1><p class="text-gray-500 dark:text-gray-400 mt-1">12 tab variants with live preview and source code</p></div>
+<div class="flex gap-2"><div class="relative"><input type="text" id="componentSearch" placeholder="Search tabs…" class="pl-9 pr-4 py-2 text-sm border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-56" oninput="initComponentSearch(this.value)"><svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg></div></div>
+</div>
+</div>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6"><div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 p-5">
+<div class="flex items-center justify-between mb-3"><span class="text-sm font-medium text-gray-500 dark:text-gray-400">Variants</span><span class="w-8 h-8 rounded-lg bg-blue-50 dark:bg-blue-900/30 flex items-center justify-center"><svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7"/></svg></span></div>
+<p class="text-2xl font-bold text-gray-900 dark:text-white" data-counter="12">0</p><p class="text-xs text-green-600 font-medium mt-1">5 categories</p>
+</div><div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 p-5">
+<div class="flex items-center justify-between mb-3"><span class="text-sm font-medium text-gray-500 dark:text-gray-400">States</span><span class="w-8 h-8 rounded-lg bg-emerald-50 dark:bg-emerald-900/30 flex items-center justify-center"><svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></span></div>
+<p class="text-2xl font-bold text-gray-900 dark:text-white" data-counter="36">0</p><p class="text-xs text-green-600 font-medium mt-1">active/hover/disabled</p>
+</div><div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 p-5">
+<div class="flex items-center justify-between mb-3"><span class="text-sm font-medium text-gray-500 dark:text-gray-400">Layouts</span><span class="w-8 h-8 rounded-lg bg-violet-50 dark:bg-violet-900/30 flex items-center justify-center"><svg class="w-4 h-4 text-violet-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"/></svg></span></div>
+<p class="text-2xl font-bold text-gray-900 dark:text-white" data-counter="4">0</p><p class="text-xs text-green-600 font-medium mt-1">horizontal/vertical</p>
+</div><div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 p-5">
+<div class="flex items-center justify-between mb-3"><span class="text-sm font-medium text-gray-500 dark:text-gray-400">Responsive</span><span class="w-8 h-8 rounded-lg bg-amber-50 dark:bg-amber-900/30 flex items-center justify-center"><svg class="w-4 h-4 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg></span></div>
+<p class="text-2xl font-bold text-gray-900 dark:text-white" >100%</p><p class="text-xs text-green-600 font-medium mt-1">Mobile ready</p>
+</div></div><div class="flex flex-wrap gap-2 mb-6" id="categoryFilter"><button class="px-3 py-1.5 text-sm font-medium rounded-lg bg-blue-600 text-white shadow-sm" data-category="all" onclick="initCategoryFilter('all',this)">All</button><button class="px-3 py-1.5 text-sm font-medium rounded-lg bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700" data-category="basic" onclick="initCategoryFilter('basic',this)">Basic</button><button class="px-3 py-1.5 text-sm font-medium rounded-lg bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700" data-category="style" onclick="initCategoryFilter('style',this)">Style</button><button class="px-3 py-1.5 text-sm font-medium rounded-lg bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700" data-category="layout" onclick="initCategoryFilter('layout',this)">Layout</button><button class="px-3 py-1.5 text-sm font-medium rounded-lg bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700" data-category="data" onclick="initCategoryFilter('data',this)">Data</button></div><div class="grid grid-cols-1 lg:grid-cols-2 gap-6" id="componentGrid"><div class="component-item" data-category="basic" data-title="Basic Tabs">
+<div class="component-item-header"><div><h3 class="font-semibold text-gray-900 dark:text-white">Basic Tabs</h3><p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Standard horizontal tab navigation</p></div><span class="text-[10px] font-medium px-2 py-0.5 rounded-full bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300">Basic</span></div>
+<div class="component-item-preview" data-source-id="basic-tabs" data-source-code="&lt;div class=&quot;tabs&quot;&gt;
+  &lt;div class=&quot;tab-nav border-b&quot;&gt;
+    &lt;button class=&quot;active&quot;&gt;Overview&lt;/button&gt;
+    &lt;button&gt;Analytics&lt;/button&gt;
+    &lt;button&gt;Settings&lt;/button&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;tab-content p-4&quot;&gt;
+    &lt;p&gt;Tab content goes here&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;"><div class="w-full"><div class="tab-demo"><button class="active">Overview</button><button>Analytics</button><button>Settings</button></div><div class="p-4 bg-white dark:bg-gray-800 border border-t-0 border-gray-200 dark:border-gray-700 rounded-b-lg"><p class="text-sm text-gray-600 dark:text-gray-300">This is the <strong>Overview</strong> tab content. Click any tab to switch between different content sections.</p></div></div></div>
+<div class="component-item-actions"><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="openSourceViewer(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>View Source</button><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="copySourceCode(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>Copy</button></div>
+</div>
+<div class="component-item" data-category="style" data-title="Pill Tabs">
+<div class="component-item-header"><div><h3 class="font-semibold text-gray-900 dark:text-white">Pill Tabs</h3><p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Rounded pill-style tab indicators</p></div><span class="text-[10px] font-medium px-2 py-0.5 rounded-full bg-violet-50 dark:bg-violet-900/30 text-violet-700 dark:text-violet-300">Style</span></div>
+<div class="component-item-preview" data-source-id="pill-tabs" data-source-code="&lt;div class=&quot;inline-flex p-1 bg-gray-100 rounded-lg&quot;&gt;
+  &lt;button class=&quot;px-4 py-1.5 text-sm font-medium bg-blue-600 text-white rounded-md&quot;&gt;All&lt;/button&gt;
+  &lt;button class=&quot;px-4 py-1.5 text-sm text-gray-600 rounded-md&quot;&gt;Active&lt;/button&gt;
+  &lt;button class=&quot;px-4 py-1.5 text-sm text-gray-600 rounded-md&quot;&gt;Completed&lt;/button&gt;
+&lt;/div&gt;"><div class="w-full"><div class="inline-flex p-1 bg-gray-100 dark:bg-gray-800 rounded-lg"><button class="px-4 py-1.5 text-sm font-medium text-white bg-blue-600 rounded-md shadow-sm">All</button><button class="px-4 py-1.5 text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 rounded-md">Active</button><button class="px-4 py-1.5 text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 rounded-md">Completed</button><button class="px-4 py-1.5 text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 rounded-md">Archived</button></div></div></div>
+<div class="component-item-actions"><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="openSourceViewer(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>View Source</button><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="copySourceCode(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>Copy</button></div>
+</div>
+<div class="component-item" data-category="layout" data-title="Vertical Tabs">
+<div class="component-item-header"><div><h3 class="font-semibold text-gray-900 dark:text-white">Vertical Tabs</h3><p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Side navigation tab layout</p></div><span class="text-[10px] font-medium px-2 py-0.5 rounded-full bg-indigo-50 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300">Layout</span></div>
+<div class="component-item-preview" data-source-id="vertical-tabs" data-source-code="&lt;div class=&quot;flex gap-4&quot;&gt;
+  &lt;div class=&quot;w-44 space-y-1&quot;&gt;
+    &lt;button class=&quot;w-full px-3 py-2 text-sm active&quot;&gt;General&lt;/button&gt;
+    &lt;button class=&quot;w-full px-3 py-2 text-sm&quot;&gt;Security&lt;/button&gt;
+    &lt;button class=&quot;w-full px-3 py-2 text-sm&quot;&gt;Notifications&lt;/button&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;flex-1 p-4 border rounded-lg&quot;&gt;
+    Content area
+  &lt;/div&gt;
+&lt;/div&gt;"><div class="w-full flex gap-4"><div class="w-44 flex-shrink-0 space-y-1"><button class="w-full px-3 py-2 text-sm font-medium text-blue-600 bg-blue-50 dark:bg-blue-900/20 dark:text-blue-400 rounded-lg text-left">General</button><button class="w-full px-3 py-2 text-sm font-medium text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700/50 rounded-lg text-left">Security</button><button class="w-full px-3 py-2 text-sm font-medium text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700/50 rounded-lg text-left">Notifications</button><button class="w-full px-3 py-2 text-sm font-medium text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700/50 rounded-lg text-left">Billing</button><button class="w-full px-3 py-2 text-sm font-medium text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700/50 rounded-lg text-left">API</button></div><div class="flex-1 p-4 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg"><h4 class="font-semibold text-gray-900 dark:text-white mb-2">General Settings</h4><p class="text-sm text-gray-500 dark:text-gray-400">Manage your account general settings and preferences here.</p></div></div></div>
+<div class="component-item-actions"><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="openSourceViewer(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>View Source</button><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="copySourceCode(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>Copy</button></div>
+</div>
+<div class="component-item" data-category="style" data-title="Icon Tabs">
+<div class="component-item-header"><div><h3 class="font-semibold text-gray-900 dark:text-white">Icon Tabs</h3><p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Tabs with icons alongside labels</p></div><span class="text-[10px] font-medium px-2 py-0.5 rounded-full bg-violet-50 dark:bg-violet-900/30 text-violet-700 dark:text-violet-300">Style</span></div>
+<div class="component-item-preview" data-source-id="icon-tabs" data-source-code="&lt;div class=&quot;tab-nav border-b&quot;&gt;
+  &lt;button class=&quot;flex items-center gap-1.5&quot;&gt;&lt;svg&gt;🏠&lt;/svg&gt;Home&lt;/button&gt;
+  &lt;button class=&quot;flex items-center gap-1.5&quot;&gt;&lt;svg&gt;👤&lt;/svg&gt;Profile&lt;/button&gt;
+  &lt;button class=&quot;flex items-center gap-1.5&quot;&gt;&lt;svg&gt;⚙️&lt;/svg&gt;Settings&lt;/button&gt;
+&lt;/div&gt;"><div class="w-full"><div class="tab-demo"><button class="active flex items-center gap-1.5"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0h4"/></svg>Home</button><button class="flex items-center gap-1.5"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>Profile</button><button class="flex items-center gap-1.5"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>Settings</button></div></div></div>
+<div class="component-item-actions"><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="openSourceViewer(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>View Source</button><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="copySourceCode(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>Copy</button></div>
+</div>
+<div class="component-item" data-category="style" data-title="Underline Tabs">
+<div class="component-item-header"><div><h3 class="font-semibold text-gray-900 dark:text-white">Underline Tabs</h3><p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Minimal underline indicator style</p></div><span class="text-[10px] font-medium px-2 py-0.5 rounded-full bg-violet-50 dark:bg-violet-900/30 text-violet-700 dark:text-violet-300">Style</span></div>
+<div class="component-item-preview" data-source-id="underline-tabs" data-source-code="&lt;div class=&quot;flex gap-6 border-b&quot;&gt;
+  &lt;button class=&quot;pb-3 text-sm font-medium text-blue-600 border-b-2 border-blue-600 -mb-px&quot;&gt;Recent&lt;/button&gt;
+  &lt;button class=&quot;pb-3 text-sm text-gray-500 -mb-px&quot;&gt;Popular&lt;/button&gt;
+  &lt;button class=&quot;pb-3 text-sm text-gray-500 -mb-px&quot;&gt;Trending&lt;/button&gt;
+&lt;/div&gt;"><div class="w-full"><div class="flex gap-6 border-b border-gray-200 dark:border-gray-700"><button class="pb-3 text-sm font-medium text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400 -mb-px">Recent</button><button class="pb-3 text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 -mb-px">Popular</button><button class="pb-3 text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 -mb-px">Trending</button></div></div></div>
+<div class="component-item-actions"><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="openSourceViewer(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>View Source</button><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="copySourceCode(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>Copy</button></div>
+</div>
+<div class="component-item" data-category="data" data-title="Tab with Badge Count">
+<div class="component-item-header"><div><h3 class="font-semibold text-gray-900 dark:text-white">Tab with Badge Count</h3><p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Tabs showing item counts in badges</p></div><span class="text-[10px] font-medium px-2 py-0.5 rounded-full bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-300">Data</span></div>
+<div class="component-item-preview" data-source-id="tab-with-badge-count" data-source-code="&lt;div class=&quot;tab-nav border-b&quot;&gt;
+  &lt;button class=&quot;active&quot;&gt;All &lt;span class=&quot;badge&quot;&gt;24&lt;/span&gt;&lt;/button&gt;
+  &lt;button&gt;Active &lt;span class=&quot;badge green&quot;&gt;12&lt;/span&gt;&lt;/button&gt;
+  &lt;button&gt;Pending &lt;span class=&quot;badge amber&quot;&gt;5&lt;/span&gt;&lt;/button&gt;
+  &lt;button&gt;Closed &lt;span class=&quot;badge gray&quot;&gt;7&lt;/span&gt;&lt;/button&gt;
+&lt;/div&gt;"><div class="w-full"><div class="tab-demo"><button class="active flex items-center gap-1.5">All <span class="px-1.5 py-0.5 text-[10px] font-bold bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full">24</span></button><button class="flex items-center gap-1.5">Active <span class="px-1.5 py-0.5 text-[10px] font-bold bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 rounded-full">12</span></button><button class="flex items-center gap-1.5">Pending <span class="px-1.5 py-0.5 text-[10px] font-bold bg-amber-100 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400 rounded-full">5</span></button><button class="flex items-center gap-1.5">Closed <span class="px-1.5 py-0.5 text-[10px] font-bold bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 rounded-full">7</span></button></div></div></div>
+<div class="component-item-actions"><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="openSourceViewer(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>View Source</button><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="copySourceCode(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>Copy</button></div>
+</div>
+<div class="component-item" data-category="layout" data-title="Centered Tabs">
+<div class="component-item-header"><div><h3 class="font-semibold text-gray-900 dark:text-white">Centered Tabs</h3><p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Center-aligned tab navigation</p></div><span class="text-[10px] font-medium px-2 py-0.5 rounded-full bg-indigo-50 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300">Layout</span></div>
+<div class="component-item-preview" data-source-id="centered-tabs" data-source-code="&lt;div class=&quot;tab-nav border-b flex justify-center&quot;&gt;
+  &lt;button&gt;Photos&lt;/button&gt;
+  &lt;button class=&quot;active&quot;&gt;Videos&lt;/button&gt;
+  &lt;button&gt;Documents&lt;/button&gt;
+&lt;/div&gt;"><div class="w-full"><div class="tab-demo justify-center"><button>Photos</button><button class="active">Videos</button><button>Documents</button></div></div></div>
+<div class="component-item-actions"><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="openSourceViewer(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>View Source</button><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="copySourceCode(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>Copy</button></div>
+</div>
+<div class="component-item" data-category="layout" data-title="Card Tabs">
+<div class="component-item-header"><div><h3 class="font-semibold text-gray-900 dark:text-white">Card Tabs</h3><p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Tab navigation within card containers</p></div><span class="text-[10px] font-medium px-2 py-0.5 rounded-full bg-indigo-50 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300">Layout</span></div>
+<div class="component-item-preview" data-source-id="card-tabs" data-source-code="&lt;div class=&quot;card border rounded-xl&quot;&gt;
+  &lt;div class=&quot;px-5 py-4 border-b flex justify-between&quot;&gt;
+    &lt;h3&gt;Performance&lt;/h3&gt;
+    &lt;div class=&quot;tabs&quot;&gt;
+      &lt;button class=&quot;active&quot;&gt;Weekly&lt;/button&gt;
+      &lt;button&gt;Monthly&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;p-5&quot;&gt;Content&lt;/div&gt;
+&lt;/div&gt;"><div class="w-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden"><div class="px-5 py-4 border-b border-gray-100 dark:border-gray-700 flex items-center justify-between"><h3 class="font-semibold text-gray-900 dark:text-white">Performance</h3><div class="tab-demo border-0"><button class="active">Weekly</button><button>Monthly</button><button>Yearly</button></div></div><div class="p-5"><div class="grid grid-cols-3 gap-4 text-center"><div><p class="text-2xl font-bold text-gray-900 dark:text-white">2,847</p><p class="text-xs text-gray-500 dark:text-gray-400">Visitors</p></div><div><p class="text-2xl font-bold text-gray-900 dark:text-white">$12.4k</p><p class="text-xs text-gray-500 dark:text-gray-400">Revenue</p></div><div><p class="text-2xl font-bold text-gray-900 dark:text-white">3.2%</p><p class="text-xs text-gray-500 dark:text-gray-400">Conv. Rate</p></div></div></div></div></div>
+<div class="component-item-actions"><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="openSourceViewer(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>View Source</button><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="copySourceCode(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>Copy</button></div>
+</div>
+<div class="component-item" data-category="style" data-title="Segmented Control Tabs">
+<div class="component-item-header"><div><h3 class="font-semibold text-gray-900 dark:text-white">Segmented Control Tabs</h3><p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">iOS-style segmented tab control</p></div><span class="text-[10px] font-medium px-2 py-0.5 rounded-full bg-violet-50 dark:bg-violet-900/30 text-violet-700 dark:text-violet-300">Style</span></div>
+<div class="component-item-preview" data-source-id="segmented-control-tabs" data-source-code="&lt;div class=&quot;inline-flex p-1 bg-gray-100 rounded-full&quot;&gt;
+  &lt;button class=&quot;px-5 py-1.5 text-sm rounded-full&quot;&gt;Day&lt;/button&gt;
+  &lt;button class=&quot;px-5 py-1.5 text-sm bg-gray-800 text-white rounded-full shadow-sm&quot;&gt;Week&lt;/button&gt;
+  &lt;button class=&quot;px-5 py-1.5 text-sm rounded-full&quot;&gt;Month&lt;/button&gt;
+&lt;/div&gt;"><div class="w-full"><div class="inline-flex p-1 bg-gray-100 dark:bg-gray-800 rounded-full"><button class="px-5 py-1.5 text-sm font-medium text-gray-500 dark:text-gray-400 rounded-full">Day</button><button class="px-5 py-1.5 text-sm font-medium text-white bg-gray-800 dark:bg-gray-600 rounded-full shadow-sm">Week</button><button class="px-5 py-1.5 text-sm font-medium text-gray-500 dark:text-gray-400 rounded-full">Month</button><button class="px-5 py-1.5 text-sm font-medium text-gray-500 dark:text-gray-400 rounded-full">Year</button></div></div></div>
+<div class="component-item-actions"><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="openSourceViewer(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>View Source</button><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="copySourceCode(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>Copy</button></div>
+</div>
+<div class="component-item" data-category="style" data-title="Icon-Only Tabs">
+<div class="component-item-header"><div><h3 class="font-semibold text-gray-900 dark:text-white">Icon-Only Tabs</h3><p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Compact tabs using only icons</p></div><span class="text-[10px] font-medium px-2 py-0.5 rounded-full bg-violet-50 dark:bg-violet-900/30 text-violet-700 dark:text-violet-300">Style</span></div>
+<div class="component-item-preview" data-source-id="icon-only-tabs" data-source-code="&lt;div class=&quot;inline-flex p-1 bg-gray-100 rounded-lg gap-1&quot;&gt;
+  &lt;button class=&quot;p-2 rounded-md bg-white shadow-sm&quot; title=&quot;Grid&quot;&gt;▦&lt;/button&gt;
+  &lt;button class=&quot;p-2 rounded-md&quot; title=&quot;List&quot;&gt;☰&lt;/button&gt;
+  &lt;button class=&quot;p-2 rounded-md&quot; title=&quot;Map&quot;&gt;🗺&lt;/button&gt;
+&lt;/div&gt;"><div class="w-full"><div class="inline-flex p-1 bg-gray-100 dark:bg-gray-800 rounded-lg gap-1"><button class="p-2 rounded-md text-blue-600 dark:text-blue-400 bg-white dark:bg-gray-700 shadow-sm" title="Grid"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg></button><button class="p-2 rounded-md text-gray-500 dark:text-gray-400 hover:bg-white dark:hover:bg-gray-700" title="List"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"/></svg></button><button class="p-2 rounded-md text-gray-500 dark:text-gray-400 hover:bg-white dark:hover:bg-gray-700" title="Map"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/></svg></button></div></div></div>
+<div class="component-item-actions"><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="openSourceViewer(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>View Source</button><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="copySourceCode(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>Copy</button></div>
+</div>
+<div class="component-item" data-category="data" data-title="Step Tabs / Wizard">
+<div class="component-item-header"><div><h3 class="font-semibold text-gray-900 dark:text-white">Step Tabs / Wizard</h3><p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Progress step indicators as tab navigation</p></div><span class="text-[10px] font-medium px-2 py-0.5 rounded-full bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-300">Data</span></div>
+<div class="component-item-preview" data-source-id="step-tabs--wizard" data-source-code="&lt;div class=&quot;flex items-center gap-2&quot;&gt;
+  &lt;div class=&quot;step completed&quot;&gt;&lt;span&gt;1&lt;/span&gt;Account&lt;/div&gt;
+  &lt;div class=&quot;step-line active&quot;&gt;&lt;/div&gt;
+  &lt;div class=&quot;step current&quot;&gt;&lt;span&gt;2&lt;/span&gt;Profile&lt;/div&gt;
+  &lt;div class=&quot;step-line&quot;&gt;&lt;/div&gt;
+  &lt;div class=&quot;step&quot;&gt;&lt;span&gt;3&lt;/span&gt;Review&lt;/div&gt;
+  &lt;div class=&quot;step-line&quot;&gt;&lt;/div&gt;
+  &lt;div class=&quot;step&quot;&gt;&lt;span&gt;4&lt;/span&gt;Complete&lt;/div&gt;
+&lt;/div&gt;"><div class="w-full"><div class="flex items-center gap-2"><div class="flex items-center gap-2"><span class="w-7 h-7 rounded-full bg-blue-600 text-white text-xs flex items-center justify-center font-medium">1</span><span class="text-sm font-medium text-blue-600 dark:text-blue-400">Account</span></div><div class="flex-1 h-px bg-blue-600"></div><div class="flex items-center gap-2"><span class="w-7 h-7 rounded-full bg-blue-600 text-white text-xs flex items-center justify-center font-medium">2</span><span class="text-sm font-medium text-blue-600 dark:text-blue-400">Profile</span></div><div class="flex-1 h-px bg-gray-300 dark:bg-gray-600"></div><div class="flex items-center gap-2"><span class="w-7 h-7 rounded-full bg-gray-200 dark:bg-gray-600 text-gray-500 dark:text-gray-400 text-xs flex items-center justify-center font-medium">3</span><span class="text-sm font-medium text-gray-400">Review</span></div><div class="flex-1 h-px bg-gray-300 dark:bg-gray-600"></div><div class="flex items-center gap-2"><span class="w-7 h-7 rounded-full bg-gray-200 dark:bg-gray-600 text-gray-500 dark:text-gray-400 text-xs flex items-center justify-center font-medium">4</span><span class="text-sm font-medium text-gray-400">Complete</span></div></div></div></div>
+<div class="component-item-actions"><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="openSourceViewer(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>View Source</button><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="copySourceCode(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>Copy</button></div>
+</div>
+<div class="component-item" data-category="style" data-title="Bordered / Boxed Tabs">
+<div class="component-item-header"><div><h3 class="font-semibold text-gray-900 dark:text-white">Bordered / Boxed Tabs</h3><p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Tab buttons with border styling</p></div><span class="text-[10px] font-medium px-2 py-0.5 rounded-full bg-violet-50 dark:bg-violet-900/30 text-violet-700 dark:text-violet-300">Style</span></div>
+<div class="component-item-preview" data-source-id="bordered--boxed-tabs" data-source-code="&lt;div class=&quot;flex gap-2&quot;&gt;
+  &lt;button class=&quot;px-4 py-2 text-sm border border-blue-600 bg-blue-600 text-white rounded-lg&quot;&gt;Dashboard&lt;/button&gt;
+  &lt;button class=&quot;px-4 py-2 text-sm border border-gray-200 rounded-lg&quot;&gt;Reports&lt;/button&gt;
+  &lt;button class=&quot;px-4 py-2 text-sm border border-gray-200 rounded-lg&quot;&gt;Analytics&lt;/button&gt;
+&lt;/div&gt;"><div class="w-full"><div class="flex gap-2"><button class="px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-blue-600 rounded-lg">Dashboard</button><button class="px-4 py-2 text-sm font-medium text-gray-600 dark:text-gray-400 border border-gray-200 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700">Reports</button><button class="px-4 py-2 text-sm font-medium text-gray-600 dark:text-gray-400 border border-gray-200 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700">Analytics</button><button class="px-4 py-2 text-sm font-medium text-gray-600 dark:text-gray-400 border border-gray-200 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700">Export</button></div></div></div>
+<div class="component-item-actions"><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="openSourceViewer(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>View Source</button><button class="text-xs font-medium text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 flex items-center gap-1" onclick="copySourceCode(this)"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>Copy</button></div>
+</div></div></div>
+</main>
+</div>
 </div>
 <script src="common-loader.js"></script>
 <script src="common-sidebar.js"></script>
 <script src="common-header.js"></script>
 <script src="app-shell.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){document.querySelectorAll('[data-counter]').forEach(function(el){var target=parseInt(el.dataset.counter);var duration=1200;var start=0;var startTime=null;function step(ts){if(!startTime)startTime=ts;var p=Math.min((ts-startTime)/duration,1);el.textContent=Math.floor(p*target);if(p<1)requestAnimationFrame(step);else el.textContent=target;}requestAnimationFrame(step);});});
+
+</script>
 </body>
 </html>
