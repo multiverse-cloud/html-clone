@@ -4,13 +4,181 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#465fff" />
-  <meta name="description" content="Advanced alert and toast UI components with variants, banners, dismissible states, stacked notifications, and production dashboard patterns." />
+  <meta name="description" content="Production-level TailAdmin alerts and toast patterns with 50+ live alert categories, unique alert layouts, incident banners, inline validation, progress alerts, activity alerts, undo toasts, and mobile-ready notification states." />
   <title>Alerts - mtverse</title>
   <style>
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
     .animate-slideDown { animation: slideDown 0.2s ease-out; }
+    @keyframes toastIn { from { opacity: 0; transform: translateY(14px) scale(.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
+    @keyframes toastOut { to { opacity: 0; transform: translateX(18px) scale(.98); } }
+    @keyframes toastTimer { from { transform: scaleX(1); } to { transform: scaleX(0); } }
+    @keyframes pulseRing { 0%, 100% { box-shadow: 0 0 0 0 rgba(70,95,255,.30); } 50% { box-shadow: 0 0 0 8px rgba(70,95,255,0); } }
+    @keyframes sweep { 0% { transform: translateX(-130%); } 100% { transform: translateX(130%); } }
+    @keyframes floatY { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+
+    .alert-hero {
+      background:
+        radial-gradient(circle at 16% 18%, rgba(70,95,255,.16), transparent 28rem),
+        radial-gradient(circle at 86% 20%, rgba(16,185,129,.12), transparent 22rem),
+        linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+    }
+    .dark .alert-hero {
+      background:
+        radial-gradient(circle at 16% 18%, rgba(70,95,255,.20), transparent 28rem),
+        radial-gradient(circle at 86% 20%, rgba(16,185,129,.14), transparent 22rem),
+        linear-gradient(180deg, rgba(17,24,39,.96), rgba(15,23,42,.94));
+    }
+    .signal-dot {
+      animation: pulseRing 1.8s ease-in-out infinite;
+    }
+    .family-card {
+      border: 1px solid #e5e7eb;
+      background: #fff;
+      transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+    }
+    .family-card:hover {
+      transform: translateY(-2px);
+      border-color: #c7d2fe;
+      box-shadow: 0 16px 34px rgba(15,23,42,.08);
+    }
+    .dark .family-card {
+      border-color: #1f2937;
+      background: rgba(255,255,255,.03);
+    }
+    .dark .family-card:hover {
+      border-color: rgba(129,140,248,.42);
+      box-shadow: 0 16px 34px rgba(0,0,0,.26);
+    }
+    .sweep-panel {
+      position: relative;
+      overflow: hidden;
+    }
+    .sweep-panel::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.38), transparent);
+      animation: sweep 3.2s ease-in-out infinite;
+      pointer-events: none;
+    }
+    .phone-shell {
+      border: 1px solid #d1d5db;
+      background: #111827;
+      box-shadow: inset 0 0 0 6px #020617, 0 20px 45px rgba(15,23,42,.20);
+    }
+    .dark .phone-shell {
+      border-color: #374151;
+      box-shadow: inset 0 0 0 6px #020617, 0 20px 45px rgba(0,0,0,.38);
+    }
+    .terminal-alert {
+      background: #0f172a;
+      color: #e2e8f0;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.08);
+    }
+    .catalog-row {
+      border: 1px solid transparent;
+      transition: background .16s ease, border-color .16s ease, transform .16s ease;
+    }
+    .catalog-row:hover {
+      transform: translateX(2px);
+      border-color: #dbe4ff;
+      background: #f8fafc;
+    }
+    .catalog-row.is-active {
+      border-color: #465fff;
+      background: #eef2ff;
+    }
+    .dark .catalog-row:hover {
+      border-color: rgba(129,140,248,.35);
+      background: rgba(255,255,255,.05);
+    }
+    .dark .catalog-row.is-active {
+      border-color: rgba(129,140,248,.78);
+      background: rgba(70,95,255,.16);
+    }
+    .pro-toast-stack {
+      position: fixed;
+      z-index: 2147483647;
+      display: flex;
+      width: min(410px, calc(100vw - 2rem));
+      flex-direction: column;
+      gap: .75rem;
+      pointer-events: none;
+    }
+    .pro-toast-stack.top-right { top: 1rem; right: 1rem; }
+    .pro-toast-stack.top-left { top: 1rem; left: 1rem; }
+    .pro-toast-stack.bottom-right { right: 1rem; bottom: 1rem; }
+    .pro-toast-stack.bottom-left { left: 1rem; bottom: 1rem; }
+    .pro-toast {
+      pointer-events: auto;
+      position: relative;
+      overflow: hidden;
+      border-radius: 1rem;
+      border: 1px solid rgba(229,231,235,.95);
+      background: rgba(255,255,255,.98);
+      box-shadow: 0 20px 48px rgba(15,23,42,.18);
+      animation: toastIn .22s ease-out;
+    }
+    .dark .pro-toast {
+      border-color: rgba(75,85,99,.76);
+      background: rgba(17,24,39,.98);
+      box-shadow: 0 20px 48px rgba(0,0,0,.36);
+    }
+    .pro-toast.is-leaving { animation: toastOut .18s ease-in forwards; }
+    .pro-toast::after {
+      content: "";
+      position: absolute;
+      inset: auto 0 0 0;
+      height: 3px;
+      background: var(--toast-accent);
+      transform-origin: left;
+      animation: toastTimer var(--toast-duration) linear forwards;
+    }
+    .pro-toast-filled,
+    .pro-toast-terminal {
+      color: #fff;
+    }
+    .pro-toast-terminal {
+      background: #0f172a !important;
+      border-color: rgba(148,163,184,.28) !important;
+    }
+    .pro-toast-mobile {
+      border-radius: 1.5rem;
+      background: #020617 !important;
+      border-color: #111827 !important;
+    }
+    .pro-preview-shell {
+      min-height: 190px;
+    }
+    @media (max-width: 640px) {
+      .pro-toast-stack {
+        left: 1rem !important;
+        right: auto !important;
+        bottom: 1rem !important;
+        top: auto !important;
+        width: calc(100vw - 2rem);
+      }
+      .mobile-scroll-tabs {
+        margin-inline: -1rem;
+        padding-inline: 1rem;
+        overflow-x: auto;
+        scrollbar-width: none;
+      }
+      .mobile-scroll-tabs::-webkit-scrollbar { display: none; }
+    }
+    body.alerts-ready #site-loader,
+    body.alerts-ready .site-loader {
+      opacity: 0 !important;
+      visibility: hidden !important;
+      pointer-events: none !important;
+    }
+    body.alerts-ready main .reveal-item,
+    body.alerts-ready main .reveal-item.is-visible {
+      opacity: 1 !important;
+      transform: none !important;
+    }
   </style>
   <link rel="stylesheet" href="tailwind-production.css">
   <link rel="stylesheet" href="pro-styles.css">
@@ -18,7 +186,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
 </head>
-<body class="bg-gray-50 text-gray-800 font-sans dark:bg-gray-900 dark:text-gray-100">
+<body class="alerts-ready bg-gray-50 text-gray-800 font-sans dark:bg-gray-900 dark:text-gray-100">
 <div id="sidebar-overlay" class="fixed inset-0 bg-black/40 z-40 hidden lg:hidden" onclick="toggleSidebar()"></div>
 <div class="flex h-screen overflow-hidden">
   <div id="sidebar-container"></div>
@@ -26,153 +194,426 @@
     <div id="header-container"></div>
     <main class="flex-1 overflow-y-auto overflow-x-hidden px-4 md:px-6 2xl:px-10 py-6" tabindex="-1">
       <div class="mx-auto w-full max-w-screen-2xl">
-        <div class="mb-6 flex flex-col gap-4 xl:flex-row xl:items-end xl:justify-between">
+        <div class="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <div class="mb-2 flex items-center gap-2 text-sm text-gray-500">
               <span>mtverse</span><span>/</span><span>ui-elements</span><span>/</span>
               <span class="font-medium text-gray-800 dark:text-white/90">Alerts</span>
             </div>
             <h1 class="text-2xl font-bold text-gray-900 dark:text-white/90">Alerts</h1>
-            <p class="mt-1 max-w-3xl text-sm text-gray-500 dark:text-gray-400">Professional alert systems for dashboards: status banners, inline validation, stacked alert cards, escalation states, and live toasts.</p>
+            <p class="mt-1 max-w-3xl text-sm text-gray-500 dark:text-gray-400">Production alert systems from simple inline feedback to advanced incident, security, billing, AI, and mobile toast flows.</p>
           </div>
           <div class="flex flex-wrap gap-2">
-            <button type="button" onclick="showToast('Success toast delivered', 'success')" class="rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 dark:border-gray-800 dark:bg-white/[0.03] dark:text-gray-300">Success Toast</button>
-            <button type="button" onclick="showToast('Action needs attention', 'error')" class="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700">Error Toast</button>
+            <button type="button" data-toast-key="success" class="rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 dark:border-gray-800 dark:bg-white/[0.03] dark:text-gray-300">Preview Toast</button>
+            <button type="button" data-toast-key="incident" class="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700">Trigger Incident</button>
           </div>
         </div>
 
-        <div class="mb-5 grid grid-cols-1 gap-5 md:grid-cols-4">
+        <div class="grid grid-cols-1 gap-5 md:grid-cols-4">
           <div class="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03]">
-            <p class="text-sm text-gray-500 dark:text-gray-400">Variants</p>
-            <p class="mt-2 text-3xl font-bold text-gray-900 dark:text-white">16</p>
-          </div>
-          <div class="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03]">
-            <p class="text-sm text-gray-500 dark:text-gray-400">Toast positions</p>
-            <p class="mt-2 text-3xl font-bold text-gray-900 dark:text-white">4</p>
+            <p class="text-sm text-gray-500">Alert families</p><p class="mt-2 text-3xl font-bold text-gray-900 dark:text-white">12</p>
           </div>
           <div class="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03]">
-            <p class="text-sm text-gray-500 dark:text-gray-400">A11y states</p>
-            <p class="mt-2 text-3xl font-bold text-green-600">Ready</p>
+            <p class="text-sm text-gray-500">Live examples</p><p class="mt-2 text-3xl font-bold text-gray-900 dark:text-white">60+</p>
           </div>
           <div class="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03]">
-            <p class="text-sm text-gray-500 dark:text-gray-400">Dark mode</p>
-            <p class="mt-2 text-3xl font-bold text-blue-600">Live</p>
+            <p class="text-sm text-gray-500">Toast variants</p><p class="mt-2 text-3xl font-bold text-blue-600">10</p>
           </div>
-        </div>
-
-        <section class="mb-5 overflow-hidden rounded-2xl border border-blue-200 bg-blue-600 text-white shadow-sm dark:border-blue-500/30">
-          <div class="grid gap-4 p-5 lg:grid-cols-[1fr_auto] lg:items-center">
-            <div class="flex gap-4">
-              <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white/15">
-                <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4m0 4h.01"/><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg>
-              </div>
-              <div>
-                <p class="font-semibold">Production alert banner</p>
-                <p class="mt-1 text-sm text-blue-50">Use full-width alerts for incidents, policy changes, billing warnings, or high-priority account notices.</p>
-              </div>
-            </div>
-            <div class="flex flex-wrap gap-2">
-              <button type="button" onclick="showToast('Incident acknowledged', 'success')" class="rounded-lg bg-white px-4 py-2 text-sm font-bold text-blue-700 hover:bg-blue-50">Acknowledge</button>
-              <button type="button" class="rounded-lg border border-white/30 px-4 py-2 text-sm font-bold text-white hover:bg-white/10">View status</button>
-            </div>
+          <div class="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03]">
+            <p class="text-sm text-gray-500">Responsive</p><p class="mt-2 text-3xl font-bold text-green-600">Ready</p>
           </div>
-        </section>
-
-        <div class="grid grid-cols-1 gap-5 xl:grid-cols-[1.1fr_0.9fr]">
-          <section class="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03]">
-            <div class="mb-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-              <div>
-                <h2 class="text-lg font-semibold text-gray-900 dark:text-white/90">Alert variants</h2>
-                <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Soft, filled, bordered, dismissible, and action-ready alert examples.</p>
-              </div>
-              <div class="inline-flex rounded-xl bg-gray-100 p-1 dark:bg-white/[0.04]">
-                <button class="rounded-lg bg-white px-4 py-2 text-sm font-bold text-blue-600 shadow-sm dark:bg-gray-900">Soft</button>
-                <button class="rounded-lg px-4 py-2 text-sm font-bold text-gray-500">Filled</button>
-                <button class="rounded-lg px-4 py-2 text-sm font-bold text-gray-500">Border</button>
-              </div>
-            </div>
-
-            <div class="space-y-4">
-              <div class="app-alert app-alert-success" role="status">
-                <svg class="app-alert-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4"/><path d="M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"/></svg>
-                <div class="app-alert-content"><p class="app-alert-title">Deployment completed</p><p class="app-alert-message">All production checks passed and the release is now available for customers.</p><div class="app-alert-actions"><button onclick="showToast('Release notes copied', 'success')" class="rounded-lg bg-green-600 px-3 py-2 text-xs font-bold text-white">Copy notes</button><button class="rounded-lg border border-green-300 px-3 py-2 text-xs font-bold">Details</button></div></div>
-                <button type="button" class="app-alert-dismiss" onclick="this.closest('.app-alert').classList.add('app-alert-dismissed')" aria-label="Dismiss alert"><svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 18 18 6M6 6l12 12"/></svg></button>
-              </div>
-              <div class="app-alert app-alert-warning app-alert-accent" role="alert">
-                <svg class="app-alert-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4m0 4h.01"/><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg>
-                <div class="app-alert-content"><p class="app-alert-title">API quota is at 82%</p><p class="app-alert-message">Upgrade limits or pause non-critical jobs before the next scheduled sync.</p></div>
-                <button type="button" onclick="showToast('Quota warning muted', 'success')" class="rounded-lg bg-yellow-500 px-3 py-2 text-xs font-bold text-white">Mute</button>
-              </div>
-              <div class="app-alert app-alert-error app-alert-filled" role="alert">
-                <svg class="app-alert-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8v5m0 4h.01"/><path d="M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"/></svg>
-                <div class="app-alert-content"><p class="app-alert-title">Payment failed</p><p class="app-alert-message">The primary card was declined. Update billing to keep automations running.</p></div>
-                <button type="button" onclick="showToast('Billing team notified', 'success')" class="rounded-lg bg-white px-3 py-2 text-xs font-bold text-red-600">Notify</button>
-              </div>
-              <div class="app-alert app-alert-info app-alert-bordered" role="status">
-                <svg class="app-alert-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 16v-4m0-4h.01"/><path d="M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"/></svg>
-                <div class="app-alert-content"><p class="app-alert-title">New workflow template available</p><p class="app-alert-message">Import the incident-response template into this workspace with one click.</p></div>
-                <button type="button" onclick="showToast('Template imported', 'success')" class="rounded-lg bg-blue-600 px-3 py-2 text-xs font-bold text-white">Import</button>
-              </div>
-            </div>
-          </section>
-
-          <section class="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03]">
-            <h2 class="text-lg font-semibold text-gray-900 dark:text-white/90">Toast playground</h2>
-            <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Trigger contextual toasts from buttons, forms, table actions, or background events.</p>
-            <div class="mt-5 grid grid-cols-2 gap-3">
-              <button type="button" onclick="showToast('Profile saved successfully', 'success')" class="rounded-xl border border-green-200 bg-green-50 px-4 py-4 text-left text-sm font-bold text-green-700 hover:bg-green-100 dark:border-green-500/30 dark:bg-green-500/10 dark:text-green-300">Success toast</button>
-              <button type="button" onclick="showToast('Webhook failed. Retry required.', 'error')" class="rounded-xl border border-red-200 bg-red-50 px-4 py-4 text-left text-sm font-bold text-red-700 hover:bg-red-100 dark:border-red-500/30 dark:bg-red-500/10 dark:text-red-300">Error toast</button>
-              <button type="button" onclick="showToast('Quota warning sent to admins', 'success')" class="rounded-xl border border-yellow-200 bg-yellow-50 px-4 py-4 text-left text-sm font-bold text-yellow-700 hover:bg-yellow-100 dark:border-yellow-500/30 dark:bg-yellow-500/10 dark:text-yellow-300">Warning flow</button>
-              <button type="button" onclick="showToast('New notification queued', 'success')" class="rounded-xl border border-blue-200 bg-blue-50 px-4 py-4 text-left text-sm font-bold text-blue-700 hover:bg-blue-100 dark:border-blue-500/30 dark:bg-blue-500/10 dark:text-blue-300">Info flow</button>
-            </div>
-
-            <div class="mt-5 rounded-xl border border-gray-200 p-4 dark:border-gray-800">
-              <div class="mb-4 flex items-center justify-between">
-                <p class="font-semibold text-gray-900 dark:text-white">Live stack preview</p>
-                <span class="rounded-full bg-green-50 px-2.5 py-1 text-xs font-bold text-green-700 dark:bg-green-500/10 dark:text-green-300">Auto dismiss</span>
-              </div>
-              <div class="space-y-3">
-                <div class="flex items-start gap-3 rounded-xl border border-gray-200 p-3 dark:border-gray-800">
-                  <span class="mt-1 h-2.5 w-2.5 rounded-full bg-green-500"></span>
-                  <div><p class="text-sm font-semibold text-gray-900 dark:text-white">Saved changes</p><p class="text-xs text-gray-500 dark:text-gray-400">Compact toast with close action.</p></div>
-                </div>
-                <div class="flex items-start gap-3 rounded-xl border border-gray-200 p-3 dark:border-gray-800">
-                  <span class="mt-1 h-2.5 w-2.5 rounded-full bg-red-500"></span>
-                  <div><p class="text-sm font-semibold text-gray-900 dark:text-white">Retry needed</p><p class="text-xs text-gray-500 dark:text-gray-400">Error toast for failed async jobs.</p></div>
-                </div>
-              </div>
-            </div>
-          </section>
         </div>
 
         <section class="mt-5 rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03]">
           <div class="mb-5 flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
             <div>
-              <h2 class="text-lg font-semibold text-gray-900 dark:text-white/90">Alert operations</h2>
-              <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Dashboard patterns for rule health, escalation routing, and recent alert events.</p>
+              <h2 class="text-lg font-semibold text-gray-900 dark:text-white/90">Alert families</h2>
+              <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Each family has a different anatomy, motion, and use case. This is the core showcase.</p>
             </div>
-            <button type="button" onclick="showToast('Alert rule created', 'success')" class="rounded-lg bg-blue-600 px-4 py-2 text-sm font-bold text-white hover:bg-blue-700">Create rule</button>
+            <div class="mobile-scroll-tabs flex gap-2">
+              <button data-family-filter="all" class="family-filter shrink-0 rounded-lg bg-blue-600 px-3 py-2 text-xs font-bold text-white">All</button>
+              <button data-family-filter="simple" class="family-filter shrink-0 rounded-lg border border-gray-200 px-3 py-2 text-xs font-bold text-gray-600 dark:border-gray-700 dark:text-gray-300">Simple</button>
+              <button data-family-filter="advanced" class="family-filter shrink-0 rounded-lg border border-gray-200 px-3 py-2 text-xs font-bold text-gray-600 dark:border-gray-700 dark:text-gray-300">Advanced</button>
+              <button data-family-filter="mobile" class="family-filter shrink-0 rounded-lg border border-gray-200 px-3 py-2 text-xs font-bold text-gray-600 dark:border-gray-700 dark:text-gray-300">Mobile</button>
+              <button data-family-filter="ops" class="family-filter shrink-0 rounded-lg border border-gray-200 px-3 py-2 text-xs font-bold text-gray-600 dark:border-gray-700 dark:text-gray-300">Ops</button>
+            </div>
           </div>
-          <div class="overflow-x-auto">
-            <table class="w-full text-sm">
-              <thead class="border-y border-gray-100 bg-gray-50 text-xs font-semibold uppercase text-gray-500 dark:border-gray-800 dark:bg-white/[0.02]">
-                <tr><th class="px-4 py-3 text-left">Rule</th><th class="px-4 py-3 text-left">Signal</th><th class="px-4 py-3 text-left">Severity</th><th class="px-4 py-3 text-left">Route</th><th class="px-4 py-3 text-right">Action</th></tr>
-              </thead>
-              <tbody class="divide-y divide-gray-100 dark:divide-gray-800">
-                <tr class="hover:bg-gray-50 dark:hover:bg-white/[0.02]"><td class="px-4 py-4 font-semibold text-gray-900 dark:text-white">API usage limit</td><td class="px-4 py-4 text-gray-500">Usage above 80%</td><td class="px-4 py-4"><span class="rounded-full bg-yellow-50 px-2.5 py-1 text-xs font-bold text-yellow-700 dark:bg-yellow-500/10 dark:text-yellow-300">Warning</span></td><td class="px-4 py-4 text-gray-500">Email + Slack</td><td class="px-4 py-4 text-right"><button onclick="showToast('Rule opened', 'success')" class="font-bold text-blue-600">Manage</button></td></tr>
-                <tr class="hover:bg-gray-50 dark:hover:bg-white/[0.02]"><td class="px-4 py-4 font-semibold text-gray-900 dark:text-white">Payment failure</td><td class="px-4 py-4 text-gray-500">Invoice charge failed</td><td class="px-4 py-4"><span class="rounded-full bg-red-50 px-2.5 py-1 text-xs font-bold text-red-700 dark:bg-red-500/10 dark:text-red-300">Critical</span></td><td class="px-4 py-4 text-gray-500">Email + SMS</td><td class="px-4 py-4 text-right"><button onclick="showToast('Escalation sent', 'success')" class="font-bold text-blue-600">Escalate</button></td></tr>
-                <tr class="hover:bg-gray-50 dark:hover:bg-white/[0.02]"><td class="px-4 py-4 font-semibold text-gray-900 dark:text-white">New integration</td><td class="px-4 py-4 text-gray-500">Connector enabled</td><td class="px-4 py-4"><span class="rounded-full bg-blue-50 px-2.5 py-1 text-xs font-bold text-blue-700 dark:bg-blue-500/10 dark:text-blue-300">Info</span></td><td class="px-4 py-4 text-gray-500">In-app</td><td class="px-4 py-4 text-right"><button onclick="showToast('Notification previewed', 'success')" class="font-bold text-blue-600">Preview</button></td></tr>
-              </tbody>
-            </table>
+
+          <div id="family-grid" class="grid grid-cols-1 gap-4 xl:grid-cols-3">
+            <article class="family-card rounded-2xl p-4 xl:col-span-2" data-family="simple" data-toast-key="success">
+              <div class="rounded-xl border border-green-200 bg-green-50 p-4 dark:border-green-500/30 dark:bg-green-500/10">
+                <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                  <div class="flex items-start gap-3"><span class="mt-1 h-2.5 w-2.5 rounded-full bg-green-500"></span><div><h3 class="font-bold text-green-700 dark:text-green-300">Simple inline alert</h3><p class="mt-1 text-sm text-green-700/80 dark:text-green-200/80">Best for saved states, low-friction confirmation, and small form feedback.</p></div></div>
+                  <button class="rounded-lg bg-green-600 px-3 py-2 text-xs font-bold text-white">Preview</button>
+                </div>
+              </div>
+            </article>
+
+            <article class="family-card rounded-2xl bg-blue-600 p-4 text-white" data-family="simple" data-toast-key="maintenance">
+              <div class="flex h-full flex-col justify-between gap-4">
+                <div><p class="text-xs font-bold uppercase text-blue-100">Filled banner</p><h3 class="mt-2 font-bold">Workspace policy updated</h3><p class="mt-2 text-sm text-blue-50">SSO is now required for billing and security pages.</p></div>
+                <button class="w-fit rounded-lg bg-white px-3 py-2 text-xs font-bold text-blue-700">Review policy</button>
+              </div>
+            </article>
+
+            <article class="family-card sweep-panel rounded-2xl bg-red-50 p-4 dark:bg-red-500/10" data-family="advanced" data-toast-key="security">
+              <div class="relative z-10">
+                <div class="flex items-center justify-between"><span class="rounded-lg bg-red-600 px-2.5 py-1 text-xs font-bold text-white">Critical</span><span class="signal-dot h-2.5 w-2.5 rounded-full bg-red-500"></span></div>
+                <h3 class="mt-4 font-bold text-red-700 dark:text-red-300">Security scan alert</h3>
+                <p class="mt-2 text-sm text-red-700/80 dark:text-red-200/80">Use sweep animation only for high-risk, time-sensitive states.</p>
+              </div>
+            </article>
+
+            <article class="family-card rounded-2xl p-4" data-family="advanced" data-toast-key="quota">
+              <div class="flex items-start justify-between gap-4">
+                <div><p class="text-xs font-bold uppercase text-yellow-600">Metric alert</p><h3 class="mt-1 text-xl font-bold text-gray-900 dark:text-white">82% API used</h3><p class="mt-1 text-sm text-gray-500">Numeric state with progress and CTA.</p></div>
+                <div class="text-right"><p class="text-3xl font-bold text-yellow-600">18%</p><p class="text-xs text-gray-500">left</p></div>
+              </div>
+              <div class="mt-4 h-2 overflow-hidden rounded-full bg-gray-100 dark:bg-white/10"><div class="h-full w-[82%] rounded-full bg-yellow-500"></div></div>
+            </article>
+
+            <article class="family-card rounded-2xl p-4" data-family="advanced" data-toast-key="premium">
+              <div class="rounded-xl border border-purple-200 bg-gradient-to-br from-purple-50 to-indigo-50 p-4 dark:border-purple-500/30 dark:from-purple-500/10 dark:to-indigo-500/10">
+                <p class="text-xs font-bold uppercase text-purple-600 dark:text-purple-300">AI command alert</p>
+                <h3 class="mt-2 font-bold text-gray-900 dark:text-white">Runbook generated</h3>
+                <p class="mt-2 text-sm text-gray-500 dark:text-gray-300">AI drafted customer update, owner checklist, and timeline summary.</p>
+                <div class="mt-4 grid grid-cols-3 gap-2 text-center text-xs font-bold"><span class="rounded-lg bg-white px-2 py-2 dark:bg-white/10">Logs</span><span class="rounded-lg bg-white px-2 py-2 dark:bg-white/10">Draft</span><span class="rounded-lg bg-white px-2 py-2 dark:bg-white/10">Tasks</span></div>
+              </div>
+            </article>
+
+            <article class="family-card terminal-alert rounded-2xl p-4" data-family="ops" data-toast-key="release">
+              <div class="mb-3 flex items-center gap-2"><span class="h-2.5 w-2.5 rounded-full bg-red-400"></span><span class="h-2.5 w-2.5 rounded-full bg-yellow-400"></span><span class="h-2.5 w-2.5 rounded-full bg-green-400"></span><span class="ml-auto text-xs text-slate-400">deploy.log</span></div>
+              <p class="font-mono text-xs text-green-300">$ release v4.8 --all-regions</p>
+              <h3 class="mt-3 font-mono text-sm font-bold text-white">Deployment completed</h3>
+              <p class="mt-1 font-mono text-xs text-slate-400">Smoke checks passed. Build hash 9fa2c1.</p>
+            </article>
+
+            <article class="family-card relative rounded-2xl p-4" data-family="ops" data-toast-key="incident">
+              <div class="absolute left-8 top-14 bottom-5 w-px bg-gray-200 dark:bg-gray-800"></div>
+              <div class="space-y-4">
+                <div class="flex gap-3"><span class="relative z-10 mt-1 h-9 w-9 rounded-full border-4 border-white bg-red-500 dark:border-gray-900"></span><div><h3 class="font-bold text-gray-900 dark:text-white">Incident timeline</h3><p class="text-sm text-gray-500">P1 opened by monitor.</p></div></div>
+                <div class="flex gap-3"><span class="relative z-10 mt-1 h-9 w-9 rounded-full border-4 border-white bg-yellow-500 dark:border-gray-900"></span><div><p class="text-sm font-semibold text-gray-900 dark:text-white">Owner assigned</p><p class="text-xs text-gray-500">Infrastructure team</p></div></div>
+                <div class="flex gap-3"><span class="relative z-10 mt-1 h-9 w-9 rounded-full border-4 border-white bg-green-500 dark:border-gray-900"></span><div><p class="text-sm font-semibold text-gray-900 dark:text-white">Queue recovering</p><p class="text-xs text-gray-500">Retry rate back to normal</p></div></div>
+              </div>
+            </article>
+
+            <article class="family-card rounded-2xl p-4" data-family="mobile" data-toast-key="activity">
+              <div class="phone-shell mx-auto max-w-[240px] rounded-[2rem] p-3">
+                <div class="rounded-[1.35rem] bg-slate-950 p-3">
+                  <div class="mx-auto mb-4 h-1 w-14 rounded-full bg-slate-700"></div>
+                  <div class="rounded-2xl bg-white p-3 text-gray-900" style="animation: floatY 3s ease-in-out infinite;">
+                    <div class="flex gap-2"><img src="assets/avatars/admin-profile-man.png" alt="" class="h-8 w-8 rounded-full object-cover"><div><p class="text-xs font-bold">Arun mentioned you</p><p class="mt-1 text-[11px] text-gray-500">Review retry policy?</p></div></div>
+                  </div>
+                  <div class="mt-3 rounded-2xl bg-blue-600 p-3 text-xs font-bold text-white">Mobile toast action</div>
+                </div>
+              </div>
+            </article>
+
+            <article class="family-card rounded-2xl p-4" data-family="mobile" data-toast-key="progress">
+              <div class="space-y-2">
+                <div class="rounded-xl border border-gray-200 bg-white p-3 shadow-sm dark:border-gray-800 dark:bg-gray-950"><p class="text-xs font-bold text-gray-900 dark:text-white">Compact stack</p><p class="mt-1 text-xs text-gray-500">3 notifications collapsed</p></div>
+                <div class="ml-5 rounded-xl border border-cyan-200 bg-cyan-50 p-3 dark:border-cyan-500/30 dark:bg-cyan-500/10"><p class="text-xs font-bold text-cyan-700 dark:text-cyan-300">Export 68%</p><div class="mt-2 h-1.5 rounded-full bg-white dark:bg-white/10"><div class="h-full w-[68%] rounded-full bg-cyan-500"></div></div></div>
+                <div class="ml-10 rounded-xl border border-blue-200 bg-blue-50 p-3 dark:border-blue-500/30 dark:bg-blue-500/10"><p class="text-xs font-bold text-blue-700 dark:text-blue-300">Reply received</p></div>
+              </div>
+            </article>
+
+            <article class="family-card rounded-2xl p-4 xl:col-span-2" data-family="advanced" data-toast-key="error">
+              <div class="overflow-hidden rounded-xl border border-gray-200 dark:border-gray-800">
+                <div class="border-b border-gray-100 bg-gray-50 px-4 py-3 dark:border-gray-800 dark:bg-white/[0.03]"><h3 class="font-bold text-gray-900 dark:text-white">Inline validation summary</h3></div>
+                <div class="grid gap-3 p-4 md:grid-cols-3">
+                  <div class="rounded-xl border border-red-200 bg-red-50 p-3 dark:border-red-500/30 dark:bg-red-500/10"><p class="text-xs font-bold text-red-700 dark:text-red-300">Email invalid</p><p class="mt-1 text-xs text-red-600/80">Use company email.</p></div>
+                  <div class="rounded-xl border border-yellow-200 bg-yellow-50 p-3 dark:border-yellow-500/30 dark:bg-yellow-500/10"><p class="text-xs font-bold text-yellow-700 dark:text-yellow-300">Password weak</p><p class="mt-1 text-xs text-yellow-700/80">Add symbol and number.</p></div>
+                  <div class="rounded-xl border border-green-200 bg-green-50 p-3 dark:border-green-500/30 dark:bg-green-500/10"><p class="text-xs font-bold text-green-700 dark:text-green-300">Domain verified</p><p class="mt-1 text-xs text-green-700/80">DNS record active.</p></div>
+                </div>
+              </div>
+            </article>
+
+            <article class="family-card rounded-2xl p-4" data-family="advanced" data-toast-key="undo">
+              <div class="rounded-xl border border-red-200 bg-white p-4 dark:border-red-500/30 dark:bg-white/[0.03]">
+                <h3 class="font-bold text-red-700 dark:text-red-300">Destructive confirmation</h3>
+                <p class="mt-1 text-sm text-gray-500">Archive project, members, files, and active tasks?</p>
+                <div class="mt-4 flex flex-wrap gap-2"><button class="rounded-lg bg-red-600 px-3 py-2 text-xs font-bold text-white">Archive</button><button class="rounded-lg border border-gray-200 px-3 py-2 text-xs font-bold text-gray-600 dark:border-gray-700 dark:text-gray-300">Cancel</button></div>
+              </div>
+            </article>
+
+            <article class="family-card rounded-2xl p-4 xl:col-span-2" data-family="ops" data-toast-key="billing">
+              <div class="overflow-x-auto">
+                <table class="w-full min-w-[560px] text-sm">
+                  <thead class="text-xs font-bold uppercase text-gray-400"><tr><th class="px-3 py-2 text-left">Rule</th><th class="px-3 py-2 text-left">Severity</th><th class="px-3 py-2 text-left">Route</th><th class="px-3 py-2 text-right">Action</th></tr></thead>
+                  <tbody class="divide-y divide-gray-100 dark:divide-gray-800">
+                    <tr><td class="px-3 py-3 font-semibold text-gray-900 dark:text-white">Payment retry failed</td><td class="px-3 py-3"><span class="rounded-full bg-red-50 px-2 py-1 text-xs font-bold text-red-600 dark:bg-red-500/10 dark:text-red-300">Critical</span></td><td class="px-3 py-3 text-gray-500">SMS + Slack</td><td class="px-3 py-3 text-right"><button class="font-bold text-blue-600">Escalate</button></td></tr>
+                    <tr><td class="px-3 py-3 font-semibold text-gray-900 dark:text-white">Storage above target</td><td class="px-3 py-3"><span class="rounded-full bg-yellow-50 px-2 py-1 text-xs font-bold text-yellow-700 dark:bg-yellow-500/10 dark:text-yellow-300">Warning</span></td><td class="px-3 py-3 text-gray-500">Email</td><td class="px-3 py-3 text-right"><button class="font-bold text-blue-600">Manage</button></td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </article>
           </div>
+        </section>
+
+        <section class="mt-5 grid grid-cols-1 gap-5 xl:grid-cols-[360px_1fr]">
+          <aside class="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03]">
+            <h2 class="text-lg font-semibold text-gray-900 dark:text-white/90">Live toast controls</h2>
+            <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Every click opens the exact selected alert as a live toast.</p>
+            <div class="mt-5 grid grid-cols-2 gap-3">
+              <button data-toast-key="success" class="rounded-xl border border-green-200 bg-green-50 p-3 text-left text-sm font-bold text-green-700 dark:border-green-500/30 dark:bg-green-500/10 dark:text-green-300">Success</button>
+              <button data-toast-key="error" class="rounded-xl border border-red-200 bg-red-50 p-3 text-left text-sm font-bold text-red-700 dark:border-red-500/30 dark:bg-red-500/10 dark:text-red-300">Error</button>
+              <button data-toast-key="quota" class="rounded-xl border border-yellow-200 bg-yellow-50 p-3 text-left text-sm font-bold text-yellow-700 dark:border-yellow-500/30 dark:bg-yellow-500/10 dark:text-yellow-300">Warning</button>
+              <button data-toast-key="progress" class="rounded-xl border border-cyan-200 bg-cyan-50 p-3 text-left text-sm font-bold text-cyan-700 dark:border-cyan-500/30 dark:bg-cyan-500/10 dark:text-cyan-300">Progress</button>
+              <button data-toast-key="activity" class="rounded-xl border border-gray-200 bg-white p-3 text-left text-sm font-bold text-gray-700 dark:border-gray-700 dark:bg-white/[0.04] dark:text-gray-200">Avatar</button>
+              <button data-toast-key="premium" class="rounded-xl border border-purple-200 bg-purple-50 p-3 text-left text-sm font-bold text-purple-700 dark:border-purple-500/30 dark:bg-purple-500/10 dark:text-purple-300">Premium</button>
+            </div>
+            <div class="mt-5 rounded-xl border border-gray-200 p-4 dark:border-gray-800">
+              <p class="text-sm font-bold text-gray-900 dark:text-white">Toast position</p>
+              <div class="mt-3 grid grid-cols-2 gap-2">
+                <button data-position="top-right" class="toast-position rounded-lg bg-blue-600 px-3 py-2 text-xs font-bold text-white">Top right</button>
+                <button data-position="top-left" class="toast-position rounded-lg border border-gray-200 px-3 py-2 text-xs font-bold text-gray-600 dark:border-gray-700 dark:text-gray-300">Top left</button>
+                <button data-position="bottom-right" class="toast-position rounded-lg border border-gray-200 px-3 py-2 text-xs font-bold text-gray-600 dark:border-gray-700 dark:text-gray-300">Bottom right</button>
+                <button data-position="bottom-left" class="toast-position rounded-lg border border-gray-200 px-3 py-2 text-xs font-bold text-gray-600 dark:border-gray-700 dark:text-gray-300">Bottom left</button>
+              </div>
+            </div>
+          </aside>
+
+          <section class="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03]">
+            <div class="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+              <div>
+                <h2 class="text-lg font-semibold text-gray-900 dark:text-white/90">50+ alert catalog</h2>
+                <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Compact catalog, not a repetitive card wall. Select a row to update the preview and launch its exact toast.</p>
+              </div>
+              <div id="catalog-tabs" class="mobile-scroll-tabs flex gap-2"></div>
+            </div>
+
+            <div class="mt-5 grid grid-cols-1 gap-5 xl:grid-cols-[1fr_360px]">
+              <div class="overflow-hidden rounded-xl border border-gray-200 dark:border-gray-800">
+                <div class="grid grid-cols-[1fr_auto] border-b border-gray-100 bg-gray-50 px-4 py-3 text-xs font-bold uppercase text-gray-400 dark:border-gray-800 dark:bg-white/[0.03]"><span>Alert</span><span>Tap</span></div>
+                <div id="catalog-list" class="max-h-[620px] overflow-y-auto p-2"></div>
+              </div>
+
+              <aside class="rounded-xl border border-gray-200 bg-gray-50 p-4 dark:border-gray-800 dark:bg-white/[0.03]">
+                <p class="text-xs font-bold uppercase text-gray-400">Live selected preview</p>
+                <div id="selected-preview" class="mt-4"></div>
+                <button type="button" id="selected-toast-button" class="mt-4 w-full rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-bold text-white hover:bg-blue-700">Launch selected toast</button>
+              </aside>
+            </div>
+          </section>
         </section>
       </div>
     </main>
   </div>
 </div>
-<script src="common-loader.js"></script>
+
 <script src="common-sidebar.js"></script>
 <script src="common-header.js"></script>
 <script src="app-shell.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    document.body.classList.add('alerts-ready');
+    window.setTimeout(function () {
+      const loader = document.getElementById('site-loader');
+      if (loader) {
+        loader.classList.remove('is-active');
+        loader.setAttribute('aria-hidden', 'true');
+      }
+      document.querySelectorAll('main .reveal-item').forEach(function (item) {
+        item.classList.add('is-visible');
+      });
+    }, 80);
+
+    const accents = { success: '#16a34a', error: '#dc2626', warning: '#d97706', info: '#465fff', progress: '#0891b2', premium: '#7c3aed', activity: '#2563eb', undo: '#475569' };
+    const icons = {
+      success: 'M9 12l2 2 4-4 M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z',
+      error: 'M12 8v5m0 4h.01 M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z',
+      warning: 'M12 9v4m0 4h.01 M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z',
+      info: 'M12 16v-4m0-4h.01 M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z',
+      progress: 'M4 4v5h5 M20 20v-5h-5 M5 19A8 8 0 0 0 19 5',
+      premium: 'M5 3v4M3 5h4M6 17v4m-2-2h4m5-16 2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z',
+      activity: 'M17 20h5v-2a4 4 0 0 0-4-4h-1 M9 20H4v-2a4 4 0 0 1 4-4h1 M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8z',
+      undo: 'M3 10h10a8 8 0 0 1 8 8v2 M3 10l6 6M3 10l6-6'
+    };
+    const presets = {
+      success: { category: 'Most used', type: 'success', title: 'Settings saved', message: 'Notification rules are now active for this workspace.', action: 'View rules', variant: 'inline' },
+      error: { category: 'System', type: 'error', title: 'Action failed', message: 'The webhook endpoint returned a 500 response.', action: 'Retry', variant: 'danger' },
+      incident: { category: 'Ops', type: 'error', title: 'Incident escalated', message: 'Billing failure was routed to email, SMS, and Slack.', action: 'Open incident', variant: 'timeline' },
+      security: { category: 'Security', type: 'error', title: 'Security review required', message: 'Admin login is blocked until 2FA is verified.', action: 'Review', variant: 'security' },
+      quota: { category: 'Billing', type: 'warning', title: 'Quota warning', message: 'API usage reached 82% of the monthly limit.', action: 'Upgrade', progress: 82, variant: 'progress' },
+      maintenance: { category: 'System', type: 'info', title: 'Team notified', message: 'Maintenance alert was sent to 14 workspace admins.', action: 'Status page', variant: 'filled' },
+      release: { category: 'Ops', type: 'success', title: 'Release notes copied', message: 'Deployment details are ready to share.', action: 'Open release', variant: 'terminal' },
+      progress: { category: 'Files', type: 'progress', title: 'Export processing', message: 'Quarterly invoice export is 68% complete.', action: 'Open queue', progress: 68, variant: 'progress' },
+      activity: { category: 'Collaboration', type: 'activity', title: 'Arun mentioned you', message: 'Billing migration thread needs your review.', action: 'Reply', avatar: true, variant: 'activity' },
+      premium: { category: 'AI', type: 'premium', title: 'Pro workspace enabled', message: 'Custom routing and audit exports are unlocked.', action: 'Explore', variant: 'ai' },
+      undo: { category: 'Account', type: 'undo', title: 'Project archived', message: 'Restore members, files, and tasks with one click.', action: 'Undo', variant: 'undo' },
+      billing: { category: 'Billing', type: 'error', title: 'Payment retry failed', message: 'Primary card was declined for invoice MV-2026-104.', action: 'Fix billing', variant: 'billing' }
+    };
+    const catalog = [
+      ['Most used','success','Changes saved','Profile settings were saved successfully.','View settings'],['Most used','success','Copied to clipboard','API key copied. Keep it private.','Done'],['Most used','success','Message sent','Your reply was delivered to the customer.','Open thread'],['Most used','info','Draft autosaved','Your changes are safe and synced.','History'],['Most used','undo','Item deleted','Contact moved to trash.','Undo'],['Most used','error','Form has errors','Three fields need attention before submit.','Review'],['Most used','success','Connection restored','You are back online. Sync resumed.','Sync now'],['Most used','success','Invitation sent','Team invite sent to priya@company.com.','Manage'],
+      ['Trending','undo','Undo archive','Project archived. Restore it within 10 seconds.','Undo'],['Trending','progress','Promise loading','Generating report. Toast will update when finished.','Open queue',42],['Trending','premium','AI task completed','Summary generated with 8 action items.','Review'],['Trending','warning','Action required','Payment method needs confirmation.','Confirm'],['Trending','activity','Live collaboration','Arun is editing Billing rules now.','Join'],['Trending','progress','Background sync','2,430 rows synced from Stripe.','Details',100],['Trending','warning','Smart retry ready','Failed webhook can be retried safely.','Retry'],['Trending','premium','Feature unlocked','Advanced routing is available on this workspace.','Explore'],
+      ['Security','error','New admin login','Unrecognized device signed in from Mumbai.','Review'],['Security','warning','2FA required','Billing access is blocked until 2FA is enabled.','Enable 2FA'],['Security','error','API key exposed','A public repository may contain a live key.','Revoke'],['Security','success','Password changed','Your password was updated successfully.','Security log'],['Security','warning','Session expired','Sign in again to continue managing alerts.','Sign in'],['Security','success','Device approved','MacBook Pro was added to trusted devices.','Devices'],['Security','error','Suspicious export','Large data export needs owner approval.','Approve'],['Security','info','Policy updated','SSO is now required for admin routes.','Read policy'],
+      ['Billing','success','Payment successful','$299 invoice paid with Visa ending 4242.','Receipt'],['Billing','error','Payment failed','Primary card was declined. Retry required.','Fix billing'],['Billing','warning','Trial ending soon','Your trial ends in 3 days.','Choose plan'],['Billing','error','Invoice overdue','Invoice MV-2026-104 is 5 days overdue.','Pay now'],['Billing','premium','Plan upgraded','Workspace moved to Pro successfully.','View plan'],['Billing','info','Refund issued','$49 refund is processing.','Details'],['Billing','warning','Usage charge posted','Extra AI tokens added to this invoice.','Review'],['Billing','success','Tax ID verified','Business tax details are confirmed.','Billing'],
+      ['AI','premium','Prompt optimized','AI reduced prompt length by 28%.','Compare'],['AI','warning','Model fallback used','Primary model timed out; fallback completed.','Trace'],['AI','premium','Workflow generated','New automation draft is ready.','Open draft'],['AI','warning','Token limit near','Conversation is close to context limit.','Summarize'],['AI','error','Moderation flagged','Output needs human review before sending.','Review'],['AI','success','Fine-tune complete','Training job completed successfully.','Evaluate'],
+      ['Ops','success','Deployment live','Release v4.8 reached all regions.','Release notes'],['Ops','error','Incident escalated','P1 incident routed to on-call owner.','Open incident'],['Ops','progress','Webhook retrying','Retry attempt 3 of 5 is in progress.','Logs',60],['Ops','success','Database backup done','Daily backup completed in 7m 42s.','Download'],['Ops','warning','Latency spike','p95 latency crossed 900ms.','Inspect'],['Ops','info','Maintenance mode','Maintenance starts in 24 minutes.','Notify'],['Ops','success','Queue drained','All delayed jobs have recovered.','Queue'],['Ops','error','Health check failed','EU webhook endpoint is unhealthy.','Status'],
+      ['Collaboration','activity','Mention received','Arun mentioned you in Billing notes.','Reply'],['Collaboration','success','Comment resolved','A thread was marked resolved.','View'],['Collaboration','warning','Approval requested','Deployment needs your approval.','Approve'],['Collaboration','activity','Team member joined','Sophie accepted the workspace invite.','Profile'],
+      ['Files','success','Upload complete','contract.pdf uploaded to Documents.','Open'],['Files','error','Upload failed','Logo file exceeded the 10 MB limit.','Try again'],['Files','success','Export ready','Customer CSV export is ready.','Download'],['Files','progress','Virus scan running','Attachment is being scanned.','Details',73],
+      ['Account','success','Email verified','Your email address is confirmed.','Continue'],['Account','warning','Profile incomplete','Add company details to finish setup.','Complete'],['Account','info','Role changed','You are now a workspace admin.','Permissions'],['Account','undo','Preferences reset','Notification preferences returned to default.','Undo'],
+      ['Ecommerce','success','Order placed','Order #MV-1842 was created.','Open order'],['Ecommerce','warning','Inventory low','Wireless Keyboard has 4 units left.','Restock'],['Ecommerce','error','Refund requested','Customer requested refund for #MV-1740.','Review'],['Ecommerce','warning','Shipment delayed','Carrier updated delivery to Friday.','Notify buyer'],
+      ['System','warning','Browser offline','Working offline. Changes will sync later.','Details'],['System','info','Update available','New dashboard build is ready to reload.','Reload'],['System','error','Permission denied','You do not have access to this resource.','Request access'],['System','success','Cache cleared','Local cache was cleared successfully.','Done']
+    ].map(function (row, index) { return { id: index, category: row[0], type: row[1], title: row[2], message: row[3], action: row[4], progress: row[5] }; });
+    const categories = ['All'].concat(Array.from(new Set(catalog.map(function (item) { return item.category; }))));
+    let selectedId = 0;
+    let selectedCategory = 'All';
+    let toastPosition = 'top-right';
+
+    function escapeHtml(value) { return String(value).replace(/[&<>"']/g, function (char) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char]; }); }
+    function icon(type) {
+      const path = icons[type] || icons.info;
+      return '<svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' + path.split(' M').map(function (segment, index) { return '<path d="' + (index ? 'M' : '') + segment.trim() + '"></path>'; }).join('') + '</svg>';
+    }
+    function variantFor(data) {
+      if (!data) return 'inline';
+      if (data.variant) return data.variant;
+      if (data.type === 'activity' || data.category === 'Collaboration') return 'activity';
+      if (data.type === 'progress' || data.progress) return 'progress';
+      if (data.type === 'undo') return 'undo';
+      if (data.category === 'Security') return 'security';
+      if (data.category === 'Billing') return 'billing';
+      if (data.category === 'AI' || data.type === 'premium') return 'ai';
+      if (data.category === 'Ops' && data.type === 'error') return 'timeline';
+      if (data.category === 'Ops' && data.type === 'success') return 'terminal';
+      if (data.type === 'warning') return 'metric';
+      if (data.type === 'error') return 'danger';
+      if (data.type === 'info') return 'filled';
+      return 'inline';
+    }
+    function alertFromItem(item) {
+      if (!item) return null;
+      return { category: item.category, type: item.type, title: item.title, message: item.message, action: item.action, progress: item.progress, variant: variantFor(item) };
+    }
+    function ensureToastStack() {
+      let stack = document.querySelector('.pro-toast-stack');
+      if (!stack) { stack = document.createElement('div'); document.body.appendChild(stack); }
+      stack.className = 'pro-toast-stack ' + toastPosition;
+      return stack;
+    }
+    function alertSurface(data, mode) {
+      const variant = variantFor(data);
+      const type = data.type || 'info';
+      const accent = accents[type] || accents.info;
+      const category = data.category || variant.toUpperCase();
+      const padding = mode === 'toast' ? 'p-4' : 'p-5';
+      const action = escapeHtml(data.action || 'Open');
+      const title = escapeHtml(data.title);
+      const message = escapeHtml(data.message);
+      const categoryHtml = escapeHtml(category);
+      const progress = Number(data.progress || (type === 'progress' ? 68 : 0));
+      if (variant === 'filled') {
+        return '<div class="' + padding + ' text-white" style="background:' + accent + '"><p class="text-xs font-bold uppercase opacity-80">' + categoryHtml + '</p><h3 class="mt-2 text-base font-bold">' + title + '</h3><p class="mt-2 text-sm leading-5 opacity-90">' + message + '</p><button type="button" class="mt-4 rounded-lg bg-white px-3 py-2 text-xs font-bold" style="color:' + accent + '">' + action + '</button></div>';
+      }
+      if (variant === 'terminal') {
+        return '<div class="' + padding + ' font-mono text-slate-100"><div class="mb-3 flex items-center gap-2"><span class="h-2.5 w-2.5 rounded-full bg-red-400"></span><span class="h-2.5 w-2.5 rounded-full bg-yellow-400"></span><span class="h-2.5 w-2.5 rounded-full bg-green-400"></span><span class="ml-auto text-[11px] text-slate-400">deploy.log</span></div><p class="text-xs text-green-300">$ alert --category=' + categoryHtml.toLowerCase() + '</p><h3 class="mt-3 text-sm font-bold text-white">' + title + '</h3><p class="mt-2 text-xs leading-5 text-slate-400">' + message + '</p><button type="button" class="mt-4 rounded-lg bg-slate-800 px-3 py-2 text-xs font-bold text-green-300">' + action + '</button></div>';
+      }
+      if (variant === 'mobile') {
+        return '<div class="' + padding + '"><div class="rounded-[1.5rem] bg-slate-950 p-3 text-white"><div class="mx-auto mb-3 h-1 w-12 rounded-full bg-slate-700"></div><div class="rounded-2xl bg-white p-3 text-gray-900"><p class="text-xs font-bold">' + title + '</p><p class="mt-1 text-[11px] leading-4 text-gray-500">' + message + '</p></div><button type="button" class="mt-3 w-full rounded-2xl px-3 py-3 text-xs font-bold text-white" style="background:' + accent + '">' + action + '</button></div></div>';
+      }
+      if (variant === 'activity') {
+        return '<div class="' + padding + '"><div class="flex gap-3"><img src="assets/avatars/admin-profile-man.png" alt="" class="h-11 w-11 shrink-0 rounded-xl object-cover"><div class="min-w-0 flex-1"><p class="text-xs font-bold uppercase text-blue-600 dark:text-blue-300">' + categoryHtml + '</p><h3 class="mt-1 text-sm font-bold text-gray-900 dark:text-white">' + title + '</h3><p class="mt-1 text-xs leading-5 text-gray-500 dark:text-gray-300">' + message + '</p><button type="button" class="mt-3 rounded-lg bg-blue-600 px-3 py-2 text-xs font-bold text-white">' + action + '</button></div></div></div>';
+      }
+      if (variant === 'progress') {
+        return '<div class="' + padding + '"><div class="flex items-start gap-3"><span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-cyan-600 text-white">' + icon('progress') + '</span><div class="min-w-0 flex-1"><div class="flex items-start justify-between gap-3"><div><p class="text-xs font-bold uppercase text-cyan-600 dark:text-cyan-300">' + categoryHtml + '</p><h3 class="mt-1 text-sm font-bold text-gray-900 dark:text-white">' + title + '</h3></div><span class="text-xl font-bold text-cyan-600">' + progress + '%</span></div><p class="mt-1 text-xs leading-5 text-gray-500 dark:text-gray-300">' + message + '</p><div class="mt-3 h-2 overflow-hidden rounded-full bg-gray-100 dark:bg-white/10"><div class="h-full rounded-full bg-cyan-500" style="width:' + progress + '%"></div></div></div></div></div>';
+      }
+      if (variant === 'security') {
+        return '<div class="' + padding + ' sweep-panel bg-red-50 dark:bg-red-500/10"><div class="relative z-10 flex gap-3"><span class="signal-dot mt-1 h-3 w-3 shrink-0 rounded-full bg-red-500"></span><div class="min-w-0 flex-1"><div class="flex items-center justify-between gap-3"><p class="text-xs font-bold uppercase text-red-600 dark:text-red-300">' + categoryHtml + '</p><span class="rounded-full bg-red-100 px-2 py-1 text-[10px] font-bold text-red-700 dark:bg-red-500/20 dark:text-red-200">Critical</span></div><h3 class="mt-2 text-sm font-bold text-red-800 dark:text-red-100">' + title + '</h3><p class="mt-1 text-xs leading-5 text-red-700/80 dark:text-red-200/80">' + message + '</p><button type="button" class="mt-3 rounded-lg bg-red-600 px-3 py-2 text-xs font-bold text-white">' + action + '</button></div></div></div>';
+      }
+      if (variant === 'timeline') {
+        return '<div class="' + padding + '"><div class="relative pl-8"><span class="absolute left-3 top-2 bottom-2 w-px bg-gray-200 dark:bg-gray-700"></span><span class="absolute left-0 top-1 h-6 w-6 rounded-full border-4 border-white bg-red-500 dark:border-gray-900"></span><p class="text-xs font-bold uppercase text-red-600 dark:text-red-300">' + categoryHtml + '</p><h3 class="mt-1 text-sm font-bold text-gray-900 dark:text-white">' + title + '</h3><p class="mt-1 text-xs leading-5 text-gray-500 dark:text-gray-300">' + message + '</p><div class="mt-3 grid grid-cols-3 gap-2 text-center text-[10px] font-bold"><span class="rounded-lg bg-red-50 px-2 py-2 text-red-600 dark:bg-red-500/10">Open</span><span class="rounded-lg bg-yellow-50 px-2 py-2 text-yellow-700 dark:bg-yellow-500/10">Owner</span><span class="rounded-lg bg-green-50 px-2 py-2 text-green-700 dark:bg-green-500/10">Recover</span></div></div></div>';
+      }
+      if (variant === 'billing') {
+        return '<div class="' + padding + '"><div class="flex items-start justify-between gap-3"><div><p class="text-xs font-bold uppercase text-gray-400">' + categoryHtml + '</p><h3 class="mt-1 text-sm font-bold text-gray-900 dark:text-white">' + title + '</h3><p class="mt-1 text-xs leading-5 text-gray-500 dark:text-gray-300">' + message + '</p></div><span class="rounded-xl bg-red-50 px-3 py-2 text-xs font-bold text-red-600 dark:bg-red-500/10 dark:text-red-300">Due</span></div><div class="mt-4 grid grid-cols-3 gap-2 text-center text-[10px] font-bold text-gray-500"><span class="rounded-lg bg-gray-50 px-2 py-2 dark:bg-white/10">Invoice</span><span class="rounded-lg bg-gray-50 px-2 py-2 dark:bg-white/10">Card</span><span class="rounded-lg bg-gray-50 px-2 py-2 dark:bg-white/10">Retry</span></div><button type="button" class="mt-3 rounded-lg bg-gray-900 px-3 py-2 text-xs font-bold text-white dark:bg-white dark:text-gray-900">' + action + '</button></div>';
+      }
+      if (variant === 'ai') {
+        return '<div class="' + padding + ' bg-gradient-to-br from-purple-50 to-indigo-50 dark:from-purple-500/10 dark:to-indigo-500/10"><p class="text-xs font-bold uppercase text-purple-600 dark:text-purple-300">' + categoryHtml + '</p><h3 class="mt-2 text-sm font-bold text-gray-900 dark:text-white">' + title + '</h3><p class="mt-2 text-xs leading-5 text-gray-500 dark:text-gray-300">' + message + '</p><div class="mt-4 grid grid-cols-3 gap-2 text-center text-[10px] font-bold"><span class="rounded-lg bg-white px-2 py-2 dark:bg-white/10">Logs</span><span class="rounded-lg bg-white px-2 py-2 dark:bg-white/10">Draft</span><span class="rounded-lg bg-white px-2 py-2 dark:bg-white/10">Tasks</span></div></div>';
+      }
+      if (variant === 'metric') {
+        return '<div class="' + padding + '"><div class="flex items-start justify-between gap-4"><div><p class="text-xs font-bold uppercase text-yellow-600 dark:text-yellow-300">' + categoryHtml + '</p><h3 class="mt-1 text-sm font-bold text-gray-900 dark:text-white">' + title + '</h3><p class="mt-1 text-xs leading-5 text-gray-500 dark:text-gray-300">' + message + '</p></div><span class="text-3xl font-bold text-yellow-600">!</span></div><button type="button" class="mt-4 rounded-lg bg-yellow-500 px-3 py-2 text-xs font-bold text-white">' + action + '</button></div>';
+      }
+      if (variant === 'undo') {
+        return '<div class="' + padding + '"><div class="flex items-start gap-3"><span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-slate-600 text-white">' + icon('undo') + '</span><div class="min-w-0 flex-1"><p class="text-xs font-bold uppercase text-slate-500">' + categoryHtml + '</p><h3 class="mt-1 text-sm font-bold text-gray-900 dark:text-white">' + title + '</h3><p class="mt-1 text-xs leading-5 text-gray-500 dark:text-gray-300">' + message + '</p><button type="button" class="mt-3 rounded-lg bg-slate-700 px-3 py-2 text-xs font-bold text-white">' + action + '</button></div></div></div>';
+      }
+      return '<div class="' + padding + '"><div class="flex items-start gap-3"><span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl text-white" style="background:' + accent + '">' + icon(type) + '</span><div class="min-w-0 flex-1"><p class="text-xs font-bold uppercase text-gray-400">' + categoryHtml + '</p><h3 class="mt-1 text-sm font-bold text-gray-900 dark:text-white">' + title + '</h3><p class="mt-1 text-xs leading-5 text-gray-500 dark:text-gray-300">' + message + '</p><button type="button" class="mt-3 rounded-lg px-3 py-2 text-xs font-bold text-white" style="background:' + accent + '">' + action + '</button></div></div></div>';
+    }
+    function showToast(input) {
+      const data = typeof input === 'string' ? presets[input] : input;
+      if (!data) return;
+      const type = data.type || 'info';
+      const accent = accents[type] || accents.info;
+      const variant = variantFor(data);
+      const toast = document.createElement('div');
+      toast.className = 'pro-toast pro-toast-' + variant;
+      toast.style.setProperty('--toast-accent', accent);
+      toast.style.setProperty('--toast-duration', '5600ms');
+      toast.setAttribute('role', type === 'error' || type === 'warning' ? 'alert' : 'status');
+      toast.innerHTML = '<button type="button" class="absolute right-3 top-3 z-20 rounded-lg p-1 text-gray-400 hover:bg-black/5 hover:text-gray-700 dark:hover:bg-white/10 dark:hover:text-white" aria-label="Dismiss toast"><svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 18 18 6M6 6l12 12"></path></svg></button>' + alertSurface(data, 'toast');
+      const close = function () { toast.classList.add('is-leaving'); window.setTimeout(function () { toast.remove(); }, 180); };
+      toast.querySelector('[aria-label="Dismiss toast"]').addEventListener('click', close);
+      ensureToastStack().prepend(toast);
+      window.setTimeout(close, 5600);
+    }
+    function renderTabs() {
+      const tabs = document.getElementById('catalog-tabs');
+      if (!tabs) return;
+      tabs.innerHTML = categories.map(function (category) {
+        const active = category === selectedCategory;
+        return '<button type="button" data-catalog-category="' + escapeHtml(category) + '" class="catalog-tab shrink-0 rounded-lg ' + (active ? 'bg-blue-600 text-white' : 'border border-gray-200 text-gray-600 dark:border-gray-700 dark:text-gray-300') + ' px-3 py-2 text-xs font-bold">' + escapeHtml(category) + '</button>';
+      }).join('');
+    }
+    function renderList() {
+      const list = document.getElementById('catalog-list');
+      if (!list) return;
+      const items = catalog.filter(function (item) { return selectedCategory === 'All' || item.category === selectedCategory; });
+      list.innerHTML = items.map(function (item) {
+        const active = item.id === selectedId;
+        const accent = accents[item.type] || accents.info;
+        return '<button type="button" data-alert-id="' + item.id + '" class="catalog-row ' + (active ? 'is-active ' : '') + 'mb-2 w-full rounded-xl p-3 text-left"><div class="flex items-start gap-3"><span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-white" style="background:' + accent + '">' + icon(item.type) + '</span><span class="mt-1 h-2 w-2 shrink-0 rounded-full" style="background:' + accent + '"></span><div class="min-w-0 flex-1"><div class="flex flex-wrap items-center gap-2"><p class="text-sm font-bold text-gray-900 dark:text-white">' + escapeHtml(item.title) + '</p><span class="rounded-full bg-gray-100 px-2 py-0.5 text-[10px] font-bold text-gray-500 dark:bg-white/10">' + escapeHtml(item.category) + '</span></div><p class="mt-1 text-xs leading-5 text-gray-500 dark:text-gray-400">' + escapeHtml(item.message) + '</p></div><span class="text-xs font-bold text-blue-600">Live</span></div></button>';
+      }).join('');
+    }
+    function renderPreview() {
+      const item = catalog.find(function (entry) { return entry.id === selectedId; }) || catalog[0];
+      const preview = document.getElementById('selected-preview');
+      if (!preview || !item) return;
+      const variant = variantFor(item);
+      preview.innerHTML = '<div class="pro-preview-shell overflow-hidden rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-950/40"><div class="border-b border-gray-100 bg-gray-50 px-4 py-3 dark:border-gray-800 dark:bg-white/[0.03]"><div class="flex items-center justify-between gap-3"><span class="text-xs font-bold uppercase text-gray-400">' + escapeHtml(variant) + ' preview</span><span class="rounded-full bg-white px-2 py-1 text-[10px] font-bold text-gray-500 dark:bg-white/10">' + escapeHtml(item.category) + '</span></div></div>' + alertSurface(item, 'preview') + '</div>';
+    }
+    function refreshCatalog() { renderTabs(); renderList(); renderPreview(); }
+    refreshCatalog();
+
+    document.addEventListener('click', function (event) {
+      const toastKey = event.target.closest('[data-toast-key]');
+      if (toastKey) showToast(toastKey.getAttribute('data-toast-key'));
+      const family = event.target.closest('#family-grid article');
+      if (family && !toastKey) showToast(family.getAttribute('data-toast-key'));
+      const stack = event.target.closest('[data-stack-demo]');
+      if (stack) ['incident', 'quota', 'activity'].forEach(function (key, index) { window.setTimeout(function () { showToast(key); }, index * 220); });
+      const familyFilter = event.target.closest('[data-family-filter]');
+      if (familyFilter) {
+        const filter = familyFilter.getAttribute('data-family-filter');
+        document.querySelectorAll('.family-filter').forEach(function (button) { button.className = 'family-filter shrink-0 rounded-lg border border-gray-200 px-3 py-2 text-xs font-bold text-gray-600 dark:border-gray-700 dark:text-gray-300'; });
+        familyFilter.className = 'family-filter shrink-0 rounded-lg bg-blue-600 px-3 py-2 text-xs font-bold text-white';
+        document.querySelectorAll('#family-grid article').forEach(function (card) { card.style.display = filter === 'all' || card.getAttribute('data-family') === filter ? '' : 'none'; });
+      }
+      const categoryShortcut = event.target.closest('[data-select-alert]');
+      if (categoryShortcut) { selectedCategory = categoryShortcut.getAttribute('data-select-alert'); selectedId = (catalog.find(function (item) { return item.category === selectedCategory; }) || catalog[0]).id; refreshCatalog(); }
+      const categoryButton = event.target.closest('[data-catalog-category]');
+      if (categoryButton) { selectedCategory = categoryButton.getAttribute('data-catalog-category'); selectedId = (catalog.find(function (item) { return selectedCategory === 'All' || item.category === selectedCategory; }) || catalog[0]).id; refreshCatalog(); }
+      const row = event.target.closest('[data-alert-id]');
+      if (row) { selectedId = Number(row.getAttribute('data-alert-id')); refreshCatalog(); showToast(alertFromItem(catalog.find(function (item) { return item.id === selectedId; }))); }
+      const selectedButton = event.target.closest('#selected-toast-button');
+      if (selectedButton) showToast(alertFromItem(catalog.find(function (item) { return item.id === selectedId; })));
+      const position = event.target.closest('[data-position]');
+      if (position) {
+        toastPosition = position.getAttribute('data-position');
+        document.querySelectorAll('.toast-position').forEach(function (button) { button.className = 'toast-position rounded-lg border border-gray-200 px-3 py-2 text-xs font-bold text-gray-600 dark:border-gray-700 dark:text-gray-300'; });
+        position.className = 'toast-position rounded-lg bg-blue-600 px-3 py-2 text-xs font-bold text-white';
+        showToast('success');
+      }
+    });
+  });
+</script>
 </body>
 </html>

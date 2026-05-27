@@ -2956,7 +2956,7 @@
     "slug": "ui-alerts",
     "framework": "html",
     "category": "ui-elements",
-    "description": "Advanced alert and toast components with success, warning, error, info, action, dismissible, banner, and stacked states.",
+    "description": "Production-level TailAdmin alerts and toast patterns with 50+ live alert categories, unique alert families, incident banners, inline validation, progress alerts, activity alerts, undo toasts, and mobile-ready notification states.",
     "previewImagePath": "/previews/html/122-ui-alerts.png",
     "sourceZipPath": "/source-zips/html/122-ui-alerts.zip",
     "livePreviewPath": "/live-previews/html/122-ui-alerts.html",
